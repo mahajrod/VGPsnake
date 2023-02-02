@@ -240,8 +240,8 @@ parameters = config["parameters"][config["parameter_set"]] # short alias for use
 #----
 
 #---- Save configuration and input files ----
-final_config_yaml = output_dict["config"] / "config.final.yaml"
-final_input_yaml = output_dict["config"] / "input.final.yaml"
+final_config_yaml = str(output_dict["config"] / "config.final.yaml")
+final_input_yaml = str(output_dict["config"] / "input.final.yaml")
 
 with open(final_config_yaml, 'w') as final_config_fd, open(final_input_yaml, 'w') as final_input_fd:
     print(config)
