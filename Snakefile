@@ -243,7 +243,7 @@ parameters = config["parameters"][config["parameter_set"]] # short alias for use
 final_config_yaml = output_dict["config"] / "config.final.yaml"
 final_input_yaml = output_dict["config"] / "input.final.yaml"
 
-with open(final_config_yaml, 'w') as final_config_fd, open(final_input_yaml, 'w') as final_input_fd
+with open(final_config_yaml, 'w') as final_config_fd, open(final_input_yaml, 'w') as final_input_fd:
     print(config)
     yaml.dump(config, final_config_yaml, default_flow_style=False)
     print(input_dict)
