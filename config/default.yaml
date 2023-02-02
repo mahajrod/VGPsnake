@@ -1,0 +1,180 @@
+#---- Directory structure config ----
+
+#---- Resources ----
+#-------- References --------
+#-------- Variant filtration ---------
+#-------- Annotation --------
+
+#---- Input ----
+"input_dir": "input/"
+
+#"pacbio_subdir": "pacbio/"
+#"nanopore_subdir": "nanopore/"
+#"bionano_subdir": "bionano/"
+#"hic_subdir": "hic/"
+#"lr_subdir": "lr/"
+
+#----
+
+#----
+#---- Output directory and subdirectories ----
+"out_dir": "results"
+#--------- Subdirectories --------
+"first_level_subdir_list":
+  - "config"
+  - "data"
+  - "qc"
+  - "log"
+  - "error"
+  - "benchmark"
+  - "cluster_log"
+  - "preprocessing"
+  - "basecall"
+  - "assembly_draft"
+  - "purge_dups"
+  - "lr_scaffolding"
+  - "bionano_scaffolding"
+  - "hic_scaffolding"
+
+"config_subdir": "config"
+"data_subdir": "data"
+"qc_subdir": "qc"
+"log_subdir": "logs"
+"error_subdir": "errors"
+"benchmark_subdir": "benchmarks"
+"cluster_log_subdir": "cluster_logs"
+"preprocessing_subdir": "preprocessing"
+"basecall_subdir": "basecall"
+"assembly_draft_subdir": "assembly_draft"
+"purge_dups_subdir": "purge_dups"
+"lr_scaffolding_subdir": "lr_scaffolding"
+"bionano_scaffolding_subdir": "bionano_scaffolding"
+"hic_scaffolding_subdir": "hic_scaffolding"
+
+
+"fastqc_subdir": "fastqc"
+"multiqc_subdir": "multiqc"
+
+#--------
+
+#---- Tool parameters ----
+"parameters":
+    "default":
+        "threads":
+            "create_fastq_links": 1
+            "fastqc": 1
+
+            ref_faidx: 1
+            ref_dict: 1
+            bwa_index: 1
+            merge_raw_fastq: 1
+            cutadapt: 5
+            bwa: 25
+            bowtie2: 8
+            sort: 2
+            fixmate: 1
+            index: 1
+            mosdepth: 3
+            basecall: 30
+            get_basecall_stats: 1
+            picard: 1
+        "memory_mb":
+            "create_fastq_links": 100
+            "fastqc": 5000
+
+            ref_faidx: 1000
+            ref_dict: 1000
+            bwa_index: 10000
+            fastqc_per_lane_raw: 8000
+            merge_raw_fastq: 2000
+            fastqc_merged_raw: 2000
+            cutadapt: 10000
+            fastqc_filtered: 2000
+            index: 10000
+            bwa: 10000
+            bowtie2: 10000
+            fixmate: 10000
+            mosdepth: 4000 #The amount of memory is approximately equal to 32-bits * longest chrom length, so for the 249MB chromosome 1, it will require 1GB of memory.
+            basecall: 20000
+        "time":
+            "create_fastq_links": "00:05:00"
+            "fastqc": "04:00:00"
+
+            cutadapt: "02:00:00"
+            fastqc_filtered: "08:00:00"
+            index: "10:00:00"
+            bwa_map: "05:00:00"
+            bowtie2_rna_map: "05:00:00"
+            mosdepth: "02:00:00"
+            basecall: "10:00:00"
+
+            bowtie2_index: "12:00:00"
+            create_panel_of_normals: "12:00:00"
+            create_sample_map: "00:05:00"
+            create_vcf_db: "02:00:00"
+            bed2gff: "00:10:00"
+            featureCounts: "00:30:00"
+            snpEff: "02:00:00"
+            sift_cosmic: "02:00:00"
+            extract_annotation: "00:10:00"
+            remove_filtered_variant: "00:10:00"
+            normalize_variants: "00:10:00"
+            rna_total_gff: "00:10:00"
+            vep: "00:30:00"
+            merge_annotation: "00:05:00"
+            cp_dna_ref: "00:10:00"
+            cp_rna_ref: "00:10:00"
+            get_basecall_stats: "00:10:00"
+            gather_per_library_read_stats: "00:10:00"
+            merge_sample_read_stats: "00:10:00"
+            infer_replicates: "00:10:00"
+            rmdup_raw_reads: "04:00:00"
+            merge_target_regions_raw_reads: "00:10:00"
+            merge_all_annotation: "00:10:00"
+            gather_final_stats: "00:10:00"
+            merge_rna_fusion_regions: "00:10:00"
+            extract_synthetic_reads: "04:00:00"
+            get_fusion_pvalues: "00:30:00"
+            get_biological_counts: "00:10:00"
+            merge_rna_counts_by_replicates: "00:30:00"
+            fastq_to_sam: "04:00:00"
+            extract_umis_from_bam: "02:00:00"
+            create_duplex_consensus_reads: "02:00:00"
+            merge_ontarget_regions: "00:10:00"
+            gather_duplication_rate_stats: "00:10:00"
+        "tool_options":
+            "cutadapt":
+                "minlength": 50
+                "adapter_seq": "AGATCGGAAGAGC"
+            "fastqc":
+                "kmer_length": 7
+            "mosdepth":
+                "min_mapping_quality": 10
+
+"allowed_data_types":
+    - "pacbio"
+    - "nanopore"
+    - "bionano"
+    - "hic"
+    - "lr"
+
+"fastq_based_data":
+    - "pacbio"
+    - "nanopore"
+    - "hic"
+    - "lr"
+
+"fastq_extension": ".fastq.gz"
+"cmap_extension": ".cmap"
+
+#---- Pipeline modes ----
+
+"starting_point": "fastq" # "bcl2"
+"data_types": "pacbio_hic" # TODO: add "pacbio_bionano_hic", "pacbio_lr_bionano_hic", "pacbio_lr_hic"  and "pacbio"
+
+"mode": "full" # Allowed modes: "check_input", "qc", "filtering"
+# TODO:  add modes:  "create_map_bionano", "contig", "scaffold_bionano", "scaffold_hic"
+# Possible additional modes:
+# add "basecall", "basecall_pacbio", "basecall_hic", "basecall_lr", basecall_stlfr
+
+"parameter_set": "default"
