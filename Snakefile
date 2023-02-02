@@ -226,7 +226,7 @@ if "bionano" in data_types: # TODO: modify when input for bionano will be clear
 #---- Initialize tool parameters ----
 logging.info("Initializing tool paremeters...")
 
-if config["parameter_set"] not in config:
+if config["parameter_set"] not in config["parameters"]:
     raise ValueError("Error!!! Unknown set of tool parameters: {0}".format(config["parameter_set"]))
 
 copy_absent_entries(config["parameters"]["default"], config["parameters"][config["parameter_set"]]) # set default values for options absent in  "parameter_set"
