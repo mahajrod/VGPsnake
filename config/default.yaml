@@ -1,3 +1,6 @@
+#---- Config files ----
+"conda_config": "workflow/envs/conda.yaml"
+#----
 #---- Directory structure config ----
 
 #---- Resources ----
