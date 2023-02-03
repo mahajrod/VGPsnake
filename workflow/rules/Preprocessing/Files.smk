@@ -3,10 +3,10 @@ localrules: create_fastq_links
 rule create_fastq_links:
     priority: 1000
     input:
-        directory(input_dir_path / "{datatype}/fastq_dir")
+        directory(input_dir_path / "{datatype}/fastq")
 
     output:
-        directory(parameters["data"] / "{datatype}/fastq/")
+        directory(output_dict["data"] / "{datatype}/fastq/")
     log:
         std=log_dir_path / "preprocessing/{datatype}/create_fastq_links.log",
         cluster_log=cluster_log_dir_path / "preprocessing/{datatype}/create_fastq_links.cluster.log",
