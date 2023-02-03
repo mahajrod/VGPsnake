@@ -1,6 +1,6 @@
 localrules: create_fastq_links
 
-checkpoint create_fastq_links:
+rule create_fastq_links:
     priority: 1000
     input:
         directory(input_dir_path / "{datatype}/fastq")
