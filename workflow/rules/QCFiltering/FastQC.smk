@@ -7,7 +7,7 @@ rule fastqc:
         zip=output_dict["qc"] / "fastqc/{datatype}/{stage}/{fileprefix}_fastqc.zip" ,
         #stats=merged_raw_fastqc_dir_path / "{library_id}/{library_id}.raw.fastqc.stats"
     params:
-        kmer=parameters["fastqc"]["kmer_length"],
+        kmer=parameters["tool_options"]["fastqc"]["kmer_length"],
         out_dir=lambda wildcards: output_dict["qc"] / "fastqc/{0}/{1}/".format(wildcards.datatype,
                                                                                wildcards.stage),
     log:
