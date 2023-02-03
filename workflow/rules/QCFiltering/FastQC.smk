@@ -1,7 +1,7 @@
 
 rule fastqc:
     input:
-        fastq=parameters["data"] / "{datatype}/fastq/" / "{fileprefix}.fastq.gz"
+        fastq=output_dict["data"]  / "{datatype}/fastq/{fileprefix}.fastq.gz"
     output:
         #dir=directory(merged_raw_fastqc_dir_path / "{library_id}"),
         zip=output_dict["qc"] / "fastqc/{datatype}/{stage}/{fileprefix}_fastqc.zip" ,
