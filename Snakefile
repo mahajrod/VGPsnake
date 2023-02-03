@@ -263,7 +263,7 @@ with open(final_config_yaml, 'w') as final_config_fd, open(final_input_yaml, 'w'
 
 #-------------------------------------------
 localrules: all
-
+ruleorder: create_fastq_links > fastqc
 if config["mode"] == "check_input":
     rule all:
         input:
