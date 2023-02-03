@@ -11,12 +11,12 @@ rule fastqc:
         out_dir=lambda wildcards: output_dict["qc"] / "fastqc/{0}/{1}/".format(wildcards.datatype,
                                                                                wildcards.stage),
     log:
-        std=log_dir_path / "fastqc/{datatype}/{stage}/fastqc.{fileprefix}.log",
+        std=output_dict["log"]/ "fastqc/{datatype}/{stage}/fastqc.{fileprefix}.log",
         #stats=log_dir_path / "{library_id}/fastqc_merged_raw.stats.log",
-        cluster_log=cluster_log_dir_path / "fastqc/{datatype}/{stage}/fastqc.{fileprefix}.cluster.log",
-        cluster_err=cluster_log_dir_path / "fastqc/{datatype}/{stage}/fastqc.{fileprefix}.cluster.err"
+        cluster_log=output_dict["cluster_log"]/ "fastqc/{datatype}/{stage}/fastqc.{fileprefix}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "fastqc/{datatype}/{stage}/fastqc.{fileprefix}.cluster.err"
     benchmark:
-        benchmark_dir_path / "fastqc/{datatype}/{stage}/fastqc.{fileprefix}.benchmark.txt"
+        output_dict["benchmark"] / "fastqc/{datatype}/{stage}/fastqc.{fileprefix}.benchmark.txt"
     conda:
         "../../../%s" % config["conda_config"]
     resources:

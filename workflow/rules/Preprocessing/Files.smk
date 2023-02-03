@@ -8,11 +8,11 @@ rule create_fastq_links:
     output:
         directory(output_dict["data"] / "{datatype}/fastq/")
     log:
-        std=log_dir_path / "preprocessing/{datatype}/create_fastq_links.log",
-        cluster_log=cluster_log_dir_path / "preprocessing/{datatype}/create_fastq_links.cluster.log",
-        cluster_err=cluster_log_dir_path / "preprocessing/{datatype}/create_fastq_links.cluster.err",
+        std=output_dict["log"] / "preprocessing/{datatype}/create_fastq_links.log",
+        cluster_log=output_dict["cluster_log"] / "preprocessing/{datatype}/create_fastq_links.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "preprocessing/{datatype}/create_fastq_links.cluster.err",
     benchmark:
-        benchmark_dir_path / "preprocessing/{datatype}/create_fastq_links.benchmark.txt",
+        output_dict["benchmark"] / "preprocessing/{datatype}/create_fastq_links.benchmark.txt",
     conda:
         "../../../%s" % config["conda_config"]
     resources:
