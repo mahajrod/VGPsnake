@@ -1,6 +1,7 @@
 
 rule fastqc:
     input:
+        fastq_dir=rules.create_fastq_links.output,
         fastq=output_dict["data"]  / "{datatype}/fastq/{fileprefix}.fastq.gz"
     output:
         #dir=directory(merged_raw_fastqc_dir_path / "{library_id}"),
