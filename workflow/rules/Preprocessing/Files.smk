@@ -3,7 +3,7 @@ localrules: create_fastq_links
 rule create_fastq_links:
     priority: 1000
     input:
-        directory(input_dict["{datatype}"]["fastq_dir"])
+        directory(input_dir_path / "{datatype}/fastq_dir")
 
     output:
         directory(parameters["data"] / "{datatype}/fastq/")

@@ -94,6 +94,18 @@ def make_fastq_lists(fastq_dir, filename_fragment_to_mark_se_reads=".se.", input
 
 """
 
+def convert_posixpath2str_in_dict(dictionary):
+    output_dictionary = deepcopy(dictionary)
+    for entry in output_dictionary:
+        if isinstance(output_dictionary[entry], PosixPath):
+            output_dictionary[entry] = str(output_dictionary[entry])
+        else:
+            if not isinstance(output_dictionary[entry], Mapping): # check if existing entry is not dictionary or dictionary like
+                continue # exit from recursion
+            output_dictionary[entry] = convert_posixpath2str_in_dict(output_dictionary[entry])
+
+    return output_dictionary
+
 def find_cmap(bionano_dir, cmap_extension=".cmap"): # TODO: modify when input for bionano will be clear
     bionano_dir_path = bionano_dir if isinstance(bionano_dir, PosixPath) else Path(bionano_dir)
     cmap_list = list(bionano_dir_path.glob("*{0}".format(cmap_extension)))
@@ -128,8 +140,9 @@ logging.info("Initialization of path variables...")
 input_dir_path = Path(config["input_dir"])
 
 input_dict = {}
+data_types = config["data_types"].split("_")
 
-for datatype in config["allowed_data_types"]:
+for datatype in data_types:
     input_dict[datatype] = {}
     input_dict[datatype]["dir"] = input_dir_path / datatype
     input_dict[datatype]["run_dir"] = input_dict[datatype]["dir"] / "run"
@@ -188,7 +201,7 @@ logging.info("Setting and adjusting pipeline mode...")
 
 
 #-------- Verification of input datatypes --------
-data_types = config["data_types"].split("_")
+
 fastq_based_data_type_set = set(data_types) & set(config["fastq_based_data"])
 
 logging.info("Verifying datatypes...")
@@ -244,10 +257,8 @@ final_config_yaml = output_dict["config"] / "config.final.yaml"
 final_input_yaml = output_dict["config"] / "input.final.yaml"
 
 with open(final_config_yaml, 'w') as final_config_fd, open(final_input_yaml, 'w') as final_input_fd:
-    print(config)
-    yaml.dump(config, final_config_fd, default_flow_style=False)
-    print(input_dict)
-    yaml.dump(input_dict, final_input_fd, default_flow_style=False)
+    yaml.dump(convert_posixpath2str_in_dict(config), final_config_fd, default_flow_style=False)
+    yaml.dump(convert_posixpath2str_in_dict(input_dict), final_input_fd, default_flow_style=False)
 
 
 #-------------------------------------------
