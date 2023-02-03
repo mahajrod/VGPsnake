@@ -275,6 +275,7 @@ elif config["mode"] == "qc":
         input:
             final_config_yaml,
             final_input_yaml,
+            expand(output_dict["data"] / "{datatype}/fastq/", datatype=fastq_based_data_type_set),
             *[expand(
                      output_dict["qc"] / "fastqc/{datatype}/{stage}/{fileprefix}_fastqc.zip",
                      datatype=[dat_type, ],
