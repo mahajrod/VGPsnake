@@ -279,7 +279,11 @@ elif config["mode"] == "qc":
                      output_dict["qc"] / "fastqc/{datatype}/{stage}/{fileprefix}_fastqc.zip",
                      datatype=[dat_type, ],
                      stage=["raw", ],
-                     fileprefix=list(map(lambda s: s[:-len(config["fastq_extension"])], input_filedict[dat_type][dat_type]))
+                     fileprefix=list(
+                                     map(
+                                         lambda s: s[:-len(config["fastq_extension"])],
+                                         input_filedict[dat_type])
+                                         )
                      ) for dat_type in fastq_based_data_type_set]
 
 elif config["mode"] == "filtering":
