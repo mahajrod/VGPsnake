@@ -67,6 +67,7 @@
         "threads":
             "create_fastq_links": 1
             "fastqc": 1
+            "multiqc": 1
 
             ref_faidx: 1
             ref_dict: 1
@@ -85,6 +86,7 @@
         "memory_mb":
             "create_fastq_links": 100
             "fastqc": 5000
+            "multiqc": 1000
 
             ref_faidx: 1000
             ref_dict: 1000
@@ -103,6 +105,7 @@
         "time":
             "create_fastq_links": "00:05:00"
             "fastqc": "04:00:00"
+            "multiqc": "00:10:00"
 
             cutadapt: "02:00:00"
             fastqc_filtered: "08:00:00"
