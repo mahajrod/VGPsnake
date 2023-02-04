@@ -3,10 +3,10 @@ localrules: create_fastq_links
 rule create_fastq_links:
     priority: 1000
     input:
-        input_dir_path.resolve() / "{datatype}/fastq/{fileprefix}" %  config["fastq_extension"]
+        input_dir_path.resolve() / ("{datatype}/fastq/{fileprefix}%s" %  config["fastq_extension"])
     output:
         #directory(output_dict["data"] / "/fastq/{datatype}/raw"),
-        output_dict["data"] / "fastq/{datatype}/raw/{fileprefix}%s" % config["fastq_extension"]
+        output_dict["data"] / ("fastq/{datatype}/raw/{fileprefix}%s" % config["fastq_extension"])
     log:
         std=output_dict["log"] / "preprocessing/{datatype}/create_fastq_links.{fileprefix}.log",
         cluster_log=output_dict["cluster_log"] / "preprocessing/{datatype}/create_fastq_links.{fileprefix}.cluster.log",
