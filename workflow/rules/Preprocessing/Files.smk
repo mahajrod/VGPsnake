@@ -22,5 +22,4 @@ rule create_fastq_links:
     threads:
         parameters["threads"]["create_fastq_links"]
     shell:
-         " mkdir -p {output}; "
          " ln -s {input} {output} 2>{log.std}"
