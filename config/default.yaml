@@ -162,6 +162,10 @@
     - "hic"
     - "lr"
 
+"long_read_data":
+    - "pacbio"
+    - "nanopore"
+
 "fastq_based_data":
     - "pacbio"
     - "nanopore"
