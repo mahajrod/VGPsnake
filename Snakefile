@@ -153,27 +153,6 @@ for datatype in data_types:
     else:
         input_dict[datatype]["fastq_dir"] = input_dict[datatype]["dir"] / "fastq"
 
-
-"""
-pacbio_dir_path = input_dir_path / config["pacbio_subdir"]
-fastq_pacbio_dir_path = pacbio_dir_path / "fastq/"
-run_pacbio_dir_path = pacbio_dir_path / "run/"
-
-nanopore_dir_path = input_dir_path / config["nanopore_subdir"]
-fastq_nanopore_dir_path = nanopore_dir_path / "fastq/"
-run_nanopore_dir_path = nanopore_dir_path / "run/"
-
-hic_dir_path = input_dir_path / config["hic_subdir"]
-fastq_hic_dir_path = hic_dir_path / "fastq/"
-run_hic_dir_path = hic_dir_path / "run/"
-
-lr_dir_path = input_dir_path / config["lr_subdir"]
-fastq_lr_dir_path = lr_dir_path / "fastq/"
-run_lr_dir_path = lr_dir_path / "run/"
-
-
-bionano_dir_path = input_dir_path / config["bionano_subdir"]
-"""
 #----
 #---- Initialization of path variables for output ----
 out_dir_path = Path(config["out_dir"])
@@ -181,15 +160,6 @@ output_dict = {}
 
 for first_level_sub_dir in config["first_level_subdir_list"]:
     output_dict[first_level_sub_dir] = out_dir_path / config["{0}_subdir".format(first_level_sub_dir)]
-"""
-out_qc_dir_path = out_dir_path / config["qc_subdir"]
-out_fastqc_dir_path = out_dir_path / config["qc_subdir"]
-
-out_log_dir_path = out_dir_path / config["log_subdir"]
-out_error_dir_path = out_dir_path / config["error_subdir"]
-out_benchmark_dir_path = out_dir_path / config["benchmark_subdir"]
-out_cluster_log_dir_path = out_dir_path / config["cluster_log_subdir"]
-"""
 
 #----
 #---- Initialization path variables for resources ----
@@ -199,8 +169,6 @@ logging.info("Setting and adjusting pipeline mode...")
 
 #pipeline_mode = config["mode"]
 #starting_point = config["starting_point"]
-
-
 
 #-------- Verification of input datatypes --------
 
@@ -212,7 +180,6 @@ for d_type in data_types:
         logging.error("Unknown data type: {0}".format(d_type))
         raise ValueError("ERROR!!! Unknown data type: {0}".format(d_type))
 
-#if config["mode"] in
 #--------
 
 #----
@@ -221,18 +188,31 @@ for d_type in data_types:
 logging.info("Checking input files...")
 
 input_filedict = {}
+input_file_prefix_dict = {}
 
+for d_type in fastq_based_data_type_set:
+    input_filedict[d_type] = find_fastqs(input_dict[d_type]["fastq_dir"], fastq_extension=config["fastq_extension"])
+    input_file_prefix_dict[d_type] = list(map(lambda s: str(s.name)[:-len(config["fastq_extension"])],
+                                                input_filedict[d_type]))
+
+"""
 if "pacbio" in data_types:
     input_filedict["pacbio"] = find_fastqs(input_dict["pacbio"]["fastq_dir"], fastq_extension=config["fastq_extension"])
+    input_file_prefix_dict["pacbio"] = list(map(lambda s: str(s.name)[:-len(config["fastq_extension"])],
+                                                input_filedict["pacbio"]))
 
 if "nanopore" in data_types:
     input_filedict["nanopore"] = find_fastqs(input_dict["nanopore"]["fastq_dir"], fastq_extension=config["fastq_extension"])
-
+    input_file_prefix_dict["nanopore"] =
+    
 if "hic" in data_types:
     input_filedict["hic"] = find_fastqs(input_dict["hic"]["fastq_dir"], fastq_extension=config["fastq_extension"])
-
+    input_file_prefix_dict["hic"] =
+    
 if "lr" in data_types:
-   input_filedict["lr"] = find_fastqs(input_dict["lr"]["fastq_dir"], fastq_extension=config["fastq_extension"])
+    input_filedict["lr"] = find_fastqs(input_dict["lr"]["fastq_dir"], fastq_extension=config["fastq_extension"])
+    input_file_prefix_dict["lr"] =
+"""
 
 if "bionano" in data_types: # TODO: modify when input for bionano will be clear
     input_filedict["bionano"] = find_cmap(input_dict["bionano"]["dir"], cmap_extension=config["cmap_extension"])
@@ -274,21 +254,20 @@ if config["mode"] == "check_input":
             final_config_yaml,
             final_input_yaml
 
-elif config["mode"] == "qc":
+elif config["mode"] == "qc": #  qc now is implemented only for fastq based datatypes, i.e all except bionano
     rule all:
         input:
             final_config_yaml,
             final_input_yaml,
-            #expand(output_dict["data"] / "fastq/{datatype}/raw", datatype=fastq_based_data_type_set),
             *[expand(
                      output_dict["qc"] / "fastqc/{datatype}/{stage}/{fileprefix}_fastqc.zip",
                      datatype=[dat_type, ],
                      stage=["raw", ],
-                     fileprefix=list(
-                                     map(
-                                         lambda s: str(s.name)[:-len(config["fastq_extension"])],
-                                         input_filedict[dat_type])
-                                         )
+                     fileprefix=input_file_prefix_dict[dat_type], #list(
+                                 #    map(
+                                 #        lambda s: str(s.name)[:-len(config["fastq_extension"])],
+                                 #        input_filedict[dat_type])
+                                 #        )
                      ) for dat_type in fastq_based_data_type_set],
 
             expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
@@ -299,7 +278,24 @@ elif config["mode"] == "filtering":
     rule all:
         input:
             final_config_yaml,
-            final_input_yaml
+            final_input_yaml,
+            *[expand(
+                     output_dict["qc"] / "fastqc/{datatype}/{stage}/{fileprefix}_fastqc.zip",
+                     datatype=[dat_type, ],
+                     stage=["raw", ],
+                     fileprefix=input_file_prefix_dict[dat_type], #list(
+                                 #    map(
+                                 #        lambda s: str(s.name)[:-len(config["fastq_extension"])],
+                                 #        input_filedict[dat_type])
+                                 #        )
+                     ) for dat_type in fastq_based_data_type_set],
+
+            expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
+                   datatype=fastq_based_data_type_set,
+                   stage=["raw",]),
+            expand(output_dict["data"] / ("fastq/pacbio/filtered/{fileprefix}%s" % config["fastq_extension"]),
+                   fileprefix=input_file_prefix_dict["pacbio"]) if "pacbio" in fastq_based_data_type_set else []
+
 
 elif config["mode"] == "basecall":
     pass # TODO: implement this mode later
@@ -332,6 +328,8 @@ elif config["mode"] == "contig":
 include: "workflow/rules/Preprocessing/Files.smk"
 include: "workflow/rules/QCFiltering/FastQC.smk"
 include: "workflow/rules/QCFiltering/MultiQC.smk"
+include: "workflow/rules/QCFiltering/Cutadapt.smk"
+
 
 """
 elif config["mode"] == "full":

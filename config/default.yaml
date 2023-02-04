@@ -68,12 +68,13 @@
             "create_fastq_links": 1
             "fastqc": 1
             "multiqc": 1
+            "cutadapt": 5
 
             ref_faidx: 1
             ref_dict: 1
             bwa_index: 1
             merge_raw_fastq: 1
-            cutadapt: 5
+
             bwa: 25
             bowtie2: 8
             sort: 2
@@ -87,14 +88,14 @@
             "create_fastq_links": 100
             "fastqc": 5000
             "multiqc": 1000
-
+            "cutadapt": 10000
             ref_faidx: 1000
             ref_dict: 1000
             bwa_index: 10000
             fastqc_per_lane_raw: 8000
             merge_raw_fastq: 2000
             fastqc_merged_raw: 2000
-            cutadapt: 10000
+
             fastqc_filtered: 2000
             index: 10000
             bwa: 10000
@@ -106,8 +107,8 @@
             "create_fastq_links": "00:05:00"
             "fastqc": "04:00:00"
             "multiqc": "00:10:00"
+            "cutadapt": "04:00:00"
 
-            cutadapt: "02:00:00"
             fastqc_filtered: "08:00:00"
             index: "10:00:00"
             bwa_map: "05:00:00"
@@ -151,8 +152,15 @@
             gather_duplication_rate_stats: "00:10:00"
         "tool_options":
             "cutadapt":
-                "minlength": 50
-                "adapter_seq": "AGATCGGAAGAGC"
+                "pacbio":
+                    "error_rate": 0.1 # --error-rate / -e
+                    "min_adapter_length": 35 # --overlap / -O
+                    "adapter_match_times": 3 # -n / --times
+                    "check_read_rc": True # --rc
+                    "discard_trimmed": True # --discard-trimmed / --discard
+                    "anywhere_adapter_list": # -b, multiple times
+                        - "ATCTCTCTCAACAACAACAACGGAGGAGGAGGAAAAGAGAGAGAT"
+                        - "ATCTCTCTCTTTTCCTCCTCCTCCGTTGTTGTTGTTGAGAGAGAT"
             "fastqc":
                 "kmer_length": 7
             "mosdepth":
