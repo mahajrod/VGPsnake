@@ -291,7 +291,7 @@ elif config["mode"] == "qc":
                                          )
                      ) for dat_type in fastq_based_data_type_set],
 
-            expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report",
+            expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
                    datatype=fastq_based_data_type_set,
                    stage=["raw",])
 
