@@ -14,10 +14,10 @@ rule cutadapt_pacbio:
         discard_trimmed= " --discard-trimmed" if parameters["tool_options"]["cutadapt"]["pacbio"]["discard_trimmed"] else "",
         anywhere_adapters= " -b ".join(parameters["tool_options"]["cutadapt"]["pacbio"]["anywhere_adapter_list"])
     log:
-        std=log_dir_path / "cutadapt_pacbio.pacbio.{fileprefix}.log",
+        std=output_dict["log"] / "cutadapt_pacbio.pacbio.{fileprefix}.log",
         #stats=log_dir_path / "{library_id}/no_cut.cutadapt.stats.log",
-        cluster_log=cluster_log_dir_path / "cutadapt_pacbio.pacbio.{fileprefix}.cluster.log",
-        cluster_err=cluster_log_dir_path / "cutadapt_pacbio.pacbio.{fileprefix}.cluster.log"
+        cluster_log=output_dict["cluster_log"] / "cutadapt_pacbio.pacbio.{fileprefix}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "cutadapt_pacbio.pacbio.{fileprefix}.cluster.log"
     benchmark:
         output_dict["benchmark"] /  "cutadapt_pacbio.{fileprefix}.benchmark.txt"
     conda:

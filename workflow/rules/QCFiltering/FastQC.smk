@@ -15,7 +15,7 @@ rule fastqc:
     log:
         std=output_dict["log"]/ "fastqc.{datatype}.{stage}.{fileprefix}.log",
         #stats=log_dir_path / "{library_id}/fastqc_merged_raw.stats.log",
-        cluster_log=output_dict["cluster_log"]/ "fastqc.{datatype}.{stage}.{fileprefix}.cluster.log",
+        cluster_log=output_dict["cluster_log"] / "fastqc.{datatype}.{stage}.{fileprefix}.cluster.log",
         cluster_err=output_dict["cluster_error"] / "fastqc.{datatype}.{stage}.{fileprefix}.cluster.err"
     benchmark:
         output_dict["benchmark"] / "fastqc.{datatype}.{stage}.{fileprefix}.benchmark.txt"
