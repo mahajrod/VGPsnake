@@ -4,11 +4,12 @@ rule multiqc:
         output_dict["qc"] / "fastqc/{datatype}/{stage}/"
     output:
         dir=directory(output_dict["qc"] / "multiqc/{datatype}/{stage}/"),
-        report=output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report"
+        report=output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html"
         #stats=merged_raw_multiqc_dir_path / "{library_id}/{library_id}.raw.multiqc.stats"
     params:
         # multiqc adds report filename to outdir path and even creates additional subdirectories if necessary.
-        # So if you set --outdir option --filename should not contain directories
+        # So if you set --outdir option --filename should not contain directories.
+        # Moreover, --filename is in fact not filename but prefix
         report_filename=lambda wildcards: "multiqc.{0}.{1}.report".format(wildcards.datatype,
                                                                           wildcards.stage),
     log:
