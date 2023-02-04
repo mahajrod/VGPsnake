@@ -23,4 +23,5 @@ rule multiqc:
     threads:
         parameters["threads"]["multiqc"]
     shell:
-        " multiqc --filename {output.report} -p --outdir {output.dir} --comment {wildcards.datatype} {input}>{log.std} 2>&1; "
+        " multiqc --filename {output.report} -p --outdir {output.dir} "
+        " --comment {wildcards.datatype} {input} > {log.std} 2>&1; "
