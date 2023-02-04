@@ -289,7 +289,11 @@ elif config["mode"] == "qc":
                                          lambda s: str(s.name)[:-len(config["fastq_extension"])],
                                          input_filedict[dat_type])
                                          )
-                     ) for dat_type in fastq_based_data_type_set]
+                     ) for dat_type in fastq_based_data_type_set],
+
+            expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report",
+                   datatype=fastq_based_data_type_set,
+                   stage=["raw",])
 
 elif config["mode"] == "filtering":
     rule all:
