@@ -8,8 +8,6 @@ rule fastqc:
         #stats=merged_raw_fastqc_dir_path / "{library_id}/{library_id}.raw.fastqc.stats"
     params:
         kmer=parameters["tool_options"]["fastqc"]["kmer_length"],
-        fastq=lambda wildcards: output_dict["data"]  / "{0}/fastq/{1}.fastq.gz".format(wildcards.datatype,
-                                                                                       wildcards.fileprefix),
         out_dir=lambda wildcards: output_dict["qc"] / "fastqc/{0}/{1}/".format(wildcards.datatype,
                                                                                wildcards.stage),
 
@@ -30,7 +28,7 @@ rule fastqc:
         parameters["threads"]["fastqc"]
     shell:
         #" mkdir -p {output.dir}; "
-        " fastqc --nogroup -k {params.kmer} -t {threads} -o {params.out_dir} {params.fastq} 1>{log.std} 2>&1; "
+        " fastqc --nogroup -k {params.kmer} -t {threads} -o {params.out_dir} {input} 1>{log.std} 2>&1; "
         #" workflow/scripts/convert_fastqc_output.py -f {output.forward_fastqc} -r {output.reverse_fastqc} "
         #" -s {wildcards.library_id} -o {output.stats} 1>{log.stats} 2>&1 "
 
