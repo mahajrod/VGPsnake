@@ -331,7 +331,7 @@ elif config["mode"] == "contig":
 
 include: "workflow/rules/Preprocessing/Files.smk"
 include: "workflow/rules/QCFiltering/FastQC.smk"
-
+include: "workflow/rules/QCFiltering/MultiQC.smk"
 
 """
 elif config["mode"] == "full":
