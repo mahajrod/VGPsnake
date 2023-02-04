@@ -6,7 +6,11 @@ rule multiqc:
         dir=directory(output_dict["qc"] / "multiqc/{datatype}/{stage}/"),
         report=output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report"
         #stats=merged_raw_multiqc_dir_path / "{library_id}/{library_id}.raw.multiqc.stats"
-
+    params:
+        # multiqc adds report filename to outdir path and even creates additional subdirectories if necessary.
+        # So if you set --outdir option --filename should not contain directories
+        report_filename=lambda wildcards: "multiqc.{0}.{1}.report".format(wildcards.datatype,
+                                                                          wildcards.stage),
     log:
         std=output_dict["log"]/ "multiqc.{datatype}.{stage}.log",
         #stats=log_dir_path / "{library_id}/multiqc_merged_raw.stats.log",
@@ -23,5 +27,5 @@ rule multiqc:
     threads:
         parameters["threads"]["multiqc"]
     shell:
-        " multiqc --filename {output.report} -p --outdir {output.dir} "
+        " multiqc --filename {params.report_filename} -p --outdir {output.dir} "
         " --comment {wildcards.datatype} {input} > {log.std} 2>&1; "
