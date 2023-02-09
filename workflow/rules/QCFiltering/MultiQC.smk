@@ -1,7 +1,12 @@
 
 rule multiqc:
     input:
-        output_dict["qc"] / "fastqc/{datatype}/{stage}/"
+        #output_dict["qc"] / "fastqc/{datatype}/{stage}/",
+
+        lambda wildcards: expand(output_dict["qc"] / "fastqc/%s/%s/{fileprefix}_fastqc.zip" % (wildcards.datatype,
+                                                                                               wildcards.stage),
+                                 fileprefix=input_file_prefix_dict[wildcards.datatype],
+                                 allow_missing=True)
     output:
         dir=directory(output_dict["qc"] / "multiqc/{datatype}/{stage}/"),
         report=output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html"
@@ -12,6 +17,7 @@ rule multiqc:
         # Moreover, --filename is in fact not filename but prefix
         report_filename=lambda wildcards: "multiqc.{0}.{1}.report".format(wildcards.datatype,
                                                                           wildcards.stage),
+        input_dir=output_dict["qc"] / "fastqc/{datatype}/{stage}/"
     log:
         std=output_dict["log"]/ "multiqc.{datatype}.{stage}.log",
         #stats=log_dir_path / "{library_id}/multiqc_merged_raw.stats.log",
@@ -29,4 +35,4 @@ rule multiqc:
         parameters["threads"]["multiqc"]
     shell:
         " multiqc --filename {params.report_filename} -p --outdir {output.dir} "
-        " --comment {wildcards.datatype} {input} > {log.std} 2>&1; "
+        " --comment {wildcards.datatype} {params.input_dir} > {log.std} 2>&1; "
