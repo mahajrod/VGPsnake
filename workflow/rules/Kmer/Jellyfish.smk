@@ -35,5 +35,5 @@ rule jellyfish:
          " jellyfish count -C -m {wildcards.kmer_length} -s {params.hash_size} -t {threads} -o {output.jf}  "
          " <(zcat {input}) 1>{log.count_log} 2>&1; "
          " jellyfish histo -o {output.histo} -t {threads} -l {params.min_coverage} -h {params.max_coverage} "
-         " -i {params.increment} {input} 1>{log.histo_log} 2>&1;"
+         " -i {params.increment} {output.jf} 1>{log.histo_log} 2>&1;"
 
