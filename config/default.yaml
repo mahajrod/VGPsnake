@@ -72,6 +72,7 @@
             "multiqc": 1
             "cutadapt": 5
             "jellyfish": 30
+            "genomescope": 1
             "parse_genomescope_output": 1
             "hifiasm": 30
             ref_faidx: 1
@@ -94,6 +95,7 @@
             "multiqc": 1000
             "cutadapt": 10000
             "jellyfish": 200000
+            "genomescope": 300
             "parse_genomescope_output": 100
             "hifiasm": 50000
 
@@ -117,6 +119,7 @@
             "multiqc": "00:10:00"
             "cutadapt": "04:00:00"
             "jellyfish": "08:00:00"
+            "genomescope": "01:00:00"
             "parse_genomescope_output": "00:10:00"
             "hifiasm": "08:00:00"
 
