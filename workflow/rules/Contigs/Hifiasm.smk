@@ -11,7 +11,7 @@ rule hifiasm:
                                   kmer_length=parameters["tool_options"][kmer_tool]["pacbio"]["kmer_length"],) for kmer_tool in config["kmer_counter_list"]]
     output:
         dir=directory(output_dict["contig"] / "hifiasm/"),
-        raw_unitig_graph=output_dict["contig"] / "hifiasm/%s.contig.hifiasm.pacbio.hic.r_utg.gfa" % config["genome_name"]
+        raw_unitig_graph=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.r_utg.gfa" % config["genome_name"])
     params:
         purge_level=parameters["tool_options"]["hifiasm"]["purge level"],
         ploidy=config["ploidy"],

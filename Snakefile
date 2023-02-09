@@ -307,7 +307,7 @@ results_dict["filtering"] = [*results_dict["qc"],
                               ]
 
 results_dict["contig"] = [*results_dict["filtering"],
-                          output_dict["contig"] / "hifiasm/%s.contig.hifiasm.pacbio.hic.r_utg.gfa" % config["genome_name"]
+                          output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.r_utg.gfa" % config["genome_name"])
                           ]
 
 
