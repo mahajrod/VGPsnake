@@ -4,7 +4,7 @@ rule genomescope:
     input:
         histo=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.histo"
     output:
-        dir=utput_dict["kmer"] / "{datatype}/{stage}/genomescope/{datatype}.{stage}.{kmer_length}.{kmer_tool}",
+        dir=output_dict["kmer"] / "{datatype}/{stage}/genomescope/{datatype}.{stage}.{kmer_length}.{kmer_tool}",
         summary=output_dict["kmer"] / ("{datatype}/{stage}/genomescope/{datatype}.{stage}.{kmer_length}.{kmer_tool}/%s_summary.txt" % config["genome_name"]),
         model=output_dict["kmer"] / ("{datatype}/{stage}/genomescope/{datatype}.{stage}.{kmer_length}.{kmer_tool}/%s_model.txt" % config["genome_name"]),
     params:
