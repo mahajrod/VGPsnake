@@ -1,6 +1,6 @@
 rule hifiasm:
     input:
-        pacbio=expand(output_dict["data"] / "fastq/pacbio/filtered/{fileprefix}%s" % config["fastq_extension"],
+        pacbio=expand(output_dict["data"] / ("fastq/pacbio/filtered/{fileprefix}%s" % config["fastq_extension"]),
                            fileprefix=input_file_prefix_dict["pacbio"],
                            allow_missing=True
                            ),
