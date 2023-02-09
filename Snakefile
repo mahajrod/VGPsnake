@@ -196,7 +196,7 @@ for d_type in fastq_based_data_type_set:
     input_file_prefix_dict[d_type] = list(map(lambda s: str(s.name)[:-len(config["fastq_extension"])],
                                                 input_filedict[d_type]))
 # check filenames of paired data
-for d_type in set(config("paired_fastq_based_data")) & fastq_based_data_type_set:
+for d_type in set(config["paired_fastq_based_data"]) & fastq_based_data_type_set:
    if (len(input_filedict[d_type]) % 2) != 0:
         raise ValueError("ERROR!!! {0} fastq files seems to be unpaired or misrecognized".format(d_type))
    for forward, reverse in zip(input_filedict[d_type][::2], input_filedict[d_type][1::2]):
