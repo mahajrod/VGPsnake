@@ -235,7 +235,7 @@ if config["parameter_set"] not in config["parameters"]:
 
 copy_absent_entries(config["parameters"]["default"], config["parameters"][config["parameter_set"]]) # set default values for options absent in  "parameter_set"
 
-for key in config["parameters"].keys(): # remove unused sets of parameters
+for key in list(config["parameters"].keys()): # remove unused sets of parameters
     if key != config["parameter_set"]:
         config["parameters"].pop(key)
 
