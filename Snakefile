@@ -173,6 +173,7 @@ logging.info("Setting and adjusting pipeline mode...")
 #-------- Verification of input datatypes --------
 
 fastq_based_data_type_set = set(data_types) & set(config["fastq_based_data"])
+genome_size_estimation_data_type_set = set(config["genome_size_estimation_data"]) & fastq_based_data_type_set
 
 logging.info("Verifying datatypes...")
 for d_type in data_types:
@@ -194,6 +195,14 @@ for d_type in fastq_based_data_type_set:
     input_filedict[d_type] = find_fastqs(input_dict[d_type]["fastq_dir"], fastq_extension=config["fastq_extension"])
     input_file_prefix_dict[d_type] = list(map(lambda s: str(s.name)[:-len(config["fastq_extension"])],
                                                 input_filedict[d_type]))
+# check filenames of paired data
+for d_type in set(config("paired_fastq_based_data")) & fastq_based_data_type_set:
+   if (len(input_filedict[d_type]) % 2) != 0:
+        raise ValueError("ERROR!!! {0} fastq files seems to be unpaired or misrecognized".format(d_type))
+   for forward, reverse in zip(input_filedict[d_type][::2], input_filedict[d_type][1::2]):
+        if p_distance(str(forward), str(reverse), len(str(forward))) > 1:
+            raise ValueError("ERROR!!! Forward and reverse read files differs by more than one symbol:\n\t{0}\n\t{1}".format(str(forward),
+                                                                                                                             str(reverse)))
 
 """
 if "pacbio" in data_types:
@@ -219,7 +228,7 @@ if "bionano" in data_types: # TODO: modify when input for bionano will be clear
 
 
 #---- Initialize tool parameters ----
-logging.info("Initializing tool paremeters...")
+logging.info("Initializing tool parameters...")
 
 if config["parameter_set"] not in config["parameters"]:
     raise ValueError("Error!!! Unknown set of tool parameters: {0}".format(config["parameter_set"]))
@@ -231,6 +240,18 @@ for key in config["parameters"].keys(): # remove unused sets of parameters
         config["parameters"].pop(key)
 
 parameters = config["parameters"][config["parameter_set"]] # short alias for used set of parameters
+
+#----
+
+#---- Check configuration ----
+if config["mode"] in ["contig",]:
+    if len(config["kmer_counter_list"]) > 1:
+        raise ValueError("ERROR!!! Multiple kmer counter tools are not allowed in mode {0}. "
+                         "Select one.".format(config["mode"]))
+    for kmer_tool in config["kmer_counter_list"]:
+        if len(parameters["tool_options"][kmer_tool]["pacbio"]["kmer_length"]) > 1:
+            raise ValueError("ERROR!!! Multiple kmer lengths are not allowed in mode {0}. "
+                             "Select one.".format(config["mode"]))
 
 #----
 
@@ -248,118 +269,65 @@ with open(final_config_yaml, 'w') as final_config_fd, open(final_input_yaml, 'w'
 #-------------------------------------------
 localrules: all
 ruleorder: create_fastq_links > fastqc
-if config["mode"] == "check_input":
-    rule all:
-        input:
-            final_config_yaml,
-            final_input_yaml
 
-elif config["mode"] == "qc": #  qc now is implemented only for fastq based datatypes, i.e all except bionano
-    rule all:
-        input:
-            final_config_yaml,
-            final_input_yaml,
-            *[expand(
-                     output_dict["qc"] / "fastqc/{datatype}/{stage}/{fileprefix}_fastqc.zip",
-                     datatype=[dat_type, ],
-                     stage=["raw", ],
-                     fileprefix=input_file_prefix_dict[dat_type], #list(
+results_dict = {}
+
+results_dict["check_input"] = [
+                               final_config_yaml,
+                               final_input_yaml
+                              ]
+
+results_dict["qc"] = [*results_dict["check_input"],
+                      *[expand(output_dict["qc"] / "fastqc/{datatype}/{stage}/{fileprefix}_fastqc.zip",
+                               datatype=[dat_type, ],
+                               stage=["raw", ],
+                               fileprefix=input_file_prefix_dict[dat_type], #list(
                                  #    map(
                                  #        lambda s: str(s.name)[:-len(config["fastq_extension"])],
                                  #        input_filedict[dat_type])
                                  #        )
-                     ) for dat_type in fastq_based_data_type_set],
+                               ) for dat_type in fastq_based_data_type_set],
+                      expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
+                             datatype=fastq_based_data_type_set,
+                             stage=["raw",])
+                      ]
 
-            expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
-                   datatype=fastq_based_data_type_set,
-                   stage=["raw",])
+results_dict["filtering"] = [*results_dict["qc"],
+                             expand(output_dict["data"] / ("fastq/pacbio/filtered/{fileprefix}%s" % config["fastq_extension"]),
+                                    fileprefix=input_file_prefix_dict["pacbio"]) if "pacbio" in fastq_based_data_type_set else [],
+                             expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
+                                    datatype=["pacbio"],
+                                    stage=["filtered",]) if "pacbio" in fastq_based_data_type_set else [], # only pacbio filtration was implemented yet
+                             *[[expand(output_dict["kmer"] / "{datatype}/{stage}/genomescope/{datatype}.{stage}.{kmer_length}.{kmer_tool}.genomescope.parameters",
+                                    datatype=[dat_type,],
+                                    stage=["filtered",],
+                                    kmer_tool=[kmer_tool,],
+                                    kmer_length= parameters["tool_options"][kmer_tool][dat_type]["kmer_length"],
+                                    ) for kmer_tool in config["kmer_counter_list"] ]  for dat_type in genome_size_estimation_data_type_set]
+                              ]
 
-elif config["mode"] == "filtering":
-    rule all:
-        input:
-            final_config_yaml,
-            final_input_yaml,
-            *[expand(
-                     output_dict["qc"] / "fastqc/{datatype}/{stage}/{fileprefix}_fastqc.zip",
-                     datatype=[dat_type, ],
-                     stage=["raw", ],
-                     fileprefix=input_file_prefix_dict[dat_type], #list(
-                                 #    map(
-                                 #        lambda s: str(s.name)[:-len(config["fastq_extension"])],
-                                 #        input_filedict[dat_type])
-                                 #        )
-                     ) for dat_type in fastq_based_data_type_set],
-
-            expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
-                   datatype=fastq_based_data_type_set,
-                   stage=["raw",]),
-            expand(output_dict["data"] / ("fastq/pacbio/filtered/{fileprefix}%s" % config["fastq_extension"]),
-                   fileprefix=input_file_prefix_dict["pacbio"]) if "pacbio" in fastq_based_data_type_set else []
+results_dict["contig"] = [*results_dict["filtering"],
+                          output_dict["contig"] / "hifiasm/%s.contig.hifiasm.pacbio.hic.r_utg.gfa" % config["genome_name"]
+                          ]
 
 
-elif config["mode"] == "basecall":
-    pass # TODO: implement this mode later
-    #rule all:
-    #    input:
+#TODO: implement following modes when necessary
+"""
+results_dict["basecall"] =
+results_dict["basecall_pacbio"] =
+results_dict["basecall_hic"] =
+results_dict["basecall_10x"] =
+results_dict[create_map_bionano"] = 
 
-elif config["mode"] == "basecall_pacbio":
-    pass # TODO: implement this mode later
-    #rule all:
-    #    input:
-
-elif config["mode"] == "basecall_hic":
-    pass # TODO: implement this mode later
-    #rule all:
-    #    input:
-elif config["mode"] == "basecall_10x":
-    pass # TODO: implement this mode later
-    #rule all:
-    #    input:
-elif config["mode"] == "create_map_bionano":
-    pass # TODO: implement this mode later
-    #rule all:
-    #    input:
-
-elif config["mode"] == "contig":
-    pass # TODO: implement this mode
-    #rule all:
-    #    input:
+"""
+rule all:
+    input:
+        results_dict[config["mode"]]
 
 include: "workflow/rules/Preprocessing/Files.smk"
 include: "workflow/rules/QCFiltering/FastQC.smk"
 include: "workflow/rules/QCFiltering/MultiQC.smk"
 include: "workflow/rules/QCFiltering/Cutadapt.smk"
-
-
-"""
-elif config["mode"] == "full":
-    rule all:
-        input:
-            pass
-"""
-
-"""
-
-if pipeline_mode in ["index", "index_rna", "index_dna"]:
-    include: "workflow/rules/Preprocessing/Reference.smk"
-elif pipeline_mode in ["basecall", ]:
-    include: "workflow/rules/BaseCall/BaseCall.smk"
-else:
-    include: "workflow/rules/Preprocessing/Target.smk"
-    include: "workflow/rules/Preprocessing/Files.smk"
-    include: "workflow/rules/BaseCall/BaseCall.smk"
-    include: "workflow/rules/QCFiltering/Cutadapt.smk"
-    include: "workflow/rules/QCFiltering/FastQC.smk"
-    if config["umi_type"] == "UMI_UDI":
-        include: "workflow/rules/Alignment/ConsensusCall/UMI_UDI.smk"
-    elif config["umi_type"] == "UMI_duplex":
-        include: "workflow/rules/Alignment/ConsensusCall/UMI_duplex.smk"
-    include: "workflow/rules/Alignment/ConsensusCall/Common.smk"
-    include: "workflow/rules/Alignment/RawReads.smk"
-
-
-    include: "workflow/rules/Annotation/Filter.smk"
-    include: "workflow/rules/Annotation/SnpEff.smk"
-
-
-"""
+include: "workflow/rules/Kmer/Jellyfish.smk"
+include: "workflow/rules/Kmer/Genomescope.smk"
+include: "workflow/rules/Contigs/Hifiasm.smk"

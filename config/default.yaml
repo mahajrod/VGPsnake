@@ -33,7 +33,8 @@
   - "cluster_error"
   - "preprocessing"
   - "basecall"
-  - "assembly_draft"
+  - "kmer"
+  - "contig"
   - "purge_dups"
   - "lr_scaffolding"
   - "bionano_scaffolding"
@@ -42,6 +43,7 @@
 "config_subdir": "config"
 "data_subdir": "data"
 "qc_subdir": "qc"
+"kmer_subdir": "kmer"
 "log_subdir": "logs"
 
 "benchmark_subdir": "benchmarks"
@@ -49,7 +51,7 @@
 "cluster_error_subdir": "cluster_errors"
 "preprocessing_subdir": "preprocessing"
 "basecall_subdir": "basecall"
-"assembly_draft_subdir": "assembly_draft"
+"contig_subdir": "contig"
 "purge_dups_subdir": "purge_dups"
 "lr_scaffolding_subdir": "lr_scaffolding"
 "bionano_scaffolding_subdir": "bionano_scaffolding"
@@ -69,7 +71,9 @@
             "fastqc": 1
             "multiqc": 1
             "cutadapt": 5
-
+            "jellyfish": 30
+            "parse_genomescope_output": 1
+            "hifiasm": 30
             ref_faidx: 1
             ref_dict: 1
             bwa_index: 1
@@ -89,6 +93,10 @@
             "fastqc": 5000
             "multiqc": 1000
             "cutadapt": 10000
+            "jellyfish": 200000
+            "parse_genomescope_output": 100
+            "hifiasm": 50000
+
             ref_faidx: 1000
             ref_dict: 1000
             bwa_index: 10000
@@ -108,8 +116,10 @@
             "fastqc": "04:00:00"
             "multiqc": "00:10:00"
             "cutadapt": "04:00:00"
+            "jellyfish": "08:00:00"
+            "parse_genomescope_output": "00:10:00"
+            "hifiasm": "08:00:00"
 
-            fastqc_filtered: "08:00:00"
             index: "10:00:00"
             bwa_map: "05:00:00"
             bowtie2_rna_map: "05:00:00"
@@ -117,21 +127,7 @@
             basecall: "10:00:00"
 
             bowtie2_index: "12:00:00"
-            create_panel_of_normals: "12:00:00"
-            create_sample_map: "00:05:00"
-            create_vcf_db: "02:00:00"
-            bed2gff: "00:10:00"
-            featureCounts: "00:30:00"
-            snpEff: "02:00:00"
-            sift_cosmic: "02:00:00"
-            extract_annotation: "00:10:00"
-            remove_filtered_variant: "00:10:00"
-            normalize_variants: "00:10:00"
-            rna_total_gff: "00:10:00"
-            vep: "00:30:00"
-            merge_annotation: "00:05:00"
-            cp_dna_ref: "00:10:00"
-            cp_rna_ref: "00:10:00"
+
             get_basecall_stats: "00:10:00"
             gather_per_library_read_stats: "00:10:00"
             merge_sample_read_stats: "00:10:00"
@@ -139,17 +135,9 @@
             rmdup_raw_reads: "04:00:00"
             merge_target_regions_raw_reads: "00:10:00"
             merge_all_annotation: "00:10:00"
-            gather_final_stats: "00:10:00"
-            merge_rna_fusion_regions: "00:10:00"
-            extract_synthetic_reads: "04:00:00"
-            get_fusion_pvalues: "00:30:00"
-            get_biological_counts: "00:10:00"
+
             merge_rna_counts_by_replicates: "00:30:00"
-            fastq_to_sam: "04:00:00"
-            extract_umis_from_bam: "02:00:00"
-            create_duplex_consensus_reads: "02:00:00"
-            merge_ontarget_regions: "00:10:00"
-            gather_duplication_rate_stats: "00:10:00"
+
         "tool_options":
             "cutadapt":
                 "pacbio":
@@ -165,6 +153,155 @@
                 "kmer_length": 7
             "mosdepth":
                 "min_mapping_quality": 10
+            "jellyfish":
+                "min_coverage": 1
+                "max_coverage": 100000000
+                "increment": 1
+                "pacbio":
+                    "kmer_length": 23
+                    "has_size": "20G"
+                    "min_coverage": 1
+                    "max_coverage": 100000000
+                    "increment": 1
+                "illumina":
+                    "kmer_length": 23
+                    "has_size": "20G"
+                    "min_coverage": 1
+                    "max_coverage": 100000000
+                    "increment": 1
+            "hifiasm":
+                "purge level": 1 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+
+    "micro": # < 15 Mbp, yeasts and bacteria
+        "threads":
+            "jellyfish": 30
+            "hifiasm": 30
+        "memory_mb":
+            "jellyfish": 2000
+            "hifiasm": 10000 # needs adjustment, very approximate value
+        "time":
+            "jellyfish": "01:00:00"
+            "hifiasm": "02:00:00"
+        "tool_options":
+            "jellyfish":
+                "pacbio":
+                    "kmer_length": 23
+                    "has_size": "200M"
+                "illumina":
+                    "kmer_length": 23
+                    "has_size": "200M"
+    "mini": # < 150 Mbp, fungi, Arabidopsis thaliana and Caenorabditis elegans
+        "threads":
+            "jellyfish": 30
+            "hifiasm": 30
+        "memory_mb":
+            "jellyfish": 20000
+            "hifiasm": 20000
+        "time":
+            "jellyfish": "02:00:00"
+            "hifiasm": "04:00:00"
+        "tool_options":
+            "jellyfish":
+                "pacbio":
+                    "kmer_length": 23
+                    "has_size": "2G"
+                "illumina":
+                    "kmer_length": 23
+                    "has_size": "2G"
+    "small": # < 500 Mbp, drosophilla, tetraodon
+        "threads":
+            "jellyfish": 30
+            "hifiasm": 30
+        "memory_mb":
+            "jellyfish": 60000
+            "hifiasm": 40000
+        "time":
+            "jellyfish": "04:00:00"
+            "hifiasm": "08:00:00"
+        "tool_options":
+            "jellyfish":
+                "pacbio":
+                    "kmer_length": 23
+                    "has_size": "7G"
+                "illumina":
+                    "kmer_length": 23
+                    "has_size": "7G"
+    "normal": # < 1500 Mbp, most of birds
+        "threads":
+            "jellyfish": 30
+            "hifiasm": 30
+        "memory_mb":
+            "jellyfish": 200000
+            "hifiasm": 80000
+        "time":
+            "jellyfish": "08:00:00"
+            "hifiasm": "12:00:00"
+        "tool_options":
+            "jellyfish":
+                "pacbio":
+                    "kmer_length": 23
+                    "has_size": "20G"
+                "illumina":
+                    "kmer_length": 23
+                    "has_size": "20G"
+    "big": # < 2500 Mbp, most of mammals
+        "threads":
+            "jellyfish": 30
+            "hifiasm": 30
+        "memory_mb":
+            "jellyfish": 300000
+            "hifiasm": 150000
+        "time":
+            "jellyfish": "12:00:00"
+            "hifiasm": "16:00:00"
+        "tool_options":
+            "jellyfish":
+                "pacbio":
+                    "kmer_length": 23
+                    "has_size": "32G"
+                "illumina":
+                    "kmer_length": 23
+                    "has_size": "32G"
+    "large": # < 5000 Mbp, human
+        "threads":
+            "jellyfish": 30
+            "hifiasm": 30
+        "memory_mb":
+            "jellyfish": 600000
+            "hifiasm": 300000
+        "time":
+            "jellyfish": "24:00:00"
+            "hifiasm": "24:00:00"
+        "tool_options":
+            "jellyfish":
+                "pacbio":
+                    "kmer_length": 23
+                    "has_size": "64G"
+                "illumina":
+                    "kmer_length": 23
+                    "has_size": "64G"
+    "giant": # < 15000 Mbp, big plant genomes
+        "threads":
+            "jellyfish": 30
+            "hifiasm": 30
+        "memory_mb":
+            "jellyfish": 1100000
+            "hifiasm": 1000000
+        "time":
+            "jellyfish": "48:00:00"
+            "hifiasm": "48:00:00"
+        "tool_options":
+            "jellyfish":
+                "pacbio":
+                    "kmer_length": 23
+                    "has_size": "128G"
+                "illumina":
+                    "kmer_length": 23
+                    "has_size": "128G"
+
+"kmer_counter_list":
+    - "jellyfish"
+    #- "meryl" #TODO: implement for comparison
 
 "allowed_data_types":
     - "pacbio"
@@ -177,15 +314,25 @@
     - "pacbio"
     - "nanopore"
 
+"genome_size_estimation_data":
+    - "pacbio"
+
+
 "fastq_based_data":
     - "pacbio"
     - "nanopore"
     - "hic"
     - "lr"
 
+"paired_fastq_based_data":
+    - "hic"
+    - "lr"
+
 "fastq_extension": ".fastq.gz"
 "cmap_extension": ".cmap"
 
+"ploidy": 2
+"genome_name": "genome"
 #---- Pipeline modes ----
 
 "starting_point": "fastq" # "bcl2"
