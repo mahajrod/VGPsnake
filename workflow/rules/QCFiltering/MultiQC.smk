@@ -16,7 +16,8 @@ rule multiqc:
         # Moreover, --filename is in fact not filename but prefix
         report_filename=lambda wildcards: "multiqc.{0}.{1}.report".format(wildcards.datatype,
                                                                           wildcards.stage),
-        input_dir=output_dict["qc"] / "fastqc/{datatype}/{stage}/"
+        input_dir=lambda wildcards: output_dict["qc"] / "fastqc/{0}/{1}/".format(wildcards.datatype,
+                                                                                 wildcards.stage)
     log:
         std=output_dict["log"]/ "multiqc.{datatype}.{stage}.log",
         #stats=log_dir_path / "{library_id}/multiqc_merged_raw.stats.log",
