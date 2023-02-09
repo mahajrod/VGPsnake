@@ -32,8 +32,8 @@ rule jellyfish:
     threads:
         parameters["threads"]["jellyfish"]
     shell:
-         " jellyfish count -C -m {wildcards.kmer_length} -s {params.hash_size} -t {threads} -o {output}  "
+         " jellyfish count -C -m {wildcards.kmer_length} -s {params.hash_size} -t {threads} -o {output.jf}  "
          " <(zcat {input}) 1>{log.count_log} 2>&1; "
-         " jellyfish histo -o {output} -t {threads} -l {params.min_coverage} -h {params.max_coverage} "
+         " jellyfish histo -o {output.histo} -t {threads} -l {params.min_coverage} -h {params.max_coverage} "
          " -i {params.increment} {input} 1>{log.histo_log} 2>&1;"
 
