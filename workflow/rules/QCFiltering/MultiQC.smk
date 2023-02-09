@@ -2,8 +2,7 @@
 rule multiqc:
     input:
         #output_dict["qc"] / "fastqc/{datatype}/{stage}/",
-
-        lambda wildcards: expand(output_dict["qc"] / "fastqc/%s/%s/{fileprefix}_fastqc.zip" % (wildcards.datatype,
+        fastqc_reports=lambda wildcards: expand(output_dict["qc"] / "fastqc/%s/%s/{fileprefix}_fastqc.zip" % (wildcards.datatype,
                                                                                                wildcards.stage),
                                  fileprefix=input_file_prefix_dict[wildcards.datatype],
                                  allow_missing=True)
