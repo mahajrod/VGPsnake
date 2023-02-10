@@ -161,13 +161,15 @@
                 "max_coverage": 100000000
                 "increment": 1
                 "pacbio":
-                    "kmer_length": 23
+                    "kmer_length":
+                        - 23
                     "hash_size": "20G"
                     "min_coverage": 1
                     "max_coverage": 100000000
                     "increment": 1
                 "illumina":
-                    "kmer_length": 23
+                    "kmer_length":
+                        - 23
                     "hash_size": "20G"
                     "min_coverage": 1
                     "max_coverage": 100000000
@@ -188,10 +190,12 @@
         "tool_options":
             "jellyfish":
                 "pacbio":
-                    "kmer_length": 23
+                    "kmer_length":
+                        - 23
                     "hash_size": "200M"
                 "illumina":
-                    "kmer_length": 23
+                    "kmer_length":
+                        - 23
                     "hash_size": "200M"
     "mini": # < 150 Mbp, fungi, Arabidopsis thaliana and Caenorabditis elegans
         "threads":
@@ -206,10 +210,12 @@
         "tool_options":
             "jellyfish":
                 "pacbio":
-                    "kmer_length": 23
+                    "kmer_length":
+                        - 23
                     "hash_size": "2G"
                 "illumina":
-                    "kmer_length": 23
+                    "kmer_length":
+                        - 23
                     "hash_size": "2G"
     "small": # < 500 Mbp, drosophilla, tetraodon
         "threads":
@@ -224,10 +230,12 @@
         "tool_options":
             "jellyfish":
                 "pacbio":
-                    "kmer_length": 23
+                    "kmer_length":
+                        - 23
                     "hash_size": "7G"
                 "illumina":
-                    "kmer_length": 23
+                    "kmer_length":
+                        - 23
                     "hash_size": "7G"
     "normal": # < 1500 Mbp, most of birds
         "threads":
@@ -242,10 +250,12 @@
         "tool_options":
             "jellyfish":
                 "pacbio":
-                    "kmer_length": 23
+                    "kmer_length":
+                        - 23
                     "hash_size": "20G"
                 "illumina":
-                    "kmer_length": 23
+                    "kmer_length":
+                        - 23
                     "hash_size": "20G"
     "big": # < 2500 Mbp, most of mammals
         "threads":
@@ -260,10 +270,12 @@
         "tool_options":
             "jellyfish":
                 "pacbio":
-                    "kmer_length": 23
+                    "kmer_length":
+                        - 23
                     "hash_size": "32G"
                 "illumina":
-                    "kmer_length": 23
+                    "kmer_length":
+                        - 23
                     "hash_size": "32G"
     "large": # < 5000 Mbp, human
         "threads":
@@ -278,10 +290,12 @@
         "tool_options":
             "jellyfish":
                 "pacbio":
-                    "kmer_length": 23
+                    "kmer_length":
+                        - 23
                     "hash_size": "64G"
                 "illumina":
-                    "kmer_length": 23
+                    "kmer_length":
+                        - 23
                     "hash_size": "64G"
     "giant": # < 15000 Mbp, big plant genomes
         "threads":
@@ -296,10 +310,12 @@
         "tool_options":
             "jellyfish":
                 "pacbio":
-                    "kmer_length": 23
+                    "kmer_length":
+                        - 23
                     "hash_size": "128G"
                 "illumina":
-                    "kmer_length": 23
+                    "kmer_length":
+                        - 23
                     "hash_size": "128G"
 
 "kmer_counter_list":

@@ -307,7 +307,7 @@ results_dict["filtering"] = [*results_dict["qc"],
                                     datatype=[dat_type,],
                                     stage=["filtered",],
                                     kmer_tool=[kmer_tool,],
-                                    kmer_length= parameters["tool_options"][kmer_tool][dat_type]["kmer_length"],
+                                    kmer_length=parameters["tool_options"][kmer_tool][dat_type]["kmer_length"],
                                     ) for kmer_tool in config["kmer_counter_list"] ]  for dat_type in genome_size_estimation_data_type_set]
                               ]
 
