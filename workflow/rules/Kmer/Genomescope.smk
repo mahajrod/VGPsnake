@@ -4,14 +4,16 @@ rule genomescope:
     input:
         histo=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.histo"
     output:
-        dir=output_dict["kmer"] / "{datatype}/{stage}/genomescope/{datatype}.{stage}.{kmer_length}.{kmer_tool}",
         summary=output_dict["kmer"] / ("{datatype}/{stage}/genomescope/{datatype}.{stage}.{kmer_length}.{kmer_tool}/%s_summary.txt" % config["genome_name"]),
         model=output_dict["kmer"] / ("{datatype}/{stage}/genomescope/{datatype}.{stage}.{kmer_length}.{kmer_tool}/%s_model.txt" % config["genome_name"]),
     params:
         ploidy=config["ploidy"],
         genome_name=config["genome_name"],
         max_coverage=lambda wildcards: parameters["tool_options"][wildcards.kmer_tool][wildcards.datatype]["max_coverage"],
-
+        out_dir=lambda wildcards: output_dict["kmer"] / "{0}/{1}/genomescope/{0}.{1}.{2}.{3}".format(wildcards.datatype,
+                                                                                                     wildcards.stage,
+                                                                                                     wildcards.kmer_length,
+                                                                                                     wildcards.kmer_tool)
     log:
         std=output_dict["log"] / "genomescope.{datatype}.{stage}.{kmer_length}.{kmer_tool}.log",
         cluster_log=output_dict["cluster_log"] / "genomescope.{datatype}.{stage}.{kmer_length}.{kmer_tool}.cluster.log",
@@ -28,7 +30,7 @@ rule genomescope:
         parameters["threads"]["genomescope"]
     shell:
          " genomescope.R  -i {input.histo} -p {params.ploidy} -k {wildcards.kmer_length}  "
-         " -n {params.genome_name}  -m {params.max_coverage}  --fitted_hist  --testing  -o {output.dir} > log.std 2>&1"
+         " -n {params.genome_name}  -m {params.max_coverage}  --fitted_hist  --testing  -o {params.out_dir} > log.std 2>&1"
 
 
 rule parse_genomescope_output:
