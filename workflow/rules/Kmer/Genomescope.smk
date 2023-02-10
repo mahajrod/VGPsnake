@@ -56,4 +56,4 @@ rule parse_genomescope_output:
     shell:
          " GENLEN=`grep 'Genome Haploid Length' {input.summary} | sed 's/,//g;s/ \{{2,\}}/\t/g' | cut -f 3 | sed 's/ .*//'`;   "
          " LAMBDA=`grep 'kmercov' {input.model} | tail -n  1 | awk '{{printf \"%.0f\", $2}}`;"
-         " echo -e \"Genome size\t${GENLEN}\nLambda\t${LAMBDA}\n\" > {output}"
+         " echo -e \"Genome size\t${{GENLEN}}\nLambda\t${{LAMBDA}}\n\" > {output}"
