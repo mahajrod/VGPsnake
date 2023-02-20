@@ -15,7 +15,7 @@ rule hifiasm:
     params:
         purge_level=parameters["tool_options"]["hifiasm"]["purge level"],
         ploidy=config["ploidy"],
-        output_prefix=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic" % config["genome_name"]),
+        output_prefix=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio" % config["genome_name"]),
         cov_multiplicator=parameters["tool_options"]["hifiasm"]["cov_multiplicator"]
     log:
         std=output_dict["log"] / "hifiasm.log",
