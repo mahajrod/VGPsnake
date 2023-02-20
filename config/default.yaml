@@ -72,9 +72,11 @@
             "multiqc": 1
             "cutadapt": 5
             "jellyfish": 30
+            "meryl": 30
             "genomescope": 1
             "parse_genomescope_output": 1
             "hifiasm": 30
+
             ref_faidx: 1
             ref_dict: 1
             bwa_index: 1
@@ -119,6 +121,7 @@
             "multiqc": "00:10:00"
             "cutadapt": "04:00:00"
             "jellyfish": "08:00:00"
+            "meryl": "08:00:00"
             "genomescope": "01:00:00"
             "parse_genomescope_output": "00:10:00"
             "hifiasm": "08:00:00"
@@ -174,6 +177,13 @@
                     "min_coverage": 1
                     "max_coverage": 100000000
                     "increment": 1
+            "meryl":
+                "pacbio":
+                    "kmer_length":
+                        - 23
+                "illumina":
+                    "kmer_length":
+                        - 23
             "hifiasm":
                 "purge level": 2 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
                 "cov_multiplicator": 4.5 # 4.5 *lambda
@@ -183,6 +193,7 @@
             "hifiasm": 30
         "memory_mb":
             "jellyfish": 2000
+            "meryl": 2000
             "hifiasm": 10000 # needs adjustment, very approximate value
         "time":
             "jellyfish": "01:00:00"
@@ -197,12 +208,20 @@
                     "kmer_length":
                         - 23
                     "hash_size": "200M"
+            "meryl":
+                "pacbio":
+                    "kmer_length":
+                        - 23
+                "illumina":
+                    "kmer_length":
+                        - 23
     "mini": # < 150 Mbp, fungi, Arabidopsis thaliana and Caenorabditis elegans
         "threads":
             "jellyfish": 30
             "hifiasm": 30
         "memory_mb":
             "jellyfish": 20000
+            "meryl": 20000
             "hifiasm": 20000
         "time":
             "jellyfish": "02:00:00"
@@ -217,12 +236,20 @@
                     "kmer_length":
                         - 23
                     "hash_size": "2G"
+            "meryl":
+                "pacbio":
+                    "kmer_length":
+                        - 23
+                "illumina":
+                    "kmer_length":
+                        - 23
     "small": # < 500 Mbp, drosophilla, tetraodon
         "threads":
             "jellyfish": 30
             "hifiasm": 30
         "memory_mb":
             "jellyfish": 60000
+            "meryl": 60000
             "hifiasm": 40000
         "time":
             "jellyfish": "04:00:00"
@@ -237,6 +264,13 @@
                     "kmer_length":
                         - 23
                     "hash_size": "7G"
+            "meryl":
+                "pacbio":
+                    "kmer_length":
+                        - 23
+                "illumina":
+                    "kmer_length":
+                        - 23
     "normal": # < 1500 Mbp, most of birds
         "threads":
             "jellyfish": 30
@@ -244,6 +278,7 @@
         "memory_mb":
             "jellyfish": 200000
             "hifiasm": 80000
+            "meryl": 80000
         "time":
             "jellyfish": "08:00:00"
             "hifiasm": "12:00:00"
@@ -257,6 +292,13 @@
                     "kmer_length":
                         - 23
                     "hash_size": "20G"
+            "meryl":
+                "pacbio":
+                    "kmer_length":
+                        - 23
+                "illumina":
+                    "kmer_length":
+                        - 23
     "big": # < 2500 Mbp, most of mammals
         "threads":
             "jellyfish": 30
@@ -264,6 +306,7 @@
         "memory_mb":
             "jellyfish": 300000
             "hifiasm": 150000
+            "meryl": 300000
         "time":
             "jellyfish": "12:00:00"
             "hifiasm": "16:00:00"
@@ -277,12 +320,20 @@
                     "kmer_length":
                         - 23
                     "hash_size": "32G"
+            "meryl":
+                "pacbio":
+                    "kmer_length":
+                        - 23
+                "illumina":
+                    "kmer_length":
+                        - 23
     "large": # < 5000 Mbp, human
         "threads":
             "jellyfish": 30
             "hifiasm": 30
         "memory_mb":
             "jellyfish": 600000
+            "meryl": 300000
             "hifiasm": 300000
         "time":
             "jellyfish": "24:00:00"
@@ -297,12 +348,20 @@
                     "kmer_length":
                         - 23
                     "hash_size": "64G"
+            "meryl":
+                "pacbio":
+                    "kmer_length":
+                        - 23
+                "illumina":
+                    "kmer_length":
+                        - 23
     "giant": # < 15000 Mbp, big plant genomes
         "threads":
             "jellyfish": 30
             "hifiasm": 30
         "memory_mb":
             "jellyfish": 1100000
+            "meryl": 300000
             "hifiasm": 1000000
         "time":
             "jellyfish": "48:00:00"
@@ -317,6 +376,13 @@
                     "kmer_length":
                         - 23
                     "hash_size": "128G"
+            "meryl":
+                "pacbio":
+                    "kmer_length":
+                        - 23
+                "illumina":
+                    "kmer_length":
+                        - 23
 
 "kmer_counter_list":
     - "jellyfish"
