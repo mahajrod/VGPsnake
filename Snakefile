@@ -312,7 +312,10 @@ results_dict["filtering"] = [*results_dict["qc"],
                               ]
 
 results_dict["contig"] = [*results_dict["filtering"],
-                          output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.r_utg.gfa" % config["genome_name"])
+                          output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.r_utg.gfa" % config["genome_name"]),
+                          expand(output_dict["contig"] / ("{assembler}/%s.contig.gfa2fasta.pacbio.hic.{haplotype}_utg.fasta" % config["genome_name"]),
+                                 haplotype=["p", "a"],
+                                 assembler=["hifiasm",],)
                           ]
 
 
@@ -337,3 +340,4 @@ include: "workflow/rules/Kmer/Jellyfish.smk"
 include: "workflow/rules/Kmer/Meryl.smk"
 include: "workflow/rules/Kmer/Genomescope.smk"
 include: "workflow/rules/Contigs/Hifiasm.smk"
+include: "workflow/rules/Contigs/Gfatools.smk"

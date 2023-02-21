@@ -76,6 +76,8 @@
             "genomescope": 1
             "parse_genomescope_output": 1
             "hifiasm": 30
+            "gfa2fasta": 1
+
 
             ref_faidx: 1
             ref_dict: 1
@@ -100,6 +102,7 @@
             "genomescope": 300
             "parse_genomescope_output": 100
             "hifiasm": 50000
+            "gfa2fasta": 10000
 
             ref_faidx: 1000
             ref_dict: 1000
@@ -125,6 +128,7 @@
             "genomescope": "01:00:00"
             "parse_genomescope_output": "00:10:00"
             "hifiasm": "08:00:00"
+            "gfa2fasta": "08:00:00"
 
             index: "10:00:00"
             bwa_map: "05:00:00"
@@ -136,8 +140,7 @@
 
             get_basecall_stats: "00:10:00"
             gather_per_library_read_stats: "00:10:00"
-            merge_sample_read_stats: "00:10:00"
-            infer_replicates: "00:10:00"
+
             rmdup_raw_reads: "04:00:00"
             merge_target_regions_raw_reads: "00:10:00"
             merge_all_annotation: "00:10:00"
@@ -386,7 +389,7 @@
 
 "kmer_counter_list":
     - "jellyfish"
-    #- "meryl" #TODO: implement for comparison
+    #- "meryl" #TODO: test
 
 "allowed_data_types":
     - "pacbio"
