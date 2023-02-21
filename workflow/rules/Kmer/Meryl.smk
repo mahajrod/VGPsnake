@@ -44,8 +44,8 @@ rule merge_meryl:
         histo=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.meryl.histo"
 
     log:
-        count=output_dict["log"] / "merge_meryl.{datatype}.{stage}.{kmer_length}.count.log",
-        histo=output_dict["log"] / "merge_meryl.{datatype}.{stage}.{kmer_length}.histo.log",
+        count_log=output_dict["log"] / "merge_meryl.{datatype}.{stage}.{kmer_length}.count.log",
+        histo_log=output_dict["log"] / "merge_meryl.{datatype}.{stage}.{kmer_length}.histo.log",
         cluster_log=output_dict["cluster_log"] / "merge_meryl.{datatype}.{stage}.{kmer_length}.cluster.log",
         cluster_err=output_dict["cluster_error"] / "merge_meryl.{datatype}.{stage}.{kmer_length}.cluster.err"
     benchmark:
@@ -60,7 +60,7 @@ rule merge_meryl:
         parameters["threads"]["meryl"]
     shell:
          " meryl cpu={threads} memory={resources.mem}m count "
-         " union-sum output {output.db_dir} {input} 1>{log.count} 2>&1;"
+         " union-sum output {output.db_dir} {input} 1>{log.count_log} 2>&1;"
          " meryl cpu={threads} memory={resources.mem}m "
-         " histogram output {output.histo} {output.db_dir} 1>{log.histo} 2>&1"
+         " histogram output {output.histo} {output.db_dir} 1>{log.histo_log} 2>&1"
 
