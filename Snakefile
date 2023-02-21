@@ -200,6 +200,7 @@ for d_type in set(config["paired_fastq_based_data"]) & fastq_based_data_type_set
    if (len(input_filedict[d_type]) % 2) != 0:
         raise ValueError("ERROR!!! {0} fastq files seems to be unpaired or misrecognized".format(d_type))
    for forward, reverse in zip(input_filedict[d_type][::2], input_filedict[d_type][1::2]):
+        print(forward, reverse)
         if p_distance(str(forward), str(reverse), len(str(forward))) > 1:
             raise ValueError("ERROR!!! Forward and reverse read files differs by more than one symbol:\n\t{0}\n\t{1}".format(str(forward),
                                                                                                                              str(reverse)))
