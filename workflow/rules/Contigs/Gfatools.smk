@@ -3,7 +3,6 @@ rule gfa2fasta:
         gfa=output_dict["contig"] / ("{assembler}/%s.contig.{assembler}.pacbio.hic.{haplotype}_ctg.gfa" % config["genome_name"])
     output:
         fasta=output_dict["contig"] / ("{assembler}/%s.contig.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"])
-
     log:
         std=output_dict["log"] / "gfa2fasta.{assembler}.{haplotype}.log",
         cluster_log=output_dict["cluster_log"] / "gfa2fasta.cluster.{assembler}.{haplotype}.log",
@@ -20,4 +19,3 @@ rule gfa2fasta:
         parameters["threads"]["gfa2fasta"]
     shell:
          " gfatools gfa2fa {input.gfa} > {output.fasta} 2>{log.std};"
-

@@ -10,7 +10,6 @@ rule hifiasm: # TODO: implement modes without hic data
                                   kmer_tool=[kmer_tool,],
                                   kmer_length=parameters["tool_options"][kmer_tool]["pacbio"]["kmer_length"],) for kmer_tool in config["kmer_counter_list"]]
     output:
-        dir=directory(output_dict["contig"] / "hifiasm/"),
         raw_unitig_graph=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.r_utg.gfa" % config["genome_name"]),
         primary_contig_graph=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.p_ctg.gfa" % config["genome_name"]),
         alternative_contig_graph=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.a_ctg.gfa" % config["genome_name"]),
@@ -38,4 +37,3 @@ rule hifiasm: # TODO: implement modes without hic data
          " hifiasm -t {threads} --primary -l {params.purge_level}  -o {params.output_prefix} "
          " --n-hap {params.ploidy} --purge-max ${{COV_UPPER_BOUNDARY}} "
          " --h1 {input.hic_forward} --h2 {input.hic_reverse} {input.pacbio}  1>{log.std} 2>&1;"
-
