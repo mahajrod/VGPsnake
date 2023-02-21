@@ -121,7 +121,7 @@ def find_cmap(bionano_dir, cmap_extension=".cmap"): # TODO: modify when input fo
 
 def find_fastqs(fastq_dir, fastq_extension=".fastq.gz"):
     fastq_dir_path = fastq_dir if isinstance(fastq_dir, PosixPath) else Path(fastq_dir)
-    return  list(fastq_dir_path.glob("*{0}".format(fastq_extension)))
+    return  sorted(list(fastq_dir_path.glob("*{0}".format(fastq_extension))))
 
 
 def copy_absent_entries(input_dictionary, output_dictionary):
