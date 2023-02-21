@@ -1,4 +1,4 @@
-rule hifiasm:
+rule hifiasm: # TODO: implement modes without hic data
     input:
         pacbio=expand(output_dict["data"] / ("fastq/pacbio/filtered/{fileprefix}%s" % config["fastq_extension"]),
                            fileprefix=input_file_prefix_dict["pacbio"],
@@ -11,7 +11,9 @@ rule hifiasm:
                                   kmer_length=parameters["tool_options"][kmer_tool]["pacbio"]["kmer_length"],) for kmer_tool in config["kmer_counter_list"]]
     output:
         dir=directory(output_dict["contig"] / "hifiasm/"),
-        raw_unitig_graph=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.r_utg.gfa" % config["genome_name"])
+        raw_unitig_graph=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.r_utg.gfa" % config["genome_name"]),
+        primary_contig_graph=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.p_utg.gfa" % config["genome_name"]),
+        alternative_contig_graph=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.a_utg.gfa" % config["genome_name"]),
     params:
         purge_level=parameters["tool_options"]["hifiasm"]["purge level"],
         ploidy=config["ploidy"],
