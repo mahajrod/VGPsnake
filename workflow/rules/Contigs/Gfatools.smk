@@ -1,8 +1,8 @@
 rule gfa2fasta:
     input:
-        gfa=output_dict["contig"] / ("{assembler}/%s.contig.gfa2fasta.pacbio.hic.{haplotype}_utg.gfa" % config["genome_name"])
+        gfa=output_dict["contig"] / ("{assembler}/%s.contig.gfa2fasta.pacbio.hic.{haplotype}_ctg.gfa" % config["genome_name"])
     output:
-        fasta=output_dict["contig"] / ("{assembler}/%s.contig.gfa2fasta.pacbio.hic.{haplotype}_utg.fasta" % config["genome_name"])
+        fasta=output_dict["contig"] / ("{assembler}/%s.contig.gfa2fasta.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"])
 
     log:
         std=output_dict["log"] / "gfa2fasta.{assembler}.{haplotype}.log",
