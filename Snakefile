@@ -290,7 +290,7 @@ results_dict["qc"] = [*results_dict["check_input"],
                                ) for dat_type in fastq_based_data_type_set],
                       expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
                              datatype=fastq_based_data_type_set,
-                             stage=["raw",])
+                             stage=["raw",]),
                       ]
 
 results_dict["filtering"] = [*results_dict["qc"],
@@ -316,6 +316,15 @@ results_dict["contig"] = [*results_dict["filtering"],
                           output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.r_utg.gfa" % config["genome_name"]),
                           expand(output_dict["contig"] / ("{assembler}/%s.contig.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"]),
                                  haplotype=["p", "a"],
+                                 assembler=["hifiasm",],),
+                          expand(output_dict["assembly_qc"] /("{assembly_stage}/busco5/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}"
+                                                   % config["genome_name"]),
+                                 assembly_stage=["contig"],
+                                 haplotype=["p", "a"],
+                                 assembler=["hifiasm",],),
+                          expand(output_dict["assembly_qc"] /("{assembly_stage}/quast/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}"
+                                                   % config["genome_name"]),
+                                 assembly_stage=["contig"],
                                  assembler=["hifiasm",],)
                           ]
 
@@ -342,3 +351,4 @@ include: "workflow/rules/Kmer/Meryl.smk"
 include: "workflow/rules/Kmer/Genomescope.smk"
 include: "workflow/rules/Contigs/Hifiasm.smk"
 include: "workflow/rules/Contigs/Gfatools.smk"
+include: "workflow/rules/QCAssembly/BUSCO5.smk"
