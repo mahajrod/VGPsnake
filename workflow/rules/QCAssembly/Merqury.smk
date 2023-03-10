@@ -31,8 +31,8 @@ rule merqury:
     threads:
         parameters["threads"]["merqury"]
     shell:
-         " mkdir -p {output.out_dir}; "
-         #" cd {output.out_dir}; "
+         #" mkdir -p {output.out_dir}; "
+         " cd {output.out_dir}; "
          #" OMP_NUM_THREADS={threads} merqury.sh {input.meryl_db_dir} "
          #" {input.primary_assembly} {input.alternative_assembly} {params.out_prefix}  1>{log.std} 2>&1 || true;"
          #" cd ${{CWD}}"
