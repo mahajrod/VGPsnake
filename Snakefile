@@ -336,7 +336,11 @@ results_dict["contig"] = [*results_dict["filtering"],
                           expand(output_dict["assembly_qc"] /("{assembly_stage}/quast/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic"
                                                    % config["genome_name"]),
                                  assembly_stage=["contig"],
-                                 assembler=["hifiasm",],)
+                                 assembler=["hifiasm",],),
+                          expand(output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic"
+                                                   % config["genome_name"]),
+                                 assembly_stage=["contig"],
+                                 assembler=["hifiasm",])
                           ]
 
 
