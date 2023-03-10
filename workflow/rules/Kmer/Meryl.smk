@@ -32,7 +32,7 @@ rule meryl:
 rule merge_meryl:
     input:
         lambda wildcards:
-            expand(output_dict["kmer"] / ("%s/%s/%s.%s.{fileprefix}.%i.meryl" % (wildcards.datatype,
+            expand(output_dict["kmer"] / ("%s/%s/%s.%s.{fileprefix}.%s.meryl" % (wildcards.datatype,
                                                                                  wildcards.stage,
                                                                                  wildcards.datatype,
                                                                                  wildcards.stage,
