@@ -6,9 +6,9 @@ rule meryl:
     params:
         kmer_length=lambda wildcards: parameters["tool_options"]["meryl"][wildcards.datatype]["kmer_length"],
         #hash_size=lambda wildcards: parameters["tool_options"]["meryl"][wildcards.datatype]["hash_size"],
-        min_coverage=lambda wildcards: parameters["tool_options"]["meryl"][wildcards.datatype]["min_coverage"],
-        max_coverage=lambda wildcards: parameters["tool_options"]["meryl"][wildcards.datatype]["max_coverage"],
-        increment=lambda wildcards: parameters["tool_options"]["meryl"][wildcards.datatype]["increment"]
+        #min_coverage=lambda wildcards: parameters["tool_options"]["meryl"][wildcards.datatype]["min_coverage"],
+        #max_coverage=lambda wildcards: parameters["tool_options"]["meryl"][wildcards.datatype]["max_coverage"],
+        #increment=lambda wildcards: parameters["tool_options"]["meryl"][wildcards.datatype]["increment"]
     log:
         std=output_dict["log"] / "meryl.{datatype}.{stage}.{fileprefix}.{kmer_length}.log",
         cluster_log=output_dict["cluster_log"] / "meryl.{datatype}.{stage}.{fileprefix}.{kmer_length}.cluster.log",
