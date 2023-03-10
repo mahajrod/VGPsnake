@@ -16,6 +16,8 @@ rule merqury:
                                                                         config["genome_name"],)
     log:
         std=output_dict["log"] / "merqury.{assembler}.{assembly_stage}.log",
+        mkdir_log=output_dict["log"] / "merqury.{assembler}.{assembly_stage}.mkdir.log",
+        cd_log=output_dict["log"] / "merqury.{assembler}.{assembly_stage}.cd.log",
         cluster_log=output_dict["cluster_log"] / "merqury.{assembler}.{assembly_stage}.cluster.log",
         cluster_err=output_dict["cluster_error"] / "merqury.{assembler}.{assembly_stage}.cluster.err"
     benchmark:
@@ -29,8 +31,8 @@ rule merqury:
     threads:
         parameters["threads"]["merqury"]
     shell:
-         " mkdir -p {output.out_dir}; "
-         " cd {output.out_dir};"
+         " mkdir -p {output.out_dir} 1>{log.mkdir_log} 2>&1; "
+         " cd {output.out_dir} 1>{log.cd_log} 2>&1; "
          " OMP_NUM_THREADS={threads} merqury.sh {input.meryl_db_dir} "
          " {input.primary_assembly} {input.alternative_assembly} {params.out_prefix}  1>{log.std} 2>&1;"
 
