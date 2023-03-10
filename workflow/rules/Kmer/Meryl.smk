@@ -2,7 +2,7 @@ rule meryl:
     input:
         output_dict["data"] / ("fastq/{datatype}}/{stage}/{fileprefix}%s" % config["fastq_extension"])
     output:
-        db_dir=directory(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{fileprefix}.{kmer_length}.meryl"),
+        db_dir=directory(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.meryl.{fileprefix}"),
         #histo=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.meryl.histo"
     params:
         kmer_length=lambda wildcards: parameters["tool_options"]["meryl"][wildcards.datatype]["kmer_length"],
@@ -32,7 +32,7 @@ rule meryl:
 rule merge_meryl:
     input:
         lambda wildcards:
-            expand(output_dict["kmer"] / ("%s/%s/%s.%s.{fileprefix}.%s.meryl" % (wildcards.datatype,
+            expand(output_dict["kmer"] / ("%s/%s/%s.%s.%s.meryl.{fileprefix}" % (wildcards.datatype,
                                                                                  wildcards.stage,
                                                                                  wildcards.datatype,
                                                                                  wildcards.stage,
