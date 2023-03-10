@@ -256,14 +256,14 @@ for dat_type in genome_size_estimation_data_type_set:
 #----
 
 #---- Check configuration ----
-if config["mode"] in ["contig",]:
-    if len(config["kmer_counter_list"]) > 1:
-        raise ValueError("ERROR!!! Multiple kmer counter tools are not allowed in mode {0}. "
-                         "Select one.".format(config["mode"]))
-    for kmer_tool in config["kmer_counter_list"]:
-        if len(parameters["tool_options"][kmer_tool]["pacbio"]["kmer_length"]) > 1:
-            raise ValueError("ERROR!!! Multiple kmer lengths are not allowed in mode {0}. "
-                             "Select one.".format(config["mode"]))
+#if config["mode"] in ["contig",]:
+#    if len(config["kmer_counter_list"]) > 1:
+#        raise ValueError("ERROR!!! Multiple kmer counter tools are not allowed in mode {0}. "
+#                         "Select one.".format(config["mode"]))
+#    for kmer_tool in config["kmer_counter_list"]:
+#        if len(parameters["tool_options"][kmer_tool]["pacbio"]["kmer_length"]) > 1:
+#            raise ValueError("ERROR!!! Multiple kmer lengths are not allowed in mode {0}. "
+#                             "Select one.".format(config["mode"]))
 
 #----
 
