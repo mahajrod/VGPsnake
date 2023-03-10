@@ -1,9 +1,8 @@
 rule meryl:
     input:
-        output_dict["data"] / ("fastq/{datatype}}/{stage}/{fileprefix}%s" % config["fastq_extension"])
+        output_dict["data"] / ("fastq/{datatype}/{stage}/{fileprefix}%s" % config["fastq_extension"])
     output:
-        db_dir=directory(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.meryl.{fileprefix}"),
-        #histo=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.meryl.histo"
+        db_dir=directory(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.meryl.{fileprefix}")
     params:
         kmer_length=lambda wildcards: parameters["tool_options"]["meryl"][wildcards.datatype]["kmer_length"],
         hash_size=lambda wildcards: parameters["tool_options"]["meryl"][wildcards.datatype]["hash_size"],
