@@ -5,7 +5,7 @@ rule meryl:
         db_dir=directory(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.meryl.{fileprefix}")
     params:
         kmer_length=lambda wildcards: parameters["tool_options"]["meryl"][wildcards.datatype]["kmer_length"],
-        hash_size=lambda wildcards: parameters["tool_options"]["meryl"][wildcards.datatype]["hash_size"],
+        #hash_size=lambda wildcards: parameters["tool_options"]["meryl"][wildcards.datatype]["hash_size"],
         min_coverage=lambda wildcards: parameters["tool_options"]["meryl"][wildcards.datatype]["min_coverage"],
         max_coverage=lambda wildcards: parameters["tool_options"]["meryl"][wildcards.datatype]["max_coverage"],
         increment=lambda wildcards: parameters["tool_options"]["meryl"][wildcards.datatype]["increment"]
