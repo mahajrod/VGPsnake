@@ -36,7 +36,7 @@ rule merge_meryl:
                                                                                  wildcards.stage,
                                                                                  wildcards.datatype,
                                                                                  wildcards.stage,
-                                                                                 parameters["tool_options"]["meryl"][wildcards.datatype]["kmer_length"],)),
+                                                                                 wildcards.kmer_length,)),
                    fileprefix=input_file_prefix_dict[wildcards.datatype],
                    allow_missing=True,)
     output:
