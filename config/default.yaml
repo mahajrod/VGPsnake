@@ -216,7 +216,7 @@
             "jellyfish":
                 "pacbio":
                     "kmer_length":
-                        - 1
+                        - 21
                     "hash_size": "200M"
                 "illumina":
                     "kmer_length":
