@@ -9,7 +9,7 @@ rule merqury:
     output:
         #summary=output_dict["assembly_qc"] /("{assembly_stage}/{assembler}/{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.gfa" % config["genome_name"]),
         dir=directory(output_dict["assembly_qc"] /"{assembly_stage}/merqury/{assembler}/"),
-        #qv_file=output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.qv" % config["genome_name"]),
+        qv_file=output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.qv" % config["genome_name"]),
         #completeness_stats_file=output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.completeness.stats" % config["genome_name"])
     params:
         out_prefix=lambda wildcards: "{2}.{0}.{1}.pacbio.hic".format(wildcards.assembly_stage,
