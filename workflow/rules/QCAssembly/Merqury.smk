@@ -9,7 +9,9 @@ rule merqury:
         dir=directory(output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic"
                                                    % config["genome_name"]))
     params:
-        out_prefix=
+        out_prefix=lambda wildcards: output_dict["assembly_qc"] /("{0}/merqury/{1}/{2}.{0}.{1}.pacbio.hic".format(wildcards.assembly_stage,
+                                                                                                                  wildcards.assembler,
+                                                                                                                  config["genome_name"],))
     log:
         std=output_dict["log"] / "merqury.{assembler}.{assembly_stage}.log",
         cluster_log=output_dict["cluster_log"] / "merqury.{assembler}.{assembly_stage}.cluster.log",
