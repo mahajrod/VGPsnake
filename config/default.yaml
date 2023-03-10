@@ -448,6 +448,9 @@
 "genome_name": "genome"
 "busco_lineage": "mammalia_odb10" #
 
+"final_kmer_counter": "meryl" # pipeline allows usage of different kmer counter tools, but only one genomesize assessment could be used
+"final_kmer_length": 21 # pipeline allows usage of different kmer length, but only one genomesize assessment could be used
+
 #Often used BUSCO lineages: mammalia_odb10, vertebrata_odb10, laurasiatheria_odb10, carnivora_odb10,
 #                           actinopterygii_odb10, saccharomycetes_odb10, sauropsida_odb10, aves_odb10
 
