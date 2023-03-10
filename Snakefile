@@ -333,9 +333,10 @@ results_dict["contig"] = [*results_dict["filtering"],
                                  assembly_stage=["contig"],
                                  haplotype=["hap1.p", "hap2.p"],#["p", "a"],,
                                  assembler=["hifiasm",],),
-                          expand(output_dict["assembly_qc"] /("{assembly_stage}/quast/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic"
+                          expand(output_dict["assembly_qc"] /("{assembly_stage}/quast/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}"
                                                    % config["genome_name"]),
                                  assembly_stage=["contig"],
+                                 haplotype=["hap1.p", "hap2.p"],
                                  assembler=["hifiasm",],),
                           expand(output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic"
                                                    % config["genome_name"]),
