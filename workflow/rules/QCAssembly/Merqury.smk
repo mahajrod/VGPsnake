@@ -12,7 +12,6 @@ rule merqury:
         #qv_file=output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.qv" % config["genome_name"]),
         #completeness_stats_file=output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.completeness.stats" % config["genome_name"])
     params:
-
         out_prefix=lambda wildcards: "{2}.{0}.{1}.pacbio.hic".format(wildcards.assembly_stage,
                                                                         wildcards.assembler,
                                                                         config["genome_name"],)
