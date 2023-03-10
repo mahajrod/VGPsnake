@@ -242,6 +242,17 @@ for key in list(config["parameters"].keys()): # remove unused sets of parameters
 
 parameters = config["parameters"][config["parameter_set"]] # short alias for used set of parameters
 
+#check if final_kmer_tool is present in "kmer_counter_list"
+if config["final_kmer_tool"] not in config["kmer_counter_list"]:
+    config["kmer_counter_list"].append(config["final_kmer_tool"])
+    logging.info("Warning! Final_kmer_tool is not in kmer_counter_list! Added...")
+
+#check if final_kmer_length is present in parameters of final_kmer_tool
+for dat_type in genome_size_estimation_data_type_set:
+    if config["final_kmer_length"] not in parameters["tool_options"][config["final_kmer_tool"]][dat_type]["kmer_length"]:
+        parameters["tool_options"][config["final_kmer_tool"]][dat_type]["kmer_length"].append(config["final_kmer_length"])
+        logging.info("Warning! Final_kmer_length is not in parameters of final_kmer_tool! Added...")
+
 #----
 
 #---- Check configuration ----
