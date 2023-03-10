@@ -61,5 +61,5 @@ rule merge_meryl:
          " meryl threads={threads} memory={resources.mem}m"
          " union-sum output {output.db_dir} {input} 1>{log.count_log} 2>&1;"
          " meryl threads={threads} memory={resources.mem}m "
-         " histogram output {output.histo} {output.db_dir} 1>{log.histo_log} 2>&1"
+         " histogram {output.db_dir} > {output.histo} 2>{log.histo_log}"
 
