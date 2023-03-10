@@ -6,9 +6,10 @@ rule hifiasm: # TODO: implement modes without hic data
                            ),
         hic_forward=input_filedict["hic"][::2],
         hic_reverse=input_filedict["hic"][1::2],
-        genomescope_report=[expand(output_dict["kmer"] / "pacbio/filtered/genomescope/pacbio.filtered.{kmer_length}.{kmer_tool}.genomescope.parameters",
-                                  kmer_tool=[kmer_tool,],
-                                  kmer_length=parameters["tool_options"][kmer_tool]["pacbio"]["kmer_length"],) for kmer_tool in config["kmer_counter_list"]]
+        genomescope_report=output_dict["kmer"] / "{0}/filtered/genomescope/{0}.filtered.{1}.{2}.genomescope.parameters".format(config["final_kmer_datatype"],
+                                                                                                                               config["final_kmer_length"],
+                                                                                                                               config["final_kmer_counter"]),
+
     output:
         raw_unitig_graph=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.r_utg.gfa" % config["genome_name"]),
         primary_contig_graph=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.p_ctg.gfa" % config["genome_name"]),
