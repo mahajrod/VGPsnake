@@ -30,7 +30,7 @@ rule merqury:
     threads:
         parameters["threads"]["merqury"]
     shell:
-         " mkdir -p {params.out_dir}; "
+         #" mkdir -p {params.out_dir}; "
          " cd {params.out_dir};"
          " OMP_NUM_THREADS={threads} merqury.sh {input.meryl_db_dir} "
          " {input.primary_assembly} {input.alternative_assembly} {params.out_prefix}  1>{log.std} 2>&1;"
