@@ -9,7 +9,7 @@ rule genomescope:
     params:
         ploidy=config["ploidy"],
         genome_name=config["genome_name"],
-        max_coverage=lambda wildcards: parameters["tool_options"][wildcards.kmer_tool][wildcards.datatype]["max_coverage"],
+        #max_coverage=lambda wildcards: parameters["tool_options"][wildcards.kmer_tool][wildcards.datatype]["max_coverage"],
         out_dir=lambda wildcards: output_dict["kmer"] / "{0}/{1}/genomescope/{0}.{1}.{2}.{3}".format(wildcards.datatype,
                                                                                                      wildcards.stage,
                                                                                                      wildcards.kmer_length,
@@ -30,7 +30,7 @@ rule genomescope:
         parameters["threads"]["genomescope"]
     shell:
          " genomescope.R  -i {input.histo} -p {params.ploidy} -k {wildcards.kmer_length}  "
-         " -n {params.genome_name}  -m {params.max_coverage}  --fitted_hist  --testing  -o {params.out_dir} > log.std 2>&1"
+         " -n {params.genome_name} --fitted_hist  --testing  -o {params.out_dir} > log.std 2>&1" # -m {params.max_coverage}
 
 
 rule parse_genomescope_output:
