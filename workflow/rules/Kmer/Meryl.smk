@@ -24,7 +24,7 @@ rule meryl:
     threads:
         parameters["threads"]["meryl"]
     shell:
-         " meryl k={params.kmer_length} cpu={threads} memory={resources.mem}m count "
+         " meryl k={params.kmer_length} threads={threads} memory={resources.mem}m count "
          " output {output.db_dir} {input} 1>{log.std} 2>&1;"
 
 
@@ -58,8 +58,8 @@ rule merge_meryl:
     threads:
         parameters["threads"]["meryl"]
     shell:
-         " meryl cpu={threads} memory={resources.mem}m count "
+         " meryl threads={threads} memory={resources.mem}m count "
          " union-sum output {output.db_dir} {input} 1>{log.count_log} 2>&1;"
-         " meryl cpu={threads} memory={resources.mem}m "
+         " meryl threads={threads} memory={resources.mem}m "
          " histogram output {output.histo} {output.db_dir} 1>{log.histo_log} 2>&1"
 
