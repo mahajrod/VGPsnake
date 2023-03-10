@@ -7,8 +7,6 @@ rule merqury:
         primary_assembly=(out_dir_path / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.hap1.p_ctg.fasta" % config["genome_name"])).resolve(),
         alternative_assembly=(out_dir_path / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.hap2.p_ctg.fasta" % config["genome_name"])).resolve()
     output:
-        #summary=output_dict["assembly_qc"] /("{assembly_stage}/{assembler}/{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.gfa" % config["genome_name"]),
-
         qv_file=output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.qv" % config["genome_name"]),
         completeness_stats_file=output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.completeness.stats" % config["genome_name"])
     params:
