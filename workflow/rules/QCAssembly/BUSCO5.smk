@@ -3,7 +3,7 @@ rule busco5:
         assembly=out_dir_path / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"])
     output:
         #summary=output_dict["assembly_qc"] /("{assembly_stage}/{assembler}/{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.gfa" % config["genome_name"]),
-        dir=directory(output_dict["assembly_qc"] /"{assembly_stage}/busco5/{assembler}/{haplotype}"),
+        #dir=directory(output_dict["assembly_qc"] /"{assembly_stage}/busco5/{assembler}/{haplotype}"),
         summary=output_dict["assembly_qc"] /("{assembly_stage}/busco5/{assembler}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}/short_summary.specific.%s.%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}.txt"
                                                    % (config["genome_name"],
                                                       config["busco_lineage"],
