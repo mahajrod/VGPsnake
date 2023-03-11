@@ -3,8 +3,9 @@ rule busco5:
         assembly=out_dir_path / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"])
     output:
         #summary=output_dict["assembly_qc"] /("{assembly_stage}/{assembler}/{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.gfa" % config["genome_name"]),
-        dir=directory(output_dict["assembly_qc"] /("{assembly_stage}/busco5/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}"
-                                                   % config["genome_name"]))
+        dir=directory(output_dict["assembly_qc"] /"{assembly_stage}/busco5/{assembler}/{haplotype}"),
+        summary=output_dict["assembly_qc"] /("{assembly_stage}/busco5/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}"
+                                                   % config["genome_name"])
     params:
         lineage=config["busco_lineage"],
         out_prefix= lambda wildcards: "{0}.{1}.{2}.pacbio.hic.{3}".format(config["genome_name"],
@@ -28,3 +29,8 @@ rule busco5:
     shell:
          " busco -m genome -l {params.lineage} -c {threads} -i {input.assembly} "
          " -o {params.out_prefix} --out_path {output.dir}  1>{log.std} 2>&1;"
+
+
+#results/assembly_qc/contig/busco5/hifiasm/genome.contig.hifiasm.pacbio.hic.hap1.p/\
+
+#genome.contig.hifiasm.pacbio.hic.hap1.p/short_summary.specific.saccharomycetes_odb10.genome.contig.hifiasm.pacbio.hic.hap1.p.txt
