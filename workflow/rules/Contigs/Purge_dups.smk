@@ -156,7 +156,7 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
         " REFERENCE=`realpath {input.reference}`;"
         " cd {params.out_dir};"
         " get_seqs -p {params.get_seq_prefix} ${{PURGE_DUPS_BED}} ${{REFERENCE}};"
-        " for FILE in *.fa; do mv ${{FILE}} ${{FILE%fa}}.fasta; done"
+        " for FILE in *.fa; do mv ${{FILE}} ${{FILE%fa}}fasta; done"
 
 """
 rule merge_pri_hapdups_with_alt: # TODO: find what options are used in ERGA for get_seqs
