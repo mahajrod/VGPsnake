@@ -37,7 +37,7 @@ rule merqury:
     shell:
          " MERYL_DB=`realpath {input.meryl_db_dir}`;"
          " PRIMARY_ASSEMBLY=`realpath {input.primary_assembly}`;"
-         " ALTERNATIVE_ASSEMBLY=`realpath {input.alternative_assembly};`"
+         " ALTERNATIVE_ASSEMBLY=`realpath {input.alternative_assembly}`;"
          " cd {params.dir}; "
          " OMP_NUM_THREADS={threads} merqury.sh ${{MERYL_DB}} "
          " ${{PRIMARY_ASSEMBLY}} ${{ALTERNATIVE_ASSEMBLY}} {params.out_prefix}  1>{log.std} 2>&1 || true;"
