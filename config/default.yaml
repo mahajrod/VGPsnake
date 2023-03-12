@@ -144,6 +144,7 @@
             "minimap2_index": "12:00:00"
             "minimap2": "12:00:00"
             "get_purge_dups_read_stat": "12:00:00" # TODO: adjust
+            "purge_dups": "24:00:00" # TODO adjust depending on genome size
             index: "10:00:00"
             bwa_map: "05:00:00"
             bowtie2_rna_map: "05:00:00"
