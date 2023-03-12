@@ -14,6 +14,8 @@ rule hifiasm: # TODO: implement modes without hic data
         raw_unitig_graph=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.r_utg.gfa" % config["genome_name"]),
         primary_contig_graph=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.hap1.p_ctg.gfa" % config["genome_name"]),
         alternative_contig_graph=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.hap2.p_ctg.gfa" % config["genome_name"]),
+        primary_alias=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.hap1_ctg.gfa" % config["genome_name"]),
+        alternative_alias=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.hap2_ctg.gfa" % config["genome_name"]),
         #primary_contig_graph=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.p_ctg.gfa" % config["genome_name"]),
         #alternative_contig_graph=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.a_ctg.gfa" % config["genome_name"]),
     params:
