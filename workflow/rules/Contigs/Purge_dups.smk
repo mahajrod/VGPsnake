@@ -85,7 +85,7 @@ rule get_purge_dups_read_stat: #TODO: adjust -d -m -u options for calcuts
     shell:
         " COV_UPPER_BOUNDARY=`awk 'NR==2 {{printf \"%.0f\", {params.cov_multiplicator} * $2}}' {input.genomescope_report}`;"
         " pbcstat -O {params.out_dir} {input.paf} 1>{log.pbstat} 2>&1; "
-        " calcuts {output.pbstat} > {output.cutoffs} 2>{log.calcuts} " #-u ${{COV_UPPER_BOUNDARY}}
+        " calcuts -d 1 -u ${{COV_UPPER_BOUNDARY}} {output.pbstat} > {output.cutoffs} 2>{log.calcuts} " #
 
 rule minimap2_purge_dups_assembly:
     input:
@@ -142,4 +142,4 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
 
     shell:
         " purge_dups -2 -T {input.cutoffs} -c {input.pbbasecov} {input.self_paf} > {output.bed} 2>{log.purge_dups};"
-        #" get_seqs {output.bed} {input.reference} > {log.get_seqs} 2>&1;"
+        " get_seqs {output.bed} {input.reference} > {log.get_seqs} 2>&1;"
