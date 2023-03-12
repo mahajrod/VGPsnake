@@ -29,13 +29,13 @@ rule create_contig_links:
     input:
         fasta=out_dir_path / ("contig/{assembler}/%s.contig.{assembler}.{haplotype}.fasta" % config["genome_name"]),
     output:
-        fasta=out_dir_path / ("purge_dups/{assembler}/input/%s.contig.{assembler}.{haplotype}.fasta" % config["genome_name"])
+        fasta=out_dir_path / ("{assembly_stage}/{assembler}/input/%s.contig.{assembler}.{haplotype}.fasta" % config["genome_name"])
     log:
-        std=output_dict["log"]  / "create_contig_links.{assembler}.{haplotype}.log",
-        cluster_log=output_dict["cluster_log"] / "create_contig_links.{assembler}.{haplotype}.cluster.log",
-        cluster_err=output_dict["cluster_error"] / "create_contig_links.{assembler}.{haplotype}.cluster.err"
+        std=output_dict["log"]  / "create_contig_links.{assembly_stage}.{assembler}.{haplotype}.log",
+        cluster_log=output_dict["cluster_log"] / "create_contig_links.{assembly_stage}.{assembler}.{haplotype}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "create_contig_links.{assembly_stage}.{assembler}.{haplotype}.cluster.err"
     benchmark:
-        output_dict["benchmark"]  / "create_contig_links.{assembler}.{haplotype}.benchmark.txt"
+        output_dict["benchmark"]  / "create_contig_links.{assembly_stage}.{assembler}.{haplotype}.benchmark.txt"
     conda:
         "../../../%s" % config["conda_config"]
     resources:
