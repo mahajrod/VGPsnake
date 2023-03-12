@@ -285,6 +285,8 @@ ruleorder: create_fastq_links > fastqc
 results_dict = {}
 
 assembler_list = ["hifiasm", ] # TODO: implement possibility of other assemblers
+primary_haplotype = "hap1.p"
+alternative_haplotype = "hap2.p"
 results_dict["check_input"] = [
                                final_config_yaml,
                                final_input_yaml
@@ -329,16 +331,16 @@ results_dict["contig"] = [*results_dict["filtering"],
                           #       assembler=assembler_list,),
                           output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.r_utg.gfa" % config["genome_name"]),
                           expand(output_dict["contig"] / ("{assembler}/%s.contig.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"]),
-                                 haplotype=["hap1.p", "hap2.p"],#["p", "a"],
+                                 haplotype=[primary_haplotype, alternative_haplotype],#["p", "a"],
                                  assembler=assembler_list,),
                           expand(output_dict["assembly_qc"] /"{assembly_stage}/busco5/{assembler}/{haplotype}/",
                                  assembly_stage=["contig"],
-                                 haplotype=["hap1.p", "hap2.p"],#["p", "a"],,
+                                 haplotype=[primary_haplotype, alternative_haplotype],#["p", "a"],,
                                  assembler=assembler_list ,),
                           expand(output_dict["assembly_qc"] /("{assembly_stage}/quast/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}"
                                                    % config["genome_name"]),
                                  assembly_stage=["contig"],
-                                 haplotype=["hap1.p", "hap2.p"],
+                                 haplotype=[primary_haplotype, alternative_haplotype],
                                  assembler=assembler_list ,),
                           expand(output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.qv" % config["genome_name"]),
                                  assembly_stage=["contig"],
@@ -346,12 +348,16 @@ results_dict["contig"] = [*results_dict["filtering"],
                           expand(output_dict["purge_dups"] / "{assembler}/{assembly_stage}/{haplotype}/dups.bed",
                                  assembler=assembler_list,
                                  assembly_stage=["contig",],
-                                 haplotype=["hap1.p"]),
+                                 haplotype=[primary_haplotype, ]),
                           expand(output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{alt_haplotype}.dups.{pri_haplotype}_ctg.fasta" % config["genome_name"]),
                                  assembler=assembler_list,
                                  assembly_stage=["contig",],
-                                 alt_haplotype=["hap2.p",],
-                                 pri_haplotype=["hap1.p",],)
+                                 alt_haplotype=[alternative_haplotype,],
+                                 pri_haplotype=[primary_haplotype,],),
+                          expand(output_dict["purge_dups"] / "{assembler}/{assembly_stage}/{haplotype}/dups.bed",
+                                 assembler=assembler_list,
+                                 assembly_stage=["contig",],
+                                 haplotype=["{0}.dups.{1}".format(alternative_haplotype, primary_haplotype)]),
                           ]
 
 
