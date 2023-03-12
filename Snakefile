@@ -325,8 +325,9 @@ results_dict["filtering"] = [*results_dict["qc"],
                               ]
 
 results_dict["contig"] = [*results_dict["filtering"],
-                          expand(output_dict["contig"] / ("{assembler}/%s.contig.{assembler}.pacbio.hic.r_utg.gfa" % config["genome_name"]),
-                                 assembler=assembler_list,),
+                          #expand(output_dict["contig"] / ("{assembler}/%s.contig.{assembler}.pacbio.hic.r_utg.gfa" % config["genome_name"]),
+                          #       assembler=assembler_list,),
+                          output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.r_utg.gfa" % config["genome_name"]),
                           expand(output_dict["contig"] / ("{assembler}/%s.contig.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"]),
                                  haplotype=["hap1.p", "hap2.p"],#["p", "a"],
                                  assembler=assembler_list,),
