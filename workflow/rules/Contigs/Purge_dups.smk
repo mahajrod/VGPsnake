@@ -142,4 +142,4 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
 
     shell:
         " purge_dups -2 -T {input.cutoffs} -c {input.pbbasecov} {input.self_paf} > {output.bed} 2>{log.purge_dups};"
-        " get_seqs {output.bed} {input.reference} >{log.get_seqs} 2>&1;"
+        #" get_seqs {output.bed} {input.reference} > {log.get_seqs} 2>&1;"
