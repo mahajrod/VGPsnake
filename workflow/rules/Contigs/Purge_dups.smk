@@ -1,7 +1,7 @@
 """
 rule minimap2_index:
     input:
-        reference=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.gfa" % config["genome_name"])
+        reference=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"])
     priority: 1000
     output:
         index=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.minimap2.idx" % config["genome_name"])
@@ -27,8 +27,7 @@ rule minimap2_index:
 rule minimap2_purge_dups_reads: # TODO: add nanopore support
     input:
         fastq=output_dict["data"] / ("fastq/pacbio/filtered/{fileprefix}%s" % config["fastq_extension"]),
-        reference=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.gfa" % config["genome_name"])
-
+        reference=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"])
     output:
         paf=output_dict["purge_dups"] / ("{assembler}/{assembly_stage}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.minimap2.{fileprefix}.paf.gz" % config["genome_name"])
     params:
@@ -90,9 +89,9 @@ rule get_purge_dups_read_stat: #TODO: adjust -d -m -u options for calcuts
 
 rule minimap2_purge_dups_assembly:
     input:
-        reference=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.gfa" % config["genome_name"])
+        reference=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"])
     output:
-        split_reference=output_dict["purge_dups"] / ("{assembler}/{assembly_stage}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.split.gfa" % config["genome_name"]),
+        split_reference=output_dict["purge_dups"] / ("{assembler}/{assembly_stage}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.split.fasta" % config["genome_name"]),
         paf=output_dict["purge_dups"] / ("{assembler}/{assembly_stage}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.minimap2.self_split.paf.gz" % config["genome_name"])
         #paf=output_dict["purge_dups"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.minimap2.{fileprefix}.paf.gz" % config["genome_name"])
     params:
@@ -123,7 +122,7 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
         cutoffs=rules.get_purge_dups_read_stat.output.cutoffs,
         pbbasecov=rules.get_purge_dups_read_stat.output.pbbasecov,
         self_paf=rules.minimap2_purge_dups_assembly.output.paf,
-        reference=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.gfa" % config["genome_name"])
+        reference=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"])
     output:
         bed=output_dict["purge_dups"] / "{assembler}/{assembly_stage}/{haplotype}/dups.bed"
     log:
