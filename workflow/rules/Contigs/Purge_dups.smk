@@ -129,7 +129,9 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
         #haplotype_dupliccates=output_dict["purge_dups"] / ("{assembler}/{assembly_stage}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.hap.dup.fasta" % config["genome_name"]),
 
     params:
-        out_dir=output_dict["purge_dups"] / "{assembler}/{assembly_stage}/{haplotype}"
+        out_dir=lambda wildcards: ["purge_dups"] / "{0}/{1}/{2}".format(wildcards.assembler,
+                                                                        wildcards.assembly_stage,
+                                                                        wildcards.haplotype)
     """
         get_seq_prefix=lambda wildcards: output_dict["contig"] / "{0}/{1}.{2}.{0}.pacbio.hic.{3}_ctg".format(wildcards.assembler,
                                                                                                                     config["genome_name"],
