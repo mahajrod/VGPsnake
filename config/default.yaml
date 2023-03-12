@@ -145,6 +145,7 @@
             "minimap2": "12:00:00"
             "get_purge_dups_read_stat": "12:00:00" # TODO: adjust
             "purge_dups": "24:00:00" # TODO adjust depending on genome size
+
             index: "10:00:00"
             bwa_map: "05:00:00"
             bowtie2_rna_map: "05:00:00"
@@ -209,7 +210,7 @@
                 "large_genome": True
             "minimap2":
                 "index_size": "4G"
-                "self_alignment_scheme": " -x asm5 -DP " #TODO: check if it OK, and what scheme is used in the ERGA pipeline
+                "self_alignment_scheme": " -xasm5 -DP " #TODO: check if it OK, and what scheme is used in the ERGA pipeline
                 "hifi_alignment_scheme": " -x map-hifi "
     "micro": # < 15 Mbp, yeasts and bacteria
         "threads":
