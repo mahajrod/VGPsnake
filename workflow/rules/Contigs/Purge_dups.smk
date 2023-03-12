@@ -124,7 +124,9 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
         self_paf=rules.minimap2_purge_dups_assembly.output.paf,
         reference=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"])
     output:
-        bed=output_dict["purge_dups"] / "{assembler}/{assembly_stage}/{haplotype}/dups.bed"
+        bed=output_dict["purge_dups"] / "{assembler}/{assembly_stage}/{haplotype}/dups.bed",
+        purged=output_dict["purge_dups"] / "{assembler}/{assembly_stage}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.purged.fasta",
+        haplotype_dupliccates=output_dict["purge_dups"] / "{assembler}/{assembly_stage}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.hap.dup.fasta",
     log:
         purge_dups=output_dict["log"]  / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.purge_dups.log",
         get_seqs=output_dict["log"]  / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.get_seqs.log",
@@ -142,4 +144,4 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
 
     shell:
         " purge_dups -2 -T {input.cutoffs} -c {input.pbbasecov} {input.self_paf} > {output.bed} 2>{log.purge_dups};"
-        " get_seqs {output.bed} {input.reference} > {log.get_seqs} 2>&1;"
+        " get_seqs {output.bed} {input.reference} > {output.purged} 2>{output.haplotype_dupliccates};"
