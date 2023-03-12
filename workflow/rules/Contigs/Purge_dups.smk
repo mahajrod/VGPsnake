@@ -125,9 +125,8 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
         reference=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"])
     output:
         bed=output_dict["purge_dups"] / "{assembler}/{assembly_stage}/{haplotype}/dups.bed",
-        #purged=output_dict["purge_dups"] / ("{assembler}/{assembly_stage}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.purged.fasta" % config["genome_name"]),
-        #haplotype_dupliccates=output_dict["purge_dups"] / ("{assembler}/{assembly_stage}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.hap.dup.fasta" % config["genome_name"]),
-
+        purged=output_dict["purge_dups"] / ("{assembler}/{assembly_stage}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.purged.fasta" % config["genome_name"]),
+        hapdups=output_dict["purge_dups"] / ("{assembler}/{assembly_stage}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.hap.fasta" % config["genome_name"]),
     params:
         out_dir=lambda wildcards: output_dict["purge_dups"] / "{0}/{1}/{2}".format(wildcards.assembler,
                                                                                    wildcards.assembly_stage,
@@ -157,3 +156,41 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
         " REFERENCE=`realpath {input.reference}`;"
         " cd {params.out_dir};"
         " get_seqs -p {params.get_seq_prefix} ${{PURGE_DUPS_BED}} ${{REFERENCE}};"
+        " for FILE in *.fa; do mv ${{FILE}} ${{FILE%fa}}.fasta; done"
+
+"""
+rule merge_pri_hapdups_with_alt: # TODO: find what options are used in ERGA for get_seqs
+    input:
+        reference=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{alt_haplotype}_ctg.fasta" % config["genome_name"])
+    output:
+        alt_plus_pri_hapdup=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{alt_haplotype}_ctg.fasta" % config["genome_name"]),
+    params:
+        out_dir=lambda wildcards: output_dict["purge_dups"] / "{0}/{1}/{2}".format(wildcards.assembler,
+                                                                                   wildcards.assembly_stage,
+                                                                                   wildcards.haplotype),
+        get_seq_prefix=lambda wildcards: "{1}.{2}.{0}.pacbio.hic.{3}_ctg".format(wildcards.assembler,
+                                                                                 config["genome_name"],
+                                                                                 wildcards.assembly_stage,
+                                                                                 wildcards.haplotype)
+    log:
+        purge_dups=output_dict["log"]  / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.purge_dups.log",
+        get_seqs=output_dict["log"]  / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.get_seqs.log",
+        cluster_log=output_dict["cluster_log"] / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.cluster.err"
+    benchmark:
+        output_dict["benchmark"]  / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
+    conda:
+        "../../../%s" % config["conda_config"]
+    resources:
+        cpus=parameters["threads"]["purge_dups"] ,
+        time=parameters["time"]["purge_dups"],
+        mem=parameters["memory_mb"]["purge_dups"]
+    threads: parameters["threads"]["purge_dups"]
+
+    shell:
+        " purge_dups -2 -T {input.cutoffs} -c {input.pbbasecov} {input.self_paf} > {output.bed} 2>{log.purge_dups};"
+        " PURGE_DUPS_BED=`realpath {output.bed}`;"
+        " REFERENCE=`realpath {input.reference}`;"
+        " cd {params.out_dir};"
+        " get_seqs -p {params.get_seq_prefix} ${{PURGE_DUPS_BED}} ${{REFERENCE}};"
+"""
