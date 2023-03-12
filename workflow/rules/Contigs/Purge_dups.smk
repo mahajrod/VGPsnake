@@ -154,6 +154,6 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
     shell:
         " PURGE_DUPS_BED=`realpath {output.bed}`;"
         " REFERENCE=`realpath {input.reference}`;"
-        " cd {params.out_dir};"
         " purge_dups -2 -T {input.cutoffs} -c {input.pbbasecov} {input.self_paf} > {output.bed} 2>{log.purge_dups};"
+        " cd {params.out_dir};"
         " get_seqs ${{PURGE_DUPS_BED}} ${{REFERENCE}};"
