@@ -126,7 +126,8 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
     output:
         bed=output_dict["purge_dups"] / "{assembler}/{assembly_stage}/{haplotype}/dups.bed"
     log:
-        std=output_dict["log"]  / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.log",
+        purge_dups=output_dict["log"]  / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.purge_dups.log",
+        get_seqs=output_dict["log"]  / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.get_seqs.log",
         cluster_log=output_dict["cluster_log"] / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.cluster.log",
         cluster_err=output_dict["cluster_error"] / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.cluster.err"
     benchmark:
@@ -140,5 +141,5 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
     threads: parameters["threads"]["purge_dups"]
 
     shell:
-        " purge_dups -2 -T {input.cutoffs} -c {input.pbbasecov} {input.self_paf} > {output.bed} 2>{log.std};"
-        " get_seqs {output.bed} {input.reference} "
+        " purge_dups -2 -T {input.cutoffs} -c {input.pbbasecov} {input.self_paf} > {output.bed} 2>{log.purge_dups};"
+        " get_seqs {output.bed} {input.reference} >{log.get_seqs} 2>&1;"
