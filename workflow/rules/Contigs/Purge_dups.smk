@@ -187,7 +187,7 @@ rule merge_pri_hapdups_with_alt: #
         reference=out_dir_path  / ("{assembly_stage}/{assembler}/%s.contig.{assembler}.pacbio.hic.{alt_haplotype}_ctg.fasta" % config["genome_name"]),
         pri_hapdups=out_dir_path / ("{assembly_stage}/{assembler}/{pri_haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{pri_haplotype}_ctg.hap.fasta" % config["genome_name"])
     output:
-        alt_plus_pri_hapdup=out_dir_path  / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{alt_haplotype}.dups.{pri_haplotype}_ctg.fasta" % config["genome_name"]),
+        alt_plus_pri_hapdup=out_dir_path  / ("{assembly_stage}/{assembler}/%s.contig.{assembler}.pacbio.hic.{alt_haplotype}.dups.{pri_haplotype}_ctg.fasta" % config["genome_name"]),
     log:
         std=output_dict["log"]  / "merge_pri_hapdups_with_alt.{assembler}.{assembly_stage}.{pri_haplotype}.{alt_haplotype}.log",
         cluster_log=output_dict["cluster_log"] / "merge_pri_hapdups_with_alt.{assembler}.{assembly_stage}.{pri_haplotype}.{alt_haplotype}.cluster.log",
