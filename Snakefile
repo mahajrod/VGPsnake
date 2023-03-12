@@ -350,7 +350,6 @@ results_dict["contig"] = [*results_dict["filtering"],
                           ]
 
 results_dict["purge_dups"] = [*results_dict["contig"],
-
                               #expand(out_dir_path / ("{assembly_stage}/{assembler}/input/%s.contig.{assembler}.{haplotype}.fasta" % config["genome_name"]),
                               #       assembly_stage=["purge_dups"],
                               #       assembler=assembler_list,
@@ -409,4 +408,4 @@ include: "workflow/rules/Contigs/Gfatools.smk"
 include: "workflow/rules/QCAssembly/BUSCO5.smk"
 include: "workflow/rules/QCAssembly/Merqury.smk"
 include: "workflow/rules/QCAssembly/QUAST.smk"
-include: "workflow/rules/Contigs/Purge_dups.smk"
+#include: "workflow/rules/Contigs/Purge_dups.smk"
