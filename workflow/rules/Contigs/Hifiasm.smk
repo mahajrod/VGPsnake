@@ -42,3 +42,5 @@ rule hifiasm: # TODO: implement modes without hic data
          " hifiasm --primary -t {threads} -l {params.purge_level}  -o {params.output_prefix} "
          " --n-hap {params.ploidy} --purge-max ${{COV_UPPER_BOUNDARY}} "
          " --h1 {input.hic_forward} --h2 {input.hic_reverse} {input.pacbio}  1>{log.std} 2>&1;"
+         " ln {output.primary_contig_graph} {output.primary_alias};"
+         " ln {output.alternative_contig_graph} {output.alternative_alias}"
