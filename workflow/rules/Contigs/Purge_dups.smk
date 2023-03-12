@@ -92,7 +92,7 @@ rule minimap2_purge_dups_assembly:
         reference=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"])
     output:
         split_reference=output_dict["purge_dups"] / ("{assembler}/{assembly_stage}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.split.fasta" % config["genome_name"]),
-        paf=output_dict["purge_dups"] / ("{assembler}/{assembly_stage}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.minimap2.self_split.paf.gz" % config["genome_name"])
+        paf=output_dict["purge_dups"] / ("{assembler}/{assembly_stage}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.split.minimap2.self.paf.gz" % config["genome_name"])
         #paf=output_dict["purge_dups"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.minimap2.{fileprefix}.paf.gz" % config["genome_name"])
     params:
         index_size=parameters["tool_options"]["minimap2"]["index_size"],
@@ -114,7 +114,7 @@ rule minimap2_purge_dups_assembly:
 
     shell:
         " split_fa {input.reference} > {output.split_reference} 2>{log.split_fa};"
-        " minimap2 {params.mapping_scheme} -I {params.index_size} -t {threads}  {input.reference} "
+        " minimap2 {params.mapping_scheme} -I {params.index_size} -t {threads}  {output.split_reference} "
         " {output.split_reference} 2>{log.minimap2} |  gzip -c - > {output.paf} "
 
 rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
