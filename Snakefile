@@ -287,6 +287,7 @@ results_dict = {}
 assembler_list = ["hifiasm", ] # TODO: implement possibility of other assemblers
 primary_haplotype = "hap1.p"
 alternative_haplotype = "hap2.p"
+
 results_dict["check_input"] = [
                                final_config_yaml,
                                final_input_yaml
@@ -362,6 +363,10 @@ results_dict["purge_dups"] = [*results_dict["contig"],
                               expand(output_dict["purge_dups"] / "{assembler}/{haplotype}/dups.bed",
                                      assembler=assembler_list,
                                      haplotype=["{0}.dups.{1}".format(alternative_haplotype, primary_haplotype)]),
+                              expand(output_dict["purge_dups"] / ("{assembler}/%s.purge_dups.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"]),
+                                     assembler=assembler_list,
+                                     haplotype=[primary_haplotype, "{0}.dups.{1}".format(alternative_haplotype, primary_haplotype)]
+                                     )
                               ]
 
 #TODO: implement following modes when necessary

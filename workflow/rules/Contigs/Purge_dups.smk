@@ -23,7 +23,7 @@ rule minimap2_index:
     shell:
         " minimap2 -t {threads} -I {params.index_size} -d {output.index} {input.reference} > {log.minimap2_index} 2>&1"
 """
-localrules: create_contig_links
+localrules: create_contig_links, create_link_for_purged_fasta
 ruleorder: create_contig_links > merge_pri_hapdups_with_alt
 rule create_contig_links:
     input:
@@ -204,3 +204,25 @@ rule merge_pri_hapdups_with_alt: #
 
     shell:
         " cat {input.reference} {input.pri_hapdups} > {output.alt_plus_pri_hapdup}"
+
+rule create_link_for_purged_fasta:
+    input:
+        purged=rules.purge_dups.output.purged
+    output:
+        purged=out_dir_path  / ("{assembly_stage}/{assembler}/%s.purge_dups.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"])
+    log:
+        std=output_dict["log"]  / "create_link_for_purged_fasta.{assembler}.{assembly_stage}.{haplotype}.log",
+        cluster_log=output_dict["cluster_log"] / "create_link_for_purged_fasta.{assembler}.{assembly_stage}.{haplotype}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "create_link_for_purged_fasta.{assembler}.{assembly_stage}.{haplotype}.cluster.err"
+    benchmark:
+        output_dict["benchmark"]  / "merge_pri_hapdups_with_alt.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
+    conda:
+        "../../../%s" % config["conda_config"]
+    resources:
+        cpus=parameters["threads"]["create_contig_links"] ,
+        time=parameters["time"]["create_contig_links"],
+        mem=parameters["memory_mb"]["create_contig_links"]
+    threads: parameters["threads"]["create_contig_links"]
+
+    shell:
+        " ln {input.purged} {output.purged} > {log.std} 2>&1;"
