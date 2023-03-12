@@ -82,6 +82,10 @@
             "busco5": 30
             "quast": 10
             "merqury": 20
+            "minimap2_index": 10
+            "minimap2": 30
+            "get_purge_dups_read_stat": 5 # ToDO: adjust, maybe even one is enough
+            "purge_dups": 5 # TODO: adjust, maybe even one is enough
 
             ref_faidx: 1
             ref_dict: 1
@@ -109,13 +113,13 @@
             "gfa2fasta": 10000
             "busco5": 20000
             "quast": 10000
-            ref_faidx: 1000
-            ref_dict: 1000
-            bwa_index: 10000
-            fastqc_per_lane_raw: 8000
-            merge_raw_fastq: 2000
-            fastqc_merged_raw: 2000
             "merqury": 20000 # TODO: adjust
+            "minimap2_index": 10000 # TODO: adjust
+            "minimap2": 10000 # TODO: adjust
+            "get_purge_dups_read_stat": 10000 # ToDO: adjust, maybe even 1000 is enough
+            "purge_dups": 10000 # ToDO: adjust, maybe less is OK , or maybe it is dependent on the genome size
+
+
             fastqc_filtered: 2000
             index: 10000
             bwa: 10000
@@ -123,7 +127,7 @@
             fixmate: 10000
             mosdepth: 4000 #The amount of memory is approximately equal to 32-bits * longest chrom length, so for the 249MB chromosome 1, it will require 1GB of memory.
             basecall: 20000
-        "time":
+        "time": #TODO: adjust
             "create_fastq_links": "00:05:00"
             "fastqc": "04:00:00"
             "multiqc": "00:10:00"
@@ -137,7 +141,9 @@
             "busco5": "24:00:00"
             "quast": "02:00:00"
             "merqury": "12:00:00"
-
+            "minimap2_index": "12:00:00"
+            "minimap2": "12:00:00"
+            "get_purge_dups_read_stat": "12:00:00" # TODO: adjust
             index: "10:00:00"
             bwa_map: "05:00:00"
             bowtie2_rna_map: "05:00:00"
@@ -200,18 +206,27 @@
                 "cov_multiplicator": 4.5 # 4.5 *lambda
             "quast":
                 "large_genome": True
-
+            minimap2":
+                "index_size": "4G"
+                "self_alignment_scheme": " -x asm5 -DP " #TODO: check if it OK, and what scheme is used in the ERGA pipeline
+                "hifi_alignment_scheme": " -x map-hifi "
     "micro": # < 15 Mbp, yeasts and bacteria
         "threads":
             "jellyfish": 30
             "hifiasm": 30
+            "minimap2_index": 10
+            "minimap2": 30
         "memory_mb":
             "jellyfish": 2000
             "meryl": 2000
             "hifiasm": 20000 # needs adjustment, very approximate value
+            "minimap2_index": 3000
+            "minimap2": 3000
         "time":
             "jellyfish": "01:00:00"
             "hifiasm": "02:00:00"
+            "minimap2_index": "00:10:00"
+            "minimap2": "01:00:00"
         "tool_options":
             "jellyfish":
                 "pacbio":
@@ -231,6 +246,8 @@
                         - 21
             "quast":
                 "large_genome": False
+            minimap2":
+                "index_size": "4G"
     "mini": # < 150 Mbp, fungi, Arabidopsis thaliana and Caenorabditis elegans
         "threads":
             "jellyfish": 30
@@ -239,9 +256,13 @@
             "jellyfish": 20000
             "meryl": 20000
             "hifiasm": 50000
+            "minimap2_index": 10000
+            "minimap2": 10000
         "time":
             "jellyfish": "02:00:00"
             "hifiasm": "04:00:00"
+            "minimap2_index": "00:20:00"
+            "minimap2": "04:00:00"
         "tool_options":
             "jellyfish":
                 "pacbio":
@@ -261,6 +282,8 @@
                         - 21
             "quast":
                 "large_genome": False
+            minimap2":
+                "index_size": "4G"
     "small": # < 500 Mbp, drosophilla, tetraodon
         "threads":
             "jellyfish": 30
@@ -269,9 +292,13 @@
             "jellyfish": 60000
             "meryl": 60000
             "hifiasm": 80000
+            "minimap2_index": 10000
+            "minimap2": 10000
         "time":
             "jellyfish": "04:00:00"
             "hifiasm": "08:00:00"
+            "minimap2_index": "00:30:00"
+            "minimap2": "10:00:00"
         "tool_options":
             "jellyfish":
                 "pacbio":
@@ -291,6 +318,8 @@
                         - 21
             "quast":
                 "large_genome": True
+            minimap2":
+                "index_size": "4G"
     "normal": # < 1500 Mbp, most of birds
         "threads":
             "jellyfish": 30
@@ -299,9 +328,13 @@
             "jellyfish": 200000
             "hifiasm": 160000
             "meryl": 80000
+            "minimap2_index": 10000
+            "minimap2": 20000
         "time":
             "jellyfish": "08:00:00"
             "hifiasm": "12:00:00"
+            "minimap2_index": "01:00:00"
+            "minimap2": "10:00:00"
         "tool_options":
             "jellyfish":
                 "pacbio":
@@ -321,6 +354,8 @@
                         - 21
             "quast":
                 "large_genome": True
+            minimap2":
+                "index_size": "4G"
     "big": # < 2500 Mbp, most of mammals
         "threads":
             "jellyfish": 30
@@ -329,9 +364,13 @@
             "jellyfish": 300000
             "hifiasm": 300000
             "meryl": 300000
+            "minimap2_index": 20000
+            "minimap2": 30000
         "time":
             "jellyfish": "12:00:00"
             "hifiasm": "16:00:00"
+            "minimap2_index": "02:00:00"
+            "minimap2": "20:00:00"
         "tool_options":
             "jellyfish":
                 "pacbio":
@@ -351,6 +390,8 @@
                         - 21
             "quast":
                 "large_genome": True
+            minimap2":
+                "index_size": "10G"
     "large": # < 5000 Mbp, human
         "threads":
             "jellyfish": 30
@@ -359,9 +400,13 @@
             "jellyfish": 600000
             "meryl": 300000
             "hifiasm": 500000
+            "minimap2_index": 20000
+            "minimap2": 40000
         "time":
             "jellyfish": "24:00:00"
             "hifiasm": "24:00:00"
+            "minimap2_index": "04:00:00"
+            "minimap2": "40:00:00"
         "tool_options":
             "jellyfish":
                 "pacbio":
@@ -381,6 +426,8 @@
                         - 21
             "quast":
                 "large_genome": True
+            minimap2":
+                "index_size": "10G"
     "giant": # < 15000 Mbp, big plant genomes
         "threads":
             "jellyfish": 30
@@ -389,9 +436,13 @@
             "jellyfish": 1100000
             "meryl": 300000
             "hifiasm": 1000000
+            "minimap2_index": 30000
+            "minimap2": 70000
         "time":
             "jellyfish": "48:00:00"
             "hifiasm": "48:00:00"
+            "minimap2_index": "08:00:00"
+            "minimap2": "100:00:00"
         "tool_options":
             "jellyfish":
                 "pacbio":
@@ -411,6 +462,8 @@
                         - 21
             "quast":
                 "large_genome": True
+            minimap2":
+                "index_size": "30G"
 
 "kmer_counter_list":
     - "jellyfish"
@@ -418,10 +471,10 @@
 
 "allowed_data_types":
     - "pacbio"
-    - "nanopore"
+    #- "nanopore"
     - "bionano"
     - "hic"
-    - "lr"
+    #- "lr"
 
 "long_read_data":
     - "pacbio"

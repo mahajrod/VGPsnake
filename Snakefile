@@ -284,6 +284,7 @@ ruleorder: create_fastq_links > fastqc
 
 results_dict = {}
 
+assembler_list = ["hifiasm", ] # TODO: implement possibility of other assemblers
 results_dict["check_input"] = [
                                final_config_yaml,
                                final_input_yaml
@@ -324,22 +325,27 @@ results_dict["filtering"] = [*results_dict["qc"],
                               ]
 
 results_dict["contig"] = [*results_dict["filtering"],
-                          output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.r_utg.gfa" % config["genome_name"]),
+                          expand(output_dict["contig"] / ("{assembler}/%s.contig.{assembler}.pacbio.hic.r_utg.gfa" % config["genome_name"]),
+                                 assembler=assembler_list,),
                           expand(output_dict["contig"] / ("{assembler}/%s.contig.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"]),
                                  haplotype=["hap1.p", "hap2.p"],#["p", "a"],
-                                 assembler=["hifiasm",],),
+                                 assembler=assembler_list,),
                           expand(output_dict["assembly_qc"] /"{assembly_stage}/busco5/{assembler}/{haplotype}/",
                                  assembly_stage=["contig"],
                                  haplotype=["hap1.p", "hap2.p"],#["p", "a"],,
-                                 assembler=["hifiasm",],),
+                                 assembler=assembler_list ,),
                           expand(output_dict["assembly_qc"] /("{assembly_stage}/quast/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}"
                                                    % config["genome_name"]),
                                  assembly_stage=["contig"],
                                  haplotype=["hap1.p", "hap2.p"],
-                                 assembler=["hifiasm",],),
+                                 assembler=assembler_list ,),
                           expand(output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.qv" % config["genome_name"]),
                                  assembly_stage=["contig"],
-                                 assembler=["hifiasm",])
+                                 assembler=assembler_list ),
+                          expand(output_dict["purge_dups"] / "{assembler}/{assembly_stage}/{haplotype}/dups.bed",
+                                 assembler=assembler_list,
+                                 assembler_stage=["contig",],
+                                 haplotype=["hap1.p"])
                           ]
 
 
@@ -368,3 +374,4 @@ include: "workflow/rules/Contigs/Gfatools.smk"
 include: "workflow/rules/QCAssembly/BUSCO5.smk"
 include: "workflow/rules/QCAssembly/Merqury.smk"
 include: "workflow/rules/QCAssembly/QUAST.smk"
+include: "workflow/rules/Contigs/Purge_dups.smk"
