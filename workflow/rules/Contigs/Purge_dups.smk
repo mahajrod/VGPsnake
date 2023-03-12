@@ -24,7 +24,7 @@ rule minimap2_index:
         " minimap2 -t {threads} -I {params.index_size} -d {output.index} {input.reference} > {log.minimap2_index} 2>&1"
 """
 localrules: create_contig_links
-
+ruleorder: create_contig_links > merge_pri_hapdups_with_alt
 rule create_contig_links:
     input:
         fasta=out_dir_path / ("contig/{assembler}/%s.contig.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"]),
