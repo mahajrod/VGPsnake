@@ -348,7 +348,7 @@ results_dict["contig"] = [*results_dict["filtering"],
                                  assembler=assembler_list ),
 
                           ]
-"""
+
 results_dict["purge_dups"] = [*results_dict["contig"],
                               expand(output_dict["purge_dups"] / "{assembler}/{haplotype}/dups.bed",
                                  assembler=assembler_list,
@@ -370,18 +370,18 @@ results_dict["purge_dups"] = [*results_dict["contig"],
                                      ),
                               expand(output_dict["assembly_qc"] /"{assembly_stage}/busco5/{assembler}/{haplotype}/",
                                      assembly_stage=["purge_dups"],
-                                     haplotype=[primary_haplotype, "{0}.dups.{1}".format(alternative_haplotype, primary_haplotype],#["p", "a"],,
+                                     haplotype=[primary_haplotype, "{0}.dups.{1}".format(alternative_haplotype, primary_haplotype)],#["p", "a"],,
                                      assembler=assembler_list ,),
                               expand(output_dict["assembly_qc"] /("{assembly_stage}/quast/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}"
                                                        % config["genome_name"]),
                                      assembly_stage=["purge_dups"],
-                                     haplotype=[primary_haplotype, "{0}.dups.{1}".format(alternative_haplotype, primary_haplotype],
+                                     haplotype=[primary_haplotype, "{0}.dups.{1}".format(alternative_haplotype, primary_haplotype)],
                                      assembler=assembler_list ,),
                               expand(output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.qv" % config["genome_name"]),
                                      assembly_stage=["purge_dups"],
                                      assembler=assembler_list ),
                               ]
-"""
+
 #TODO: implement following modes when necessary
 """
 results_dict["basecall"] =
