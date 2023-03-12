@@ -1,11 +1,13 @@
 rule merqury:
     input:
-        meryl_db_dir=(output_dict["kmer"] / "{0}/filtered/{0}.filtered.{1}.meryl".format(config["final_kmer_datatype"],
-                                                                                        config["final_kmer_length"],)).resolve(),
-        #primary_assembly=out_dir_path / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.p_ctg.fasta" % config["genome_name"]),
-        #alternative_assembly=out_dir_path / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.a_ctg.fasta" % config["genome_name"])
-        primary_assembly=(out_dir_path / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.hap1.p_ctg.fasta" % config["genome_name"])).resolve(),
-        alternative_assembly=(out_dir_path / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.hap2.p_ctg.fasta" % config["genome_name"])).resolve()
+        meryl_db_dir=output_dict["kmer"] / "{0}/filtered/{0}.filtered.{1}.meryl".format(config["final_kmer_datatype"],
+                                                                                        config["final_kmer_length"],),
+        primary_assembly=out_dir_path / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.hap1.p_ctg.fasta" % config["genome_name"]),
+        alternative_assembly=out_dir_path / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.hap2.p_ctg.fasta" % config["genome_name"]),
+        #meryl_db_dir=(output_dict["kmer"] / "{0}/filtered/{0}.filtered.{1}.meryl".format(config["final_kmer_datatype"],
+        #                                                                                config["final_kmer_length"],)).resolve(),
+        #primary_assembly=(out_dir_path / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.hap1.p_ctg.fasta" % config["genome_name"])).resolve(),
+        #alternative_assembly=(out_dir_path / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.hap2.p_ctg.fasta" % config["genome_name"])).resolve()
     output:
         #out_dir=output_dict["assembly_qc"] /"{assembly_stage}/merqury/{assembler}/",
         qv_file=output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.qv" % config["genome_name"]),
@@ -33,8 +35,13 @@ rule merqury:
     threads:
         parameters["threads"]["merqury"]
     shell:
+         " MERYL_DB=`realpath {input.meryl_db_dir}`;"
+         " PRIMARY_ASSEMBLY=`realpath {input.primary_assembly}`;"
+         " ALTERNATIVE_ASSEMBLY=`realpath {input.alternative_assembly};`"
          " cd {params.dir}; "
-         " OMP_NUM_THREADS={threads} merqury.sh {input.meryl_db_dir} "
-         " {input.primary_assembly} {input.alternative_assembly} {params.out_prefix}  1>{log.std} 2>&1 || true;"
+         " OMP_NUM_THREADS={threads} merqury.sh ${{MERYL_DB}} "
+         " ${{PRIMARY_ASSEMBLY}} ${{ALTERNATIVE_ASSEMBLY}} {params.out_prefix}  1>{log.std} 2>&1 || true;"
+         #" OMP_NUM_THREADS={threads} merqury.sh {input.meryl_db_dir} "
+         #" {input.primary_assembly} {input.alternative_assembly} {params.out_prefix}  1>{log.std} 2>&1 || true;"
 
 
