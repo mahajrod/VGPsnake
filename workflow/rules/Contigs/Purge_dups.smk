@@ -35,9 +35,9 @@ rule minimap2_purge_dups_reads: # TODO: add nanopore support
         index_size=parameters["tool_options"]["minimap2"]["index_size"],
         mapping_scheme=parameters["tool_options"]["minimap2"]["hifi_alignment_scheme"], # TODO: make this adjustable depending on read type
     log:
-        std=log_dir_path / "minimap2_purge_dups_reads.{assembler}.{assembly_stage}.{haplotype}.{fileprefix}.log",
-        cluster_log=cluster_log_dir_path / "minimap2_purge_dups_reads.{assembler}.{assembly_stage}.{haplotype}.{fileprefix}.cluster.log",
-        cluster_err=cluster_log_dir_path / "minimap2_purge_dups_reads.{assembler}.{assembly_stage}.{haplotype}.{fileprefix}.cluster.err"
+        std=output_dict["log"]  / "minimap2_purge_dups_reads.{assembler}.{assembly_stage}.{haplotype}.{fileprefix}.log",
+        cluster_log=output_dict["cluster_log"] / "minimap2_purge_dups_reads.{assembler}.{assembly_stage}.{haplotype}.{fileprefix}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "minimap2_purge_dups_reads.{assembler}.{assembly_stage}.{haplotype}.{fileprefix}.cluster.err"
     benchmark:
         benchmark_dir_path / "minimap2_purge_dups_reads.{assembler}.{assembly_stage}.{haplotype}.{fileprefix}.benchmark.txt"
     conda:
@@ -69,10 +69,10 @@ rule get_purge_dups_read_stat: #TODO: adjust -d -m -u options for calcuts
         cov_multiplicator=parameters["tool_options"]["hifiasm"]["cov_multiplicator"]
 
     log:
-        pbstat=log_dir_path / "get_purge_dups_read_stat.{assembler}.{assembly_stage}.{haplotype}.pbstat.log",
-        calcuts=log_dir_path / "get_purge_dups_read_stat.{assembler}.{assembly_stage}.{haplotype}.calcuts.log",
-        cluster_log=cluster_log_dir_path / "get_purge_dups_read_stat.{assembler}.{assembly_stage}.{haplotype}.cluster.log",
-        cluster_err=cluster_log_dir_path / "get_purge_dups_read_stat.{assembler}.{assembly_stage}.{haplotype}.cluster.err"
+        pbstat=output_dict["log"] / "get_purge_dups_read_stat.{assembler}.{assembly_stage}.{haplotype}.pbstat.log",
+        calcuts=output_dict["log"]  / "get_purge_dups_read_stat.{assembler}.{assembly_stage}.{haplotype}.calcuts.log",
+        cluster_log=output_dict["cluster_log"] / "get_purge_dups_read_stat.{assembler}.{assembly_stage}.{haplotype}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "get_purge_dups_read_stat.{assembler}.{assembly_stage}.{haplotype}.cluster.err"
     benchmark:
         benchmark_dir_path / "minimap2_purge_dups_reads.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
     conda:
@@ -99,10 +99,10 @@ rule minimap2_purge_dups_assembly:
         index_size=parameters["tool_options"]["minimap2"]["index_size"],
         mapping_scheme=parameters["tool_options"]["minimap2"]["self_alignment_scheme"]
     log:
-        split_fa=log_dir_path / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.split_fa.log",
-        minimap2=log_dir_path / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.minimap2.log",
-        cluster_log=cluster_log_dir_path / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.cluster.log",
-        cluster_err=cluster_log_dir_path / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.cluster.err"
+        split_fa=output_dict["log"]  / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.split_fa.log",
+        minimap2=output_dict["log"]  / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.minimap2.log",
+        cluster_log=output_dict["cluster_log"] / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.cluster.err"
     benchmark:
         benchmark_dir_path / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
     conda:
@@ -127,9 +127,9 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
     output:
         bed=output_dict["purge_dups"] / "{assembler}/{assembly_stage}/{haplotype}/dups.bed"
     log:
-        std=log_dir_path / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.log",
-        cluster_log=cluster_log_dir_path / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.cluster.log",
-        cluster_err=cluster_log_dir_path / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.cluster.err"
+        std=output_dict["log"]  / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.log",
+        cluster_log=output_dict["cluster_log"] / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.cluster.err"
     benchmark:
         benchmark_dir_path / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
     conda:
