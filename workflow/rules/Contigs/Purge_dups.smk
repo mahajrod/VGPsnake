@@ -186,7 +186,7 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
 rule merge_pri_hapdups_with_alt: #
     input:
         reference=out_dir_path  / ("{assembly_stage}/{assembler}/input/%s.contig.{assembler}.hap2.fasta" % config["genome_name"]),
-        pri_hapdups=out_dir_path / ("{assembly_stage}/{assembler}/{pri_haplotype}/%s.{assembly_stage}.{assembler}.hap1.hap.fasta" % config["genome_name"])
+        pri_hapdups=out_dir_path / ("{assembly_stage}/{assembler}/hap1/%s.{assembly_stage}.{assembler}.hap1.hap.fasta" % config["genome_name"])
     output:
         alt_plus_pri_hapdup=out_dir_path  / ("{assembly_stage}/{assembler}/input/%s.contig.{assembler}.hap2.fasta" % config["genome_name"]),
     log:
