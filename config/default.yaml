@@ -206,7 +206,7 @@
                 "cov_multiplicator": 4.5 # 4.5 *lambda
             "quast":
                 "large_genome": True
-            minimap2":
+            "minimap2":
                 "index_size": "4G"
                 "self_alignment_scheme": " -x asm5 -DP " #TODO: check if it OK, and what scheme is used in the ERGA pipeline
                 "hifi_alignment_scheme": " -x map-hifi "
@@ -246,7 +246,7 @@
                         - 21
             "quast":
                 "large_genome": False
-            minimap2":
+            "minimap2":
                 "index_size": "4G"
     "mini": # < 150 Mbp, fungi, Arabidopsis thaliana and Caenorabditis elegans
         "threads":
@@ -282,7 +282,7 @@
                         - 21
             "quast":
                 "large_genome": False
-            minimap2":
+            "minimap2":
                 "index_size": "4G"
     "small": # < 500 Mbp, drosophilla, tetraodon
         "threads":
@@ -318,7 +318,7 @@
                         - 21
             "quast":
                 "large_genome": True
-            minimap2":
+            "minimap2":
                 "index_size": "4G"
     "normal": # < 1500 Mbp, most of birds
         "threads":
@@ -354,7 +354,7 @@
                         - 21
             "quast":
                 "large_genome": True
-            minimap2":
+            "minimap2":
                 "index_size": "4G"
     "big": # < 2500 Mbp, most of mammals
         "threads":
@@ -390,7 +390,7 @@
                         - 21
             "quast":
                 "large_genome": True
-            minimap2":
+            "minimap2":
                 "index_size": "10G"
     "large": # < 5000 Mbp, human
         "threads":
@@ -426,7 +426,7 @@
                         - 21
             "quast":
                 "large_genome": True
-            minimap2":
+            "minimap2":
                 "index_size": "10G"
     "giant": # < 15000 Mbp, big plant genomes
         "threads":
@@ -462,7 +462,7 @@
                         - 21
             "quast":
                 "large_genome": True
-            minimap2":
+            "minimap2":
                 "index_size": "30G"
 
 "kmer_counter_list":
