@@ -353,7 +353,7 @@ results_dict["purge_dups"] = [*results_dict["contig"],
                               expand(output_dict["purge_dups"] / "{assembler}/{haplotype}/dups.bed",
                                  assembler=assembler_list,
                                  haplotype=[primary_haplotype, ]),
-                              expand(out_dir_path / ("purge_dups/{assembler}/input/%s.contig.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"]),
+                              expand(out_dir_path / ("purge_dups/{assembler}/input/%s.contig.{assembler}.{haplotype}.fasta" % config["genome_name"]),
                                      assembler=assembler_list,
                                      haplotype=[primary_haplotype, alternative_haplotype]),
                               #expand(output_dict["purge_dups"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{alt_haplotype}.dups.{pri_haplotype}_ctg.fasta" % config["genome_name"]),
@@ -364,22 +364,24 @@ results_dict["purge_dups"] = [*results_dict["contig"],
                               expand(output_dict["purge_dups"] / "{assembler}/{haplotype}/dups.bed",
                                      assembler=assembler_list,
                                      haplotype=["{0}.dups.{1}".format(alternative_haplotype, primary_haplotype)]),
-                              expand(output_dict["purge_dups"] / ("{assembler}/%s.purge_dups.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"]),
+                              expand(output_dict["purge_dups"] / ("{assembler}/%s.purge_dups.{assembler}.{haplotype}.fasta" % config["genome_name"]),
                                      assembler=assembler_list,
                                      haplotype=[primary_haplotype, "{0}.dups.{1}".format(alternative_haplotype, primary_haplotype)]
                                      ),
+                              """
                               expand(output_dict["assembly_qc"] /"{assembly_stage}/busco5/{assembler}/{haplotype}/",
                                      assembly_stage=["purge_dups"],
                                      haplotype=[primary_haplotype, "{0}.dups.{1}".format(alternative_haplotype, primary_haplotype)],#["p", "a"],,
                                      assembler=assembler_list ,),
-                              expand(output_dict["assembly_qc"] /("{assembly_stage}/quast/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}"
+                              expand(output_dict["assembly_qc"] /("{assembly_stage}/quast/{assembler}/%s.{assembly_stage}.{assembler}.{haplotype}"
                                                        % config["genome_name"]),
                                      assembly_stage=["purge_dups"],
                                      haplotype=[primary_haplotype, "{0}.dups.{1}".format(alternative_haplotype, primary_haplotype)],
                                      assembler=assembler_list ,),
-                              expand(output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.qv" % config["genome_name"]),
+                              expand(output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}..qv" % config["genome_name"]),
                                      assembly_stage=["purge_dups"],
                                      assembler=assembler_list ),
+                              """
                               ]
 
 #TODO: implement following modes when necessary
