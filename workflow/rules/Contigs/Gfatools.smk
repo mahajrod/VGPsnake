@@ -19,4 +19,4 @@ rule gfa2fasta:
         parameters["threads"]["gfa2fasta"]
     shell:
          " gfatools gfa2fa {input.gfa} > {output.fasta} 2>{log.std};"
-         " ln {output.fasta} {output.alias}"
+
