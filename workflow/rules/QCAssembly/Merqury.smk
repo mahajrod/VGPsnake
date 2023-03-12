@@ -40,7 +40,7 @@ rule merqury:
          " ALTERNATIVE_ASSEMBLY=`realpath {input.alternative_assembly}`;"
          " cd {params.dir}; "
          " OMP_NUM_THREADS={threads} merqury.sh ${{MERYL_DB}} "
-         " ${{PRIMARY_ASSEMBLY}} ${{ALTERNATIVE_ASSEMBLY}} {params.out_prefix}  1>{log.std} 2>&1 || true;"
+         " ${{PRIMARY_ASSEMBLY}} ${{ALTERNATIVE_ASSEMBLY}} {params.out_prefix}  1>{log.std} 2>&1;"
          #" OMP_NUM_THREADS={threads} merqury.sh {input.meryl_db_dir} "
          #" {input.primary_assembly} {input.alternative_assembly} {params.out_prefix}  1>{log.std} 2>&1 || true;"
 
