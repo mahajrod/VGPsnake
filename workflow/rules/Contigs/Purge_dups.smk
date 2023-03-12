@@ -16,10 +16,10 @@ rule minimap2_index:
     conda:
         "../../../%s" % config["conda_config"]
     resources:
-        cpus=config["threads"]["minimap2_index"],
-        time=config["time"]["minimap2_index"],
-        mem=config["memory_mb"]["minimap2_index"]
-    threads: config["threads"]["minimap2_index"]
+        cpus=parameters["threads"]["minimap2_index"],
+        time=parameters["time"]["minimap2_index"],
+        mem=parameters["memory_mb"]["minimap2_index"]
+    threads: parameters["threads"]["minimap2_index"]
     shell:
         " minimap2 -t {threads} -I {params.index_size} -d {output.index} {input.reference} > {log.minimap2_index} 2>&1"
 """
@@ -43,10 +43,10 @@ rule minimap2_purge_dups_reads: # TODO: add nanopore support
     conda:
         "../../../%s" % config["conda_config"]
     resources:
-        cpus=config["threads"]["minimap2"] ,
-        time=config["time"]["minimap2"],
-        mem=config["memory_mb"]["minimap2"]
-    threads: config["threads"]["minimap2"]
+        cpus=parameters["threads"]["minimap2"] ,
+        time=parameters["time"]["minimap2"],
+        mem=parameters["memory_mb"]["minimap2"]
+    threads: parameters["threads"]["minimap2"]
 
     shell:
         " minimap2 {params.mapping_scheme} -I {params.index_size} -t {threads}  {input.reference} "
@@ -78,10 +78,10 @@ rule get_purge_dups_read_stat: #TODO: adjust -d -m -u options for calcuts
     conda:
         "../../../%s" % config["conda_config"]
     resources:
-        cpus=config["threads"]["get_purge_dups_read_stat"] ,
-        time=config["time"]["get_purge_dups_read_stat"],
-        mem=config["memory_mb"]["get_purge_dups_read_stat"]
-    threads: config["threads"]["get_purge_dups_read_stat"]
+        cpus=parameters["threads"]["get_purge_dups_read_stat"] ,
+        time=parameters["time"]["get_purge_dups_read_stat"],
+        mem=parameters["memory_mb"]["get_purge_dups_read_stat"]
+    threads: parameters["threads"]["get_purge_dups_read_stat"]
 
     shell:
         " COV_UPPER_BOUNDARY=`awk 'NR==2 {{printf \"%.0f\", {params.cov_multiplicator} * $2}}' {input.genomescope_report}`;"
@@ -108,10 +108,10 @@ rule minimap2_purge_dups_assembly:
     conda:
         "../../../%s" % config["conda_config"]
     resources:
-        cpus=config["threads"]["minimap2"] ,
-        time=config["time"]["minimap2"],
-        mem=config["memory_mb"]["minimap2"]
-    threads: config["threads"]["minimap2"]
+        cpus=parameters["threads"]["minimap2"] ,
+        time=parameters["time"]["minimap2"],
+        mem=parameters["memory_mb"]["minimap2"]
+    threads: parameters["threads"]["minimap2"]
 
     shell:
         " split_fa {input.reference} > {output.split_reference} 2>{log.split_fa};"
@@ -135,10 +135,10 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
     conda:
         "../../../%s" % config["conda_config"]
     resources:
-        cpus=config["threads"]["purge_dups"] ,
-        time=config["time"]["purge_dups"],
-        mem=config["memory_mb"]["purge_dups"]
-    threads: config["threads"]["purge_dups"]
+        cpus=parameters["threads"]["purge_dups"] ,
+        time=parameters["time"]["purge_dups"],
+        mem=parameters["memory_mb"]["purge_dups"]
+    threads: parameters["threads"]["purge_dups"]
 
     shell:
         " purge_dups -2 -T {input.cutoffs} -c {input.pbbasecov} {input.self_paf} > {output.bed} 2>{log.std};"
