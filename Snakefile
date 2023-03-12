@@ -345,21 +345,23 @@ results_dict["contig"] = [*results_dict["filtering"],
                           expand(output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.qv" % config["genome_name"]),
                                  assembly_stage=["contig"],
                                  assembler=assembler_list ),
-                          expand(output_dict["purge_dups"] / "{assembler}/{assembly_stage}/{haplotype}/dups.bed",
-                                 assembler=assembler_list,
-                                 assembly_stage=["contig",],
-                                 haplotype=[primary_haplotype, ]),
-                          expand(output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{alt_haplotype}.dups.{pri_haplotype}_ctg.fasta" % config["genome_name"]),
-                                 assembler=assembler_list,
-                                 assembly_stage=["contig",],
-                                 alt_haplotype=[alternative_haplotype,],
-                                 pri_haplotype=[primary_haplotype,],),
-                          expand(output_dict["purge_dups"] / "{assembler}/{assembly_stage}/{haplotype}/dups.bed",
-                                 assembler=assembler_list,
-                                 assembly_stage=["contig",],
-                                 haplotype=["{0}.dups.{1}".format(alternative_haplotype, primary_haplotype)]),
-                          ]
 
+                          ]
+results_dict["purge_dups"] = [*results_dict["contigg"],
+                              expand(output_dict["purge_dups"] / "{assembler}/{haplotype}/dups.bed",
+                                 assembler=assembler_list,
+                                 assembly_stage=["purge_dups",],
+                                 haplotype=[primary_haplotype, ]),
+                              expand(output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{alt_haplotype}.dups.{pri_haplotype}_ctg.fasta" % config["genome_name"]),
+                                     assembler=assembler_list,
+                                     assembly_stage=["purge_dups",],
+                                     alt_haplotype=[alternative_haplotype,],
+                                     pri_haplotype=[primary_haplotype,],),
+                              expand(output_dict["purge_dups"] / "{assembler}/{haplotype}/dups.bed",
+                                     assembler=assembler_list,
+                                     assembly_stage=["purge_dups",],
+                                     haplotype=["{0}.dups.{1}".format(alternative_haplotype, primary_haplotype)]),
+                              ]
 
 #TODO: implement following modes when necessary
 """
