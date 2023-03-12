@@ -347,7 +347,7 @@ results_dict["contig"] = [*results_dict["filtering"],
                                  assembler=assembler_list ),
 
                           ]
-results_dict["purge_dups"] = [*results_dict["contigg"],
+results_dict["purge_dups"] = [*results_dict["contig"],
                               expand(output_dict["purge_dups"] / "{assembler}/{haplotype}/dups.bed",
                                  assembler=assembler_list,
                                  assembly_stage=["purge_dups",],
