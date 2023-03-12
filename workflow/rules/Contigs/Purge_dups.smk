@@ -85,7 +85,7 @@ rule get_purge_dups_read_stat: #TODO: adjust -d -m -u options for calcuts
     shell:
         " COV_UPPER_BOUNDARY=`awk 'NR==2 {{printf \"%.0f\", {params.cov_multiplicator} * $2}}' {input.genomescope_report}`;"
         " pbcstat -O {params.out_dir} {input.paf} 1>{log.pbstat} 2>&1; "
-        " calcuts -d 1 -u ${{COV_UPPER_BOUNDARY}} {output.pbstat} > {output.cutoffs} 2>{log.calcuts} " #
+        " calcuts -d 1 -u ${{COV_UPPER_BOUNDARY}} {output.pbstat} > {output.cutoffs} 2>{log.calcuts} " #check parameters for calcuts
 
 rule minimap2_purge_dups_assembly:
     input:
