@@ -208,7 +208,7 @@ rule merge_pri_hapdups_with_alt: #
 
 rule create_link_for_purged_fasta:
     input:
-        purged=rules.purge_dups.output.purged
+        purged=out_dir_path  / ("{assembly_stage}/{assembler}/{haplotype}/%s.{assembly_stage}.{assembler}.{haplotype}.purged.fasta" % config["genome_name"]),
     output:
         purged=out_dir_path  / ("{assembly_stage}/{assembler}/%s.purge_dups.{assembler}.{haplotype}.fasta" % config["genome_name"])
     log:
