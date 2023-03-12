@@ -141,7 +141,7 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
         cluster_log=output_dict["cluster_log"] / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.cluster.log",
         cluster_err=output_dict["cluster_error"] / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.cluster.err"
     benchmark:
-        output_dict["benchmark"]  / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
+        output_dict["benchmark"]  / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
     conda:
         "../../../%s" % config["conda_config"]
     resources:
@@ -158,39 +158,26 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
         " get_seqs -p {params.get_seq_prefix} ${{PURGE_DUPS_BED}} ${{REFERENCE}};"
         " for FILE in *.fa; do mv ${{FILE}} ${{FILE%fa}}fasta; done"
 
-"""
-rule merge_pri_hapdups_with_alt: # TODO: find what options are used in ERGA for get_seqs
+
+rule merge_pri_hapdups_with_alt: #
     input:
-        reference=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{alt_haplotype}_ctg.fasta" % config["genome_name"])
+        reference=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{alt_haplotype}_ctg.fasta" % config["genome_name"]),
+        pri_hapdups=output_dict["purge_dups"] / ("{assembler}/{assembly_stage}/{pri_haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{pri_haplotype}_ctg.hap.fasta" % config["genome_name"])
     output:
-        alt_plus_pri_hapdup=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{alt_haplotype}_ctg.fasta" % config["genome_name"]),
-    params:
-        out_dir=lambda wildcards: output_dict["purge_dups"] / "{0}/{1}/{2}".format(wildcards.assembler,
-                                                                                   wildcards.assembly_stage,
-                                                                                   wildcards.haplotype),
-        get_seq_prefix=lambda wildcards: "{1}.{2}.{0}.pacbio.hic.{3}_ctg".format(wildcards.assembler,
-                                                                                 config["genome_name"],
-                                                                                 wildcards.assembly_stage,
-                                                                                 wildcards.haplotype)
+        alt_plus_pri_hapdup=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{alt_haplotype}.dups.{pri_haplotype}_ctg.fasta" % config["genome_name"]),
     log:
-        purge_dups=output_dict["log"]  / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.purge_dups.log",
-        get_seqs=output_dict["log"]  / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.get_seqs.log",
-        cluster_log=output_dict["cluster_log"] / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.cluster.log",
-        cluster_err=output_dict["cluster_error"] / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.cluster.err"
+        std=output_dict["log"]  / "merge_pri_hapdups_with_alt.{assembler}.{assembly_stage}.{pri_haplotype}.{alt_haplotype}.log",
+        cluster_log=output_dict["cluster_log"] / "merge_pri_hapdups_with_alt.{assembler}.{assembly_stage}.{pri_haplotype}.{alt_haplotype}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "merge_pri_hapdups_with_alt.{assembler}.{assembly_stage}.{pri_haplotype}.{alt_haplotype}.cluster.err"
     benchmark:
-        output_dict["benchmark"]  / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
+        output_dict["benchmark"]  / "merge_pri_hapdups_with_alt.{assembler}.{assembly_stage}.{pri_haplotype}.{alt_haplotype}.benchmark.txt"
     conda:
         "../../../%s" % config["conda_config"]
     resources:
-        cpus=parameters["threads"]["purge_dups"] ,
-        time=parameters["time"]["purge_dups"],
-        mem=parameters["memory_mb"]["purge_dups"]
-    threads: parameters["threads"]["purge_dups"]
+        cpus=parameters["threads"]["merge_pri_hapdups_with_alt"] ,
+        time=parameters["time"]["merge_pri_hapdups_with_alt"],
+        mem=parameters["memory_mb"]["merge_pri_hapdups_with_alt"]
+    threads: parameters["threads"]["merge_pri_hapdups_with_alt"]
 
     shell:
-        " purge_dups -2 -T {input.cutoffs} -c {input.pbbasecov} {input.self_paf} > {output.bed} 2>{log.purge_dups};"
-        " PURGE_DUPS_BED=`realpath {output.bed}`;"
-        " REFERENCE=`realpath {input.reference}`;"
-        " cd {params.out_dir};"
-        " get_seqs -p {params.get_seq_prefix} ${{PURGE_DUPS_BED}} ${{REFERENCE}};"
-"""
+        " cat {input.reference} {input.pri_hapdups} > {output.alt_plus_pri_hapdup}"

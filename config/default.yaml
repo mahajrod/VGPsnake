@@ -86,7 +86,7 @@
             "minimap2": 30
             "get_purge_dups_read_stat": 5 # ToDO: adjust, maybe even one is enough
             "purge_dups": 5 # TODO: adjust, maybe even one is enough
-
+            "merge_pri_hapdups_with_alt": 1
             ref_faidx: 1
             ref_dict: 1
             bwa_index: 1
@@ -118,7 +118,7 @@
             "minimap2": 10000 # TODO: adjust
             "get_purge_dups_read_stat": 10000 # ToDO: adjust, maybe even 1000 is enough
             "purge_dups": 10000 # ToDO: adjust, maybe less is OK , or maybe it is dependent on the genome size
-
+            "merge_pri_hapdups_with_alt": 1000
 
             fastqc_filtered: 2000
             index: 10000
@@ -145,6 +145,7 @@
             "minimap2": "12:00:00"
             "get_purge_dups_read_stat": "12:00:00" # TODO: adjust
             "purge_dups": "24:00:00" # TODO adjust depending on genome size
+            "merge_pri_hapdups_with_alt": "10:00:00"
 
             index: "10:00:00"
             bwa_map: "05:00:00"

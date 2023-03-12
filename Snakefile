@@ -346,7 +346,12 @@ results_dict["contig"] = [*results_dict["filtering"],
                           expand(output_dict["purge_dups"] / "{assembler}/{assembly_stage}/{haplotype}/dups.bed",
                                  assembler=assembler_list,
                                  assembly_stage=["contig",],
-                                 haplotype=["hap1.p"])
+                                 haplotype=["hap1.p"]),
+                          expand(output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{alt_haplotype}.dups.{pri_haplotype}_ctg.fasta" % config["genome_name"]),
+                                 assembler=assembler_list,
+                                 assembly_stage=["contig",],
+                                 alt_haplotype=["hap2.p",],
+                                 pri_haplotype=["hap1.p",],)
                           ]
 
 
