@@ -349,7 +349,8 @@ results_dict["contig"] = [*results_dict["filtering"],
 
                           ]
 
-results_dict["purge_dups"] = [*results_dict["contig"],
+results_dict["purge_dups"] = [*results_dict["contig"]]
+"""
                               #expand(out_dir_path / ("{assembly_stage}/{assembler}/input/%s.contig.{assembler}.{haplotype}.fasta" % config["genome_name"]),
                               #       assembly_stage=["purge_dups"],
                               #       assembler=assembler_list,
@@ -367,7 +368,7 @@ results_dict["purge_dups"] = [*results_dict["contig"],
                               #       assembler=assembler_list,
                               #       haplotype=[primary_haplotype, "{0}.dups.{1}".format(alternative_haplotype, primary_haplotype)]
                               #       ),
-                              """
+                              
                               expand(output_dict["assembly_qc"] /"{assembly_stage}/busco5/{assembler}/{haplotype}/",
                                      assembly_stage=["purge_dups"],
                                      haplotype=[primary_haplotype, "{0}.dups.{1}".format(alternative_haplotype, primary_haplotype)],#["p", "a"],,
@@ -381,7 +382,7 @@ results_dict["purge_dups"] = [*results_dict["contig"],
                                      assembly_stage=["purge_dups"],
                                      assembler=assembler_list ),
                               """
-                              ]
+                              #]
 
 #TODO: implement following modes when necessary
 """
