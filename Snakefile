@@ -350,7 +350,7 @@ results_dict["contig"] = [*results_dict["filtering"],
                           ]
 
 results_dict["purge_dups"] = [*results_dict["contig"],
-                              expand(out_dir_path / "{assembly_stage}{assembler}/{haplotype}/dups.bed",
+                              expand(out_dir_path / "{assembly_stage}/{assembler}/{haplotype}/dups.bed",
                                      assembly_stage=["purge_dups"],
                                      assembler=assembler_list,
                                      haplotype=[primary_haplotype, ]),
