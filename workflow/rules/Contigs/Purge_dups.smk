@@ -23,8 +23,9 @@ rule minimap2_index:
     shell:
         " minimap2 -t {threads} -I {params.index_size} -d {output.index} {input.reference} > {log.minimap2_index} 2>&1"
 """
-localrules: create_contig_links, create_link_for_purged_fasta
-ruleorder: create_contig_links > merge_pri_hapdups_with_alt
+localrules: create_primary_contig_link, create_link_for_purged_fasta
+ruleorder: create_primary_contig_link > merge_pri_hapdups_with_alt
+
 rule create_primary_contig_link:
     input:
         fasta=out_dir_path / ("contig/{assembler}/%s.contig.{assembler}.hap1.fasta" % config["genome_name"]),
