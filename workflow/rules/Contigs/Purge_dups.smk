@@ -125,8 +125,8 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
         reference=output_dict["contig"] / ("{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"])
     output:
         bed=output_dict["purge_dups"] / "{assembler}/{assembly_stage}/{haplotype}/dups.bed",
-        purged=output_dict["purge_dups"] / "{assembler}/{assembly_stage}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.purged.fasta",
-        haplotype_dupliccates=output_dict["purge_dups"] / "{assembler}/{assembly_stage}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.hap.dup.fasta",
+        purged=output_dict["purge_dups"] / ("{assembler}/{assembly_stage}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.purged.fasta" % config["genome_name"]),
+        haplotype_dupliccates=output_dict["purge_dups"] / ("{assembler}/{assembly_stage}/{haplotype}/%s.{assembly_stage}.{assembler}.pacbio.hic.{haplotype}_ctg.hap.dup.fasta" % config["genome_name"]),
     log:
         purge_dups=output_dict["log"]  / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.purge_dups.log",
         get_seqs=output_dict["log"]  / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.get_seqs.log",
