@@ -185,16 +185,16 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
 
 rule merge_pri_hapdups_with_alt: #
     input:
-        reference=out_dir_path  / ("{assembly_stage}/{assembler}/input/%s.contig.{assembler}.{alt_haplotype}.fasta" % config["genome_name"]),
-        pri_hapdups=out_dir_path / ("{assembly_stage}/{assembler}/{pri_haplotype}/%s.{assembly_stage}.{assembler}.{pri_haplotype}.hap.fasta" % config["genome_name"])
+        reference=out_dir_path  / ("contig/{assembler}/%s.contig.{assembler}.hap2.fasta" % config["genome_name"]),
+        pri_hapdups=out_dir_path / ("{assembly_stage}/{assembler}/hap1/%s.{assembly_stage}.{assembler}.hap1.hap.fasta" % config["genome_name"])
     output:
-        alt_plus_pri_hapdup=out_dir_path  / ("{assembly_stage}/{assembler}/input/%s.contig.{assembler}.{alt_haplotype}.dup.{pri_haplotype}.fasta" % config["genome_name"]),
+        alt_plus_pri_hapdup=out_dir_path  / ("{assembly_stage}/{assembler}/input/%s.contig.{assembler}.hap2.fasta" % config["genome_name"]),
     log:
-        std=output_dict["log"]  / "merge_pri_hapdups_with_alt.{assembler}.{assembly_stage}.{alt_haplotype}.{pri_haplotype}.log",
-        cluster_log=output_dict["cluster_log"] / "merge_pri_hapdups_with_alt.{assembler}.{assembly_stage}.{alt_haplotype}.{pri_haplotype}.cluster.log",
-        cluster_err=output_dict["cluster_error"] / "merge_pri_hapdups_with_alt.{assembler}.{assembly_stage}.{alt_haplotype}.{pri_haplotype}.cluster.err"
+        std=output_dict["log"]  / "merge_pri_hapdups_with_alt.{assembler}.{assembly_stage}.log",
+        cluster_log=output_dict["cluster_log"] / "merge_pri_hapdups_with_alt.{assembler}.{assembly_stage}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "merge_pri_hapdups_with_alt.{assembler}.{assembly_stage}.cluster.err"
     benchmark:
-        output_dict["benchmark"]  / "merge_pri_hapdups_with_alt.{assembler}.{assembly_stage}.{alt_haplotype}.{pri_haplotype}.benchmark.txt"
+        output_dict["benchmark"]  / "merge_pri_hapdups_with_alt.{assembler}.{assembly_stage}..benchmark.txt"
     conda:
         "../../../%s" % config["conda_config"]
     resources:
