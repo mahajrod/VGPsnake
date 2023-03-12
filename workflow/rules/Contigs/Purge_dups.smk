@@ -204,7 +204,7 @@ rule merge_pri_hapdups_with_alt: #
 
     shell:
         " cat {input.reference} {input.pri_hapdups} > {output.alt_plus_pri_hapdup}"
-""""
+
 rule create_link_for_purged_fasta:
     input:
         purged=rules.purge_dups.output.purged
@@ -227,4 +227,3 @@ rule create_link_for_purged_fasta:
     shell:
         " ln {input.purged} {output.purged} > {log.std} 2>&1;"
 
-"""
