@@ -30,9 +30,6 @@ rule create_contig_links:
         fasta=out_dir_path / ("contig/{assembler}/%s.contig.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"]),
     output:
         fasta=out_dir_path / ("purge_dups/{assembler}/%s.contig.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"])
-    params:
-        index_size=parameters["tool_options"]["minimap2"]["index_size"],
-        mapping_scheme=parameters["tool_options"]["minimap2"]["hifi_alignment_scheme"], # TODO: make this adjustable depending on read type
     log:
         std=output_dict["log"]  / "create_contig_links.{assembler}.{haplotype}.log",
         cluster_log=output_dict["cluster_log"] / "create_contig_links.{assembler}.{haplotype}.cluster.log",
