@@ -8,11 +8,11 @@ rule minimap2_index:
     params:
         index_size=parameters["tool_options"]["minimap2"]["index_size"],
     log:
-        minimap2_index=log_dir_path / "minimap2_index.{assembler}.{assembly_stage}.{haplotype}.log",
-        cluster_log=cluster_log_dir_path / "minimap2_index.{assembler}.{assembly_stage}.{haplotype}.cluster.log",
-        cluster_err=cluster_log_dir_path / "minimap2_index.{assembler}.{assembly_stage}.{haplotype}.cluster.err"
+        minimap2_index=output_dict["log"] / "minimap2_index.{assembler}.{assembly_stage}.{haplotype}.log",
+        cluster_log=output_dict["cluster_log"] / "minimap2_index.{assembler}.{assembly_stage}.{haplotype}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "minimap2_index.{assembler}.{assembly_stage}.{haplotype}.cluster.err"
     benchmark:
-        benchmark_dir_path / "minimap2_index.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
+        output_dict["benchmark"]  / "minimap2_index.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
     conda:
         "../../../%s" % config["conda_config"]
     resources:
@@ -39,7 +39,7 @@ rule minimap2_purge_dups_reads: # TODO: add nanopore support
         cluster_log=output_dict["cluster_log"] / "minimap2_purge_dups_reads.{assembler}.{assembly_stage}.{haplotype}.{fileprefix}.cluster.log",
         cluster_err=output_dict["cluster_error"] / "minimap2_purge_dups_reads.{assembler}.{assembly_stage}.{haplotype}.{fileprefix}.cluster.err"
     benchmark:
-        benchmark_dir_path / "minimap2_purge_dups_reads.{assembler}.{assembly_stage}.{haplotype}.{fileprefix}.benchmark.txt"
+        output_dict["benchmark"]  / "minimap2_purge_dups_reads.{assembler}.{assembly_stage}.{haplotype}.{fileprefix}.benchmark.txt"
     conda:
         "../../../%s" % config["conda_config"]
     resources:
@@ -74,7 +74,7 @@ rule get_purge_dups_read_stat: #TODO: adjust -d -m -u options for calcuts
         cluster_log=output_dict["cluster_log"] / "get_purge_dups_read_stat.{assembler}.{assembly_stage}.{haplotype}.cluster.log",
         cluster_err=output_dict["cluster_error"] / "get_purge_dups_read_stat.{assembler}.{assembly_stage}.{haplotype}.cluster.err"
     benchmark:
-        benchmark_dir_path / "minimap2_purge_dups_reads.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
+        output_dict["benchmark"]  / "minimap2_purge_dups_reads.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
     conda:
         "../../../%s" % config["conda_config"]
     resources:
@@ -104,7 +104,7 @@ rule minimap2_purge_dups_assembly:
         cluster_log=output_dict["cluster_log"] / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.cluster.log",
         cluster_err=output_dict["cluster_error"] / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.cluster.err"
     benchmark:
-        benchmark_dir_path / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
+        output_dict["benchmark"]  / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
     conda:
         "../../../%s" % config["conda_config"]
     resources:
@@ -131,7 +131,7 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
         cluster_log=output_dict["cluster_log"] / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.cluster.log",
         cluster_err=output_dict["cluster_error"] / "purge_dups.{assembler}.{assembly_stage}.{haplotype}.cluster.err"
     benchmark:
-        benchmark_dir_path / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
+        output_dict["benchmark"]  / "minimap2_purge_dups_assembly.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
     conda:
         "../../../%s" % config["conda_config"]
     resources:
