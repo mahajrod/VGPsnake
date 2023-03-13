@@ -24,7 +24,7 @@ rule bwa_index:
 rule bwa_map: #
     input:
         index=rules.bwa_index.output.index,
-        reference=out_dir_path  / ("{assembly_stage}/{assembler}/%s.purge_dups.{assembler}.{haplotype}.fasta" % config["genome_name"]),
+        reference=out_dir_path  / ("purge_dups/{assembler}/%s.purge_dups.{assembler}.{haplotype}.fasta" % config["genome_name"]),
         fastq=output_dict["data"] / ("fastq/hic/raw/{fileprefix}%s" % config["fastq_extension"])
     output:
         bam=out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.{fileprefix}.bam" % config["genome_name"])
