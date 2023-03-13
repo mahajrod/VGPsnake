@@ -33,6 +33,7 @@ rule bwa_map: #
     log:
         map=output_dict["log"]  / "bwa_map.{assembler}.{assembly_stage}.{haplotype}.{fileprefix}.map.log",
         sort=output_dict["log"]  / "bwa_map.{assembler}.{assembly_stage}.{haplotype}.{fileprefix}.sort.log",
+        filter=output_dict["log"]  / "bwa_map.{assembler}.{assembly_stage}.{haplotype}.{fileprefix}.filter.log",
         cluster_log=output_dict["cluster_log"] / "bwa_map.{assembler}.{assembly_stage}.{haplotype}.{fileprefix}.cluster.log",
         cluster_err=output_dict["cluster_error"] / "bwa_map.{assembler}.{assembly_stage}.{haplotype}.{fileprefix}.cluster.err"
     benchmark:
@@ -47,7 +48,7 @@ rule bwa_map: #
 
     shell:
         " bwa mem -t {threads} -R  \'@RG\\tID:{params.id}\\tPU:x\\tSM:{params.id}\\tPL:Illumina\\tLB:x\' "
-        " {input.reference} {input.fastq} 2>{log.map} | perl filter_five_end.pl | samtools view -Sb - > {output.bam} 2>{log.sort} "
+        " {input.reference} {input.fastq} 2>{log.map} | filter_five_end.pl 2>{log.filter} | samtools view -Sb - > {output.bam} 2>{log.sort} "
 
 """
 rule bam_merge: # TODO: add nanopore support
