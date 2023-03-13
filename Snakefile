@@ -375,6 +375,14 @@ results_dict["purge_dups"] = [*results_dict["contig"],
                                      assembly_stage=["purge_dups"],
                                      assembler=assembler_list )
                               ]
+results_dict["hic_scaffolding"] = [*results_dict["purge_dups"],
+                                   expand(out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.{fileprefix}.bam" % config["genome_name"]),
+                                          assembly_stage=["hic_scaffolding"],
+                                          haplotype=[primary_haplotype, alternative_haplotype],
+                                          assembler=assembler_list,
+                                          fileprefix=input_file_prefix_dict["hic"])
+
+                                   ]
 """
                               #,
                               #
@@ -429,3 +437,4 @@ include: "workflow/rules/QCAssembly/BUSCO5.smk"
 include: "workflow/rules/QCAssembly/Merqury.smk"
 include: "workflow/rules/QCAssembly/QUAST.smk"
 include: "workflow/rules/Contigs/Purge_dups.smk"
+include: "workflow/rules/HiC/Alignment.smk"
