@@ -358,6 +358,10 @@ results_dict["purge_dups"] = [*results_dict["contig"],
                                      assembly_stage=["purge_dups"],
                                      assembler=assembler_list,
                                      haplotype=[primary_haplotype, alternative_haplotype]),
+                              expand(out_dir_path  / ("purge_dups/{assembler}/%s.purge_dups.{assembler}.{haplotype}.fasta" % config["genome_name"]),
+                                     assembler=assembler_list,
+                                     haplotype=[primary_haplotype, alternative_haplotype],
+                                     )
                               ]
 """
                               #,
@@ -381,7 +385,7 @@ results_dict["purge_dups"] = [*results_dict["contig"],
                                      assembly_stage=["purge_dups"],
                                      haplotype=[primary_haplotype, "{0}.dups.{1}".format(alternative_haplotype, primary_haplotype)],
                                      assembler=assembler_list ,),
-                              expand(output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}..qv" % config["genome_name"]),
+                              expand(output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.qv" % config["genome_name"]),
                                      assembly_stage=["purge_dups"],
                                      assembler=assembler_list ),
                               """
