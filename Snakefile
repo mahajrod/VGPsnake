@@ -369,7 +369,7 @@ results_dict["purge_dups"] = [*results_dict["contig"],
                               expand(output_dict["assembly_qc"] /("{assembly_stage}/quast/{assembler}/%s.{assembly_stage}.{assembler}.{haplotype}"
                                                        % config["genome_name"]),
                                      assembly_stage=["purge_dups"],
-                                     haplotype=[primary_haplotype, primary_haplotype],
+                                     haplotype=[primary_haplotype, alternative_haplotype],
                                      assembler=assembler_list ,),
                               expand(output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.qv" % config["genome_name"]),
                                      assembly_stage=["purge_dups"],
