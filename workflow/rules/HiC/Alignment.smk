@@ -1,15 +1,15 @@
 
 rule bwa_index:
     input:
-        fasta=out_dir_path  / ("{assembly_stage}/{assembler}/%s.purge_dups.{assembler}.{haplotype}.fasta" % config["genome_name"])
+        fasta=out_dir_path  / ("purge_dups/{assembler}/%s.purge_dups.{assembler}.{haplotype}.fasta" % config["genome_name"])
     output:
-        index=out_dir_path  / ("{assembly_stage}/{assembler}/%s.purge_dups.{assembler}.{haplotype}.fasta.bwt" % config["genome_name"])
+        index=out_dir_path  / ("purge_dups/{assembler}/%s.purge_dups.{assembler}.{haplotype}.fasta.bwt" % config["genome_name"])
     log:
-        std=output_dict["log"]  / "bwa_index.{assembly_stage}.{assembler}.{haplotype}.log",
-        cluster_log=output_dict["cluster_log"] / "bwa_index.{assembly_stage}.{assembler}.{haplotype}.cluster.log",
-        cluster_err=output_dict["cluster_error"] / "bwa_index.{assembly_stage}.{assembler}.{haplotype}.cluster.err"
+        std=output_dict["log"]  / "bwa_index.purge_dups.{assembler}.{haplotype}.log",
+        cluster_log=output_dict["cluster_log"] / "bwa_index.purge_dups.{assembler}.{haplotype}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "bwa_index.purge_dups.{assembler}.{haplotype}.cluster.err"
     benchmark:
-        output_dict["benchmark"]  / "bwa_indexs.{assembly_stage}.{assembler}.{haplotype}.benchmark.txt"
+        output_dict["benchmark"]  / "bwa_indexs.purge_dups.{assembler}.{haplotype}.benchmark.txt"
     conda:
         "../../../%s" % config["conda_config"]
     resources:
