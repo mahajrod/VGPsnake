@@ -122,7 +122,7 @@
             "purge_dups": 10000 # ToDO: adjust, maybe less is OK , or maybe it is dependent on the genome size
             "merge_pri_hapdups_with_alt": 1000
             "create_links": 100
-            "index": 10000
+            "bwa_index": 10000
             "bwa_map": 30000
 
             fastqc_filtered: 2000
@@ -151,7 +151,7 @@
             "purge_dups": "24:00:00" # TODO adjust depending on genome size
             "merge_pri_hapdups_with_alt": "10:00:00"
             "create_links": "00:01:00"
-            "index": "10:00:00"
+            "bwa_index": "10:00:00"
             "bwa_map": "24:00:00"
 
             bowtie2_rna_map: "05:00:00"
