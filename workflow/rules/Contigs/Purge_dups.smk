@@ -88,7 +88,7 @@ rule get_purge_dups_read_stat: #TODO: adjust -d -m -u options for calcuts
         pbbasecov=out_dir_path /  "purge_dups/{assembler}/{haplotype}/PB.base.cov",
         cutoffs=out_dir_path /  "purge_dups/{assembler}/{haplotype}/cutoffs"
     params:
-        out_dir=lambda wildcards: out_dir_path  / "{0}/{1}/{2}".format(wildcards.assembly_stage, wildcards.assembler, wildcards.haplotype),
+        out_dir=lambda wildcards: out_dir_path  / "{0}/{1}/{2}".format("purge_dups", wildcards.assembler, wildcards.haplotype),
         cov_multiplicator=parameters["tool_options"]["hifiasm"]["cov_multiplicator"]
 
     log:
@@ -152,12 +152,12 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
         purged=out_dir_path  / ("purge_dups/{assembler}/{haplotype}/%s.purge_dups.{assembler}.{haplotype}.purged.fasta" % config["genome_name"]),
         hapdups=out_dir_path  / ("purge_dups/{assembler}/{haplotype}/%s.purge_dups.{assembler}.{haplotype}.hap.fasta" % config["genome_name"]),
     params:
-        out_dir=lambda wildcards: out_dir_path  / "{0}/{1}/{2}".format(wildcards.assembly_stage,
+        out_dir=lambda wildcards: out_dir_path  / "{0}/{1}/{2}".format("purge_dups",
                                                                        wildcards.assembler,
                                                                        wildcards.haplotype),
         get_seq_prefix=lambda wildcards: "{1}.{2}.{0}.{3}".format(wildcards.assembler,
                                                                   config["genome_name"],
-                                                                  wildcards.assembly_stage,
+                                                                  "purge_dups",
                                                                    wildcards.haplotype)
     log:
         purge_dups=output_dict["log"]  / "purge_dups.{assembler}.purge_dups.{haplotype}.purge_dups.log",
