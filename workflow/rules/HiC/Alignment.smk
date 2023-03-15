@@ -141,4 +141,4 @@ rule bam2bed:
     threads: parameters["threads"]["bam2bed"]
 
     shell:
-        " bamToBed -i alignment.bam 2>{log.convert} | sort -k 4 > {output.bed} 2>{log.sort}"
+        " bamToBed -i {input.bam} 2>{log.convert} | sort -k 4 > {output.bed} 2>{log.sort}"
