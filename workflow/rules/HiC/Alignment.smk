@@ -116,5 +116,29 @@ rule rmdup:
 
     shell:
         " picard -Xmx{resources.mem}m MarkDuplicates -I {input} -O {output.bam} " 
-        " --REMOVE_DUPLICATES true -M {output.dup_stats}  --TMP_DIR {params.tmp_dir} --CREATE_INDEX true 1>{log.std} 2>&1;"
+        " --REMOVE_DUPLICATES true -M {output.dup_stats}  --TMP_DIR {params.tmp_dir}1>{log.std} 2>&1;"
+        " samtools index {output.bam}; "
         " get_stats.pl {output.bam} > {output.bam_stats}"
+
+rule bam2bed:
+    input:
+        bam=out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.rmdup.bam"  % config["genome_name"])
+    output:
+        bed=out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.rmdup.bed"  % config["genome_name"])
+    log:
+        convert=output_dict["log"] / "bam2bed.{assembler}.{assembly_stage}.{haplotype}.convert.log",
+        sort=output_dict["log"] / "bam2bed.{assembler}.{assembly_stage}.{haplotype}.sort.log",
+        cluster_log=output_dict["cluster_log"] / "bam2bed.{assembler}.{assembly_stage}.{haplotype}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "bam2bed.{assembler}.{assembly_stage}.{haplotype}.cluster.err"
+    benchmark:
+        output_dict["benchmark"]  / "bam2bed.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
+    conda:
+        "../../../%s" % config["conda_config"]
+    resources:
+        cpus=parameters["threads"]["bam2bed"] ,
+        time=parameters["time"]["bam2bed"],
+        mem=parameters["memory_mb"]["bam2bed"]
+    threads: parameters["threads"]["bam2bed"]
+
+    shell:
+        " bamToBed -i alignment.bam 2>{log.convert} | sort -k 4 > {output.bed} 2>{log.sort}"
