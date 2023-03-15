@@ -14,7 +14,7 @@ rule minimap2_index:
     benchmark:
         output_dict["benchmark"]  / "minimap2_index.{assembler}.purge_dups.{haplotype}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ../../../config["conda"]["common"]["yaml"]
     resources:
         cpus=parameters["threads"]["minimap2_index"],
         time=parameters["time"]["minimap2_index"],
@@ -38,7 +38,7 @@ rule create_primary_contig_link:
     benchmark:
         output_dict["benchmark"]  / "create_contig_links.purge_dups.{assembler}.hap1.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["create_links"] ,
         time=parameters["time"]["create_links"],
@@ -64,7 +64,7 @@ rule minimap2_purge_dups_reads: # TODO: add nanopore support
     benchmark:
         output_dict["benchmark"]  / "minimap2_purge_dups_reads.{assembler}.purge_dups.{haplotype}.{fileprefix}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["minimap2"] ,
         time=parameters["time"]["minimap2"],
@@ -99,7 +99,7 @@ rule get_purge_dups_read_stat: #TODO: adjust -d -m -u options for calcuts
     benchmark:
         output_dict["benchmark"]  / "minimap2_purge_dups_reads.{assembler}.purge_dups.{haplotype}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["get_purge_dups_read_stat"] ,
         time=parameters["time"]["get_purge_dups_read_stat"],
@@ -129,7 +129,7 @@ rule minimap2_purge_dups_assembly:
     benchmark:
         output_dict["benchmark"]  / "minimap2_purge_dups_assembly.{assembler}.purge_dups.{haplotype}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["minimap2"] ,
         time=parameters["time"]["minimap2"],
@@ -167,7 +167,7 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
     benchmark:
         output_dict["benchmark"]  / "purge_dups.{assembler}.purge_dups.{haplotype}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["purge_dups"] ,
         time=parameters["time"]["purge_dups"],
@@ -196,7 +196,7 @@ rule merge_pri_hapdups_with_alt: #
     benchmark:
         output_dict["benchmark"]  / "merge_pri_hapdups_with_alt.{assembler}.purge_dups..benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["merge_pri_hapdups_with_alt"] ,
         time=parameters["time"]["merge_pri_hapdups_with_alt"],
@@ -218,7 +218,7 @@ rule create_link_for_purged_fasta:
     benchmark:
         output_dict["benchmark"]  / "merge_pri_hapdups_with_alt.{assembler}.purge_dups.{haplotype}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["create_links"] ,
         time=parameters["time"]["create_links"],

@@ -21,7 +21,7 @@ rule busco5:
     benchmark:
         output_dict["benchmark"] / "busco5.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["busco5"],
         time=parameters["time"]["busco5"],

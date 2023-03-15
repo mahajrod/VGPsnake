@@ -21,7 +21,7 @@ rule genomescope:
     benchmark:
         output_dict["benchmark"] / "genomescope.{datatype}.{stage}.{kmer_length}.{kmer_tool}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["genomescope"],
         time=parameters["time"]["genomescope"],
@@ -48,7 +48,7 @@ rule parse_genomescope_output:
     benchmark:
         output_dict["benchmark"] / "parse_genomescope_output.{datatype}.{stage}.{kmer_length}.{kmer_tool}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["parse_genomescope_output"],
         time=parameters["time"]["parse_genomescope_output"],

@@ -11,7 +11,7 @@ rule bwa_index:
     benchmark:
         output_dict["benchmark"]  / "bwa_indexs.purge_dups.{assembler}.{haplotype}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["bwa_index"] ,
         time=parameters["time"]["bwa_index"],
@@ -33,7 +33,7 @@ rule ref_faidx:
     benchmark:
         output_dict["benchmark"]  / "ref_faidx.purge_dups.{assembler}.{haplotype}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["ref_faidx"] ,
         time=parameters["time"]["ref_faidx"],
@@ -55,7 +55,7 @@ rule ref_dict:
     benchmark:
         output_dict["benchmark"]  / "ref_dict.{assembler}.{haplotype}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["ref_dict"] ,
         time=parameters["time"]["ref_dict"],
@@ -78,7 +78,7 @@ rule index_bam:
     benchmark:
         output_dict["benchmark"]  / "ref_dict.{assembler}.{haplotype}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["ref_dict"] ,
         time=parameters["time"]["ref_dict"],

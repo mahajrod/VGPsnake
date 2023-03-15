@@ -1,5 +1,12 @@
-#---- Config files ----
-"conda_config": "workflow/envs/conda.yaml"
+#---- Conda config files and environments ----
+"conda":
+    "common":
+        "yaml": "workflow/envs/conda.common.yaml"
+        "name": "base"
+    "salsa2":
+        "yaml": "workflow/envs/conda.salsa2.yaml"
+        "name": "salsa2"
+
 #----
 #---- Directory structure config ----
 
@@ -547,3 +554,4 @@
 # add "basecall", "basecall_pacbio", "basecall_hic", "basecall_lr", basecall_stlfr
 
 "parameter_set": "default"
+"use_existing_envs": True # works only if --use-conda flag was set in snakemake command

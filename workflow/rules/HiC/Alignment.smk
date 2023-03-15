@@ -17,7 +17,7 @@ rule bwa_map: #
     benchmark:
         output_dict["benchmark"]  / "bwa_map.{assembler}.{assembly_stage}.{haplotype}.{fileprefix}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["bwa_map"] ,
         time=parameters["time"]["bwa_map"],
@@ -50,7 +50,7 @@ rule bam_merge_pairs:
     benchmark:
         output_dict["benchmark"]  / "bam_merge_pairs.{assembler}.{assembly_stage}.{haplotype}.{pairprefix}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["two_read_bam_combiner"] ,
         time=parameters["time"]["two_read_bam_combiner"],
@@ -80,7 +80,7 @@ rule bam_merge_files:
     benchmark:
         output_dict["benchmark"]  / "bam_merge_files.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["samtools_sort"] ,
         time=parameters["time"]["samtools_sort"],
@@ -107,7 +107,7 @@ rule rmdup:
     benchmark:
         output_dict["benchmark"]  / "rmdup.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["rmdup"] ,
         time=parameters["time"]["rmdup"],
@@ -133,7 +133,7 @@ rule bam2bed:
     benchmark:
         output_dict["benchmark"]  / "bam2bed.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["bam2bed"] ,
         time=parameters["time"]["bam2bed"],

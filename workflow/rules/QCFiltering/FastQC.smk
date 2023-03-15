@@ -20,7 +20,7 @@ rule fastqc:
     benchmark:
         output_dict["benchmark"] / "fastqc.{datatype}.{stage}.{fileprefix}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["fastqc"],
         time=parameters["time"]["fastqc"],

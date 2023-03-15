@@ -26,7 +26,7 @@ rule multiqc:
     benchmark:
         output_dict["benchmark"] / "multiqc.{datatype}.{stage}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["multiqc"],
         time=parameters["time"]["multiqc"],

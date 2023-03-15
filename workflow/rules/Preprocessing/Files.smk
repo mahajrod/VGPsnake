@@ -14,7 +14,7 @@ rule create_fastq_links:
     benchmark:
         output_dict["benchmark"] / "create_fastq_links.{datatype}.{fileprefix}.benchmark.txt",
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["create_fastq_links"],
         time=parameters["time"]["create_fastq_links"],

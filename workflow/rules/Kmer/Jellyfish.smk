@@ -24,7 +24,7 @@ rule jellyfish:
     benchmark:
         output_dict["benchmark"] / "jellyfish.{datatype}.{stage}.{kmer_length}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["jellyfish"],
         time=parameters["time"]["jellyfish"],

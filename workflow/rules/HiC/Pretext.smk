@@ -16,7 +16,7 @@ rule pretextmap: #
     benchmark:
         output_dict["benchmark"]  / "pretextmap.{assembler}.hic_scaffolding.{haplotype}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["pretextmap"] ,
         time=parameters["time"]["pretextmap"],
@@ -52,7 +52,7 @@ rule pretextsnapshot:
     benchmark:
         output_dict["benchmark"]  / "pretextsnapshot.{assembler}.hic_scaffolding.{haplotype}.{ext}.{resolution}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["pretextmap"] ,
         time=parameters["time"]["pretextmap"],

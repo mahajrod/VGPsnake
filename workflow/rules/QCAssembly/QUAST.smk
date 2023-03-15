@@ -16,7 +16,7 @@ rule quast:
     benchmark:
         output_dict["benchmark"] / "quast.{assembler}.{assembly_stage}.{haplotype}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["quast"],
         time=parameters["time"]["quast"],

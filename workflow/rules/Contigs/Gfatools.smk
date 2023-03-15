@@ -10,7 +10,7 @@ rule gfa2fasta:
     benchmark:
         output_dict["benchmark"] / "gfa2fasta.{assembler}.{haplotype}.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["gfa2fasta"],
         time=parameters["time"]["gfa2fasta"],

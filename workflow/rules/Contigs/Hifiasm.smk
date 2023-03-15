@@ -30,7 +30,7 @@ rule hifiasm: # TODO: implement modes without hic data
     benchmark:
         output_dict["benchmark"] / "hifiasm.benchmark.txt"
     conda:
-        "../../../%s" % config["conda_config"]
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["hifiasm"],
         time=parameters["time"]["hifiasm"],
