@@ -122,7 +122,7 @@ rule rmdup:
 
 rule bam2bed:
     input:
-        bam=out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.rmdup.bam"  % config["genome_name"])
+        bam=rules.rmdup.output.bam
     output:
         bed=out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.rmdup.bed"  % config["genome_name"])
     log:
