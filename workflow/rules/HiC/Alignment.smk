@@ -33,7 +33,7 @@ rule bam_merge_pairs:
     input:
         forward_bam=out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.{pairprefix}%s.bam" % (config["genome_name"], input_forward_suffix_dict["hic"])),
         reverse_bam=out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.{pairprefix}%s.bam" % (config["genome_name"], input_reverse_suffix_dict["hic"])),
-        reference_fai=rule.ref_faidx.output.fai
+        reference_fai=rules.ref_faidx.output.fai
     output:
         bam=out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.{pairprefix}.bam" % config["genome_name"]) # TODO: make_temp
     params:
