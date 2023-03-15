@@ -21,6 +21,18 @@ def p_distance(seq_a, seq_b, seq_len):
             dist += 1
     return dist
 
+def get_common_prefix_ans_suffixes(seq_a, seq_b):
+    seq_a_len = len(seq_a)
+    seq_b_len = len(seq_b)
+
+    prefix = ""
+    for i in range(0, min(seq_a_len, seq_b_len)):
+        if seq_a[i] != seq_b[i]:
+           return prefix, seq_a[i:], seq_b[i:]
+        prefix += seq_a[i]
+    return prefix, "", ""
+
+
 """
 def make_fastq_lists(fastq_dir, filename_fragment_to_mark_se_reads=".se.", input_is_se=False,
                      fastq_extensions=(".fastq", ".fq")):
@@ -190,6 +202,9 @@ logging.info("Checking input files...")
 
 input_filedict = {}
 input_file_prefix_dict = {}
+input_forward_suffix_dict = {}
+input_reverse_suffix_dict = {}
+input_pairprefix_dict = {}
 
 for d_type in fastq_based_data_type_set:
     input_filedict[d_type] = find_fastqs(input_dict[d_type]["fastq_dir"], fastq_extension=config["fastq_extension"])
@@ -200,10 +215,26 @@ for d_type in set(config["paired_fastq_based_data"]) & fastq_based_data_type_set
    if (len(input_filedict[d_type]) % 2) != 0:
         raise ValueError("ERROR!!! {0} fastq files seems to be unpaired or misrecognized".format(d_type))
    for forward, reverse in zip(input_filedict[d_type][::2], input_filedict[d_type][1::2]):
-        print(forward, reverse)
+        #print(forward, reverse)
         if p_distance(str(forward), str(reverse), len(str(forward))) > 1:
             raise ValueError("ERROR!!! Forward and reverse read files differs by more than one symbol:\n\t{0}\n\t{1}".format(str(forward),
                                                                                                                              str(reverse)))
+#get_suffixes for paired fastq data
+for d_type in set(config["paired_fastq_based_data"]) & fastq_based_data_type_set:
+    input_forward_suffix_dict[d_type] = set()
+    input_reverse_suffix_dict[d_type] = set()
+    input_pairprefix_dict[d_type] = []
+    for forward_prefix, reverse_prefix in zip(input_file_prefix_dict[d_type][::2], input_file_prefix_dict[d_type][1::2]):
+        common_prefix, forward_suffix, reverse_suffix = get_common_prefix_ans_suffixes(forward_prefix, reverse_prefix)
+        input_pairprefix_dict[d_type].append(common_prefix)
+        input_forward_suffix_dict[d_type].add(forward_suffix)
+        input_reverse_suffix_dict[d_type].add(reverse_suffix)
+    if (len(input_forward_suffix_dict[d_type]) > 1) or (input_reverse_suffix_dict[d_type] > 1):
+        raise ValueError("ERROR!!! Multiple different suffixes in filenames of %s data!" % d_type)
+    input_forward_suffix_dict[d_type] = list(input_forward_suffix_dict[d_type])[0]
+    input_reverse_suffix_dict[d_type] = list(input_reverse_suffix_dict[d_type])[0]
+
+
 
 """
 if "pacbio" in data_types:
@@ -380,7 +411,11 @@ results_dict["hic_scaffolding"] = [*results_dict["purge_dups"],
                                           assembly_stage=["hic_scaffolding"],
                                           haplotype=[primary_haplotype, alternative_haplotype],
                                           assembler=assembler_list,
-                                          fileprefix=input_file_prefix_dict["hic"])
+                                          fileprefix=input_file_prefix_dict["hic"]),
+                                   expand(out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.rmdup.bam"  % config["genome_name"]),
+                                          assembly_stage=["hic_scaffolding"],
+                                          haplotype=[primary_haplotype, alternative_haplotype],
+                                          assembler=assembler_list,),
 
                                    ]
 """
@@ -437,4 +472,5 @@ include: "workflow/rules/QCAssembly/BUSCO5.smk"
 include: "workflow/rules/QCAssembly/Merqury.smk"
 include: "workflow/rules/QCAssembly/QUAST.smk"
 include: "workflow/rules/Contigs/Purge_dups.smk"
+include: "workflow/rules/HiC/Index.smk"
 include: "workflow/rules/HiC/Alignment.smk"

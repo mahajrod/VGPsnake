@@ -90,19 +90,18 @@
             "create_links": 1
             "bwa_index": 1
             "bwa_map": 30
-
-            ref_faidx: 1
-            ref_dict: 1
-
+            "two_read_bam_combiner": 1
+            "samtools_sort": 4
+            "ref_faidx": 1
+            "ref_dict": 1
+            "rmdup": 4
 
             bowtie2: 8
-            sort: 2
-            fixmate: 1
-            index: 1
+
             mosdepth: 3
             basecall: 30
             get_basecall_stats: 1
-            picard: 1
+
         "memory_mb":
             "create_fastq_links": 100
             "fastqc": 5000
@@ -124,11 +123,14 @@
             "create_links": 100
             "bwa_index": 10000
             "bwa_map": 30000
+            "two_read_bam_combiner": 5000
+            "samtools_sort": 30000
+            "ref_faidx": 3000
+            "ref_dict": 3000
+            "rmdup": 15000
 
-            fastqc_filtered: 2000
 
-            bowtie2: 10000
-            fixmate: 10000
+
             mosdepth: 4000 #The amount of memory is approximately equal to 32-bits * longest chrom length, so for the 249MB chromosome 1, it will require 1GB of memory.
             basecall: 20000
         "time": #TODO: adjust
@@ -153,21 +155,20 @@
             "create_links": "00:01:00"
             "bwa_index": "10:00:00"
             "bwa_map": "24:00:00"
+            "two_read_bam_combiner": "24:00:00"
+            "samtools_sort": "24:00:00"
+            "ref_faidx": "02:00:00"
+            "ref_dict": "02:00:00"
+            "rmdup": "24:00:00"
 
-            bowtie2_rna_map: "05:00:00"
+
             mosdepth: "02:00:00"
             basecall: "10:00:00"
 
             bowtie2_index: "12:00:00"
 
             get_basecall_stats: "00:10:00"
-            gather_per_library_read_stats: "00:10:00"
 
-            rmdup_raw_reads: "04:00:00"
-            merge_target_regions_raw_reads: "00:10:00"
-            merge_all_annotation: "00:10:00"
-
-            merge_rna_counts_by_replicates: "00:30:00"
 
         "tool_options":
             "cutadapt":
@@ -218,6 +219,8 @@
                 "index_size": "4G"
                 "self_alignment_scheme": " -xasm5 -DP " #TODO: check if it OK, and what scheme is used in the ERGA pipeline
                 "hifi_alignment_scheme": " -x map-hifi "
+            "two_read_bam_combiner":
+                "mapq": 10
     "micro": # < 15 Mbp, yeasts and bacteria
         "threads":
             "jellyfish": 30
