@@ -230,7 +230,7 @@
             "pretextmap":
                 "mapq": 10
                 "sortby": "length"
-                "sortorder": "descent"
+                "sortorder": "descend"
             "pretextsnapshot":
                 "sequences": "=full"
                 "format":
