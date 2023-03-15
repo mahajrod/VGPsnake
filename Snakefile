@@ -416,7 +416,11 @@ results_dict["hic_scaffolding"] = [*results_dict["purge_dups"],
                                           assembly_stage=["hic_scaffolding"],
                                           haplotype=[primary_haplotype, alternative_haplotype],
                                           assembler=assembler_list,),
-
+                                   wxpand(out_dir_path / ("hic_scaffolding/{assembler}/{haplotype}/alignment/%s.map.{assembler}.{haplotype}.{resolution}.{ext}" % config["genome_name"]),
+                                          haplotype=[primary_haplotype, alternative_haplotype],
+                                          assembler=assembler_list,
+                                          resolution=parameters["tool_options"]["pretextsnapshot"]["resolution"],
+                                          ext=parameters["tool_options"]["pretextsnapshot"]["format"]),
                                    ]
 """
                               #,
@@ -474,3 +478,4 @@ include: "workflow/rules/QCAssembly/QUAST.smk"
 include: "workflow/rules/Contigs/Purge_dups.smk"
 include: "workflow/rules/HiC/Index.smk"
 include: "workflow/rules/HiC/Alignment.smk"
+include: "workflow/rules/HiC/Pretext.smk"

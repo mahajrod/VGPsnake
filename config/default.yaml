@@ -96,6 +96,8 @@
             "ref_dict": 1
             "rmdup": 4
             "bam2bed": 4
+            "pretextmap": 3
+            "pretextsnapshot": 4
 
             bowtie2: 8
 
@@ -130,7 +132,8 @@
             "ref_dict": 3000
             "rmdup": 15000
             "bam2bed": 40000 # TODO: adjust depending on the genome size
-
+            "pretextmap": 10000
+            "pretextsnapshot": 5000
 
             mosdepth: 4000 #The amount of memory is approximately equal to 32-bits * longest chrom length, so for the 249MB chromosome 1, it will require 1GB of memory.
             basecall: 20000
@@ -162,6 +165,8 @@
             "ref_dict": "02:00:00"
             "rmdup": "24:00:00"
             "bam2bed": "24:00:00"
+            "pretextmap": "12:00:00"
+            "pretextsnapshot": "04:00:00"
 
             mosdepth: "02:00:00"
             basecall: "10:00:00"
@@ -222,6 +227,18 @@
                 "hifi_alignment_scheme": " -x map-hifi "
             "two_read_bam_combiner":
                 "mapq": 10
+            "pretextmap":
+                "mapq": 10
+                "sortby": "length"
+                "sortorder": "descent"
+            "pretextsnapshot":
+                "sequences": "=full"
+                "format":
+                    - "png"
+                    - "bmp"
+                "resolution":
+                    - 2048
+                    - 4096
     "micro": # < 15 Mbp, yeasts and bacteria
         "threads":
             "jellyfish": 30
