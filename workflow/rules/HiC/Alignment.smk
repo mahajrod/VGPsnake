@@ -67,7 +67,7 @@ rule bam_merge_files:
         bams=expand(out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.{pairprefix}.bam" % config["genome_name"]),
                     allow_missing=True,
                     pairprefix=input_pairprefix_dict["hic"]),
-        reference_fai=rule.ref_faidx.output.fai,
+        reference_fai=rules.ref_faidx.output.fai,
         reference=out_dir_path  / ("purge_dups/{assembler}/%s.purge_dups.{assembler}.{haplotype}.fasta" % config["genome_name"])
     output:
         bam=out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.bam"  % config["genome_name"]) # TODO: make temp
