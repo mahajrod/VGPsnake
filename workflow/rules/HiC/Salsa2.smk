@@ -17,7 +17,7 @@ rule salsa2: #
     benchmark:
         output_dict["benchmark"]  / "salsa2.{assembler}.hic_scaffolding.{haplotype}.benchmark.txt"
     conda:
-        config["conda"]["common"]["salsa2"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["salsa2"]["yaml"])
+        config["conda"]["salsa2"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["salsa2"]["yaml"])
     resources:
         cpus=parameters["threads"]["salsa2"] ,
         time=parameters["time"]["salsa2"],
