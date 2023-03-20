@@ -3,7 +3,7 @@ rule bwa_index:
     input:
         fasta=out_dir_path  / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.{haplotype}.fasta" % config["genome_name"])
     output:
-        index=out_dir_path  / ("{assembly_stage}{assembler}/%s.{assembly_stage}.{assembler}.{haplotype}.fasta.bwt" % config["genome_name"])
+        index=out_dir_path  / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.{haplotype}.fasta.bwt" % config["genome_name"])
     log:
         std=output_dict["log"]  / "bwa_index.{assembly_stage}.{assembler}.{haplotype}.log",
         cluster_log=output_dict["cluster_log"] / "bwa_index.{assembly_stage}.{assembler}.{haplotype}.cluster.log",
