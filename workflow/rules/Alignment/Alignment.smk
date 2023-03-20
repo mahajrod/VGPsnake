@@ -2,7 +2,7 @@
 rule bwa_map: #
     input:
         index=rules.bwa_index.output.index,
-        reference=out_dir_path  / ("{assembly_stage}/{assembler}/%s.purge_dups.{assembler}.{haplotype}.fasta" % config["genome_name"]),
+        reference=out_dir_path  / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.{haplotype}.fasta" % config["genome_name"]),
         fastq=output_dict["data"] / ("fastq/hic/raw/{fileprefix}%s" % config["fastq_extension"])
     output:
         bam=out_dir_path  / ("{assembly_stage}/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.{fileprefix}.bam" % config["genome_name"]) # TODO: make_temp
@@ -68,7 +68,7 @@ rule bam_merge_files:
                     allow_missing=True,
                     pairprefix=input_pairprefix_dict["hic"]),
         reference_fai=rules.ref_faidx.output.fai,
-        reference=out_dir_path  / ("{assembly_stage}/{assembler}/%s.purge_dups.{assembler}.{haplotype}.fasta" % config["genome_name"])
+        reference=out_dir_path  / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.{haplotype}.fasta" % config["genome_name"])
     output:
         bam=out_dir_path  / ("{assembly_stage}/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.bam"  % config["genome_name"]) # TODO: make temp
     params:
