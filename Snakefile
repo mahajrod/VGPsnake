@@ -319,7 +319,7 @@ assembler_list = ["hifiasm", ] # TODO: implement possibility of other assemblers
 primary_haplotype = "hap1"
 alternative_haplotype = "hap2"
 
-haplotype_list = ["hap%i".format(i) for i in range(1, config["ploidy"] + 1)]
+haplotype_list = ["hap{0}".format(i) for i in range(1, config["ploidy"] + 1)]
 
 results_dict["check_input"] = [
                                final_config_yaml,
