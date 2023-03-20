@@ -439,7 +439,6 @@ results_dict["hic_scaffolding"] = [*results_dict["purge_dups"],
                                    expand(out_dir_path  / ("hic_scaffolding/{assembler}/%s.hic_scaffolding.{assembler}.{haplotype}.fasta" % config["genome_name"]),
                                           haplotype=haplotype_list,
                                           assembler=assembler_list,),
-
                                    expand(output_dict["assembly_qc"] /"{assembly_stage}/busco5/{assembler}/{haplotype}/",
                                           assembly_stage=["hic_scaffolding"],
                                           haplotype=haplotype_list,
