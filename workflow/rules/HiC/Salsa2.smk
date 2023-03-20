@@ -1,17 +1,20 @@
 
 rule salsa2: #
     input:
-        bed=out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/alignment/%s.hic_scaffolding.{assembler}.{haplotype}.bwa.filtered.rmdup.bed"  % config["genome_name"]),
+        bed=out_dir_path  / ("purge_dups/{assembler}/{haplotype}/alignment/%s.purge_dups.{assembler}.{haplotype}.bwa.filtered.rmdup.bed"  % config["genome_name"]),
         reference=out_dir_path  / ("purge_dups/{assembler}/%s.purge_dups.{assembler}.{haplotype}.fasta" % config["genome_name"]),
         reference_fai=out_dir_path  / ("purge_dups/{assembler}/%s.purge_dups.{assembler}.{haplotype}.fai" % config["genome_name"])
     output:
-        dir=directory(out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/scaffolding/%s"  % config["genome_name"])),
+        dir=directory(out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/scaffolding/%s/"  % config["genome_name"])),
+        fasta=out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/scaffolding/%s/scaffolds_FINAL.fasta"  % config["genome_name"]),
+        alias=out_dir_path  / ("hic_scaffolding/{assembler}/%s.hic_scaffolding.{assembler}.{haplotype}.fasta" % config["genome_name"])
     params:
         min_contig_len=parameters["tool_options"]["salsa2"]["min_contig_len"],
         restriction_seq=parameters["tool_options"]["salsa2"]["restriction_seq"][config["hic_enzyme_set"]],
         sortorder=parameters["tool_options"]["pretextmap"]["sortorder"]
     log:
-        std=output_dict["log"]  / "salsa2.{assembler}.hic_scaffolding.{haplotype}.log",
+        salsa=output_dict["log"]  / "salsa2.{assembler}.hic_scaffolding.{haplotype}.salsa.log",
+        ln=output_dict["log"]  / "salsa2.{assembler}.hic_scaffolding.{haplotype}.ln.log",
         cluster_log=output_dict["cluster_log"] / "salsa2.{assembler}.hic_scaffolding.{haplotype}.cluster.log",
         cluster_err=output_dict["cluster_error"] / "salsa2.{assembler}.hic_scaffolding.{haplotype}.cluster.err"
     benchmark:
@@ -27,4 +30,5 @@ rule salsa2: #
     shell:
         " run_pipeline.py -a {input.reference} -l {input.reference_fai} -b {input.bed} -e {params.restriction_seq} "
         " -m yes -p yes "
-        " -o {output.dir}  > {log.std} 2>&1"
+        " -o {output.dir} > {log.salsa} 2>&1;"
+        " ln {output.fasta} {output.alias} > {log.ln} 2>&1"

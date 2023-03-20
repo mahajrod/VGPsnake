@@ -254,6 +254,14 @@
                     "Arima": "GATC,GANTC"
                     "OmniC": "DNASE"
                     "MboI": "GATC"
+                "ligation_motif":
+                    "Arima": "GAATAATC,GAATACTC,GAATAGTC,GAATATTC,GAATGATC,GACTAATC,GACTACTC,GACTAGTC,GACTATTC,GACTGATC,GAGTAATC,GAGTACTC,GAGTAGTC,GAGTATTC,GAGTGATC,GATCAATC,GATCACTC,GATCAGTC,GATCATTC,GATCGATC,GATTAATC,GATTACTC,GATTAGTC,GATTATTC,GATTGATC"
+                    "HindIII": "AAGCTAGCTT"
+                    "DpnII": "GATCGATC"
+                    "MboI": "GATCGATC"
+                    "NcoI": "CCATGCATGG"
+                    "Csp6I_MseI": "TTATAA,GTATAC,GTATAA,TTATAC"
+
     "micro": # < 15 Mbp, yeasts and bacteria
         "threads":
             "jellyfish": 30
