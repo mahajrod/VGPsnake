@@ -421,7 +421,7 @@ results_dict["hic_scaffolding"] = [*results_dict["purge_dups"],
                                           assembler=assembler_list,
                                           resolution=parameters["tool_options"]["pretextsnapshot"]["resolution"],
                                           ext=parameters["tool_options"]["pretextsnapshot"]["format"]),
-                                   expand(directory(out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/scaffolding/%s"  % config["genome_name"])),
+                                   expand(out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/scaffolding/%s"  % config["genome_name"]),
                                           haplotype=[primary_haplotype, alternative_haplotype],
                                           assembler=assembler_list,)
                                    ]
