@@ -105,12 +105,11 @@
             "bam2bed": 4
             "pretextmap": 3
             "pretextsnapshot": 4
+            "salsa2": 10 #TODO: adjust
 
-            bowtie2: 8
 
             mosdepth: 3
             basecall: 30
-            get_basecall_stats: 1
 
         "memory_mb":
             "create_fastq_links": 100
@@ -141,9 +140,11 @@
             "bam2bed": 40000 # TODO: adjust depending on the genome size
             "pretextmap": 10000
             "pretextsnapshot": 5000
+            "salsa2": 50000 # TODO: adjust
 
             mosdepth: 4000 #The amount of memory is approximately equal to 32-bits * longest chrom length, so for the 249MB chromosome 1, it will require 1GB of memory.
             basecall: 20000
+
         "time": #TODO: adjust
             "create_fastq_links": "00:05:00"
             "fastqc": "04:00:00"
@@ -174,6 +175,7 @@
             "bam2bed": "24:00:00"
             "pretextmap": "12:00:00"
             "pretextsnapshot": "04:00:00"
+            "salsa2": "12:00:00"
 
             mosdepth: "02:00:00"
             basecall: "10:00:00"
@@ -246,6 +248,12 @@
                 "resolution":
                     - 2048
                     - 4096
+            "salsa2":
+                "min_contig_len": 1000
+                "restriction_seq":
+                    "Arima": "GATC,GANTC"
+                    "OmniC": "DNASE"
+                    "MboI": "GATC"
     "micro": # < 15 Mbp, yeasts and bacteria
         "threads":
             "jellyfish": 30
@@ -537,11 +545,14 @@
 "genome_name": "genome"
 "busco_lineage": "mammalia_odb10" #
 
+
 "final_kmer_counter": "meryl" # pipeline allows usage of different kmer counter tools, but only one genomesize assessment could be used
 "final_kmer_length": 21 # pipeline allows usage of different kmer length, but only one genomesize assessment could be used
 "final_kmer_datatype": "pacbio"
 #Often used BUSCO lineages: mammalia_odb10, vertebrata_odb10, laurasiatheria_odb10, carnivora_odb10,
 #                           actinopterygii_odb10, saccharomycetes_odb10, sauropsida_odb10, aves_odb10
+
+"hic_enzyme_set": "Arima"
 
 #---- Pipeline modes ----
 

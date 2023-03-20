@@ -421,6 +421,9 @@ results_dict["hic_scaffolding"] = [*results_dict["purge_dups"],
                                           assembler=assembler_list,
                                           resolution=parameters["tool_options"]["pretextsnapshot"]["resolution"],
                                           ext=parameters["tool_options"]["pretextsnapshot"]["format"]),
+                                   expand(directory(out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/scaffolding/%s"  % config["genome_name"])),
+                                          haplotype=[primary_haplotype, alternative_haplotype],
+                                          assembler=assembler_list,)
                                    ]
 """
                               #,
@@ -479,3 +482,4 @@ include: "workflow/rules/Contigs/Purge_dups.smk"
 include: "workflow/rules/HiC/Index.smk"
 include: "workflow/rules/HiC/Alignment.smk"
 include: "workflow/rules/HiC/Pretext.smk"
+include: "workflow/rules/HiC/Salsa2.smk"
