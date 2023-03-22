@@ -162,18 +162,18 @@
             "minimap2_index": "12:00:00"
             "minimap2": "12:00:00"
             "get_purge_dups_read_stat": "12:00:00" # TODO: adjust
-            "purge_dups": "24:00:00" # TODO adjust depending on genome size
-            "merge_pri_hapdups_with_alt": "10:00:00"
+            "purge_dups": "10:00:00" # TODO adjust depending on genome size
+            "merge_pri_hapdups_with_alt": "01:00:00"
             "create_links": "00:01:00"
-            "bwa_index": "10:00:00"
-            "bwa_map": "24:00:00"
-            "two_read_bam_combiner": "24:00:00"
-            "samtools_sort": "24:00:00"
+            "bwa_index": "5:00:00"
+            "bwa_map": "12:00:00"
+            "two_read_bam_combiner": "5:00:00"
+            "samtools_sort": "8:00:00"
             "ref_faidx": "02:00:00"
             "ref_dict": "02:00:00"
-            "rmdup": "24:00:00"
-            "bam2bed": "24:00:00"
-            "pretextmap": "12:00:00"
+            "rmdup": "8:00:00"
+            "bam2bed": "5:00:00"
+            "pretextmap": "8:00:00"
             "pretextsnapshot": "04:00:00"
             "salsa2": "12:00:00"
 
