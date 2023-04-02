@@ -35,7 +35,7 @@
   - "config"
   - "data"
   - "qc"
-  - "assembly_qc"
+  #- "assembly_qc"
   - "log"
   - "benchmark"
   - "cluster_log"
