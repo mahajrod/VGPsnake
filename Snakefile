@@ -202,7 +202,16 @@ for dat_type in genome_size_estimation_data_type_set:
 config["stage_list"] = []
 
 # Select configuration and combine stages from all mega_stages in a single list without nesting
-for mega_stage in config["allowed_stage_list"]:
+if config["mode"] == "preprocessing":
+    mega_stage_list = ["preprocessing"]
+elif config["mode"] == "qc":
+    mega_stage_list = ["preprocessing", "qc"]
+elif config["mode"] == "assembly":
+    mega_stage_list = ["preprocessing", "qc", "assembly"]
+else:
+    raise ValueError("ERROR!!! Unknown mode: %s" % config["mode"])
+
+for mega_stage in mega_stage_list:
     custom_megastage_entry = "custom_" + mega_stage + "_stages"
     if (custom_megastage_entry in config) and (config[custom_megastage_entry]):
         config["stage_list"].append(config[custom_megastage_entry])
