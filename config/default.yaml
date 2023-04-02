@@ -18,7 +18,8 @@
 #---- Input ----
 "input_dir": "input/"
 
-#"pacbio_subdir": "pacbio/"
+#"hifi_subdir": "hifi/"
+#"clr_subdir": "clr/"
 #"nanopore_subdir": "nanopore/"
 #"bionano_subdir": "bionano/"
 #"hic_subdir": "hic/"
@@ -42,6 +43,7 @@
   - "preprocessing"
   - "basecall"
   - "kmer"
+  - "draft"
   - "contig"
   - "purge_dups"
   - "lr_scaffolding"
@@ -51,9 +53,10 @@
 "config_subdir": "config"
 "data_subdir": "data"
 "qc_subdir": "qc"
-"assembly_qc_subdir": "assembly_qc"
+#"assembly_qc_subdir": "assembly_qc"
 "kmer_subdir": "kmer"
 "log_subdir": "logs"
+"draft_subdir": "draft"
 
 "benchmark_subdir": "benchmarks"
 "cluster_log_subdir": "cluster_logs"
@@ -77,6 +80,7 @@
     "default":
         "threads":
             "create_fastq_links": 1
+            "create_links_for_draft": 1
             "fastqc": 1
             "multiqc": 1
             "cutadapt": 5
@@ -87,7 +91,7 @@
             "hifiasm": 30
             "gfa2fasta": 1
             "busco5": 30
-            "quast": 10
+            "quast": 4
             "merqury": 20
             "minimap2_index": 10
             "minimap2": 30
@@ -113,6 +117,7 @@
 
         "memory_mb":
             "create_fastq_links": 100
+            "create_links_for_draft": 100
             "fastqc": 5000
             "multiqc": 1000
             "cutadapt": 10000
@@ -132,7 +137,7 @@
             "create_links": 100
             "bwa_index": 10000
             "bwa_map": 30000
-            "two_read_bam_combiner": 5000
+            "two_read_bam_combiner": 25000
             "samtools_sort": 30000
             "ref_faidx": 3000
             "ref_dict": 3000
@@ -147,6 +152,7 @@
 
         "time": #TODO: adjust
             "create_fastq_links": "00:05:00"
+            "create_links_for_draft": "00:05:00"
             "fastqc": "04:00:00"
             "multiqc": "00:10:00"
             "cutadapt": "04:00:00"
@@ -171,7 +177,7 @@
             "samtools_sort": "8:00:00"
             "ref_faidx": "02:00:00"
             "ref_dict": "02:00:00"
-            "rmdup": "8:00:00"
+            "rmdup": "24:00:00"
             "bam2bed": "5:00:00"
             "pretextmap": "8:00:00"
             "pretextsnapshot": "04:00:00"
@@ -187,7 +193,7 @@
 
         "tool_options":
             "cutadapt":
-                "pacbio":
+                "hifi":
                     "error_rate": 0.1 # --error-rate / -e
                     "min_adapter_length": 35 # --overlap / -O
                     "adapter_match_times": 3 # -n / --times
@@ -204,7 +210,7 @@
                 "min_coverage": 1
                 "max_coverage": 100000000
                 "increment": 1
-                "pacbio":
+                "hifi":
                     "kmer_length":
                         - 21
                     "hash_size": "20G"
@@ -219,15 +225,49 @@
                     "max_coverage": 100000000
                     "increment": 1
             "meryl":
-                "pacbio":
+                "hifi":
                     "kmer_length":
                         - 21
                 "illumina":
                     "kmer_length":
                         - 21
             "hifiasm":
-                "purge level": 0 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
-                "cov_multiplicator": 4.5 # 4.5 *lambda
+                "default":
+                    "purge level": 0 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": True
+                "l0primary":
+                    "purge level": 0 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": True
+                "l1primary":
+                    "purge level": 1 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": True
+                "l2primary":
+                    "purge level": 2 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": True
+                "l3primary":
+                    "purge level": 3 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": True
+                "l0":
+                    "purge level": 0 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": False
+                "l1":
+                    "purge level": 1 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": False
+                "l2":
+                    "purge level": 2 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": False
+                "l3":
+                    "purge level": 3 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": False
             "quast":
                 "large_genome": True
             "minimap2":
@@ -249,7 +289,6 @@
                     - 2048
                     - 4096
             "salsa2":
-                "min_contig_len": 1000
                 "restriction_seq":
                     "Arima": "GATC,GANTC"
                     "OmniC": "DNASE"
@@ -261,7 +300,8 @@
                     "MboI": "GATCGATC"
                     "NcoI": "CCATGCATGG"
                     "Csp6I_MseI": "TTATAA,GTATAC,GTATAA,TTATAC"
-
+                "default":
+                     "min_contig_len": 1000
     "micro": # < 15 Mbp, yeasts and bacteria
         "threads":
             "jellyfish": 30
@@ -281,7 +321,7 @@
             "minimap2": "01:00:00"
         "tool_options":
             "jellyfish":
-                "pacbio":
+                "hifi":
                     "kmer_length":
                         - 21
                     "hash_size": "200M"
@@ -290,7 +330,7 @@
                         - 21
                     "hash_size": "200M"
             "meryl":
-                "pacbio":
+                "hifi":
                     "kmer_length":
                         - 21
                 "illumina":
@@ -317,7 +357,7 @@
             "minimap2": "04:00:00"
         "tool_options":
             "jellyfish":
-                "pacbio":
+                "hifi":
                     "kmer_length":
                         - 21
                     "hash_size": "2G"
@@ -326,7 +366,7 @@
                         - 21
                     "hash_size": "2G"
             "meryl":
-                "pacbio":
+                "hifi":
                     "kmer_length":
                         - 21
                 "illumina":
@@ -353,7 +393,7 @@
             "minimap2": "10:00:00"
         "tool_options":
             "jellyfish":
-                "pacbio":
+                "hifi":
                     "kmer_length":
                         - 21
                     "hash_size": "7G"
@@ -362,7 +402,7 @@
                         - 21
                     "hash_size": "7G"
             "meryl":
-                "pacbio":
+                "hifi":
                     "kmer_length":
                         - 21
                 "illumina":
@@ -372,7 +412,7 @@
                 "large_genome": True
             "minimap2":
                 "index_size": "4G"
-    "normal": # < 1500 Mbp, most of birds
+    "normal": # < 1500 Mbp, most of the birds
         "threads":
             "jellyfish": 30
             "hifiasm": 30
@@ -389,7 +429,7 @@
             "minimap2": "10:00:00"
         "tool_options":
             "jellyfish":
-                "pacbio":
+                "hifi":
                     "kmer_length":
                         - 21
                     "hash_size": "20G"
@@ -398,7 +438,7 @@
                         - 21
                     "hash_size": "20G"
             "meryl":
-                "pacbio":
+                "hifi":
                     "kmer_length":
                         - 21
                 "illumina":
@@ -408,7 +448,7 @@
                 "large_genome": True
             "minimap2":
                 "index_size": "4G"
-    "big": # < 2500 Mbp, most of mammals
+    "big": # < 2500 Mbp, most of the mammals
         "threads":
             "jellyfish": 30
             "hifiasm": 30
@@ -425,7 +465,7 @@
             "minimap2": "20:00:00"
         "tool_options":
             "jellyfish":
-                "pacbio":
+                "hifi":
                     "kmer_length":
                         - 21
                     "hash_size": "32G"
@@ -434,7 +474,7 @@
                         - 21
                     "hash_size": "32G"
             "meryl":
-                "pacbio":
+                "hifi":
                     "kmer_length":
                         - 21
                 "illumina":
@@ -461,7 +501,7 @@
             "minimap2": "40:00:00"
         "tool_options":
             "jellyfish":
-                "pacbio":
+                "hifi":
                     "kmer_length":
                         - 21
                     "hash_size": "64G"
@@ -470,7 +510,7 @@
                         - 21
                     "hash_size": "64G"
             "meryl":
-                "pacbio":
+                "hifi":
                     "kmer_length":
                         - 21
                 "illumina":
@@ -497,7 +537,7 @@
             "minimap2": "100:00:00"
         "tool_options":
             "jellyfish":
-                "pacbio":
+                "hifi":
                     "kmer_length":
                         - 21
                     "hash_size": "128G"
@@ -506,7 +546,7 @@
                         - 21
                     "hash_size": "128G"
             "meryl":
-                "pacbio":
+                "hifi":
                     "kmer_length":
                         - 21
                 "illumina":
@@ -518,26 +558,28 @@
                 "index_size": "30G"
 
 "kmer_counter_list":
-    - "jellyfish"
-    - "meryl" #TODO: test
+    #- "jellyfish"
+    - "meryl"
 
 "allowed_data_types":
-    - "pacbio"
+    - "hifi"
+    #- "clr"
     #- "nanopore"
-    - "bionano"
+    #- "bionano"
     - "hic"
     #- "lr"
 
 "long_read_data":
-    - "pacbio"
+    - "hifi"
+    - "clr"
     - "nanopore"
 
 "genome_size_estimation_data":
-    - "pacbio"
-
+    - "hifi"
 
 "fastq_based_data":
-    - "pacbio"
+    - "hifi"
+    - "clr"
     - "nanopore"
     - "hic"
     - "lr"
@@ -549,28 +591,120 @@
 "fastq_extension": ".fastq.gz"
 "cmap_extension": ".cmap"
 
+"allowed_stage_list": # Dictionary containing description of stage variants
+    "preprocessing":                 # mega_stage
+        "default":                   # stage_set_name
+            "fastq":                 # starting point
+                - "check_reads"      # stage
+            "draft":                 # starting point
+                - "check_reads"      # stage
+                - "check_draft"      # stage
+    "qc":
+        "default":
+            "fastq":
+                - "read_qc"
+                - "filter_reads"
+            "draft":
+                - "read_qc"
+                - "filter_reads"
+                #- "filter_draft"
+                - "draft_qc"
+    "assembly": #TODO: add bionano
+        "default": # same as "full"
+            "fastq":
+                - "contig"
+                - "purge_dups"
+                - "hic_scaffolding"
+            "draft":
+                - "purge_dups"
+                - "hic_scaffolding"
+        "full":
+            "fastq":
+                - "contig"
+                - "purge_dups"
+                - "hic_scaffolding"
+            "draft":
+                - "purge_dups"
+                - "hic_scaffolding"
+        "purge_dups":
+            "fastq":
+                - "contig"
+                - "purge_dups"
+            "draft":
+                - "purge_dups"
+        "contig":
+            "fastq":
+                - "contig"
+            "draft": []
+
+"stage_coretools":     #TODO: add bionano
+    "filtering":
+        "hifi": "cutadapt"
+    "contig":
+        "hifi":
+            - "hifiasm" # Allowed: "hifiasm,""hicanu", "ipa", "flye", "nextdenovo"
+        #"clr":
+        #"nanopore":
+    "purge_dups":
+        - "purge_dups"
+    "hic_scaffolding":
+        - "yahs" # Allowed: "yahs", "salsa2", "3d-dna"
+
+"coretool_option_sets":
+    "hifiasm":
+         - "l0primary"
+         - "l1primary"
+         - "l2primary"
+         - "l3primary"
+         - "l0"
+         - "l1"
+         - "l2"
+         - "l3"
+
 "ploidy": 2
-"genome_name": "genome"
+"genome_prefix": "genome"
 "busco_lineage": "mammalia_odb10" #
+#Often used BUSCO lineages: mammalia_odb10, vertebrata_odb10, laurasiatheria_odb10, carnivora_odb10,
+#                           actinopterygii_odb10, saccharomycetes_odb10, sauropsida_odb10, aves_odb10
 
 
 "final_kmer_counter": "meryl" # pipeline allows usage of different kmer counter tools, but only one genomesize assessment could be used
 "final_kmer_length": 21 # pipeline allows usage of different kmer length, but only one genomesize assessment could be used
-"final_kmer_datatype": "pacbio"
-#Often used BUSCO lineages: mammalia_odb10, vertebrata_odb10, laurasiatheria_odb10, carnivora_odb10,
-#                           actinopterygii_odb10, saccharomycetes_odb10, sauropsida_odb10, aves_odb10
+"final_kmer_datatype": "hifi"
+
+"contig_datatype": "hifi"
 
 "hic_enzyme_set": "Arima"
-
+"custom_enzyme_set": null # None
 #---- Pipeline modes ----
 
-"starting_point": "fastq" # "bcl2"
-"data_types": "pacbio_hic" # TODO: add "pacbio_bionano_hic", "pacbio_lr_bionano_hic", "pacbio_lr_hic"  and "pacbio"
+"starting_point": "fastq" # Allowed: "draft"
+"data_types": "hifi,hic" # TODO: add  "hifi,lr,bionano,hic", "hifi,lr,hic"  and "hifi" and others
 
-"mode": "full" # Allowed modes: "check_input", "qc", "filtering"
-# TODO:  add modes:  "create_map_bionano", "contig", "scaffold_bionano", "scaffold_hic"
-# Possible additional modes:
-# add "basecall", "basecall_pacbio", "basecall_hic", "basecall_lr", basecall_stlfr
+"mode": "check"                   # Allowed "check", "qc", "assemble"
+"preprocessing_mode": "default"   # Allowed: "default"
+"qc_mode": "default"              # Allowed: "default"
+"assembly_mode": "full"           # Allowed: "default", "full", "purge_dups", "contig"; custom modes could be set in config file
 
-"parameter_set": "default"
+"custom_preprocessing_stages": []
+"custom_qc_stages": []
+"custom_assembly_stages": []
+
+# Allowed modes:
+#       with starting_point "fastq":
+#           "check_input"              : check of the input data and generation of the final config
+#           "qc"                       : "check_input" + QC
+#           "filtering"                : "qc" + filtering of the input data
+#           "contig"                   : "filtering" + contig assembly
+#           "purge_dups"               : "contig" + purging of haplotype duplicates
+#           "hic_scaffolding"          : "purge_dups" + HiC-scaffolding
+#           "full"                     : same as "hic_scaffolding"
+#       with starting_point "draft":
+#           "purge_dups"               : purging of haplotype duplicates from draft assembly
+#           "hic_scaffolding"          : "purge_dups" + HiC-scaffolding
+
+
+# TODO:  add modes:  "create_map_bionano", "bionano_scaffolding"
+
+"parameter_set": "default" # Choice of genome-size based set of parameters
 "use_existing_envs": True # works only if --use-conda flag was set in snakemake command

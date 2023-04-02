@@ -1,10 +1,10 @@
 """
 rule minimap2_index:
     input:
-        reference=output_dict["contig"] / ("{assembler}/%s.purge_dups.{assembler}.pacbio.hic.{haplotype}_ctg.fasta" % config["genome_name"])
+        reference=output_dict["contig"] / ("{assembler}/%s.purge_dups.{assembler}.hifi.hic.{haplotype}_ctg.fasta" % config["genome_name"])
     priority: 1000
     output:
-        index=output_dict["contig"] / ("{assembler}/%s.purge_dups.{assembler}.pacbio.hic.{haplotype}_ctg.minimap2.idx" % config["genome_name"])
+        index=output_dict["contig"] / ("{assembler}/%s.purge_dups.{assembler}.hifi.hic.{haplotype}_ctg.minimap2.idx" % config["genome_name"])
     params:
         index_size=parameters["tool_options"]["minimap2"]["index_size"],
     log:
@@ -50,7 +50,7 @@ rule create_primary_contig_link:
 
 rule minimap2_purge_dups_reads: # TODO: add nanopore support
     input:
-        fastq=output_dict["data"] / ("fastq/pacbio/filtered/{fileprefix}%s" % config["fastq_extension"]),
+        fastq=output_dict["data"] / ("fastq/hifi/filtered/{fileprefix}%s" % config["fastq_extension"]),
         reference=out_dir_path  / ("purge_dups/{assembler}/input/%s.contig.{assembler}.{haplotype}.fasta" % config["genome_name"])
     output:
         paf=out_dir_path  / ("purge_dups/{assembler}/{haplotype}/%s.purge_dups.{assembler}.{haplotype}.minimap2.{fileprefix}.paf.gz" % config["genome_name"])
@@ -78,7 +78,7 @@ rule minimap2_purge_dups_reads: # TODO: add nanopore support
 rule get_purge_dups_read_stat: #TODO: adjust -d -m -u options for calcuts
     input:
         paf=expand(out_dir_path / ("purge_dups/{assembler}/{haplotype}/%s.purge_dups.{assembler}.{haplotype}.minimap2.{fileprefix}.paf.gz" % config["genome_name"]),
-                           fileprefix=input_file_prefix_dict["pacbio"],
+                           fileprefix=input_file_prefix_dict["hifi"],
                            allow_missing=True),
         genomescope_report=output_dict["kmer"] / "{0}/filtered/genomescope/{0}.filtered.{1}.{2}.genomescope.parameters".format(config["final_kmer_datatype"],
                                                                                                                                config["final_kmer_length"],
@@ -117,7 +117,7 @@ rule minimap2_purge_dups_assembly:
     output:
         split_reference=out_dir_path / ("purge_dups/{assembler}/{haplotype}/%s.purge_dups.{assembler}.{haplotype}.split.fasta" % config["genome_name"]),
         paf=out_dir_path  / ("purge_dups/{assembler}/{haplotype}/%s.purge_dups.{assembler}.{haplotype}.split.minimap2.self.paf.gz" % config["genome_name"])
-        #paf=output_dict["purge_dups"] / ("{assembler}/%s.purge_dups.{assembler}.pacbio.hic.{haplotype}_ctg.minimap2.{fileprefix}.paf.gz" % config["genome_name"])
+        #paf=output_dict["purge_dups"] / ("{assembler}/%s.purge_dups.{assembler}.hifi.hic.{haplotype}_ctg.minimap2.{fileprefix}.paf.gz" % config["genome_name"])
     params:
         index_size=parameters["tool_options"]["minimap2"]["index_size"],
         mapping_scheme=parameters["tool_options"]["minimap2"]["self_alignment_scheme"]

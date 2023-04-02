@@ -1,23 +1,23 @@
 
 rule cutadapt_pacbio:
     input:
-        fastq=output_dict["data"] / ("fastq/pacbio/raw/{fileprefix}%s" % config["fastq_extension"])
+        fastq=output_dict["data"] / ("fastq/hifi/raw/{fileprefix}%s" % config["fastq_extension"])
     output:
-        fastq=output_dict["data"] / ("fastq/pacbio/filtered/{fileprefix}%s" % config["fastq_extension"]),
-        stats=output_dict["data"] / "fastq/pacbio/filtered/{fileprefix}.cutadapt.stats"
+        fastq=output_dict["data"] / ("fastq/hifi/filtered/{fileprefix}%s" % config["fastq_extension"]),
+        stats=output_dict["data"] / "fastq/hifi/filtered/{fileprefix}.cutadapt.stats"
 
     params:
-        error_rate=parameters["tool_options"]["cutadapt"]["pacbio"]["error_rate"],
-        min_adapter_length=parameters["tool_options"]["cutadapt"]["pacbio"]["min_adapter_length"],
-        adapter_match_times=parameters["tool_options"]["cutadapt"]["pacbio"]["adapter_match_times"],
-        check_read_rc= " --rc" if parameters["tool_options"]["cutadapt"]["pacbio"]["check_read_rc"] else "",
-        discard_trimmed= " --discard-trimmed" if parameters["tool_options"]["cutadapt"]["pacbio"]["discard_trimmed"] else "",
-        anywhere_adapters= " -b ".join(parameters["tool_options"]["cutadapt"]["pacbio"]["anywhere_adapter_list"])
+        error_rate=parameters["tool_options"]["cutadapt"]["hifi"]["error_rate"],
+        min_adapter_length=parameters["tool_options"]["cutadapt"]["hifi"]["min_adapter_length"],
+        adapter_match_times=parameters["tool_options"]["cutadapt"]["hifi"]["adapter_match_times"],
+        check_read_rc= " --rc" if parameters["tool_options"]["cutadapt"]["hifi"]["check_read_rc"] else "",
+        discard_trimmed= " --discard-trimmed" if parameters["tool_options"]["cutadapt"]["hifi"]["discard_trimmed"] else "",
+        anywhere_adapters= " -b ".join(parameters["tool_options"]["cutadapt"]["hifi"]["anywhere_adapter_list"])
     log:
-        std=output_dict["log"] / "cutadapt_pacbio.pacbio.{fileprefix}.log",
+        std=output_dict["log"] / "cutadapt_pacbio.hifi.{fileprefix}.log",
         #stats=log_dir_path / "{library_id}/no_cut.cutadapt.stats.log",
-        cluster_log=output_dict["cluster_log"] / "cutadapt_pacbio.pacbio.{fileprefix}.cluster.log",
-        cluster_err=output_dict["cluster_error"] / "cutadapt_pacbio.pacbio.{fileprefix}.cluster.log"
+        cluster_log=output_dict["cluster_log"] / "cutadapt_pacbio.hifi.{fileprefix}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "cutadapt_pacbio.hifi.{fileprefix}.cluster.log"
     benchmark:
         output_dict["benchmark"] /  "cutadapt_pacbio.{fileprefix}.benchmark.txt"
     conda:
