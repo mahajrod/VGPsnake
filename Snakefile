@@ -308,7 +308,7 @@ if "contig" in config["stage_list"]:
     assembler_list = config["stage_coretools"]["contig"][config["contig_datatype"]]
     parameters_list = []
     for assembler in assembler_list:
-        for option_set in parameters["tool_options"][assembler]:
+        for option_set in config["coretool_option_sets"][assembler]:
             parameters_list.append("{0}_{1}".format(assembler, option_set))
 
     results_list += [
