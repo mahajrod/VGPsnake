@@ -292,8 +292,9 @@ if "filter_reads" in config["stage_list"]:
                              expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
                                     datatype=["hifi"],
                                     stage=["filtered",]) if "hifi" in fastq_based_data_type_set else [], # only hifi filtration was implemented yet
-                             *[[expand(output_dict["kmer"] / "{datatype}/{stage}/genomescope/{datatype}.{stage}.{kmer_length}.{kmer_tool}.genomescope.parameters",
+                             *[[expand(output_dict["kmer"] / "{datatype}/{stage}/genomescope/{datatype}.{stage}.{kmer_length}.{kmer_tool}.{genome_prefix}.genomescope.parameters",
                                     datatype=[dat_type,],
+                                    genome_prefix=[config["genome_prefix"], ],
                                     stage=["filtered",],
                                     kmer_tool=[kmer_tool,],
                                     kmer_length=parameters["tool_options"][kmer_tool][dat_type]["kmer_length"],
@@ -504,9 +505,11 @@ include: "workflow/rules/Contigs/Gfatools.smk"
 include: "workflow/rules/QCAssembly/BUSCO5.smk"
 include: "workflow/rules/QCAssembly/Merqury.smk"
 include: "workflow/rules/QCAssembly/QUAST.smk"
+"""
 include: "workflow/rules/Purge_dups/Purge_dups.smk"
 include: "workflow/rules/Alignment/Index.smk"
 include: "workflow/rules/Alignment/Alignment.smk"
 include: "workflow/rules/Alignment/Pretext.smk"
 include: "workflow/rules/HiC/Salsa2.smk"
+"""
 #----
