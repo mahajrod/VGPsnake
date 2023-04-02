@@ -216,7 +216,7 @@ for mega_stage in mega_stage_list:
     if (custom_megastage_entry in config) and (config[custom_megastage_entry]):
         config["stage_list"].append(config[custom_megastage_entry])
     else:
-        config["stage_list"].append(config["allowed_stage_list"][mega_stage][config[mega_stage + "_mode"]][config["starting_point"]])
+        config["stage_list"] += config["allowed_stage_list"][mega_stage][config[mega_stage + "_mode"]][config["starting_point"]]
 
 
 """1        
