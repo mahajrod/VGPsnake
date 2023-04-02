@@ -1,5 +1,5 @@
 import os
-import logging
+#import logging
 import shutil
 from copy import deepcopy
 from collections import OrderedDict
@@ -11,7 +11,7 @@ import yaml
 
 import pandas as pd
 
-logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
+#logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
 
 #---- Functions ----
 def p_distance(seq_a, seq_b, seq_len):
@@ -31,82 +31,6 @@ def get_common_prefix_ans_suffixes(seq_a, seq_b):
            return prefix, seq_a[i:], seq_b[i:]
         prefix += seq_a[i]
     return prefix, "", ""
-
-
-"""
-def make_fastq_lists(fastq_dir, filename_fragment_to_mark_se_reads=".se.", input_is_se=False,
-                     fastq_extensions=(".fastq", ".fq")):
-
-    fastq_dir_path = fastq_dir if isinstance(fastq_dir, PosixPath) else Path(fastq_dir)
-
-    if not fastq_dir_path.exists():
-        raise ValueError(
-            "ERROR!!! Input for function 'make_fastq_lists' doesn't exist: {0}".format(str(fastq_dir_path)))
-
-    if not fastq_dir_path.is_dir():
-        raise ValueError("ERROR!!! Input for function 'make_fastq_lists' is not directory: {0}".format(str(fastq_dir_path)))
-
-    filtered_filelist = []
-    filetypes = set()
-    extensions_set = set()
-    for filename in fastq_dir_path.iterdir():
-        suffixes = filename.suffixes()
-        for extension in fastq_extensions:
-            if extension in suffixes:
-                break
-        else:
-            continue # skip file if no fastq extension was found in suffixes
-
-        if suffixes[-1] == "gzipped":
-            filetypes.add(".gz")
-            extensions_set.add(suffixes[-2] + suffixes[-1])
-        elif suffixes[-1] == ".bz2":
-            filetypes.add("bzipped")
-            extensions_set.add(suffixes[-2] + suffixes[-1])
-        else:
-            filetypes.add("fastq")
-            extensions_set.add(suffixes[-1])
-
-        filtered_filelist.append(filename)
-
-    if len(filetypes) > 1:
-        print("WARNING: mix of archives of different types and/or uncompressed files")
-
-    if len(extensions_set) > 1:
-        print("WARNING: mix of different extensions")
-
-    if input_is_se:
-        return filetypes, [], [], filtered_filelist
-
-    single_end_filelist = []
-    paired_end_filelist = []
-
-    for entry in filtered_filelist:
-        if filename_fragment_to_mark_se_reads in entry:
-            single_end_filelist.append(entry)
-        else:
-            paired_end_filelist.append(entry)
-
-    forward_filelist = paired_end_filelist[::2]
-    reverse_filelist = paired_end_filelist[1:][::2]
-    if len(forward_filelist) != len(reverse_filelist):
-        raise ValueError(
-                         "ERROR!!! Lists of forward and reverse fastqs have different length:\n"
-                         "\tforward: {0}\n\treverse:{1}".format(
-                                                                ",".join(list(map(str, forward_filelist))),
-                                                                ",".join(list(map(str, reverse_filelist)))
-                                                                )
-                         )
-    for forward, reverse in zip(forward_filelist, reverse_filelist):
-        if len(forward.name) != len(reverse.name):
-            raise ValueError("ERROR!!! Filenames of forward and reverse fastqs have different length:\n"
-                             "\tforward: {0}\n\treverse:{1}".format(str(forward), str(reverse)))
-        if p_distance(forward, reverse) > 1:
-            raise ValueError("ERROR!!! Filenames of forward and reverse fastqs differ by more than one symbol:\n"
-                             "\tforward: {0}\n\treverse:{1}".format(str(forward), str(reverse)))
-    return filetypes[0], extensions_set[0], forward_filelist, reverse_filelist, single_end_filelist
-
-"""
 
 def convert_posixpath2str_in_dict(dictionary):
     output_dictionary = deepcopy(dictionary)
@@ -149,12 +73,12 @@ def copy_absent_entries(input_dictionary, output_dictionary):
 
 
 #-- Initialization of path variables from config file --
-logging.info("Initialization of path variables...")
+#logging.info("Initialization of path variables...")
 #---- Initialization of path variables for input----
 input_dir_path = Path(config["input_dir"])
 
 input_dict = {}
-data_types = config["data_types"].split("_")
+data_types = config["data_types"].split(",")
 
 for datatype in data_types:
     input_dict[datatype] = {}
@@ -177,7 +101,7 @@ for first_level_sub_dir in config["first_level_subdir_list"]:
 #---- Initialization path variables for resources ----
 #----
 #---- Setting mode of pipeline ----
-logging.info("Setting and adjusting pipeline mode...")
+#.info("Setting and adjusting pipeline mode...")
 
 #pipeline_mode = config["mode"]
 #starting_point = config["starting_point"]
@@ -187,10 +111,10 @@ logging.info("Setting and adjusting pipeline mode...")
 fastq_based_data_type_set = set(data_types) & set(config["fastq_based_data"])
 genome_size_estimation_data_type_set = set(config["genome_size_estimation_data"]) & fastq_based_data_type_set
 
-logging.info("Verifying datatypes...")
+#logging.info("Verifying datatypes...")
 for d_type in data_types:
     if d_type not in config["allowed_data_types"]:
-        logging.error("Unknown data type: {0}".format(d_type))
+        #logging.error("Unknown data type: {0}".format(d_type))
         raise ValueError("ERROR!!! Unknown data type: {0}".format(d_type))
 
 #--------
@@ -198,7 +122,7 @@ for d_type in data_types:
 #----
 
 #---- Checking input files ----
-logging.info("Checking input files...")
+#logging.info("Checking input files...")
 
 input_filedict = {}
 input_file_prefix_dict = {}
@@ -235,32 +159,21 @@ for d_type in set(config["paired_fastq_based_data"]) & fastq_based_data_type_set
     input_reverse_suffix_dict[d_type] = list(input_reverse_suffix_dict[d_type])[0]
 
 
-
-"""
-if "pacbio" in data_types:
-    input_filedict["pacbio"] = find_fastqs(input_dict["pacbio"]["fastq_dir"], fastq_extension=config["fastq_extension"])
-    input_file_prefix_dict["pacbio"] = list(map(lambda s: str(s.name)[:-len(config["fastq_extension"])],
-                                                input_filedict["pacbio"]))
-
-if "nanopore" in data_types:
-    input_filedict["nanopore"] = find_fastqs(input_dict["nanopore"]["fastq_dir"], fastq_extension=config["fastq_extension"])
-    input_file_prefix_dict["nanopore"] =
-    
-if "hic" in data_types:
-    input_filedict["hic"] = find_fastqs(input_dict["hic"]["fastq_dir"], fastq_extension=config["fastq_extension"])
-    input_file_prefix_dict["hic"] =
-    
-if "lr" in data_types:
-    input_filedict["lr"] = find_fastqs(input_dict["lr"]["fastq_dir"], fastq_extension=config["fastq_extension"])
-    input_file_prefix_dict["lr"] =
-"""
-
 if "bionano" in data_types: # TODO: modify when input for bionano will be clear
     input_filedict["bionano"] = find_cmap(input_dict["bionano"]["dir"], cmap_extension=config["cmap_extension"])
 
 
 #---- Initialize tool parameters ----
-logging.info("Initializing tool parameters...")
+#logging.info("Initializing tool parameters...")
+#check if custom restriction sites were provided:
+if config["custom_enzyme_set"] is not None:
+    config["parameters"]["default"]["tool_options"]["salsa2"]["restriction_seq"]["custom"] = config["custom_enzyme_set"]
+    if "tool_options" in config["parameters"][config["parameter_set"]]:
+        if "salsa2" in config["parameters"][config["parameter_set"]]["tool_options"]:
+            if "restriction_seq" in config["parameters"][config["parameter_set"]]["tool_options"]["salsa2"]:
+                if "custom" in config["parameters"][config["parameter_set"]]["tool_options"]["salsa2"]["restriction_seq"]:
+                    config["parameters"][config["parameter_set"]]["tool_options"]["salsa2"]["restriction_seq"]["custom"] = config["custom_enzyme_set"]
+    config["hic_enzyme_set"] = "custom"
 
 if config["parameter_set"] not in config["parameters"]:
     raise ValueError("Error!!! Unknown set of tool parameters: {0}".format(config["parameter_set"]))
@@ -276,27 +189,37 @@ parameters = config["parameters"][config["parameter_set"]] # short alias for use
 #check if final_kmer_tool is present in "kmer_counter_list"
 if config["final_kmer_counter"] not in config["kmer_counter_list"]:
     config["kmer_counter_list"].append(config["final_kmer_counter"])
-    logging.info("Warning! final_kmer_counter is not in kmer_counter_list! Added...")
+    #logging.info("Warning! final_kmer_counter is not in kmer_counter_list! Added...")
 
 #check if final_kmer_length is present in parameters of final_kmer_tool
 for dat_type in genome_size_estimation_data_type_set:
     if config["final_kmer_length"] not in parameters["tool_options"][config["final_kmer_counter"]][dat_type]["kmer_length"]:
         parameters["tool_options"][config["final_kmer_counter"]][dat_type]["kmer_length"].append(config["final_kmer_length"])
-        logging.info("Warning! Final_kmer_length is not in parameters of final_kmer_counter! Added...")
+        #logging.info("Warning! Final_kmer_length is not in parameters of final_kmer_counter! Added...")
 
 #----
+#---- Configure stages ----
+config["stage_list"] = []
 
-#---- Check configuration ----
-#if config["mode"] in ["contig",]:
-#    if len(config["kmer_counter_list"]) > 1:
-#        raise ValueError("ERROR!!! Multiple kmer counter tools are not allowed in mode {0}. "
-#                         "Select one.".format(config["mode"]))
-#    for kmer_tool in config["kmer_counter_list"]:
-#        if len(parameters["tool_options"][kmer_tool]["pacbio"]["kmer_length"]) > 1:
-#            raise ValueError("ERROR!!! Multiple kmer lengths are not allowed in mode {0}. "
-#                             "Select one.".format(config["mode"]))
+# Select configuration and combine stages from all mega_stages in a single list without nesting
+for mega_stage in config["allowed_stage_list"]:
+    custom_megastage_entry = "custom_" + mega_stage + "_stages"
+    if (custom_megastage_entry in config) and (config[custom_megastage_entry]):
+        config["stage_list"].append(config[custom_megastage_entry])
+    else:
+        config["stage_list"].append(config["allowed_stage_list"][mega_stage][config[mega_stage + "_mode"]][config["starting_point"]])
 
+
+"""1        
+stage_dict = OrderedDict()
+for stage_index in range(0, len(config["stage_list"])):
+    stage_dict[stage] = OrderedDict()
+    if stage_index == 0:
+        stage_dict[stage]["prev_stage_pattern"] = None
+        stage_dict[stage]["pattern"] = "{stage}"
+"""
 #----
+
 
 #---- Save configuration and input files ----
 final_config_yaml = output_dict["config"] / "config.final.yaml"
@@ -316,11 +239,84 @@ ruleorder: create_fastq_links > fastqc
 results_dict = {}
 
 assembler_list = ["hifiasm", ] # TODO: implement possibility of other assemblers
-primary_haplotype = "hap1"
-alternative_haplotype = "hap2"
 
 haplotype_list = ["hap{0}".format(i) for i in range(1, config["ploidy"] + 1)]
+primary_haplotype = "hap1"
 
+results_list = []
+
+#---- Create output filelist ----
+if "check_reads" in config["stage_list"]:
+    results_list += [
+                     final_config_yaml,
+                     final_input_yaml
+                     ]
+
+if "check_draft" in config["stage_list"]:
+    results_list += [ ] # TODO: implement
+
+if "read_qc" in config["stage_list"]:
+    results_list += [*[expand(output_dict["qc"] / "fastqc/{datatype}/{stage}/{fileprefix}_fastqc.zip",
+                               datatype=[dat_type, ],
+                               stage=["raw", ],
+                               fileprefix=input_file_prefix_dict[dat_type], #list(
+                                 #    map(
+                                 #        lambda s: str(s.name)[:-len(config["fastq_extension"])],
+                                 #        input_filedict[dat_type])
+                                 #        )
+                               ) for dat_type in fastq_based_data_type_set],
+                      expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
+                             datatype=fastq_based_data_type_set,
+                             stage=["raw",]), ]
+
+if "draft_qc" in config["stage_list"]:
+    results_list += [ ] # TODO: implement
+
+if "filter_reads" in config["stage_list"]:
+    results_list += [expand(output_dict["data"] / ("fastq/hifi/filtered/{fileprefix}%s" % config["fastq_extension"]),
+                                    fileprefix=input_file_prefix_dict["hifi"]) if "hifi" in fastq_based_data_type_set else [],
+                             expand(output_dict["qc"] / "fastqc/{datatype}/{stage}/{fileprefix}_fastqc.zip",
+                                    datatype=["hifi", ],
+                                    stage=["filtered", ],
+                                    fileprefix=input_file_prefix_dict["hifi"],
+                                    ) if "hifi" in fastq_based_data_type_set else [],
+                             expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
+                                    datatype=["hifi"],
+                                    stage=["filtered",]) if "hifi" in fastq_based_data_type_set else [], # only hifi filtration was implemented yet
+                             *[[expand(output_dict["kmer"] / "{datatype}/{stage}/genomescope/{datatype}.{stage}.{kmer_length}.{kmer_tool}.genomescope.parameters",
+                                    datatype=[dat_type,],
+                                    stage=["filtered",],
+                                    kmer_tool=[kmer_tool,],
+                                    kmer_length=parameters["tool_options"][kmer_tool][dat_type]["kmer_length"],
+                                    ) for kmer_tool in config["kmer_counter_list"] ]  for dat_type in genome_size_estimation_data_type_set]
+                              ]
+
+if "filter_draft" in config["stage_list"]:
+    results_list += [ ] # TODO: implement
+
+if "contig" in config["stage_list"]:
+    assembler_list = config["stage_coretools"]["contig"][config["contig_datatype"]]
+    parameters_list = []
+    for assembler in assembler_list:
+        for option_set in parameters["tool_options"][assembler]:
+            parameters_list.append("{0}_{1}".format(assembler, option_set))
+
+    results_list += [
+                     expand(output_dict["contig"] / "{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.fasta",
+                            genome_prefix=[config["genome_prefix"],],
+                            assembly_stage=["contig",],
+                            haplotype=haplotype_list,
+                            parameters=parameters_list)
+                     ] # Tested only on hifiasm
+
+
+if "purge_dups" in config["stage_list"]:
+    results_list += [ ] # TODO: implement
+
+if "hic_scaffolding" in config["stage_list"]:
+    results_list += [ ] # TODO: implement
+
+"""
 results_dict["check_input"] = [
                                final_config_yaml,
                                final_input_yaml
@@ -342,16 +338,16 @@ results_dict["qc"] = [*results_dict["check_input"],
                       ]
 
 results_dict["filtering"] = [*results_dict["qc"],
-                             expand(output_dict["data"] / ("fastq/pacbio/filtered/{fileprefix}%s" % config["fastq_extension"]),
-                                    fileprefix=input_file_prefix_dict["pacbio"]) if "pacbio" in fastq_based_data_type_set else [],
+                             expand(output_dict["data"] / ("fastq/hifi/filtered/{fileprefix}%s" % config["fastq_extension"]),
+                                    fileprefix=input_file_prefix_dict["hifi"]) if "hifi" in fastq_based_data_type_set else [],
                              expand(output_dict["qc"] / "fastqc/{datatype}/{stage}/{fileprefix}_fastqc.zip",
-                                    datatype=["pacbio", ],
+                                    datatype=["hifi", ],
                                     stage=["filtered", ],
-                                    fileprefix=input_file_prefix_dict["pacbio"],
-                                    ) if "pacbio" in fastq_based_data_type_set else [],
+                                    fileprefix=input_file_prefix_dict["hifi"],
+                                    ) if "hifi" in fastq_based_data_type_set else [],
                              expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
-                                    datatype=["pacbio"],
-                                    stage=["filtered",]) if "pacbio" in fastq_based_data_type_set else [], # only pacbio filtration was implemented yet
+                                    datatype=["hifi"],
+                                    stage=["filtered",]) if "hifi" in fastq_based_data_type_set else [], # only hifi filtration was implemented yet
                              *[[expand(output_dict["kmer"] / "{datatype}/{stage}/genomescope/{datatype}.{stage}.{kmer_length}.{kmer_tool}.genomescope.parameters",
                                     datatype=[dat_type,],
                                     stage=["filtered",],
@@ -361,9 +357,9 @@ results_dict["filtering"] = [*results_dict["qc"],
                               ]
 
 results_dict["contig"] = [*results_dict["filtering"],
-                          #expand(output_dict["contig"] / ("{assembler}/%s.contig.{assembler}.pacbio.hic.r_utg.gfa" % config["genome_name"]),
+                          #expand(output_dict["contig"] / ("{assembler}/%s.contig.{assembler}.hifi.hic.r_utg.gfa" % config["genome_name"]),
                           #       assembler=assembler_list,),
-                          #output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.pacbio.hic.r_utg.gfa" % config["genome_name"]),
+                          #output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.hifi.hic.r_utg.gfa" % config["genome_name"]),
                           expand(output_dict["contig"] / ("{assembler}/%s.contig.{assembler}.{haplotype}.fasta" % config["genome_name"]),
                                  haplotype=haplotype_list,#["p", "a"],
                                  assembler=assembler_list,),
@@ -474,47 +470,19 @@ results_dict["hic_scaffolding"] = [*results_dict["purge_dups"],
                                           resolution=parameters["tool_options"]["pretextsnapshot"]["resolution"],
                                           ext=parameters["tool_options"]["pretextsnapshot"]["format"]),
                                    ]
-"""
-                              #,
-                              #
-                              #expand(out_dir_path / "{assembly_stage}/{assembler}/{haplotype}/dups.bed",
-                              #       assembly_stage=["purge_dups"],
-                              #       assembler=assembler_list,
-                              #       haplotype=["{0}.dups.{1}".format(alternative_haplotype, primary_haplotype)]),
-                              #expand(out_dir_path / ("{assembly_stage}/{assembler}/%s.purge_dups.{assembler}.{haplotype}.fasta" % config["genome_name"]),
-                              #       assembly_stage=["purge_dups"],
-                              #       assembler=assembler_list,
-                              #       haplotype=[primary_haplotype, "{0}.dups.{1}".format(alternative_haplotype, primary_haplotype)]
-                              #       ),
-                              
-                              expand(output_dict["assembly_qc"] /"{assembly_stage}/busco5/{assembler}/{haplotype}/",
-                                     assembly_stage=["purge_dups"],
-                                     haplotype=[primary_haplotype, "{0}.dups.{1}".format(alternative_haplotype, primary_haplotype)],#["p", "a"],,
-                                     assembler=assembler_list ,),
-                              expand(output_dict["assembly_qc"] /("{assembly_stage}/quast/{assembler}/%s.{assembly_stage}.{assembler}.{haplotype}"
-                                                       % config["genome_name"]),
-                                     assembly_stage=["purge_dups"],
-                                     haplotype=[primary_haplotype, "{0}.dups.{1}".format(alternative_haplotype, primary_haplotype)],
-                                     assembler=assembler_list ,),
-                              expand(output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.qv" % config["genome_name"]),
-                                     assembly_stage=["purge_dups"],
-                                     assembler=assembler_list ),
-                              """
-                              #]
 
-#TODO: implement following modes when necessary
+results_dict["full"] = results_dict["hic_scaffolding"]
 """
-results_dict["basecall"] =
-results_dict["basecall_pacbio"] =
-results_dict["basecall_hic"] =
-results_dict["basecall_10x"] =
-results_dict[create_map_bionano"] = 
+#----
 
-"""
+#---- Final rule ----
 rule all:
     input:
-        results_dict[config["mode"]]
+        results_list
+        #results_dict[config["mode"]]
+#----
 
+#---- Include section ----
 include: "workflow/rules/Preprocessing/Files.smk"
 include: "workflow/rules/QCFiltering/FastQC.smk"
 include: "workflow/rules/QCFiltering/MultiQC.smk"
@@ -527,8 +495,9 @@ include: "workflow/rules/Contigs/Gfatools.smk"
 include: "workflow/rules/QCAssembly/BUSCO5.smk"
 include: "workflow/rules/QCAssembly/Merqury.smk"
 include: "workflow/rules/QCAssembly/QUAST.smk"
-include: "workflow/rules/Contigs/Purge_dups.smk"
+include: "workflow/rules/Purge_dups/Purge_dups.smk"
 include: "workflow/rules/Alignment/Index.smk"
 include: "workflow/rules/Alignment/Alignment.smk"
 include: "workflow/rules/Alignment/Pretext.smk"
 include: "workflow/rules/HiC/Salsa2.smk"
+#----
