@@ -292,7 +292,7 @@ if "filter_reads" in config["stage_list"]:
                              expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
                                     datatype=["hifi"],
                                     stage=["filtered",]) if "hifi" in fastq_based_data_type_set else [], # only hifi filtration was implemented yet
-                             *[[expand(output_dict["kmer"] / "{datatype}/{stage}/genomescope/{datatype}.{stage}.{kmer_length}.{kmer_tool}.{genome_prefix}.genomescope.parameters",
+                             *[[expand(output_dict["kmer"] / "{datatype}/{stage}/genomescope/{genome_prefix}.{datatype}.{stage}.{kmer_length}.{kmer_tool}genomescope.parameters",
                                     datatype=[dat_type,],
                                     genome_prefix=[config["genome_prefix"], ],
                                     stage=["filtered",],
