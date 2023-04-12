@@ -6,6 +6,9 @@
     "salsa2":
         "yaml": "workflow/envs/conda.salsa2.yaml"
         "name": "salsa2"
+    "busco":
+        "yaml": "workflow/envs/conda.busco.yaml"
+        "name": "busco"
 
 #----
 #---- Directory structure config ----
@@ -189,7 +192,6 @@
             bowtie2_index: "12:00:00"
 
             get_basecall_stats: "00:10:00"
-
 
         "tool_options":
             "cutadapt":
