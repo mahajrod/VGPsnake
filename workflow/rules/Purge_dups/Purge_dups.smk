@@ -23,7 +23,7 @@ rule minimap2_index:
     shell:
         " minimap2 -t {threads} -I {params.index_size} -d {output.index} {input.reference} > {log.minimap2_index} 2>&1"
 """
-localrules: create_primary_contig_link, create_link_for_purged_fasta
+localrules: create_primary_contig_link, create_link_for_purged_fasta, merge_pri_hapdups_with_alt
 ruleorder: create_primary_contig_link > merge_pri_hapdups_with_alt
 
 rule create_primary_contig_link:
@@ -204,7 +204,7 @@ rule merge_pri_hapdups_with_alt: #
     threads: parameters["threads"]["merge_pri_hapdups_with_alt"]
 
     shell:
-        " cat {input.reference} {input.pri_hapdups} > {output.alt_plus_pri_hapdup}"
+        " cat {input.reference} {input.pri_hapdups} > {output.alt_plus_pri_hapdup} 2>{log.std}"
 
 rule create_link_for_purged_fasta:
     input:
