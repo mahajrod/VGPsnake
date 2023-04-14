@@ -202,8 +202,9 @@
                     "check_read_rc": True # --rc
                     "discard_trimmed": True # --discard-trimmed / --discard
                     "anywhere_adapter_list": # -b, multiple times
-                        - "ATCTCTCTCAACAACAACAACGGAGGAGGAGGAAAAGAGAGAGAT"
-                        - "ATCTCTCTCTTTTCCTCCTCCTCCGTTGTTGTTGTTGAGAGAGAT"
+                        - "ATCTCTCTCAACAACAACAACGGAGGAGGAGGAAAAGAGAGAGAT" # SMRT bell adapter
+                        - "ATCTCTCTCTTTTCCTCCTCCTCCGTTGTTGTTGTTGAGAGAGAT" # SMRT bell adapter rev com
+                        - "AAAAAAAAAAAAAAAAAATTAACGGAGGAGGAGGA"           # C2 primer, required for MagBead loading, but is not necessary for diffusion loading
             "fastqc":
                 "kmer_length": 7
             "mosdepth":
