@@ -7,7 +7,7 @@
         "yaml": "workflow/envs/conda.salsa2.yaml"
         "name": "salsa2"
     "busco":
-        "yaml": "workflow/envs/conda.busco.yaml"
+        "yaml": "workflow/envs/conda.busco5.yaml"
         "name": "busco5"
 
 #----
