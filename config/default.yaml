@@ -2,7 +2,7 @@
 "conda":
     "common":
         "yaml": "workflow/envs/conda.common.yaml"
-        "name": "base"
+        "name": "yggbase"
     "salsa2":
         "yaml": "workflow/envs/conda.salsa2.yaml"
         "name": "salsa2"
