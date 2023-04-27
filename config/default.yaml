@@ -88,7 +88,7 @@
             "multiqc": 1
             "cutadapt": 5
             "jellyfish": 30
-            "meryl": 30
+            "meryl": 50
             "genomescope": 1
             "parse_genomescope_output": 1
             "hifiasm": 30
@@ -103,7 +103,7 @@
             "merge_pri_hapdups_with_alt": 1
             "create_links": 1
             "bwa_index": 1
-            "bwa_map": 30
+            "bwa_map": 50
             "two_read_bam_combiner": 1
             "samtools_sort": 4
             "ref_faidx": 1
