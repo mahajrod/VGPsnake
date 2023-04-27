@@ -8,7 +8,7 @@
         "name": "salsa2"
     "busco":
         "yaml": "workflow/envs/conda.busco.yaml"
-        "name": "busco"
+        "name": "busco5"
 
 #----
 #---- Directory structure config ----
