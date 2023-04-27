@@ -1,6 +1,6 @@
 #---- Bioconda config ----
 #TODO: check tools and versions
-"name": "common"
+"name": "yggbase"
 "channels":
   - "bioconda"
   - "conda-forge"

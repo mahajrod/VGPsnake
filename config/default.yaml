@@ -307,8 +307,6 @@
                      "min_contig_len": 1000
     "micro": # < 15 Mbp, yeasts and bacteria
         "threads":
-            "jellyfish": 30
-            "hifiasm": 30
             "minimap2_index": 10
             "minimap2": 30
         "memory_mb":
@@ -344,9 +342,6 @@
             "minimap2":
                 "index_size": "4G"
     "mini": # < 150 Mbp, fungi, Arabidopsis thaliana and Caenorabditis elegans
-        "threads":
-            "jellyfish": 30
-            "hifiasm": 30
         "memory_mb":
             "jellyfish": 20000
             "meryl": 20000
@@ -380,9 +375,6 @@
             "minimap2":
                 "index_size": "4G"
     "small": # < 500 Mbp, drosophilla, tetraodon
-        "threads":
-            "jellyfish": 30
-            "hifiasm": 30
         "memory_mb":
             "jellyfish": 60000
             "meryl": 60000
@@ -416,9 +408,6 @@
             "minimap2":
                 "index_size": "4G"
     "normal": # < 1500 Mbp, most of the birds
-        "threads":
-            "jellyfish": 30
-            "hifiasm": 30
         "memory_mb":
             "jellyfish": 200000
             "hifiasm": 160000
@@ -452,9 +441,6 @@
             "minimap2":
                 "index_size": "4G"
     "big": # < 2500 Mbp, most of the mammals
-        "threads":
-            "jellyfish": 30
-            "hifiasm": 30
         "memory_mb":
             "jellyfish": 300000
             "hifiasm": 300000
@@ -488,9 +474,6 @@
             "minimap2":
                 "index_size": "10G"
     "large": # < 5000 Mbp, human
-        "threads":
-            "jellyfish": 30
-            "hifiasm": 30
         "memory_mb":
             "jellyfish": 600000
             "meryl": 300000
@@ -524,9 +507,6 @@
             "minimap2":
                 "index_size": "10G"
     "giant": # < 15000 Mbp, big plant genomes
-        "threads":
-            "jellyfish": 30
-            "hifiasm": 30
         "memory_mb":
             "jellyfish": 1100000
             "meryl": 300000
