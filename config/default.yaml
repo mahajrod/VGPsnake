@@ -88,22 +88,22 @@
             "multiqc": 1
             "cutadapt": 5
             "jellyfish": 30
-            "meryl": 50
+            "meryl": 60
             "genomescope": 1
             "parse_genomescope_output": 1
-            "hifiasm": 30
+            "hifiasm": 60
             "gfa2fasta": 1
             "busco5": 30
             "quast": 4
             "merqury": 20
             "minimap2_index": 10
-            "minimap2": 30
+            "minimap2": 60
             "get_purge_dups_read_stat": 5 # ToDO: adjust, maybe even one is enough
             "purge_dups": 5 # TODO: adjust, maybe even one is enough
             "merge_pri_hapdups_with_alt": 1
             "create_links": 1
             "bwa_index": 1
-            "bwa_map": 50
+            "bwa_map": 60
             "two_read_bam_combiner": 1
             "samtools_sort": 4
             "ref_faidx": 1
