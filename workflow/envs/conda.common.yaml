@@ -29,6 +29,11 @@
   - "statsmodels>=0.12"
   - "pip"
   - "xlsxwriter"
+  - "R"
+  - "r-minpack.lm"
+  - "r-argparse"
+  - "r-ggplot2"
+  - "r-scales"
 
 
 
