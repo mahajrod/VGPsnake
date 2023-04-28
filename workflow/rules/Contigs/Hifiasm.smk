@@ -10,6 +10,9 @@ rule hifiasm: # TODO: implement modes without hic data
                                                                                                                                         config["final_kmer_length"],
                                                                                                                                         config["final_kmer_counter"])),
     output:
+        ec_bin=protected(output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.ec.bin"),
+        ovlp_reverse_bin=protected(output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.ovlp.reverse.bin"),
+        ovlp_source_bin=protected(output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.ovlp.source.bin"),
         raw_unitig_graph=output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.hic.r_utg.gfa",
         primary_contig_graph=output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.hic.hap1.p_ctg.gfa",
         alternative_contig_graph=output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.hic.hap2.p_ctg.gfa",
@@ -18,6 +21,10 @@ rule hifiasm: # TODO: implement modes without hic data
         #primary_contig_graph=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.hifi.hic.p_ctg.gfa" % config["genome_name"]),
         #alternative_contig_graph=output_dict["contig"] / ("hifiasm/%s.contig.hifiasm.hifi.hic.a_ctg.gfa" % config["genome_name"]),
     params:
+        dir=lambda wildcards: output_dict["contig"] / "hifiasm_{0}/".format(wildcards.contig_options),
+        ec_bin=lambda wildcards: output_dict["contig"] / "hifiasm_*/{0}.contig.hifi.ec.bin".format(wildcards.genome_prefix),
+        ovlp_reverse_bin=lambda wildcards: output_dict["contig"] / "hifiasm_*/{0}.contig.hifi.ovlp.reverse.bin".format(wildcards.genome_prefix),
+        ovlp_source_bin=lambda wildcards: output_dict["contig"] / "hifiasm_*/{0}.contig.hifi.ovlp.source.bin".format(wildcards.genome_prefix),
         purge_level=lambda wildcards: parameters["tool_options"]["hifiasm"][wildcards.contig_options]["purge level"],
         ploidy=config["ploidy"],
         primary=lambda wildcards: "--primary" if parameters["tool_options"]["hifiasm"][wildcards.contig_options]["primary"] else "",
@@ -38,9 +45,20 @@ rule hifiasm: # TODO: implement modes without hic data
         cpus=parameters["threads"]["hifiasm"],
         time=parameters["time"]["hifiasm"],
         mem=parameters["memory_mb"]["hifiasm"],
+        hifiasm=1
     threads:
         parameters["threads"]["hifiasm"]
     shell:
+         " # check if there was a hifiasm run\n"
+         " EC_BIN=(`find ./ -name \"{params.ec_bin}\"`); "
+         " OVLP_REVERSE_BIN=(`find ./ -name \"{params.ovlp_reverse_bin}\"`); "
+         " OVLP_SOURCE_BIN=(`find ./ -name \"{params.ovlp_source_bin}\"`); "
+         " if [ ${{#EC_BIN[@]}} -eq 0 ]; then "
+         "      echo 'First hifiasm run!'; "
+         " else "
+         "      echo 'Previous hifiasm run detected! *.bin files from previous run will be used...'; "
+         "      ln ${{EC_BIN[0]}} ${{OVLP_REVERSE_BIN[0]}} ${{OVLP_SOURCE_BIN[0]}} {params.dir};  "
+         " fi ; "
          " COV_UPPER_BOUNDARY=`awk 'NR==2 {{printf \"%.0f\", {params.cov_multiplicator} * $2}}' {input.genomescope_report}`; "
          " hifiasm {params.primary} -t {threads} -l {params.purge_level}  -o {params.output_prefix} "
          " --n-hap {params.ploidy} --purge-max ${{COV_UPPER_BOUNDARY}} "
