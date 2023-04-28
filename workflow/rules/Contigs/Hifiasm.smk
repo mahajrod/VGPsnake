@@ -50,9 +50,9 @@ rule hifiasm: # TODO: implement modes without hic data
         parameters["threads"]["hifiasm"]
     shell:
          " # check if there was a hifiasm run\n"
-         " EC_BIN=(`find ./ -name \"{params.ec_bin}\"`); "
-         " OVLP_REVERSE_BIN=(`find ./ -name \"{params.ovlp_reverse_bin}\"`); "
-         " OVLP_SOURCE_BIN=(`find ./ -name \"{params.ovlp_source_bin}\"`); "
+         " EC_BIN=(`find ./ -fullname \"{params.ec_bin}\"`); "
+         " OVLP_REVERSE_BIN=(`find ./ -fullname \"{params.ovlp_reverse_bin}\"`); "
+         " OVLP_SOURCE_BIN=(`find ./ -fullname \"{params.ovlp_source_bin}\"`); "
          " if [ ${{#EC_BIN[@]}} -eq 0 ]; then "
          "      echo 'First hifiasm run!'; "
          " else "
