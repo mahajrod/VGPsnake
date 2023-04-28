@@ -86,7 +86,7 @@
             "create_links_for_draft": 1
             "fastqc": 1
             "multiqc": 1
-            "cutadapt": 5
+            "cutadapt": 10
             "jellyfish": 30
             "meryl": 60
             "genomescope": 1

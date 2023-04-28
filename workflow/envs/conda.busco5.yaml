@@ -1,6 +1,6 @@
 #---- Bioconda config for salsa2 ----
 
-"name": "salsa2"
+"name": "busco5"
 "channels":
   - "bioconda"
   - "conda-forge"
