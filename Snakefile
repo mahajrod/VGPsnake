@@ -306,29 +306,33 @@ if "contig" in config["stage_list"]:
 
     for assembler in assembler_list:
         for option_set in config["coretool_option_sets"][assembler]:
-            stage_dict["contig"]["parameters"] .append("{0}_{1}".format(assembler, option_set))
+            parameters_label="{0}_{1}".format(assembler, option_set)
+            stage_dict["contig"]["parameters"][parameters_label] = {}
+            stage_dict["contig"]["parameters"][parameters_label]["assembler"] = assembler
+            stage_dict["contig"]["parameters"][parameters_label]["option_set"] = parameters["tool_options"][assembler][option_set]
 
+    parameters_list = list(stage_dict["contig"]["parameters"].keys())
     results_list += [
                      expand(output_dict["contig"] / "{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.fasta",
                             genome_prefix=[config["genome_prefix"],],
                             assembly_stage=["contig",],
                             haplotype=haplotype_list,
-                            parameters=stage_dict["contig"]["parameters"]),
+                            parameters=parameters_list ),
                     expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype}",
                            genome_prefix=[config["genome_prefix"], ],
                            assembly_stage=["contig"],
                            haplotype=haplotype_list,
-                           parameters=stage_dict["contig"]["parameters"]),
+                           parameters=parameters_list),
                     expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/quast/{genome_prefix}.{assembly_stage}.{haplotype}",
                            genome_prefix=[config["genome_prefix"], ],
                            assembly_stage=["contig"],
                            haplotype=haplotype_list,
-                           parameters=stage_dict["contig"]["parameters"] ),
+                           parameters=parameters_list),
                     expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/merqury/{genome_prefix}.{assembly_stage}.qv",
                            genome_prefix=[config["genome_prefix"], ],
                            assembly_stage=["contig"],
                            haplotype=haplotype_list,
-                           parameters=stage_dict["contig"]["parameters"]),
+                           parameters=parameters_list),
                      ] # Tested only on hifiasm
 
 
@@ -340,14 +344,18 @@ if "purge_dups" in config["stage_list"]:
     for purge_dupser in purge_dupser_list:
         for option_set in config["coretool_option_sets"][purge_dupser]:
             for prev_parameters in stage_dict[prev_stage]["parameters"]:
-                stage_dict["purge_dups"]["parameters"].append("{0}..{1}_{2}".format(prev_parameters, purge_dupser, option_set))
+                parameters_label = "{0}..{1}_{2}".format(prev_parameters, purge_dupser, option_set)
+                stage_dict["purge_dups"]["parameters"][parameters_label] = {}
+                stage_dict["purge_dups"]["parameters"][parameters_label]["purge_dupser"] = purge_dupser
+                stage_dict["purge_dups"]["parameters"][parameters_label]["option_set"] = parameters["tool_options"][purge_dupser][option_set]
 
+    parameters_list = list(stage_dict["purge_dups"]["parameters"].keys())
     results_list += [
                      expand(out_dir_path / "purge_dups/{parameters}/{genome_prefix}.purge_dups.{haplotype}.fasta",
                      genome_prefix=[config["genome_prefix"], ],
                      assembly_stage=["contig"],
                      haplotype=haplotype_list,
-                     parameters=stage_dict["purge_dups"]["parameters"],
+                     parameters=parameters_list,
                      )
                     ]
 

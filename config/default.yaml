@@ -272,7 +272,8 @@
                     "cov_multiplicator": 4.5 # 4.5 *lambda
                     "primary": False
             "purge_dups":
-                "default": []
+                "default":
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
             "quast":
                 "large_genome": True
             "minimap2":
