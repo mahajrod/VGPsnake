@@ -87,9 +87,10 @@ rule get_purge_dups_read_stat: #TODO: adjust -d -m -u options for calcuts
         paf=expand(out_dir_path / ("purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/%s.{haplotype}.{fileprefix}.paf.gz" % config["genome_prefix"]),
                            fileprefix=input_file_prefix_dict["hifi"],
                            allow_missing=True),
-        genomescope_report=output_dict["kmer"] / "{0}/filtered/genomescope/{0}.filtered.{1}.{2}.genomescope.parameters".format(config["final_kmer_datatype"],
-                                                                                                                               config["final_kmer_length"],
-                                                                                                                               config["final_kmer_counter"])
+        genomescope_report=output_dict["kmer"] / "{0}/filtered/genomescope/{1}.{0}.filtered.{2}.{3}.genomescope.parameters".format(config["final_kmer_datatype"],
+                                                                                                                                   config["genome_prefix"],
+                                                                                                                                   config["final_kmer_length"],
+                                                                                                                                   config["final_kmer_counter"])
     output:
         pbstat=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/PB.stat",
         pbbasecov=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/PB.base.cov",
