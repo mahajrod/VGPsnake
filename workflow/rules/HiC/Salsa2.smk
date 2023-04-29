@@ -42,7 +42,7 @@ rule salsa2: #
         alias=out_dir_path / "hic_scaffolding/{prev_stage_parameters}..{hic_scaffolding_parameters}/{genome_prefix}.hic_scaffolding.{haplotype}.fasta",
         #alias=out_dir_path  / ("hic_scaffolding/{assembler}/%s.hic_scaffolding.{assembler}.{haplotype}.fasta" % config["genome_name"])
     params:
-        min_contig_len=stage_dict["hic_scaffolding"]["parameters"][wildcards.prev_stage_parameters + ".." + wildcards.hic_scaffolding_parameters]["option_set"]["min_contig_len"],
+        min_contig_len=lambda wildcards: stage_dict["hic_scaffolding"]["parameters"][wildcards.prev_stage_parameters + ".." + wildcards.hic_scaffolding_parameters]["option_set"]["min_contig_len"],
         restriction_seq=parameters["tool_options"]["salsa2"]["restriction_seq"][config["hic_enzyme_set"]],
     log:
         salsa=output_dict["log"]  / "salsa2.hic_scaffolding.{prev_stage_parameters}..{hic_scaffolding_parameters}.{genome_prefix}.{haplotype}.salsa.log",
