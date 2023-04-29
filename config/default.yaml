@@ -601,7 +601,7 @@
                 - "contig"
                 - "purge_dups"
                 - "hic_scaffolding"
-            "draft":
+            "draft": #TODO: implement
                 - "purge_dups"
                 - "hic_scaffolding"
         "full":
@@ -609,14 +609,22 @@
                 - "contig"
                 - "purge_dups"
                 - "hic_scaffolding"
-            "draft":
+            "draft": #TODO: implement
+                - "purge_dups"
+                - "hic_scaffolding"
+        "hic_scaffolding":
+            "fastq":
+                - "contig"
+                - "purge_dups"
+                - "hic_scaffolding"
+            "draft": #TODO: implement
                 - "purge_dups"
                 - "hic_scaffolding"
         "purge_dups":
             "fastq":
                 - "contig"
                 - "purge_dups"
-            "draft":
+            "draft": #TODO: implement
                 - "purge_dups"
         "contig":
             "fastq":
@@ -628,7 +636,7 @@
         "hifi": "cutadapt"
     "contig":
         "hifi":
-            - "hifiasm" # Allowed: "hifiasm,""hicanu", "ipa", "flye", "nextdenovo"
+            - "hifiasm" # Allowed: "hifiasm". TODO: "hicanu", "ipa", "flye", "nextdenovo"
         #"clr":
         #"nanopore":
     "purge_dups":
@@ -636,7 +644,7 @@
             - "purge_dups"
     "hic_scaffolding":
         "default":
-            - "yahs" # Allowed: "yahs", "salsa2", "3d-dna"
+            - "yahs" # Allowed: "salsa2". TODO: "yahs", "3d-dna"
 
 "coretool_option_sets":
     "hifiasm":
@@ -649,6 +657,8 @@
          - "l2"
          - "l3"
     "purge_dups":
+        - "default"
+    "hic_scaffolding":
         - "default"
 
 "ploidy": 2
