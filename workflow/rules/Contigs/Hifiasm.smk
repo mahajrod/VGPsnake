@@ -10,9 +10,9 @@ rule hifiasm: # TODO: implement modes without hic data
                                                                                                                                         config["final_kmer_length"],
                                                                                                                                         config["final_kmer_counter"])),
     output:
-        ec_bin=protected(output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.ec.bin"),
-        ovlp_reverse_bin=protected(output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.ovlp.reverse.bin"),
-        ovlp_source_bin=protected(output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.ovlp.source.bin"),
+        ec_bin=output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.ec.bin",
+        ovlp_reverse_bin=output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.ovlp.reverse.bin",
+        ovlp_source_bin=output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.ovlp.source.bin",
         raw_unitig_graph=output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.hic.r_utg.gfa",
         primary_contig_graph=output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.hic.hap1.p_ctg.gfa",
         alternative_contig_graph=output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.hic.hap2.p_ctg.gfa",
