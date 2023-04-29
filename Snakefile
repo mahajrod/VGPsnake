@@ -594,10 +594,9 @@ include: "workflow/rules/QCAssembly/BUSCO5.smk"
 include: "workflow/rules/QCAssembly/Merqury.smk"
 include: "workflow/rules/QCAssembly/QUAST.smk"
 include: "workflow/rules/Purge_dups/Purge_dups.smk"
-"""
 include: "workflow/rules/Alignment/Index.smk"
 include: "workflow/rules/Alignment/Alignment.smk"
 include: "workflow/rules/Alignment/Pretext.smk"
 include: "workflow/rules/HiC/Salsa2.smk"
-"""
+
 #----
