@@ -219,7 +219,7 @@ for mega_stage in mega_stage_list:
         config["stage_list"] += config["allowed_stage_list"][mega_stage][config[mega_stage + "_mode"]][config["starting_point"]]
 
 stage_dict = OrderedDict()
-for stage_index in range(0, len(config["stage_list"])):
+for stage, stage_index in zip(config["stage_list"], range(0, len(config["stage_list"]))):
     stage_dict[stage] = OrderedDict()
     stage_dict[stage]["prev_stage"] = None if stage_index == 0 else config["stage_list"][stage_index-1]
 
