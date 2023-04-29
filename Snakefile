@@ -379,7 +379,7 @@ if "hic_scaffolding" in config["stage_list"]:
     hic_scaffolder_list = config["stage_coretools"]["hic_scaffolding"]["default"]
     stage_dict["hic_scaffolding"]["parameters"] = {}
 
-    for hic_scaffolder in purge_dupser_list:
+    for hic_scaffolder in hic_scaffolder_list:
         for option_set in config["coretool_option_sets"][hic_scaffolder]:
             for prev_parameters in stage_dict[prev_stage]["parameters"]:
                 parameters_label = "{0}..{1}_{2}".format(prev_parameters, hic_scaffolder, option_set)
