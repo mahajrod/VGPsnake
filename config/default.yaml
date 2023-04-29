@@ -88,7 +88,7 @@
             "multiqc": 1
             "cutadapt": 10
             "jellyfish": 30
-            "meryl": 40
+            "meryl": 30
             "genomescope": 1
             "parse_genomescope_output": 1
             "hifiasm": 50
