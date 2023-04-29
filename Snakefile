@@ -375,7 +375,42 @@ if "purge_dups" in config["stage_list"]:
                     ]
 
 if "hic_scaffolding" in config["stage_list"]:
-    results_list += [ ] # TODO: implement
+    prev_stage = stage_dict["hic_scaffolding"]["prev_stage"]
+    hic_scaffolder_list = config["stage_coretools"]["hic_scaffolding"]["default"]
+    stage_dict["hic_scaffolding"]["parameters"] = {}
+
+    for hic_scaffolder in purge_dupser_list:
+        for option_set in config["coretool_option_sets"][hic_scaffolder]:
+            for prev_parameters in stage_dict[prev_stage]["parameters"]:
+                parameters_label = "{0}..{1}_{2}".format(prev_parameters, hic_scaffolder, option_set)
+                stage_dict["hic_scaffolding"]["parameters"][parameters_label] = {}
+                stage_dict["hic_scaffolding"]["parameters"][parameters_label]["hic_scaffolder"] = hic_scaffolder
+                stage_dict["hic_scaffolding"]["parameters"][parameters_label]["option_set"] = parameters["tool_options"][hic_scaffolder][option_set]
+
+    results_list += [
+                     expand(out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/alignment/{genome_prefix}.{assembly_stage}.{haplotype}.{resolution}.map.{ext}",
+                            genome_prefix=[config["genome_prefix"], ],
+                            assembly_stage=[prev_stage, "hic_scaffolding"],
+                            haplotype=haplotype_list,
+                            parameters=stage_dict[prev_stage]["parameters"],
+                            resolution=parameters["tool_options"]["pretextsnapshot"]["resolution"],
+                            ext=parameters["tool_options"]["pretextsnapshot"]["format"]),
+                     expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype}",
+                            genome_prefix=[config["genome_prefix"], ],
+                            assembly_stage=["hic_scaffolding", ],
+                            haplotype=haplotype_list,
+                            parameters=parameters_list),
+                    expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/quast/{genome_prefix}.{assembly_stage}.{haplotype}",
+                           genome_prefix=[config["genome_prefix"], ],
+                           assembly_stage=["hic_scaffolding", ],
+                           haplotype=haplotype_list,
+                           parameters=parameters_list),
+                    expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/merqury/{genome_prefix}.{assembly_stage}.qv",
+                           genome_prefix=[config["genome_prefix"], ],
+                           assembly_stage=["hic_scaffolding", ],
+                           haplotype=haplotype_list,
+                           parameters=parameters_list),
+                    ] # TODO: implement
 
 """
 results_dict["check_input"] = [
