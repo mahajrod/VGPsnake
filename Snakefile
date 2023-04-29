@@ -389,6 +389,8 @@ if "hic_scaffolding" in config["stage_list"]:
 
     parameters_list = list(stage_dict["hic_scaffolding"]["parameters"].keys())
 
+    print(stage_dict["hic_scaffolding"]["prev_stage"])
+
     results_list += [
                      expand(out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/alignment/{genome_prefix}.{assembly_stage}.{haplotype}.{resolution}.map.{ext}",
                             genome_prefix=[config["genome_prefix"], ],
