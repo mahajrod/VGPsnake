@@ -356,7 +356,22 @@ if "purge_dups" in config["stage_list"]:
                      assembly_stage=["contig"],
                      haplotype=haplotype_list,
                      parameters=parameters_list,
-                     )
+                     ),
+                    expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype}",
+                        genome_prefix=[config["genome_prefix"], ],
+                        assembly_stage=["purge_dups"],
+                        haplotype=haplotype_list,
+                        parameters=parameters_list),
+                    expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/quast/{genome_prefix}.{assembly_stage}.{haplotype}",
+                        genome_prefix=[config["genome_prefix"], ],
+                        assembly_stage=["purge_dups"],
+                        haplotype=haplotype_list,
+                        parameters=parameters_list),
+                    expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/merqury/{genome_prefix}.{assembly_stage}.qv",
+                        genome_prefix=[config["genome_prefix"], ],
+                        assembly_stage=["purge_dups"],
+                        haplotype=haplotype_list,
+                        parameters=parameters_list)
                     ]
 
 if "hic_scaffolding" in config["stage_list"]:
