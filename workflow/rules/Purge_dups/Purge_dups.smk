@@ -190,7 +190,7 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
         " REFERENCE=`realpath {input.reference}`;"
         " GET_SEQ_LOG=`realpath {log.get_seqs}`;"
         " cd {params.out_dir};"
-        " get_seqs -p {params.get_seq_prefix} ${{PURGE_DUPS_BED}} ${{REFERENCE}} > ${{GET_SEQ_LOG} 2>&1;"
+        " get_seqs -p {params.get_seq_prefix} ${{PURGE_DUPS_BED}} ${{REFERENCE}} > ${{GET_SEQ_LOG}} 2>&1;"
         " for FILE in *.fa; do mv ${{FILE}} ${{FILE%fa}}fasta; done"
         #" cp dups.bed {params.bed_local_path} "
 
