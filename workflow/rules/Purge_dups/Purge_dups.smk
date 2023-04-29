@@ -164,7 +164,7 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
         purged=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/{genome_prefix}.purge_dups.{haplotype}.purged.fasta",
         hapdups=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/{genome_prefix}.purge_dups.{haplotype}.hap.fasta",
     params:
-        bed_local_path=lambda wildcards: "{0}.dups.bed".format(wildcards.genome_prefix),
+        #bed_local_path=lambda wildcards: "{0}.dups.bed".format(wildcards.genome_prefix),
         out_dir=lambda wildcards: out_dir_path  / "purge_dup/{0}..{1}/{2}".format(wildcards.prev_stage_parameters,
                                                                                  wildcards.purge_dups_parameters,
                                                                                  wildcards.haplotype),
@@ -189,9 +189,9 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
         " PURGE_DUPS_BED=`realpath {output.bed}`;"
         " REFERENCE=`realpath {input.reference}`;"
         " cd {params.out_dir};"
-        " get_seqs -p {params.get_seq_prefix} ${{PURGE_DUPS_BED}} ${{REFERENCE}};"
+        " get_seqs -p {params.get_seq_prefix} ${{PURGE_DUPS_BED}} ${{REFERENCE}} > {log.get_seqs} 2>&1;"
         " for FILE in *.fa; do mv ${{FILE}} ${{FILE%fa}}fasta; done"
-        " cp dups.bed {params.bed_local_path} "
+        #" cp dups.bed {params.bed_local_path} "
 
 
 rule merge_pri_hapdups_with_alt: # TODO: add handling of polyploid cases
