@@ -218,15 +218,11 @@ for mega_stage in mega_stage_list:
     else:
         config["stage_list"] += config["allowed_stage_list"][mega_stage][config[mega_stage + "_mode"]][config["starting_point"]]
 
-
-"""1        
 stage_dict = OrderedDict()
 for stage_index in range(0, len(config["stage_list"])):
     stage_dict[stage] = OrderedDict()
-    if stage_index == 0:
-        stage_dict[stage]["prev_stage_pattern"] = None
-        stage_dict[stage]["pattern"] = "{stage}"
-"""
+    stage_dict[stage]["prev_stage"] = None if stage_index == 0 else config["stage_list"][stage_index-1]
+
 #----
 
 
@@ -306,37 +302,52 @@ if "filter_draft" in config["stage_list"]:
 
 if "contig" in config["stage_list"]:
     assembler_list = config["stage_coretools"]["contig"][config["contig_datatype"]]
-    parameters_list = []
+    stage_dict["contig"]["parameters"] = []
+
     for assembler in assembler_list:
         for option_set in config["coretool_option_sets"][assembler]:
-            parameters_list.append("{0}_{1}".format(assembler, option_set))
+            stage_dict["contig"]["parameters"] .append("{0}_{1}".format(assembler, option_set))
 
     results_list += [
                      expand(output_dict["contig"] / "{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.fasta",
                             genome_prefix=[config["genome_prefix"],],
                             assembly_stage=["contig",],
                             haplotype=haplotype_list,
-                            parameters=parameters_list),
+                            parameters=stage_dict["contig"]["parameters"]),
                     expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype}",
                            genome_prefix=[config["genome_prefix"], ],
                            assembly_stage=["contig"],
                            haplotype=haplotype_list,
-                           parameters=parameters_list),
+                           parameters=stage_dict["contig"]["parameters"]),
                     expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/quast/{genome_prefix}.{assembly_stage}.{haplotype}",
                            genome_prefix=[config["genome_prefix"], ],
                            assembly_stage=["contig"],
                            haplotype=haplotype_list,
-                           parameters=parameters_list),
+                           parameters=stage_dict["contig"]["parameters"] ),
                     expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/merqury/{genome_prefix}.{assembly_stage}.qv",
                            genome_prefix=[config["genome_prefix"], ],
                            assembly_stage=["contig"],
                            haplotype=haplotype_list,
-                           parameters=parameters_list),
+                           parameters=stage_dict["contig"]["parameters"]),
                      ] # Tested only on hifiasm
 
 
 if "purge_dups" in config["stage_list"]:
-    results_list += [ ] # TODO: implement
+    prev_stage = stage_dict["purge_dups"]["prev_stage"]
+    purge_dupser_list = config["stage_coretools"]["purge_dups"]["default"]
+    for purge_dupser in purge_dupser_list:
+        for option_set in config["coretool_option_sets"][purge_dupser]:
+            for prev_parameters in stage_dict[prev_stage]["parameters"]:
+                stage_dict["purge_dups"]["parameters"].append("{0}..{1}_{2}".format(prev_parameters, purge_dupser, option_set))
+
+    results_list += [
+                     expand(out_dir_path / "purge_dups/{parameters}/{genome_prefix}.purge_dups.{haplotype}.fasta",
+                     genome_prefix=[config["genome_prefix"], ],
+                     assembly_stage=["contig"],
+                     haplotype=haplotype_list,
+                     parameters=stage_dict["purge_dups"]["parameters"],
+                     )
+                    ]
 
 if "hic_scaffolding" in config["stage_list"]:
     results_list += [ ] # TODO: implement

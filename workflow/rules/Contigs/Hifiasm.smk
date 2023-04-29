@@ -52,7 +52,7 @@ rule hifiasm: # TODO: implement modes without hic data
         hifiasm=1
     threads:
         parameters["threads"]["hifiasm"]
-    shell: # TODO: rewrite test for presence of previous run as a python script and add additional tests and detection of run type (hifi + hic or hifi only)
+    shell: # TODO: rewrite test for presence of previous run as a python script and add additional tests and detection of previous run type (hifi + hic or hifi only)
          " # check if there was a hifiasm run\n"
          " EC_BIN=(`find ./ -wholename \"*{params.ec_bin}\"`); "
          " OVLP_REVERSE_BIN=(`find ./ -wholename \"*{params.ovlp_reverse_bin}\"`); "
