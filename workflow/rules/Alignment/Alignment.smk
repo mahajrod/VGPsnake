@@ -75,7 +75,7 @@ rule bam_merge_files:
         #bams=expand(out_dir_path  / ("{assembly_stage}/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.{pairprefix}.bam" % config["genome_name"]),
         #            allow_missing=True,
         #            pairprefix=input_pairprefix_dict["hic"]),
-        bams=expand(rules.bam_merge_pairs.output,
+        bams=expand(out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/alignment/{genome_prefix}.{assembly_stage}.{haplotype}.bwa.filtered.{pairprefix}.bam",
                     allow_missing=True,
                     pairprefix=input_pairprefix_dict["hic"]),
         reference_fai=rules.ref_faidx.output.fai,
