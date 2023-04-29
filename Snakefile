@@ -302,7 +302,7 @@ if "filter_draft" in config["stage_list"]:
 
 if "contig" in config["stage_list"]:
     assembler_list = config["stage_coretools"]["contig"][config["contig_datatype"]]
-    stage_dict["contig"]["parameters"] = []
+    stage_dict["contig"]["parameters"] = {}
 
     for assembler in assembler_list:
         for option_set in config["coretool_option_sets"][assembler]:
@@ -339,7 +339,7 @@ if "contig" in config["stage_list"]:
 if "purge_dups" in config["stage_list"]:
     prev_stage = stage_dict["purge_dups"]["prev_stage"]
     purge_dupser_list = config["stage_coretools"]["purge_dups"]["default"]
-    stage_dict["purge_dups"]["parameters"] =[]
+    stage_dict["purge_dups"]["parameters"] = {}
 
     for purge_dupser in purge_dupser_list:
         for option_set in config["coretool_option_sets"][purge_dupser]:
