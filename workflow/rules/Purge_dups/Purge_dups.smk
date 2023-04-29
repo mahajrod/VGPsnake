@@ -99,7 +99,7 @@ rule get_purge_dups_read_stat: #TODO: adjust -d -m -u options for calcuts
         out_dir=lambda wildcards: out_dir_path  / "purge_dups/{0}..{1}/{2}".format(wildcards.prev_stage_parameters,
                                                                                   wildcards.purge_dups_parameters,
                                                                                   wildcards.haplotype),
-        cov_multiplicator=lambda wildcards: stage_dict["purge_dups"]["parameters"][wildcards.purge_dups_parameters]["option_set"]["cov_multiplicator"]
+        cov_multiplicator=lambda wildcards: stage_dict["purge_dups"]["parameters"][wildcards.prev_stage_parameters + ".." + wildcards.purge_dups_parameters]["option_set"]["cov_multiplicator"]
         #cov_multiplicator=parameters["tool_options"]["purge_dups"]["cov_multiplicator"]
 
     log:
