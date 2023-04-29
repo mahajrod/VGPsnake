@@ -165,7 +165,7 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
         hapdups=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/{genome_prefix}.purge_dups.{haplotype}.hap.fasta",
     params:
         #bed_local_path=lambda wildcards: "{0}.dups.bed".format(wildcards.genome_prefix),
-        out_dir=lambda wildcards: out_dir_path  / "purge_dup/{0}..{1}/{2}".format(wildcards.prev_stage_parameters,
+        out_dir=lambda wildcards: out_dir_path  / "purge_dups/{0}..{1}/{2}".format(wildcards.prev_stage_parameters,
                                                                                  wildcards.purge_dups_parameters,
                                                                                  wildcards.haplotype),
         get_seq_prefix=lambda wildcards: "{0}.purge_dups.{1}".format(wildcards.genome_prefix, wildcards.haplotype)
