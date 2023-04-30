@@ -30,12 +30,12 @@ rule salsa2: #
                                                                                                                                         stage_dict["hic_scaffolding"]["prev_stage"])),
         reference=out_dir_path / ("%s/{prev_stage_parameters}/{genome_prefix}.%s.{haplotype}.fasta" % (stage_dict["hic_scaffolding"]["prev_stage"],
                                                                                                        stage_dict["hic_scaffolding"]["prev_stage"])) ,
-        reference_fai=out_dir_path / ("%s/{prev_stage_parameters}/{genome_prefix}.%s.{haplotype}.fai" % (stage_dict["hic_scaffolding"]["prev_stage"],
+        reference_fai=out_dir_path / ("%s/{prev_stage_parameters}/{genome_prefix}.%s.{haplotype}.fasta.fai" % (stage_dict["hic_scaffolding"]["prev_stage"],
                                                                                                          stage_dict["hic_scaffolding"]["prev_stage"]))
         #reference=out_dir_path  / ("purge_dups/{assembler}/%s.purge_dups.{assembler}.{haplotype}.fasta" % config["genome_name"]),
         #reference_fai=out_dir_path  / ("purge_dups/{assembler}/%s.purge_dups.{assembler}.{haplotype}.fai" % config["genome_name"])
     output:
-        dir=out_dir_path / "hic_scaffolding/{prev_stage_parameters}..{hic_scaffolding_parameters}/{haplotype}/scaffolding/{genome_prefix}",
+        dir=directory(out_dir_path / "hic_scaffolding/{prev_stage_parameters}..{hic_scaffolding_parameters}/{haplotype}/scaffolding/{genome_prefix}"),
         #dir=directory(out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/scaffolding/%s/"  % config["genome_name"])),
         fasta=out_dir_path / "hic_scaffolding/{prev_stage_parameters}..{hic_scaffolding_parameters}/{haplotype}/scaffolding/{genome_prefix}/scaffolds_FINAL.fasta",
         #fasta=out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/scaffolding/%s/scaffolds_FINAL.fasta"  % config["genome_name"]),
