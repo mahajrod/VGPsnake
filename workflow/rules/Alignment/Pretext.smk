@@ -34,7 +34,7 @@ rule pretextsnapshot:
     input:
         map=rules.pretextmap.output.map
     output:
-        dir=out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/alignment/{genome_prefix}.{assembly_stage}.{haplotype}.{resolution}.map.{ext}",
+        dir=directory(out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/alignment/{genome_prefix}.{assembly_stage}.{haplotype}.{resolution}.map.{ext}"),
         #dir=directory(out_dir_path / ("{assembly_stage}/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.{resolution}.map.{ext}" % config["genome_name"])),
         #fig=out_dir_path / ("{assembly_stage}/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.rmdup.map.{resolution}.{ext}" % config["genome_name"]),
     params:
