@@ -310,8 +310,37 @@
                      "min_contig_len": 1000
     "micro": # < 15 Mbp, yeasts and bacteria
         "threads":
-            "minimap2_index": 10
-            "minimap2": 30
+            "create_fastq_links": 1
+            "create_links_for_draft": 1
+            "fastqc": 1
+            "multiqc": 1
+            "cutadapt": 5
+            "jellyfish": 10
+            "meryl": 10
+            "genomescope": 1
+            "parse_genomescope_output": 1
+            "hifiasm": 20
+            "gfa2fasta": 1
+            "busco5": 10
+            "quast": 4
+            "merqury": 20
+            "minimap2_index": 2
+            "minimap2": 10
+            "get_purge_dups_read_stat": 5 # ToDO: adjust, maybe even one is enough
+            "purge_dups": 5 # TODO: adjust, maybe even one is enough
+            "merge_pri_hapdups_with_alt": 1
+            "create_links": 1
+            "bwa_index": 1
+            "bwa_map": 8
+            "two_read_bam_combiner": 1
+            "samtools_sort": 4
+            "ref_faidx": 1
+            "ref_dict": 1
+            "rmdup": 4
+            "bam2bed": 4
+            "pretextmap": 3
+            "pretextsnapshot": 4
+            "salsa2": 10 #TODO: adjust
         "memory_mb":
             "jellyfish": 2000
             "meryl": 2000
