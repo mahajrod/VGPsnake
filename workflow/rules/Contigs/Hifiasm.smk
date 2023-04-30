@@ -63,7 +63,7 @@ rule hifiasm: # TODO: implement modes without hic data
          "      echo 'First hifiasm run!'; "
          " else "
          "      echo 'Previous hifiasm run detected! *.bin files from previous run will be used...'; "
-         "      ln ${{EC_BIN[0]}} ${{OVLP_REVERSE_BIN[0]}} ${{OVLP_SOURCE_BIN[0]}} ${{HIC_LK_BIN[0]}} ${{HIC_TLB_BIN[0]}} {params.dir};  "
+         "      cp ${{EC_BIN[0]}} ${{OVLP_REVERSE_BIN[0]}} ${{OVLP_SOURCE_BIN[0]}} ${{HIC_LK_BIN[0]}} ${{HIC_TLB_BIN[0]}} {params.dir};  "
          " fi ; "
          " COV_UPPER_BOUNDARY=`awk 'NR==2 {{printf \"%.0f\", {params.cov_multiplicator} * $2}}' {input.genomescope_report}`; "
          " hifiasm {params.primary} -t {threads} -l {params.purge_level}  -o {params.output_prefix} "
