@@ -1,15 +1,15 @@
 
 rule bwa_index:
     input:
-        fasta=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype, [^.]+}.fasta"
+        fasta=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.fasta"
     output:
-        index=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype, [^.]+}.fasta.bwt"
+        index=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.fasta.bwt"
     log:
-        std=output_dict["log"]  / "bwa_index.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype, [^.]+}.log",
-        cluster_log=output_dict["cluster_log"] / "bwa_index.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype, [^.]+}.cluster.log",
-        cluster_err=output_dict["cluster_error"] / "bwa_index.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype, [^.]+}.cluster.err"
+        std=output_dict["log"]  / "bwa_index.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.log",
+        cluster_log=output_dict["cluster_log"] / "bwa_index.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "bwa_index.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.cluster.err"
     benchmark:
-        output_dict["benchmark"]  / "bwa_indexs.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype, [^.]+}.benchmark.txt"
+        output_dict["benchmark"]  / "bwa_indexs.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.benchmark.txt"
     conda:
         config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
@@ -23,16 +23,16 @@ rule bwa_index:
 
 rule ref_faidx:
     input:
-        fasta=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype, [^.]+}.fasta"
+        fasta=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.fasta"
     output:
-        fai=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype, [^.]+}.fasta.fai",
-        #fai_alias=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype, [^.]+}.fasta.fai"
+        fai=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.fasta.fai",
+        #fai_alias=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.fasta.fai"
     log:
-        std=output_dict["log"]  / "ref_faidx.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype, [^.]+}..log",
-        cluster_log=output_dict["cluster_log"] / "ref_faidx.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype, [^.]+}.cluster.log",
-        cluster_err=output_dict["cluster_error"] / "ref_faidx.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype, [^.]+}.cluster.err"
+        std=output_dict["log"]  / "ref_faidx.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}..log",
+        cluster_log=output_dict["cluster_log"] / "ref_faidx.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "ref_faidx.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.cluster.err"
     benchmark:
-        output_dict["benchmark"]  / "ref_faidx.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype, [^.]+}.benchmark.txt"
+        output_dict["benchmark"]  / "ref_faidx.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.benchmark.txt"
     conda:
         config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
@@ -46,15 +46,15 @@ rule ref_faidx:
 
 rule ref_dict:
     input:
-        fasta=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype, [^.]+}.fasta"
+        fasta=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.fasta"
     output:
-        dict=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype, [^.]+}.dict"
+        dict=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.dict"
     log:
-        std=output_dict["log"]  / "ref_dict.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype, [^.]+}.log",
-        cluster_log=output_dict["cluster_log"] / "ref_dict.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype, [^.]+}.cluster.log",
-        cluster_err=output_dict["cluster_error"] / "ref_dict.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype, [^.]+}..cluster.err"
+        std=output_dict["log"]  / "ref_dict.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.log",
+        cluster_log=output_dict["cluster_log"] / "ref_dict.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "ref_dict.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}..cluster.err"
     benchmark:
-        output_dict["benchmark"]  / "ref_dict.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype, [^.]+}..benchmark.txt"
+        output_dict["benchmark"]  / "ref_dict.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}..benchmark.txt"
     conda:
         config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
@@ -73,11 +73,11 @@ rule index_bam:
     output:
         "{bam_path,.*}.bai"
     log:
-        std=output_dict["log"]  / "ref_dict.{assembly_stage}.{assembler}.{haplotype, [^.]+}.log",
-        cluster_log=output_dict["cluster_log"] / "ref_dict.{assembly_stage}.{assembler}.{haplotype, [^.]+}.cluster.log",
-        cluster_err=output_dict["cluster_error"] / "ref_dict.{assembly_stage}.{assembler}.{haplotype, [^.]+}.cluster.err"
+        std=output_dict["log"]  / "ref_dict.{assembly_stage}.{assembler}.{haplotype}.log",
+        cluster_log=output_dict["cluster_log"] / "ref_dict.{assembly_stage}.{assembler}.{haplotype}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "ref_dict.{assembly_stage}.{assembler}.{haplotype}.cluster.err"
     benchmark:
-        output_dict["benchmark"]  / "ref_dict.{assembler}.{haplotype, [^.]+}.benchmark.txt"
+        output_dict["benchmark"]  / "ref_dict.{assembler}.{haplotype}.benchmark.txt"
     conda:
         config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
