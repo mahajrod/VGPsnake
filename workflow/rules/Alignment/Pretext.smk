@@ -1,5 +1,5 @@
 
-rule pretextmap: #
+rule pretextmap: # #Pretext-map probably doesn't support long file names!!!!!!!!!!!
     input:
         #bam=out_dir_path  / ("{assembly_stage}/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.rmdup.bam"  % config["genome_name"]),
         bam=out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/alignment/{genome_prefix}.{assembly_stage}.{haplotype}.bwa.filtered.rmdup.bam"
@@ -9,7 +9,8 @@ rule pretextmap: #
     params:
         min_mapq=parameters["tool_options"]["pretextmap"]["mapq"],
         sortby=parameters["tool_options"]["pretextmap"]["sortby"],
-        sortorder=parameters["tool_options"]["pretextmap"]["sortorder"]
+        sortorder=parameters["tool_options"]["pretextmap"]["sortorder"],
+        #workdir=lambda wildcards: out_dir_path / "{0}/{1}/{2}/alignment/".format(wildcards.assembly_stage, wildcards.parameters, wildcards.haplotype)
     log:
         view=output_dict["log"]  / "pretextmap.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.view.log",
         map=output_dict["log"]  / "pretextmap.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.map.log",
@@ -26,11 +27,13 @@ rule pretextmap: #
     threads: parameters["threads"]["pretextmap"]
 
     shell:
-        " samtools view -h {input.bam} 2>{log.view} | "
-        " PretextMap -o {output.map} --sortby {params.sortby} --sortorder {params.sortorder} "
-        " --mapq {params.min_mapq} > {log.map} 2>&1"
+        " LOG=`realpath {log.map}`"
+        " cd `dirname {input.bam}`; "
+        " samtools view -h `basename {input.bam}` 2>{log.view} | "
+        " PretextMap -o `basename {output.map}` --sortby {params.sortby} --sortorder {params.sortorder} "
+        " --mapq {params.min_mapq} > ${{LOG}} 2>&1"
 
-rule pretextsnapshot: 
+rule pretextsnapshot: #Pretext-snapshot doesn't support long file names!!!!!!!!!!!
     input:
         map=rules.pretextmap.output.map
     output:
@@ -48,6 +51,7 @@ rule pretextsnapshot:
         #                                                                                         wildcards.haplotype,
         #                                                                                         wildcards.resolution),
         sequences=parameters["tool_options"]["pretextsnapshot"]["sequences"],
+        #workdir=lambda wildcards: out_dir_path / "{0}/{1}/{2}/alignment/".format(wildcards.assembly_stage, wildcards.parameters, wildcards.haplotype)
     log:
         std=output_dict["log"]  / "pretextsnapshot.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.{ext}.{resolution}.log",
         cluster_log=output_dict["cluster_log"] / "pretextsnapshot.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.{ext}.{resolution}.cluster.log",
@@ -62,6 +66,8 @@ rule pretextsnapshot:
         mem=parameters["memory_mb"]["pretextmap"]
     threads: parameters["threads"]["pretextmap"]
     shell:
+        " LOG=`realpath {log.std}`"
+        " cd `dirname {input.map}`; "
         " PretextSnapshot --sequences {params.sequences} -r {wildcards.resolution} -f {wildcards.ext} "
-        " -m {input.map} -o {output.dir}  > {log.std} 2>&1"
+        " -m `basename {input.map}` -o `basename {output.dir}`  > ${{LOG}} 2>&1"
 
