@@ -27,7 +27,7 @@ rule pretextmap: # #Pretext-map probably doesn't support long file names!!!!!!!!
     threads: parameters["threads"]["pretextmap"]
 
     shell:
-        " LOG=`realpath {log.map}`; "
+        " LOG=`realpath -m {log.map}`; " 
         " cd `dirname {input.bam}`; "
         " samtools view -h `basename {input.bam}` 2>{log.view} | "
         " PretextMap -o `basename {output.map}` --sortby {params.sortby} --sortorder {params.sortorder} "
@@ -66,7 +66,7 @@ rule pretextsnapshot: #Pretext-snapshot doesn't support long file names!!!!!!!!!
         mem=parameters["memory_mb"]["pretextmap"]
     threads: parameters["threads"]["pretextmap"]
     shell:
-        " LOG=`realpath {log.std}`; "
+        " LOG=`realpath -m {log.std}`; "
         " cd `dirname {input.map}`; "
         " PretextSnapshot --sequences {params.sequences} -r {wildcards.resolution} -f {wildcards.ext} "
         " -m `basename {input.map}` -o `basename {output.dir}`  > ${{LOG}} 2>&1"
