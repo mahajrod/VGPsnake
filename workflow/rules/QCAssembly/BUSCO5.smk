@@ -5,7 +5,7 @@ rule busco5:
     input:
         assembly=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.fasta"
     output:
-        dir=temp(directory(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype}.{busco_lineage}")),
+        dir=temp(directory(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype,[^.]+}}.{busco_lineage}")),
     #params:
     #    out_prefix= lambda wildcards: "{0}.{1}.{2}".format(wildcards.genome_prefix,
     #                                                       wildcards.assembly_stage,
