@@ -95,7 +95,7 @@ out_dir_path = Path(config["out_dir"])
 output_dict = {}
 
 for first_level_sub_dir in config["first_level_subdir_list"]:
-    output_dict[first_level_sub_dir] = out_dir_path / config["{0}_subdir".format(first_level_sub_dir)]
+    output_dict[first_level_sub_dir] = out_dir_path / first_level_sub_dir
 
 #----
 #---- Initialization path variables for resources ----
@@ -318,7 +318,8 @@ if "contig" in config["stage_list"]:
                             assembly_stage=["contig",],
                             haplotype=haplotype_list,
                             parameters=parameters_list ),
-                    expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype}",
+                    expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype}.busco5.{busco_lineage}.tar.gz",
+                           busco_lineage=config["busco_lineage_list"],
                            genome_prefix=[config["genome_prefix"], ],
                            assembly_stage=["contig"],
                            haplotype=haplotype_list,
@@ -357,7 +358,8 @@ if "purge_dups" in config["stage_list"]:
                      haplotype=haplotype_list,
                      parameters=parameters_list,
                      ),
-                    expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype}",
+                    expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype}.busco5.{busco_lineage}.tar.gz",
+                        busco_lineage=config["busco_lineage_list"],
                         genome_prefix=[config["genome_prefix"], ],
                         assembly_stage=["purge_dups"],
                         haplotype=haplotype_list,
@@ -406,7 +408,8 @@ if "hic_scaffolding" in config["stage_list"]:
                             parameters=stage_dict["hic_scaffolding"]["parameters"],
                             resolution=parameters["tool_options"]["pretextsnapshot"]["resolution"],
                             ext=parameters["tool_options"]["pretextsnapshot"]["format"]),
-                     expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype}",
+                     expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype}.busco5.{busco_lineage}.tar.gz",
+                            busco_lineage=config["busco_lineage_list"],
                             genome_prefix=[config["genome_prefix"], ],
                             assembly_stage=["hic_scaffolding", ],
                             haplotype=haplotype_list,
@@ -607,5 +610,5 @@ include: "workflow/rules/Alignment/Index.smk"
 include: "workflow/rules/Alignment/Alignment.smk"
 include: "workflow/rules/Alignment/Pretext.smk"
 include: "workflow/rules/HiC/Salsa2.smk"
-
+include: "workflow/rules/HiC/YAHS.smk"
 #----
