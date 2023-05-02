@@ -35,22 +35,22 @@ rule salsa2: #
         #reference=out_dir_path  / ("purge_dups/{assembler}/%s.purge_dups.{assembler}.{haplotype}.fasta" % config["genome_name"]),
         #reference_fai=out_dir_path  / ("purge_dups/{assembler}/%s.purge_dups.{assembler}.{haplotype}.fai" % config["genome_name"])
     output:
-        dir=directory(out_dir_path / "hic_scaffolding/{prev_stage_parameters}..{hic_scaffolding_parameters}/{haplotype}/scaffolding/{genome_prefix}"),
+        dir=directory(out_dir_path / "hic_scaffolding/{prev_stage_parameters}..salsa2_{hic_scaffolding_parameters}/{haplotype}/scaffolding/{genome_prefix}"),
         #dir=directory(out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/scaffolding/%s/"  % config["genome_name"])),
-        fasta=out_dir_path / "hic_scaffolding/{prev_stage_parameters}..{hic_scaffolding_parameters}/{haplotype}/scaffolding/{genome_prefix}/scaffolds_FINAL.fasta",
+        fasta=out_dir_path / "hic_scaffolding/{prev_stage_parameters}..salsa2_{hic_scaffolding_parameters}/{haplotype}/scaffolding/{genome_prefix}/scaffolds_FINAL.fasta",
         #fasta=out_dir_path  / ("hic_scaffolding/{assembler}/{haplotype}/scaffolding/%s/scaffolds_FINAL.fasta"  % config["genome_name"]),
-        alias=out_dir_path / "hic_scaffolding/{prev_stage_parameters}..{hic_scaffolding_parameters}/{genome_prefix}.hic_scaffolding.{haplotype}.fasta",
+        alias=out_dir_path / "hic_scaffolding/{prev_stage_parameters}..salsa2_{hic_scaffolding_parameters}/{genome_prefix}.hic_scaffolding.{haplotype}.fasta",
         #alias=out_dir_path  / ("hic_scaffolding/{assembler}/%s.hic_scaffolding.{assembler}.{haplotype}.fasta" % config["genome_name"])
     params:
-        min_contig_len=lambda wildcards: stage_dict["hic_scaffolding"]["parameters"][wildcards.prev_stage_parameters + ".." + wildcards.hic_scaffolding_parameters]["option_set"]["min_contig_len"],
+        min_contig_len=lambda wildcards: stage_dict["hic_scaffolding"]["parameters"][wildcards.prev_stage_parameters + "..salsa2_" + wildcards.hic_scaffolding_parameters]["option_set"]["min_contig_len"],
         restriction_seq=parameters["tool_options"]["salsa2"]["restriction_seq"][config["hic_enzyme_set"]],
     log:
-        salsa=output_dict["log"]  / "salsa2.hic_scaffolding.{prev_stage_parameters}..{hic_scaffolding_parameters}.{genome_prefix}.{haplotype}.salsa.log",
-        ln=output_dict["log"]  / "salsa2.hic_scaffolding.{prev_stage_parameters}..{hic_scaffolding_parameters}.{genome_prefix}.{haplotype}.ln.log",
-        cluster_log=output_dict["cluster_log"] / "salsa2.hic_scaffolding.{prev_stage_parameters}..{hic_scaffolding_parameters}.{genome_prefix}.{haplotype}.cluster.log",
-        cluster_err=output_dict["cluster_error"] / "salsa2.hic_scaffolding.{prev_stage_parameters}..{hic_scaffolding_parameters}.{genome_prefix}.{haplotype}.cluster.err"
+        salsa=output_dict["log"]  / "salsa2.hic_scaffolding.{prev_stage_parameters}..salsa2_{hic_scaffolding_parameters}.{genome_prefix}.{haplotype}.salsa.log",
+        ln=output_dict["log"]  / "salsa2.hic_scaffolding.{prev_stage_parameters}..salsa2_{hic_scaffolding_parameters}.{genome_prefix}.{haplotype}.ln.log",
+        cluster_log=output_dict["cluster_log"] / "salsa2.hic_scaffolding.{prev_stage_parameters}..salsa2_{hic_scaffolding_parameters}.{genome_prefix}.{haplotype}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "salsa2.hic_scaffolding.{prev_stage_parameters}..salsa2_{hic_scaffolding_parameters}.{genome_prefix}.{haplotype}.cluster.err"
     benchmark:
-        output_dict["benchmark"]  / "salsa2.hic_scaffolding.{prev_stage_parameters}..{hic_scaffolding_parameters}.{genome_prefix}.{haplotype}.benchmark.txt"
+        output_dict["benchmark"]  / "salsa2.hic_scaffolding.{prev_stage_parameters}..salsa2_{hic_scaffolding_parameters}.{genome_prefix}.{haplotype}.benchmark.txt"
     conda:
         config["conda"]["salsa2"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["salsa2"]["yaml"])
     resources:
