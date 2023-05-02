@@ -2,7 +2,7 @@ rule gfa2fasta:
     input:
         gfa=output_dict["contig"] / "{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.gfa"
     output:
-        fasta=output_dict["contig"] / "{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.fasta"
+        fasta=output_dict["contig"] / "{parameters}/{genome_prefix}.{assembly_stage}.{haplotype,[^.]+}.fasta"
     log:
         std=output_dict["log"] / "gfa2fasta.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.log",
         cluster_log=output_dict["cluster_log"] / "gfa2fasta.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.cluster.log",
