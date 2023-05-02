@@ -175,7 +175,7 @@
             "cutadapt": "04:00:00"
             "jellyfish": "08:00:00"
             "meryl": "08:00:00"
-            "meryl_extract": "02:00:00""
+            "meryl_extract": "02:00:00"
             "genomescope": "01:00:00"
             "parse_genomescope_output": "00:10:00"
             "hifiasm": "08:00:00"
