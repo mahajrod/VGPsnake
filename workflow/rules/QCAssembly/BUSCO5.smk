@@ -31,7 +31,7 @@ rule busco5:
         parameters["threads"]["busco5"]
     shell:
          " busco -m genome -l {params.lineage} -c {threads} -i {input.assembly} "
-         " -o {params.out_prefix} --out_path ./  1>{log.std} 2>&1;"
+         " -o {params.out_prefix} --out_path `dirname {output.dir}`  1>{log.std} 2>&1;"
 
 
 rule compress_busco5:
