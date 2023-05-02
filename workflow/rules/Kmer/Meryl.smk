@@ -78,7 +78,7 @@ rule meryl_extract:
     conda:
         config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
-        cpus=parameters["threads"]["mmeryl_extract"],
+        cpus=parameters["threads"]["meryl_extract"],
         time=parameters["time"]["meryl_extract"],
         mem=parameters["memory_mb"]["meryl_extract"],
     threads:
