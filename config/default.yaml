@@ -43,7 +43,7 @@
   - "qc"
   #- "assembly_qc"
   - "log"
-  - "benchmarks"
+  - "benchmark"
   - "cluster_log"
   - "cluster_error"
   - "preprocessing"
