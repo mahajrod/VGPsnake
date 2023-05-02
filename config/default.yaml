@@ -47,7 +47,7 @@
   - "cluster_log"
   - "cluster_error"
   - "preprocessing"
-  - "basecall"
+  #- "basecall"
   - "kmer"
   - "draft"
   - "contig"
@@ -55,29 +55,29 @@
   - "lr_scaffolding"
   - "bionano_scaffolding"
   - "hic_scaffolding"
+  - "contamination_scan"
 
-"config_subdir": "config"
-"data_subdir": "data"
-"qc_subdir": "qc"
+#"config_subdir": "config"
+#"data_subdir": "data"
+#"qc_subdir": "qc"
 #"assembly_qc_subdir": "assembly_qc"
-"kmer_subdir": "kmer"
-"log_subdir": "logs"
-"draft_subdir": "draft"
+#"kmer_subdir": "kmer"
+#"log_subdir": "logs"
+#"draft_subdir": "draft"
 
-"benchmark_subdir": "benchmarks"
-"cluster_log_subdir": "cluster_logs"
-"cluster_error_subdir": "cluster_errors"
-"preprocessing_subdir": "preprocessing"
-"basecall_subdir": "basecall"
-"contig_subdir": "contig"
-"purge_dups_subdir": "purge_dups"
-"lr_scaffolding_subdir": "lr_scaffolding"
-"bionano_scaffolding_subdir": "bionano_scaffolding"
-"hic_scaffolding_subdir": "hic_scaffolding"
+#"benchmark_subdir": "benchmarks"
+#"cluster_log_subdir": "cluster_logs"
+#"cluster_error_subdir": "cluster_errors"
+#"preprocessing_subdir": "preprocessing"
+#"basecall_subdir": "basecall"
+#"contig_subdir": "contig"
+#"purge_dups_subdir": "purge_dups"
+#"lr_scaffolding_subdir": "lr_scaffolding"
+#"bionano_scaffolding_subdir": "bionano_scaffolding"
+#"hic_scaffolding_subdir": "hic_scaffolding"
 
-
-"fastqc_subdir": "fastqc"
-"multiqc_subdir": "multiqc"
+#"fastqc_subdir": "fastqc"
+#"multiqc_subdir": "multiqc"
 
 #--------
 
@@ -92,11 +92,14 @@
             "cutadapt": 10
             "jellyfish": 30
             "meryl": 30
+            "meryl_extract": 10
             "genomescope": 1
             "parse_genomescope_output": 1
             "hifiasm": 50
             "gfa2fasta": 1
             "busco5": 30
+            "compress_busco5": 1
+            "handle_busco5_output": 1
             "quast": 4
             "merqury": 20
             "minimap2_index": 10
@@ -117,7 +120,9 @@
             "pretextsnapshot": 4
             "salsa2": 10 #TODO: adjust
             "yahs": 5
-
+            #"kraken2": 15 # set via allowed_databases variable
+            "smudgeplot": 1
+            #"fcs_gx": 50 # set via allowed_databases variable
             mosdepth: 3
             basecall: 30
 
@@ -133,6 +138,8 @@
             "hifiasm": 50000
             "gfa2fasta": 10000
             "busco5": 20000
+            "compress_busco5": 1000
+            "handle_busco5_output": 100
             "quast": 10000
             "merqury": 20000 # TODO: adjust
             "minimap2_index": 10000 # TODO: adjust
@@ -152,8 +159,11 @@
             "pretextmap": 10000
             "pretextsnapshot": 5000
             "salsa2": 50000 # TODO: adjust
+            #"kraken2": 50000 # # set via allowed_databases variable
             "yahs": 10000
-
+            "smudgeplot": 1000
+            "meryl_extract": 15000
+            #"fcs_gx": 512000 # set via allowed_databases variable
             mosdepth: 4000 #The amount of memory is approximately equal to 32-bits * longest chrom length, so for the 249MB chromosome 1, it will require 1GB of memory.
             basecall: 20000
 
@@ -165,11 +175,14 @@
             "cutadapt": "04:00:00"
             "jellyfish": "08:00:00"
             "meryl": "08:00:00"
+            "meryl_extract": "02:00:00""
             "genomescope": "01:00:00"
             "parse_genomescope_output": "00:10:00"
             "hifiasm": "08:00:00"
             "gfa2fasta": "08:00:00"
             "busco5": "24:00:00"
+            "compress_busco5": "05:00:00"
+            "handle_busco5_output": "00:05:00"
             "quast": "02:00:00"
             "merqury": "12:00:00"
             "minimap2_index": "12:00:00"
@@ -190,6 +203,9 @@
             "pretextsnapshot": "04:00:00"
             "salsa2": "12:00:00"
             "yahs": "12:00:00"
+            #"kraken2": "12:00:00" # set via allowed_databases variable
+            "smudgeplot": "02:00:00" # TODO: lower time reasonably
+            #"fcs_gx": "03:00:00" # set via allowed_databases variable
 
             mosdepth: "02:00:00"
             basecall: "10:00:00"
@@ -593,6 +609,36 @@
             "minimap2":
                 "index_size": "30G"
 
+"allowed_databases":
+    "kraken2":
+        "silva":
+            "path":         "" # add path to silva database
+            "memory_mb":    10000
+            "threads":      15
+            "time":         "06:00:00"
+            "in_memory":    True
+        "rdp":
+            "path":         "" # add path to rdp database
+            "memory_mb":    10000
+            "threads":      15
+            "time":         "06:00:00"
+            "in_memory":    True
+        "greengenes":
+            "path":         "" # add path to greengenes database
+            "memory_mb":    10000
+            "threads":      15
+            "time":         "06:00:00"
+            "in_memory":    True
+    "fcs":
+        "fcs_gx":
+            "path":         "" # add path to fcs_gx database
+            "image_path":   ""
+            "memory_mb":    512000 # Entire database must be in memory, it requires at least 490 Gbp
+            "threads":      50
+            "time":         "06:00:00"
+            "in_memory":    True
+
+
 "kmer_counter_list":
     #- "jellyfish"
     - "meryl"
@@ -715,7 +761,17 @@
 
 "ploidy": 2
 "genome_prefix": "genome"
-"busco_lineage": "mammalia_odb10" #
+"busco_lineage_list":
+    - "mammalia_odb10" #
+"species_name": "species species"
+"tax_id": null # necessary for contamination scan via FCS
+
+"database_set":
+    "kraken2":
+        - "silva"                    # configure corresonding entry in "allowed_databases"
+        - "greengenes"               # configure corresonding entry in "allowed_databases"
+        - "rdp"                      # configure corresonding entry in "allowed_databases"
+
 #Often used BUSCO lineages: mammalia_odb10, vertebrata_odb10, laurasiatheria_odb10, carnivora_odb10,
 #                           actinopterygii_odb10, saccharomycetes_odb10, sauropsida_odb10, aves_odb10
 
