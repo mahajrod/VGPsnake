@@ -1,4 +1,5 @@
 rule hifiasm: # TODO: implement modes without hic data
+    priority: 1000
     input:
         hifi=expand(output_dict["data"] / ("fastq/hifi/filtered/{fileprefix}%s" % config["fastq_extension"]),
                     fileprefix=input_file_prefix_dict["hifi"],

@@ -1,4 +1,5 @@
 rule busco5:
+    priority: 500
     input:
         assembly=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.fasta"
     output:
