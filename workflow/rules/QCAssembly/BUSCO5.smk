@@ -36,10 +36,10 @@ rule busco5:
     shell:
          " busco -m genome -l {wildcards.busco_lineage} -c {threads} -i {input.assembly} "
          " -o `basename {output.dir}` --out_path `dirname {output.dir}` > {log.std} 2>&1;"
-         " cp {output.dir}/short_summary.specific.{wildcards.busco_lineage}.{wildcards.genome_prefix}.{wildcards.assembly_stage}.{wildcards.haplotype}.txt {output.summary} > {log.cp} 2>&1; "
-         " cp {output.dir}/short_summary.specific.{wildcards.busco_lineage}.{wildcards.genome_prefix}.{wildcards.assembly_stage}.{wildcards.haplotype}.json {output.summary_json} >> {log.cp} 2>>&1; "
-         " cp {output.dir}/run_{wildcards.busco_lineage}/full_table.tsv {output.busco_table} >> {log.cp} 2>>&1; "
-         " cp {output.dir}run_{wildcards.busco_lineage}/missing_busco_list.tsv {output.missing_busco_ids} >> {log.cp} 2>>&1; "
+         " cp {output.dir}/short_summary.specific.{wildcards.busco_lineage}.{wildcards.genome_prefix}.{wildcards.assembly_stage}.{wildcards.haplotype}.txt {output.summary} ; "
+         " cp {output.dir}/short_summary.specific.{wildcards.busco_lineage}.{wildcards.genome_prefix}.{wildcards.assembly_stage}.{wildcards.haplotype}.json {output.summary_json} ; "
+         " cp {output.dir}/run_{wildcards.busco_lineage}/full_table.tsv {output.busco_table} ; "
+         " cp {output.dir}run_{wildcards.busco_lineage}/missing_busco_list.tsv {output.missing_busco_ids} ; "
 
 
 rule compress_busco5:
