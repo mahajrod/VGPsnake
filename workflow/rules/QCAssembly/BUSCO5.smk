@@ -39,7 +39,7 @@ rule busco5:
          " cp {output.dir}/short_summary.specific.{wildcards.busco_lineage}.{wildcards.genome_prefix}.{wildcards.assembly_stage}.{wildcards.busco_lineage}.{wildcards.haplotype}.txt {output.summary} ; "
          " cp {output.dir}/short_summary.specific.{wildcards.busco_lineage}.{wildcards.genome_prefix}.{wildcards.assembly_stage}.{wildcards.busco_lineage}.{wildcards.haplotype}.json {output.summary_json} ; "
          " cp {output.dir}/run_{wildcards.busco_lineage}/full_table.tsv {output.busco_table} ; "
-         " cp {output.dir}run_{wildcards.busco_lineage}/missing_busco_list.tsv {output.missing_busco_ids} ; "
+         " cp {output.dir}/run_{wildcards.busco_lineage}/missing_busco_list.tsv {output.missing_busco_ids} ; "
 
 
 rule compress_busco5:
