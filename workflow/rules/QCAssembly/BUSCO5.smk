@@ -10,11 +10,10 @@ rule busco5:
         summary_json=temp(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype}.{busco_lineage}/short_summary.specific.{busco_lineage}.{genome_prefix}.{assembly_stage}.{haplotype}.json"),
         busco_table=temp(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype}.{busco_lineage}/run_{busco_lineage}/full_table.tsv"),
         missing_busco_ids=temp(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype}.{busco_lineage}/run_{busco_lineage}/missing_busco_list.tsv"),
-    params:
-        lineage=config["busco_lineage"],
-        out_prefix= lambda wildcards: "{0}.{1}.{2}".format(wildcards.genome_prefix,
-                                                           wildcards.assembly_stage,
-                                                           wildcards.haplotype)
+    #params:
+    #    out_prefix= lambda wildcards: "{0}.{1}.{2}".format(wildcards.genome_prefix,
+    #                                                       wildcards.assembly_stage,
+    #                                                       wildcards.haplotype)
     log:
         std=output_dict["log"] / "busco5.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.{busco_lineage}.log",
         cluster_log=output_dict["cluster_log"] / "busco5.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.{busco_lineage}.cluster.log",
@@ -30,8 +29,8 @@ rule busco5:
     threads:
         parameters["threads"]["busco5"]
     shell:
-         " busco -m genome -l {params.lineage} -c {threads} -i {input.assembly} "
-         " -o {params.out_prefix} --out_path `dirname {output.dir}`  1>{log.std} 2>&1;"
+         " busco -m genome -l {wildcards.busco_lineage} -c {threads} -i {input.assembly} "
+         " -o `basename {output.dir}` --out_path `dirname {output.dir}` >{log.std} 2>&1;"
 
 
 rule compress_busco5:
