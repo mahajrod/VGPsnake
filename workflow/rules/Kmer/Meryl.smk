@@ -96,7 +96,7 @@ rule subset_extracted_kmers:
         kmer=output_dict["kmer"] / ("{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.meryl.L%s.U%s.extracted.kmer" % (min(parameters["tool_options"]["smudgeplot"]["lower_boundary"]),
                                                                                                                              max(parameters["tool_options"]["smudgeplot"]["upper_boundary"])))
     output:
-        kmer=temp(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.kmer")
+        kmer=temp(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.subset.kmer")
     log:
         ln=output_dict["log"] / "subset_extracted_kmers.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.ln.log",
         #gunzip=output_dict["log"] / "subset_extracted_kmers.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.gunzip.log",
