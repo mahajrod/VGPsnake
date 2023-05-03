@@ -624,10 +624,13 @@ include: "workflow/rules/QCAssembly/Merqury.smk"
 include: "workflow/rules/QCAssembly/QUAST.smk"
 if "purge_dups" in config["stage_list"]:
     include: "workflow/rules/Purge_dups/Purge_dups.smk"
+
 include: "workflow/rules/Alignment/Index.smk"
-include: "workflow/rules/Alignment/Alignment.smk"
-include: "workflow/rules/Alignment/Pretext.smk"
+
 if "hic_scaffolding" in config["stage_list"]:
     include: "workflow/rules/HiC/Salsa2.smk"
     include: "workflow/rules/HiC/YAHS.smk"
+
+    include: "workflow/rules/Alignment/Alignment.smk"
+    include: "workflow/rules/Alignment/Pretext.smk"
 #----
