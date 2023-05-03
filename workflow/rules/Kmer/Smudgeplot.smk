@@ -50,6 +50,7 @@ rule smudgeplot:
         cpus=parameters["threads"]["smudgeplot"],
         time=parameters["time"]["smudgeplot"],
         mem=parameters["memory_mb"]["smudgeplot"],
+        smudgeplot=1
     threads:
         parameters["threads"]["smudgeplot"]
     shell:
