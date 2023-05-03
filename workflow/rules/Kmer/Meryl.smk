@@ -93,7 +93,8 @@ rule meryl_extract:
 
 rule subset_extracted_kmers:
     input:
-        kmer=rules.meryl_extract.output.kmer
+        kmer=output_dict["kmer"] / ("{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.meryl.L%s.U%s.extracted.kmer.gz" % (min(parameters["tool_options"]["smudgeplot"]["lower_boundary"]),
+                                                                                                                             max(parameters["tool_options"]["smudgeplot"]["upper_boundary"])))
     output:
         kmer=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.kmer.gz"
     log:
