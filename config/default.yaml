@@ -123,6 +123,7 @@
             "yahs": 5
             #"kraken2": 15 # set via allowed_databases variable
             "smudgeplot": 1
+            "compress_kmer": 10
             #"fcs_gx": 50 # set via allowed_databases variable
             mosdepth: 3
             basecall: 30
@@ -165,6 +166,7 @@
             #"kraken2": 50000 # # set via allowed_databases variable
             "yahs": 10000
             "smudgeplot": 1000
+            "compress_kmer": 3000
             "meryl_extract": 15000
             #"fcs_gx": 512000 # set via allowed_databases variable
             mosdepth: 4000 #The amount of memory is approximately equal to 32-bits * longest chrom length, so for the 249MB chromosome 1, it will require 1GB of memory.
@@ -209,6 +211,7 @@
             "yahs": "12:00:00"
             #"kraken2": "12:00:00" # set via allowed_databases variable
             "smudgeplot": "02:00:00" # TODO: lower time reasonably
+            "compress_kmer": "03:00:00"
             #"fcs_gx": "03:00:00" # set via allowed_databases variable
 
             mosdepth: "02:00:00"
@@ -821,7 +824,7 @@
 "custom_preprocessing_stages": []
 "custom_qc_stages": []
 "custom_assembly_stages": []
-
+"smudgeplot": False               # smudgeplot requires a lot of memory to operate on mammalian size genomes (>700 Gbp of memory). Turn this analysis on only if you are sure you have enough memory. TODO: replace smudgeplot by tools consuming less memory.
 # Allowed modes:
 #       with starting_point "fastq":
 #           "check_input"              : check of the input data and generation of the final config
