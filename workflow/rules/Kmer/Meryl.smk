@@ -122,6 +122,6 @@ rule subset_extracted_kmers:
          "  then "
          " cp {input.kmer} {output.kmer} 2>{log.cp}; "
          " else "
-         " awk '{{if (($2 >= {wildcards.lower_boundary}) && ($2 <= {wildcards.upper_boundary})) print $0}}' {input.kmer} > {output.kmer} 2>{log.awk} | "
+         " awk '{{if (($2 >= {wildcards.lower_boundary}) && ($2 <= {wildcards.upper_boundary})) print $0}}' {input.kmer} > {output.kmer} 2>{log.awk}; "
          " fi "
          #" gzip -c > {output.kmer} 2>{log.gzip}; "
