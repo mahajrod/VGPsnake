@@ -27,23 +27,23 @@ rule smudgeplot_assess:
 
 rule smudgeplot:
     input:
-        kmer=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{low_boundary}.U{upper_boundary}.kmer.gz",
+        kmer=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.kmer.gz",
         genomescope_report=output_dict["kmer"] / ("{datatype}/{stage}/genomescope/%s.%s.filtered.%s.%s.genomescope.parameters" % (config["genome_prefix"],
                                                                                                                                   config["final_kmer_datatype"],
                                                                                                                                   config["final_kmer_length"],
                                                                                                                                   config["final_kmer_counter"])),
     output:
-        coverages=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{low_boundary}.U{upper_boundary}_coverages.tsv",
-        sequences=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{low_boundary}.U{upper_boundary}_sequences.tsv",
-        smudgeplot=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{low_boundary}.U{upper_boundary}_smudgeplot.png",
-        summary=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{low_boundary}.U{upper_boundary}_summary_table.tsv"
+        coverages=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_coverages.tsv",
+        sequences=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_sequences.tsv",
+        smudgeplot=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_smudgeplot.png",
+        summary=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_summary_table.tsv"
     log:
-        hetkmers=output_dict["log"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{low_boundary}.U{upper_boundary}.hetkmers.log",
-        plot=output_dict["log"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{low_boundary}.U{upper_boundary}.plot.log",
-        cluster_log=output_dict["cluster_log"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{low_boundary}.U{upper_boundary}.cluster.log",
-        cluster_err=output_dict["cluster_error"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{low_boundary}.U{upper_boundary}.cluster.err"
+        hetkmers=output_dict["log"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.hetkmers.log",
+        plot=output_dict["log"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.plot.log",
+        cluster_log=output_dict["cluster_log"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.cluster.err"
     benchmark:
-        output_dict["benchmark"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{low_boundary}.U{upper_boundary}.benchmark.txt"
+        output_dict["benchmark"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.benchmark.txt"
     conda:
         config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
