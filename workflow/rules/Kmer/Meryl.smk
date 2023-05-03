@@ -120,7 +120,7 @@ rule subset_extracted_kmers:
     shell:
          " if [ {wildcards.lower_boundary} -eq {params.min_lower_boundary} ] && [ {wildcards.upper_boundary} -eq {params.max_upper_boundary} ] ;"
          "  then "
-         " ln {input.kmer} {output.kmer} 2>{log.ln}; "
+         " cp {input.kmer} {output.kmer} 2>{log.ln}; "
          " else "
          " awk '{{if (($2 >= {wildcards.lower_boundary}) && ($2 <= {wildcards.upper_boundary})) print $0}}' {input.kmer} > {output.kmer} 2>{log.awk} | "
          " fi "
