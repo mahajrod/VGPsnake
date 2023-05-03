@@ -1,5 +1,3 @@
-
-
 rule bwa_map: #
     input:
         index=rules.bwa_index.output.index,
