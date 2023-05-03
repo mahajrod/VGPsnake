@@ -57,7 +57,7 @@ rule smudgeplot:
          " COV_OUT={output.coverages}; "
          " PREFIX=${{COV_OUT%_coverages.tsv}}; "
          " HAPLOID_COVERAGE=`awk 'NR==2 {{print 2 * $2}}'`; "
-         " smudgeplot.py hetkmers -o ${{PREFIX}} <(zcat {input.kmer}) > {log.hetkmers} 2>&1; "
+         " smudgeplot.py hetkmers -o ${{PREFIX}} {input.kmer} > {log.hetkmers} 2>&1; "
          " smudgeplot.py plot -k {wildcards.kmer_length} -n ${{HAPLOID_COVERAGE}}  -o ${{PREFIX}} {output.coverages} > {log.plot} 2>&1; "
 
 rule compress_kmer:
