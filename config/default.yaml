@@ -93,6 +93,7 @@
             "jellyfish": 30
             "meryl": 30
             "meryl_extract": 10
+            "subset_extracted_kmers": 1
             "genomescope": 1
             "parse_genomescope_output": 1
             "hifiasm": 50
@@ -142,6 +143,8 @@
             "handle_busco5_output": 100
             "quast": 10000
             "merqury": 20000 # TODO: adjust
+            "meryl": 80000
+            "subset_extracted_kmers": 5000
             "minimap2_index": 10000 # TODO: adjust
             "minimap2": 10000 # TODO: adjust
             "get_purge_dups_read_stat": 10000 # ToDO: adjust, maybe even 1000 is enough
@@ -176,6 +179,7 @@
             "jellyfish": "08:00:00"
             "meryl": "08:00:00"
             "meryl_extract": "02:00:00"
+            "subset_extracted_kmers": "01:00:00"
             "genomescope": "01:00:00"
             "parse_genomescope_output": "00:10:00"
             "hifiasm": "08:00:00"
@@ -255,6 +259,14 @@
                 "illumina":
                     "kmer_length":
                         - 21
+            "smudgeplot":
+                "lower_boundary":
+                    - 10
+                    - 20
+                "upper_boundary":
+                    - 500
+                    - 1000
+                    - 1500
             "hifiasm":
                 "default":
                     "purge level": 0 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
@@ -411,6 +423,8 @@
             "minimap2":
                 "index_size": "4G"
     "mini": # < 150 Mbp, fungi, Arabidopsis thaliana and Caenorabditis elegans
+        "threads":
+            "bwa_map": 16
         "memory_mb":
             "jellyfish": 20000
             "meryl": 20000
@@ -444,6 +458,8 @@
             "minimap2":
                 "index_size": "4G"
     "small": # < 500 Mbp, drosophilla, tetraodon
+        "threads":
+            "bwa_map": 32
         "memory_mb":
             "jellyfish": 60000
             "meryl": 60000
@@ -631,11 +647,19 @@
             "in_memory":    True
     "fcs":
         "fcs_gx":
-            "path":         "" # add path to fcs_gx database
-            "image_path":   ""
+            "path":         "/scratch/yggdrasil/db/fcs/gxdb/" # add path to fcs_gx database
+            "image_path":   "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/soft/FCS-GX/fcs-gx.sif"
             "memory_mb":    512000 # Entire database must be in memory, it requires at least 490 Gbp
             "threads":      50
             "time":         "06:00:00"
+            "in_memory":    True
+    "fcs_adaptor":
+        "adaptor_prok_test":
+            "path":         null # database is embedded in singularity image
+            "image_path":   "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/soft/fcsadaptor/fcs-adaptor.sif"
+            "memory_mb":    30000 #
+            "threads":      50
+            "time":         "01:00:00"
             "in_memory":    True
 
 

@@ -13,10 +13,6 @@ rule hifiasm: # TODO: implement modes without hic data
     output:
         ec_bin=output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.ec.bin",
         ovlp_reverse_bin=output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.ovlp.reverse.bin",
-        ovlp_source_bin=output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.ovlp.source.bin",
-        hic_lk_bin=output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.hic.lk.bin" if "hic" in input_filedict else [],
-        hic_tlb_bin=output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.hic.tlb.bin" if "hic" in input_filedict else [],
-        raw_unitig_graph=output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.hic.r_utg.gfa",
         primary_contig_graph=output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.hic.hap1.p_ctg.gfa",
         alternative_contig_graph=output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hifi.hic.hap2.p_ctg.gfa",
         primary_alias=output_dict["contig"] / "hifiasm_{contig_options}/{genome_prefix}.contig.hap1.gfa",

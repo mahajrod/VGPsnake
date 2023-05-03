@@ -67,14 +67,15 @@ rule meryl_extract:
     input:
         db=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.meryl"
     output:
-        kmer=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.L{low_boundary}.U{upper_boundary}.kmer"
+        kmer=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.meryl.L{min_lower_boundary}.U{max_upper_boundary}.extracted.kmer.gz"
     log:
-        meryl=output_dict["log"] / "meryl_extract.{datatype}.{stage}.{kmer_length}.L{low_boundary}.U{upper_boundary}.meryl.log",
-        sort=output_dict["log"] / "meryl_extract.{datatype}.{stage}.{kmer_length}.L{low_boundary}.U{upper_boundary}.sort.log",
-        cluster_log=output_dict["cluster_log"] / "meryl_extract.{datatype}.{stage}.{kmer_length}.L{low_boundary}.U{upper_boundary}.cluster.log",
-        cluster_err=output_dict["cluster_error"] / "meryl_extract.{datatype}.{stage}.{kmer_length}.L{low_boundary}.U{upper_boundary}.cluster.err"
+        meryl=output_dict["log"] / "meryl_extract.{datatype}.{stage}.{kmer_length}.L{min_lower_boundary}.U{max_upper_boundary}.meryl.log",
+        sort=output_dict["log"] / "meryl_extract.{datatype}.{stage}.{kmer_length}.L{min_lower_boundary}.U{max_upper_boundary}.sort.log",
+        pigz=output_dict["log"] / "meryl_extract.{datatype}.{stage}.{kmer_length}.L{min_lower_boundary}.U{max_upper_boundary}.pigz.log",
+        cluster_log=output_dict["cluster_log"] / "meryl_extract.{datatype}.{stage}.{kmer_length}.L{min_lower_boundary}.U{max_upper_boundary}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "meryl_extract.{datatype}.{stage}.{kmer_length}.L{min_lower_boundary}.U{max_upper_boundary}.cluster.err"
     benchmark:
-        output_dict["benchmark"] / "meryl_extract.{datatype}.{stage}.{kmer_length}.L{low_boundary}.U{upper_boundary}.benchmark.txt"
+        output_dict["benchmark"] / "meryl_extract.{datatype}.{stage}.{kmer_length}.L{min_lower_boundary}.U{max_upper_boundary}.benchmark.txt"
     conda:
         config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
@@ -84,6 +85,43 @@ rule meryl_extract:
     threads:
         parameters["threads"]["meryl_extract"]
     shell:
+         " OUTPUT={output.kmer}; "
          " meryl threads={threads} memory={resources.mem}m "
-         " print less-than {wildcards.upper_boundary} greater-than {wildcards.low_boundary} 2>{log.meryl} | "
-         " sort > {output.kmer} 2>{log.sort};"
+         " print less-than {wildcards.max_upper_boundary} greater-than {wildcards.min_lower_boundary}  {input.db} 2>{log.meryl} | "
+         " sort > ${{OUTPUT%.gz}} 2>{log.sort};"
+         " pigz -p {threads} ${{OUTPUT%.gz}} 2>{log.pigz}; "
+
+rule subset_extracted_kmers:
+    input:
+        kmer=rules.meryl_extract.output.kmer
+    output:
+        kmer=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.kmer.gz"
+    log:
+        ln=output_dict["log"] / "subset_extracted_kmers.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.ln.log",
+        gunzip=output_dict["log"] / "subset_extracted_kmers.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.gunzip.log",
+        awk=output_dict["log"] / "subset_extracted_kmers.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.awk.log",
+        gzip=output_dict["log"] / "subset_extracted_kmers.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.gzip.log",
+        cluster_log=output_dict["cluster_log"] / "subset_extracted_kmers.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "subset_extracted_kmers.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.cluster.err"
+    params:
+        min_lower_boundary=min(parameters["tool_options"]["smudgeplot"]["lower_boundary"]),
+        max_upper_boundary=max(parameters["tool_options"]["smudgeplot"]["upper_boundary"])
+    benchmark:
+        output_dict["benchmark"] / "subset_extracted_kmers.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.benchmark.txt"
+    conda:
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
+    resources:
+        cpus=parameters["threads"]["subset_extracted_kmers"],
+        time=parameters["time"]["subset_extracted_kmers"],
+        mem=parameters["memory_mb"]["subset_extracted_kmers"],
+    threads:
+        parameters["threads"]["subset_extracted_kmers"]
+    shell:
+         " if [ {wildcards.lower_boundary} -eq {params.min_lower_boundary} ] && [ {wildcards.upper_boundary} -eq {params.max_upper_boundary} ] ;"
+         "  then "
+         " ln {input.kmer} {output.kmer} 2>{log.ln}; "
+         " else "
+         " gunzip -c {input.kmer} 2>{log.gunzip} | "
+         " awk '{{if (($2 >= {wildcards.lower_boundary}) && ($2 <= {wildcards.upper_boundary})) print $0}}' 2>{log.awk} | "
+         " gzip -c > {output.kmer} 2>{log.gzip}; "
+         " fi "
