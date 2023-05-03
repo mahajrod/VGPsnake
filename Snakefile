@@ -440,7 +440,7 @@ if "hic_scaffolding" in config["stage_list"]:
                            assembly_stage=["hic_scaffolding", ],
                            haplotype=haplotype_list,
                            parameters=parameters_list),
-                    ] # TODO: implement
+                    ]
 
 """
 results_dict["check_input"] = [
