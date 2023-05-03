@@ -27,7 +27,7 @@ rule smudgeplot_assess:
 
 rule smudgeplot:
     input:
-        kmer=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.kmer.gz",
+        kmer=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.subset.kmer",
         genomescope_report=output_dict["kmer"] / ("{datatype}/{stage}/genomescope/%s.%s.filtered.%s.%s.genomescope.parameters" % (config["genome_prefix"],
                                                                                                                                   config["final_kmer_datatype"],
                                                                                                                                   config["final_kmer_length"],
@@ -59,3 +59,27 @@ rule smudgeplot:
          " HAPLOID_COVERAGE=`awk 'NR==2 {{print 2 * $2}}'`; "
          " smudgeplot.py hetkmers -o ${{PREFIX}} <(zcat {input.kmer}) > {log.hetkmers} 2>&1; "
          " smudgeplot.py plot -k {wildcards.kmer_length} -n ${{HAPLOID_COVERAGE}}  -o ${{PREFIX}} {output.coverages} > {log.plot} 2>&1; "
+
+rule compress_kmer:
+    input:
+        kmer=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.subset.kmer",
+        summary=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_summary_table.tsv"
+    output:
+        kmer_gz=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.subset.kmer.gz"
+    log:
+        std=output_dict["log"] / "compress_kmer.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.log",
+        cluster_log=output_dict["cluster_log"] / "compress_kmer{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "compress_kmer.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.cluster.err"
+    benchmark:
+        output_dict["benchmark"] / "compress_kmer.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.benchmark.txt"
+    conda:
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
+    resources:
+        cpus=parameters["threads"]["compress_kmer"],
+        time=parameters["time"]["compress_kmer"],
+        mem=parameters["memory_mb"]["compress_kmer"],
+        smudgeplot=1
+    threads:
+        parameters["threads"]["compress_kmer"]
+    shell:
+         " pigz -p 10 {input.kmer} > {log.std} 2>&1; "
