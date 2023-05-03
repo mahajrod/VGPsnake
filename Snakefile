@@ -311,15 +311,7 @@ if "filter_reads" in config["stage_list"]:
                                         kmer_tool=[kmer_tool,],
                                         kmer_length=parameters["tool_options"][kmer_tool][dat_type]["kmer_length"],
                                        ) for kmer_tool in config["kmer_counter_list"] ]  for dat_type in genome_size_estimation_data_type_set],
-                             #*[[expand(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{min_lower_boundary}.U{max_upper_boundary}.extracted.kmer.gz",
-                             #           min_lower_boundary=[min(parameters["tool_options"]["smudgeplot"]["lower_boundary"])],
-                             #           max_upper_boundary=[max(parameters["tool_options"]["smudgeplot"]["upper_boundary"])],
-                             #           datatype=[dat_type,],
-                             #           stage=["filtered",],
-                             #           kmer_tool=[kmer_tool,],
-                             #           kmer_length=parameters["tool_options"][kmer_tool][dat_type]["kmer_length"],
-                             #         ) for kmer_tool in config["kmer_counter_list"] ]  for dat_type in genome_size_estimation_data_type_set],
-                              ]
+                             ]
 
 if "filter_draft" in config["stage_list"]:
     results_list += [ ] # TODO: implement
