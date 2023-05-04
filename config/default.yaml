@@ -837,6 +837,7 @@
 "custom_qc_stages": []
 "custom_assembly_stages": []
 "adaptor_scan": True
+"fcs_gx_scan": True
 # Allowed modes:
 #       with starting_point "fastq":
 #           "check_input"              : check of the input data and generation of the final config
