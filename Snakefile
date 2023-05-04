@@ -279,39 +279,42 @@ if "draft_qc" in config["stage_list"]:
 
 if "filter_reads" in config["stage_list"]:
     results_list += [expand(output_dict["data"] / ("fastq/hifi/filtered/{fileprefix}%s" % config["fastq_extension"]),
-                                    fileprefix=input_file_prefix_dict["hifi"]) if "hifi" in fastq_based_data_type_set else [],
-                             expand(output_dict["qc"] / "fastqc/{datatype}/{stage}/{fileprefix}_fastqc.zip",
-                                    datatype=["hifi", ],
-                                    stage=["filtered", ],
-                                    fileprefix=input_file_prefix_dict["hifi"],
-                                    ) if "hifi" in fastq_based_data_type_set else [],
-                             expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
-                                    datatype=["hifi"],
-                                    stage=["filtered",]) if "hifi" in fastq_based_data_type_set else [], # only hifi filtration was implemented yet
-                             *[[expand(output_dict["kmer"] / "{datatype}/{stage}/genomescope/{genome_prefix}.{datatype}.{stage}.{kmer_length}.{kmer_tool}.genomescope.parameters",
-                                    datatype=[dat_type,],
-                                    genome_prefix=[config["genome_prefix"], ],
-                                    stage=["filtered",],
-                                    kmer_tool=[kmer_tool,],
-                                    kmer_length=parameters["tool_options"][kmer_tool][dat_type]["kmer_length"],
-                                    ) for kmer_tool in config["kmer_counter_list"] ]  for dat_type in genome_size_estimation_data_type_set],
-                             *[[expand(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_smudgeplot.png",
-                                    lower_boundary=parameters["tool_options"]["smudgeplot"]["lower_boundary"],
-                                    upper_boundary=parameters["tool_options"]["smudgeplot"]["upper_boundary"],
-                                    datatype=[dat_type,],
-                                    stage=["filtered",],
-                                    kmer_tool=[kmer_tool,],
-                                    kmer_length=parameters["tool_options"][kmer_tool][dat_type]["kmer_length"],
-                                   ) for kmer_tool in config["kmer_counter_list"] ]  for dat_type in genome_size_estimation_data_type_set],
-                             *[[expand(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.subset.kmer.gz",
-                                        lower_boundary=parameters["tool_options"]["smudgeplot"]["lower_boundary"],
-                                        upper_boundary=parameters["tool_options"]["smudgeplot"]["upper_boundary"],
-                                        datatype=[dat_type,],
-                                        stage=["filtered",],
-                                        kmer_tool=[kmer_tool,],
-                                        kmer_length=parameters["tool_options"][kmer_tool][dat_type]["kmer_length"],
-                                       ) for kmer_tool in config["kmer_counter_list"] ]  for dat_type in genome_size_estimation_data_type_set],
-                             ]
+                            fileprefix=input_file_prefix_dict["hifi"]) if "hifi" in fastq_based_data_type_set else [],
+                    expand(output_dict["qc"] / "fastqc/{datatype}/{stage}/{fileprefix}_fastqc.zip",
+                           datatype=["hifi", ],
+                           stage=["filtered", ],
+                           fileprefix=input_file_prefix_dict["hifi"],
+                           ) if "hifi" in fastq_based_data_type_set else [],
+                    expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
+                           datatype=["hifi"],
+                           stage=["filtered",]) if "hifi" in fastq_based_data_type_set else [], # only hifi filtration was implemented yet
+                    *[[expand(output_dict["kmer"] / "{datatype}/{stage}/genomescope/{genome_prefix}.{datatype}.{stage}.{kmer_length}.{kmer_tool}.genomescope.parameters",
+                           datatype=[dat_type,],
+                           genome_prefix=[config["genome_prefix"], ],
+                           stage=["filtered",],
+                           kmer_tool=[kmer_tool,],
+                           kmer_length=parameters["tool_options"][kmer_tool][dat_type]["kmer_length"],
+                           ) for kmer_tool in config["kmer_counter_list"] ]  for dat_type in genome_size_estimation_data_type_set],
+                    ]
+
+if "smudgeplot" in config["stage_list"]:
+    results_list += [*[[expand(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_smudgeplot.png",
+                               lower_boundary=parameters["tool_options"]["smudgeplot"]["lower_boundary"],
+                               upper_boundary=parameters["tool_options"]["smudgeplot"]["upper_boundary"],
+                               datatype=[dat_type,],
+                               stage=["filtered",],
+                               kmer_tool=[kmer_tool,],
+                               kmer_length=parameters["tool_options"][kmer_tool][dat_type]["kmer_length"],
+                               ) for kmer_tool in config["kmer_counter_list"] ]  for dat_type in genome_size_estimation_data_type_set],
+                    *[[expand(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.subset.kmer.gz",
+                              lower_boundary=parameters["tool_options"]["smudgeplot"]["lower_boundary"],
+                              upper_boundary=parameters["tool_options"]["smudgeplot"]["upper_boundary"],
+                              datatype=[dat_type,],
+                              stage=["filtered",],
+                              kmer_tool=[kmer_tool,],
+                              kmer_length=parameters["tool_options"][kmer_tool][dat_type]["kmer_length"],
+                              ) for kmer_tool in config["kmer_counter_list"] ]  for dat_type in genome_size_estimation_data_type_set],
+                    ]
 
 if "filter_draft" in config["stage_list"]:
     results_list += [ ] # TODO: implement
@@ -408,7 +411,16 @@ if "hic_scaffolding" in config["stage_list"]:
     parameters_list = list(stage_dict["hic_scaffolding"]["parameters"].keys())
 
     #print(stage_dict["hic_scaffolding"]["prev_stage"])
-
+    results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{pairprefix}.{genome_prefix}.AK{assembly_kmer_length}.{haplotype}_1.fastq.gz",
+                            stage=[prev_stage,],
+                            parameters=stage_dict[prev_stage]["parameters"],
+                            pairprefix=input_pairprefix_dict["hic"],
+                            genome_prefix=[config["genome_prefix"], ],
+                            haplotype=haplotype_list,
+                            assembly_kmer_length=[config["assembly_kmer_length"]]
+                            ),
+                    ]
+    """
     results_list += [
                      expand(out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/alignment/{genome_prefix}.{assembly_stage}.{haplotype}.{resolution}.map.{ext}",
                             genome_prefix=[config["genome_prefix"], ],
@@ -441,7 +453,7 @@ if "hic_scaffolding" in config["stage_list"]:
                            haplotype=haplotype_list,
                            parameters=parameters_list),
                     ]
-
+    """
 #----
 
 #---- Final rule ----
