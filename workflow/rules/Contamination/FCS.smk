@@ -29,7 +29,7 @@ rule fcs: #
     shell:
         " NUM_CORES={threads}; "
         " export FCS_DEFAULT_IMAGE={input.image}; "
-        " fcs.py  screen genome --fasta {input.fasta} --out-dir `dirname {output.report}`  --gx-db {input.db}  --tax-id {params.tax_id}> {log.std} 2>&1; "
+        " fcs.py  screen genome --fasta {input.fasta} --out-dir `dirname {output.report}` --tax-id {params.tax_id} --gx-db {input.db} > {log.std} 2>&1; "
         " REPORT={output.report}; "
         " SUMMARY={output.summary}; "
         " mv ${{REPORT%taxonomy}}.{params.tax_id}.{wildcards.database}_report.txt ${{REPORT}}; "
