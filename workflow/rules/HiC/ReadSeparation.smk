@@ -32,7 +32,7 @@ rule meryl_extract_unique_hap_kmers:
                                                                                                        wildcards.genome_prefix,
                                                                                                        wildcards.stage,
                                                                                                        wildcards.assembly_kmer_length)) ,
-                                                 haplotype=set(haplotype_list) - set(wildcards.haplotype),
+                                                 haplotype=set(haplotype_list) - {wildcards.haplotype},
                                                  allow_missing=True)
     output:
         unique_hap_db_dir=directory(out_dir_path / "{stage}/{parameters}/kmer/{genome_prefix}.{stage}.{haplotype}.{assembly_kmer_length}.unique"),
@@ -63,7 +63,7 @@ rule extract_reads_by_unique_hap_kmers:
                                                                                                               wildcards.genome_prefix,
                                                                                                               wildcards.stage,
                                                                                                               wildcards.assembly_kmer_length)),
-                                                 haplotype=set(haplotype_list) - set(wildcards.haplotype),
+                                                 haplotype=set(haplotype_list) - {wildcards.haplotype},
                                                  allow_missing=True),
         forward_read=output_dict["data"]  / ("fastq/hic/raw/{pairprefix}%s%s" % (input_forward_suffix_dict["hic"], config["fastq_extension"])),
         reverse_read=output_dict["data"]  / ("fastq/hic/raw/{pairprefix}%s%s" % (input_reverse_suffix_dict["hic"], config["fastq_extension"])),
