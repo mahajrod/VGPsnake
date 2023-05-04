@@ -483,6 +483,7 @@ if "purge_dups" in config["stage_list"]:
 include: "workflow/rules/Alignment/Index.smk"
 
 if "hic_scaffolding" in config["stage_list"]:
+    include: "workflow/rules/HiC/ReadSeparation.smk"
     include: "workflow/rules/Alignment/Alignment.smk"
     include: "workflow/rules/Alignment/Pretext.smk"
     include: "workflow/rules/HiC/Salsa2.smk"
