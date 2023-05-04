@@ -153,6 +153,7 @@
             "meryl": 80000
             "meryl_assembly": 20000 # TODO: make it genomesize specific
             "meryl_extract_unique_hap_kmers": 20000
+            "extract_reads_by_unique_hap_kmers": 50000
             "subset_extracted_kmers": 5000
             "minimap2_index": 10000 # TODO: adjust
             "minimap2": 10000 # TODO: adjust
@@ -191,6 +192,7 @@
             "meryl_extract": "02:00:00"
             "meryl_assembly": "02:00:00"
             "meryl_extract_unique_hap_kmers": "05:00:00"
+            "extract_reads_by_unique_hap_kmers": "24:00:00"
             "subset_extracted_kmers": "01:00:00"
             "genomescope": "01:00:00"
             "parse_genomescope_output": "00:10:00"
