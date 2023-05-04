@@ -98,7 +98,7 @@
             "meryl_extract": 10
             "meryl_assembly": 5
             "meryl_extract_unique_hap_kmers": 10
-            "extract_reads_by_unique_hap_kmers": 20
+            "extract_reads_by_unique_hap_kmers": 10
             "subset_extracted_kmers": 1
             "genomescope": 1
             "parse_genomescope_output": 1
