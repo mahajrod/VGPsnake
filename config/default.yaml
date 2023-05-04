@@ -12,6 +12,9 @@
     "mitohifi":
         "yaml": "workflow/envs/conda.mitohifi.yaml"
         "name": "mitohifi"
+    "singularity":
+        "yaml": "workflow/envs/conda.singularity.yaml"
+        "name": "singularity"
 
 #----
 #---- Directory structure config ----
@@ -93,6 +96,9 @@
             "jellyfish": 30
             "meryl": 30
             "meryl_extract": 10
+            "meryl_assembly": 5
+            "meryl_extract_unique_hap_kmers": 10
+            "extract_reads_by_unique_hap_kmers": 20
             "subset_extracted_kmers": 1
             "genomescope": 1
             "parse_genomescope_output": 1
@@ -145,6 +151,8 @@
             "quast": 10000
             "merqury": 20000 # TODO: adjust
             "meryl": 80000
+            "meryl_assembly": 20000 # TODO: make it genomesize specific
+            "meryl_extract_unique_hap_kmers": 20000
             "subset_extracted_kmers": 5000
             "minimap2_index": 10000 # TODO: adjust
             "minimap2": 10000 # TODO: adjust
@@ -181,6 +189,8 @@
             "jellyfish": "08:00:00"
             "meryl": "08:00:00"
             "meryl_extract": "02:00:00"
+            "meryl_assembly": "02:00:00"
+            "meryl_extract_unique_hap_kmers": "05:00:00"
             "subset_extracted_kmers": "01:00:00"
             "genomescope": "01:00:00"
             "parse_genomescope_output": "00:10:00"
@@ -267,8 +277,6 @@
                     - 10
                     - 20
                 "upper_boundary":
-                    - 500
-                    - 1000
                     - 1500
             "hifiasm":
                 "default":
@@ -713,6 +721,7 @@
             "fastq":
                 - "read_qc"
                 - "filter_reads"
+                #- "smudgeplot" # smudgeplot requires a lot of memory to operate on mammalian size genomes (>700 Gbp of memory). Turn this analysis on only if you are sure you have enough memory. TODO: replace smudgeplot by tools consuming less memory.
             "draft":
                 - "read_qc"
                 - "filter_reads"
@@ -806,6 +815,7 @@
 "final_kmer_counter": "meryl" # pipeline allows usage of different kmer counter tools, but only one genomesize assessment could be used
 "final_kmer_length": 21 # pipeline allows usage of different kmer length, but only one genomesize assessment could be used
 "final_kmer_datatype": "hifi"
+"assembly_kmer_length": 31 # kmer length to be used for phasing hic reads using assembled and purge_dupsed contigs
 
 "contig_datatype": "hifi"
 
@@ -824,7 +834,7 @@
 "custom_preprocessing_stages": []
 "custom_qc_stages": []
 "custom_assembly_stages": []
-"smudgeplot": False               # smudgeplot requires a lot of memory to operate on mammalian size genomes (>700 Gbp of memory). Turn this analysis on only if you are sure you have enough memory. TODO: replace smudgeplot by tools consuming less memory.
+
 # Allowed modes:
 #       with starting_point "fastq":
 #           "check_input"              : check of the input data and generation of the final config
