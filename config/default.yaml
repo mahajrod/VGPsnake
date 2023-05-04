@@ -670,8 +670,8 @@
         "adaptor_prok_test":
             "path":         null # database is embedded in singularity image
             "image_path":   "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/soft/fcsadaptor/fcs-adaptor.sif"
-            "memory_mb":    30000 #
-            "threads":      50
+            "memory_mb":    20000 #
+            "threads":      1
             "time":         "01:00:00"
             "in_memory":    True
 
