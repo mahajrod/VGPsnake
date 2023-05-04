@@ -10,7 +10,7 @@ rule fcs: #
         #report=out_dir_path / "{assembly_stage}/{parameters}/contamination_scan/{haplotype}/fcs/{database}/{genome_prefix}.{assembly_stage}.{haplotype}.{tax_id}.taxonomy.txt",
         #summary=out_dir_path / "{assembly_stage}/{parameters}/contamination_scan/{haplotype}/fcs/{database}/{genome_prefix}.{assembly_stage}.{haplotype}.{tax_id}.fcs_gx_report.txt"
     params:
-        tax_id=config["taxid"]
+        tax_id=config["tax_id"]
     log:
         std=output_dict["log"]  / "fcs.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.{database}.log",
         cluster_log=output_dict["cluster_log"] / "fcs.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.{database}.cluster.log",
