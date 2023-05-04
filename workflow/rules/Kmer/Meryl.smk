@@ -27,7 +27,6 @@ rule meryl:
          " meryl k={wildcards.kmer_length} threads={threads} memory={resources.mem}m count "
          " output {output.db_dir} {input} 1>{log.std} 2>&1;"
 
-
 rule merge_meryl:
     input:
         lambda wildcards:

@@ -56,7 +56,6 @@ rule meryl_extract_unique_hap_kmers:
          " meryl threads={threads} memory={resources.mem}m difference {input.target_hap_db_dir} {input.rest_hap_db_dirs} output {output.unique_hap_db_dir} > {log.std} 2>&1; "
          #" meryl threads={threads} memory={resources.mem}m difference {input.hap2_db_dir} {input.hap1_db_dir} output {output.unique_hap2_db_dir} > {log.hap2} 2>&1; "
 
-
 rule extract_reads_by_unique_hap_kmers:
     input:
         rest_hap_db_dirs=lambda wildcards: expand(out_dir_path / ("%s/%s/kmer/%s.%s.{haplotype}.%s.unique" % (wildcards.stage,
