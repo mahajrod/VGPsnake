@@ -153,7 +153,7 @@
             "meryl": 80000
             "meryl_assembly": 20000 # TODO: make it genomesize specific
             "meryl_extract_unique_hap_kmers": 20000
-            "extract_reads_by_unique_hap_kmers": 50000
+            "extract_reads_by_unique_hap_kmers": 20000
             "subset_extracted_kmers": 5000
             "minimap2_index": 10000 # TODO: adjust
             "minimap2": 10000 # TODO: adjust
@@ -836,7 +836,7 @@
 "custom_preprocessing_stages": []
 "custom_qc_stages": []
 "custom_assembly_stages": []
-
+"adaptor_scan": True
 # Allowed modes:
 #       with starting_point "fastq":
 #           "check_input"              : check of the input data and generation of the final config
