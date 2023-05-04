@@ -395,6 +395,16 @@ if "purge_dups" in config["stage_list"]:
                         parameters=parameters_list)
                     ]
 
+    if config["adaptor_scan"]:
+        results_list += [
+                        expand(out_dir_path / "{assembly_stage}/{parameters}/contamination_scan/{haplotype}/fcs_adaptor/{database}/{genome_prefix}.{assembly_stage}.{haplotype}.{database}.report",
+                               genome_prefix=[config["genome_prefix"], ],
+                               assembly_stage=["purge_dups"],
+                               haplotype=haplotype_list,
+                               parameters=parameters_list,
+                               database=["adaptor_prok_test",])
+                        ]
+
 if "hic_scaffolding" in config["stage_list"]:
     prev_stage = stage_dict["hic_scaffolding"]["prev_stage"]
     hic_scaffolder_list = config["stage_coretools"]["hic_scaffolding"]["default"]
@@ -477,6 +487,9 @@ include: "workflow/rules/Contigs/Gfatools.smk"
 include: "workflow/rules/QCAssembly/BUSCO5.smk"
 include: "workflow/rules/QCAssembly/Merqury.smk"
 include: "workflow/rules/QCAssembly/QUAST.smk"
+include: "workflow/rules/Contamination/FCS.smk"
+include: "workflow/rules/Contamination/Kraken2.smk"
+
 if "purge_dups" in config["stage_list"]:
     include: "workflow/rules/Purge_dups/Purge_dups.smk"
 
