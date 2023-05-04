@@ -404,6 +404,14 @@ if "purge_dups" in config["stage_list"]:
                                parameters=parameters_list,
                                database=["adaptor_prok_test",])
                         ]
+    if config["fcs_gx_scan"]:
+        results_list += [expand(out_dir_path / "{assembly_stage}/{parameters}/contamination_scan/{haplotype}/fcs/{database}/{genome_prefix}.{assembly_stage}.{haplotype}.{database}.taxonomy",
+                                genome_prefix=[config["genome_prefix"], ],
+                                assembly_stage=["purge_dups"],
+                                haplotype=haplotype_list,
+                                parameters=parameters_list,
+                                database=["fcs_gx",])
+                        ]
 
 if "hic_scaffolding" in config["stage_list"]:
     prev_stage = stage_dict["hic_scaffolding"]["prev_stage"]
