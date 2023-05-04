@@ -32,8 +32,8 @@ rule fcs: #
         " fcs.py  screen genome --fasta {input.fasta} --out-dir `dirname {output.report}` --tax-id {params.tax_id} --gx-db {input.db} > {log.std} 2>&1; "
         " REPORT={output.report}; "
         " SUMMARY={output.summary}; "
-        " mv ${{REPORT%.taxonomy}}.{params.tax_id}.{wildcards.database}_report.txt ${{REPORT}}; "
-        " mv ${{SUMMARY%.taxonomy}}.{params.tax_id}.taxonomy.rpt ${{REPORT}}; "
+        " mv ${{REPORT%.{wildcards.database}.taxonomy}}.{params.tax_id}.{wildcards.database}_report.txt ${{REPORT}}; "
+        " mv ${{SUMMARY%.{wildcards.database}.taxonomy}}.{params.tax_id}.taxonomy.rpt ${{REPORT}}; "
 
 rule fcs_adaptor: #
     input:
