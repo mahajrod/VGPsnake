@@ -27,11 +27,11 @@ rule meryl_extract_unique_hap_kmers:
     input:
         target_hap_db_dir=out_dir_path / "{stage}/{parameters}/kmer/{genome_prefix}.{stage}.{haplotype}.{assembly_kmer_length}",
         #hap1_db_dir=out_dir_path / "{stage}/{parameters}/kmer/{genome_prefix}.{stage}.hap1.{assembly_kmer_length}",
-        rest_hap_db_dirs=lambda wildcards: expand(out_dir_path / "{0}/{1}/kmer/{2}.{0}.{3}.{4}".format(wildcards.stage,
+        rest_hap_db_dirs=lambda wildcards: expand(out_dir_path / ("%s/%s/kmer/%s.%s.{haplotype}.%s" % (wildcards.stage,
                                                                                                        wildcards.parameters,
                                                                                                        wildcards.genome_prefix,
-                                                                                                       wildcards.haplotype,
-                                                                                                       wildcards.assembly_kmer_length) ,
+                                                                                                       wildcards.stage,
+                                                                                                       wildcards.assembly_kmer_length)) ,
                                                  haplotype=set(haplotype_list) - set(wildcards.haplotype),
                                                  allow_missing=True)
     output:
@@ -59,11 +59,11 @@ rule meryl_extract_unique_hap_kmers:
 
 rule extract_reads_by_unique_hap_kmers:
     input:
-        rest_hap_db_dirs=lambda wildcards: expand(out_dir_path / "{0}/{1}/kmer/{2}.{0}.{3}.{4}.unique".format(wildcards.stage,
+        rest_hap_db_dirs=lambda wildcards: expand(out_dir_path / ("%s/%s/kmer/%s.%s.{haplotype}.%s.unique" % (wildcards.stage,
                                                                                                               wildcards.parameters,
                                                                                                               wildcards.genome_prefix,
-                                                                                                              wildcards.haplotype,
-                                                                                                              wildcards.assembly_kmer_length) ,
+                                                                                                              wildcards.stage,
+                                                                                                              wildcards.assembly_kmer_length)),
                                                  haplotype=set(haplotype_list) - set(wildcards.haplotype),
                                                  allow_missing=True),
         forward_read=output_dict["data"]  / ("fastq/hic/raw/{pairprefix}%s%s" % (input_forward_suffix_dict["hic"], config["fastq_extension"])),
