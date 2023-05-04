@@ -33,7 +33,7 @@ rule fcs: #
         " REPORT={output.report}; "
         " SUMMARY={output.summary}; "
         " mv ${{REPORT%.{wildcards.database}.taxonomy}}.{params.tax_id}.{wildcards.database}_report.txt ${{REPORT}}; "
-        " mv ${{SUMMARY%.{wildcards.database}.taxonomy}}.{params.tax_id}.taxonomy.rpt ${{REPORT}}; "
+        " mv ${{SUMMARY%.{wildcards.database}.summary}}.{params.tax_id}.taxonomy.rpt ${{REPORT}}; "
 
 rule fcs_adaptor: #
     input:
