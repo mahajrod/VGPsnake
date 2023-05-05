@@ -280,7 +280,6 @@
             "smudgeplot":
                 "lower_boundary":
                     - 10
-                    - 20
                 "upper_boundary":
                     - 1500
             "hifiasm":
