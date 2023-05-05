@@ -298,7 +298,7 @@ if "filter_reads" in config["stage_list"]:
                     ]
 
 if "smudgeplot" in config["stage_list"]:
-    results_list += [*[[expand(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_smudgeplot.png",
+    results_list += [*[[expand(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_warnings.txt",
                                lower_boundary=parameters["tool_options"]["smudgeplot"]["lower_boundary"],
                                upper_boundary=parameters["tool_options"]["smudgeplot"]["upper_boundary"],
                                datatype=[dat_type,],
