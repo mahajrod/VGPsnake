@@ -25,13 +25,9 @@ rule smudgeplot_assess:
          " UPPER_BOUNDARY=`smudgeplot.py cutoff {input.histo} U 2>{log.upper}`; "
          " echo -e \"low_boundary\tupper_boundary\n${{LOWER_BOUNDARY}}\t${{UPPER_BOUNDARY}}\n\" > {output.boundaries}"
 
-rule smudgeplot:
+rule smudgeplot_hetkmers:
     input:
         kmer=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.subset.kmer",
-        genomescope_report=output_dict["kmer"] / ("{datatype}/{stage}/genomescope/%s.%s.filtered.%s.%s.genomescope.parameters" % (config["genome_prefix"],
-                                                                                                                                  config["final_kmer_datatype"],
-                                                                                                                                  config["final_kmer_length"],
-                                                                                                                                  config["final_kmer_counter"])),
     output:
         coverages=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_coverages.tsv",
         sequences=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_sequences.tsv",
@@ -39,6 +35,37 @@ rule smudgeplot:
         #summary=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_summary_table.tsv"
     log:
         hetkmers=output_dict["log"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.hetkmers.log",
+        cluster_log=output_dict["cluster_log"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.cluster.err"
+    benchmark:
+        output_dict["benchmark"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.benchmark.txt"
+    conda:
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
+    resources:
+        cpus=parameters["threads"]["smudgeplot_hetkmers"],
+        time=parameters["time"]["smudgeplot_hetkmers"],
+        mem=parameters["memory_mb"]["smudgeplot_hetkmers"],
+        smudgeplot_hetkmers=1
+    threads:
+        parameters["threads"]["smudgeplot_hetkmers"]
+    shell:
+         " COV_OUT={output.coverages}; "
+         " PREFIX=${{COV_OUT%_coverages.tsv}}; "
+         #" HAPLOID_COVERAGE=`awk 'NR==2 {{print 2 * $2}}' {input.genomescope_report}`; "
+         " smudgeplot.py hetkmers -o ${{PREFIX}} {input.kmer} > {log.hetkmers} 2>&1; "
+         #" smudgeplot.py plot -k {wildcards.kmer_length} -n ${{HAPLOID_COVERAGE}}  -o ${{PREFIX}} {output.coverages} > {log.plot} 2>&1; "
+
+rule smudgeplot_plot:
+    input:
+        coverages=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_coverages.tsv",
+        genomescope_report=output_dict["kmer"] / ("{datatype}/{stage}/genomescope/%s.%s.filtered.%s.%s.genomescope.parameters" % (config["genome_prefix"],
+                                                                                                                                  config["final_kmer_datatype"],
+                                                                                                                                  config["final_kmer_length"],
+                                                                                                                                  config["final_kmer_counter"])),
+    output:
+        smudgeplot=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_smudgeplot.png",
+        summary=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_summary_table.tsv"
+    log:
         plot=output_dict["log"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.plot.log",
         cluster_log=output_dict["cluster_log"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.cluster.log",
         cluster_err=output_dict["cluster_error"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.cluster.err"
@@ -47,18 +74,18 @@ rule smudgeplot:
     conda:
         config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
-        cpus=parameters["threads"]["smudgeplot"],
-        time=parameters["time"]["smudgeplot"],
-        mem=parameters["memory_mb"]["smudgeplot"],
-        smudgeplot=1
+        cpus=parameters["threads"]["smudgeplot_plot"],
+        time=parameters["time"]["smudgeplot_plot"],
+        mem=parameters["memory_mb"]["smudgeplot_plot"],
     threads:
-        parameters["threads"]["smudgeplot"]
+        parameters["threads"]["smudgeplot_plot"]
     shell:
-         " COV_OUT={output.coverages}; "
-         " PREFIX=${{COV_OUT%_coverages.tsv}}; "
+         " COV_OUT={output.smudgeplot}; "
+         " PREFIX=${{COV_OUT%_smudgeplot.png}}; "
          " HAPLOID_COVERAGE=`awk 'NR==2 {{print 2 * $2}}' {input.genomescope_report}`; "
-         " smudgeplot.py hetkmers -o ${{PREFIX}} {input.kmer} > {log.hetkmers} 2>&1; "
-         " smudgeplot.py plot -k {wildcards.kmer_length} -n ${{HAPLOID_COVERAGE}}  -o ${{PREFIX}} {output.coverages} > {log.plot} 2>&1; "
+         #" smudgeplot.py hetkmers -o ${{PREFIX}} {input.kmer} > {log.hetkmers} 2>&1; "
+         " smudgeplot.py plot -k {wildcards.kmer_length} -n ${{HAPLOID_COVERAGE}}  -o ${{PREFIX}} {input.coverages} > {log.plot} 2>&1; "
+
 
 rule compress_kmer:
     input:
