@@ -314,6 +314,12 @@ if "smudgeplot" in config["stage_list"]:
                               kmer_tool=[kmer_tool,],
                               kmer_length=parameters["tool_options"][kmer_tool][dat_type]["kmer_length"],
                               ) for kmer_tool in config["kmer_counter_list"] ]  for dat_type in genome_size_estimation_data_type_set],
+                    *[[expand(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.smudgeplot.boundaries",
+                              datatype=[dat_type,],
+                              stage=["filtered",],
+                              kmer_tool=[kmer_tool,],
+                              kmer_length=parameters["tool_options"][kmer_tool][dat_type]["kmer_length"],
+                              ) for kmer_tool in config["kmer_counter_list"] ]  for dat_type in genome_size_estimation_data_type_set]
                     ]
 
 if "filter_draft" in config["stage_list"]:

@@ -482,6 +482,7 @@
             "hifiasm": 80000
             "minimap2_index": 10000
             "minimap2": 10000
+            "smudgeplot_hetkmers": 250000
         "time":
             "jellyfish": "04:00:00"
             "hifiasm": "08:00:00"

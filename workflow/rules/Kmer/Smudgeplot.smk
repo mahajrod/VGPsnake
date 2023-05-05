@@ -64,7 +64,9 @@ rule smudgeplot_plot:
                                                                                                                                   config["final_kmer_counter"])),
     output:
         smudgeplot=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_smudgeplot.png",
-        summary=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_summary_table.tsv"
+        summary=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_summary_table.tsv",
+        smudgeplot_no_priors=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.no_priors_smudgeplot.png",
+        summary_no_priors=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.no_priors_summary_table.tsv"
     log:
         plot=output_dict["log"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.plot.log",
         cluster_log=output_dict["cluster_log"] / "smudgeplot.{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}.cluster.log",
@@ -82,9 +84,12 @@ rule smudgeplot_plot:
     shell:
          " COV_OUT={output.smudgeplot}; "
          " PREFIX=${{COV_OUT%_smudgeplot.png}}; "
-         " HAPLOID_COVERAGE=`awk 'NR==2 {{print 2 * $2}}' {input.genomescope_report}`; "
+         " HAPLOID_COVERAGE=`awk 'NR==2 {{print $2}}' {input.genomescope_report}`; "
          #" smudgeplot.py hetkmers -o ${{PREFIX}} {input.kmer} > {log.hetkmers} 2>&1; "
          " smudgeplot.py plot -k {wildcards.kmer_length} -n ${{HAPLOID_COVERAGE}}  -o ${{PREFIX}} {input.coverages} > {log.plot} 2>&1; "
+         " COV_OUT_NO_PRIORS={output.smudgeplot_no_priors}; "
+         " PREFIX_NO_PRIORS=${{COV_OUT_NO_PRIORS%_smudgeplot.png}}; "
+         " smudgeplot.py plot -k {wildcards.kmer_length} -o ${{PREFIX_NO_PRIORS}} {input.coverages} > {log.plot} 2>&1; "
 
 
 rule compress_kmer:
