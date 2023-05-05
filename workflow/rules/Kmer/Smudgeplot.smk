@@ -15,11 +15,11 @@ rule smudgeplot_assess:
     conda:
         config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
-        cpus=parameters["threads"]["smudgeplot"],
-        time=parameters["time"]["smudgeplot"],
-        mem=parameters["memory_mb"]["smudgeplot"],
+        cpus=parameters["threads"]["smudgeplot_plot"],
+        time=parameters["time"]["smudgeplot_plot"],
+        mem=parameters["memory_mb"]["smudgeplot_plot"],
     threads:
-        parameters["threads"]["smudgeplot"]
+        parameters["threads"]["smudgeplot_plot"]
     shell:
          " LOWER_BOUNDARY=`smudgeplot.py cutoff {input.histo} L 2>{log.lower}`; "
          " UPPER_BOUNDARY=`smudgeplot.py cutoff {input.histo} U 2>{log.upper}`; "
