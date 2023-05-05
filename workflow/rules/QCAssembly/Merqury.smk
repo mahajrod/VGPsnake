@@ -1,31 +1,26 @@
-rule merqury:
+rule merqury: # TODO: add handling for cases of haploid and polyploid genomes
     input:
         meryl_db_dir=output_dict["kmer"] / "{0}/filtered/{0}.filtered.{1}.meryl".format(config["final_kmer_datatype"],
                                                                                         config["final_kmer_length"],),
-        primary_assembly=out_dir_path / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.hap1.fasta" % config["genome_name"]),
-        alternative_assembly=out_dir_path / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.hap2.fasta" % config["genome_name"]),
-        #meryl_db_dir=(output_dict["kmer"] / "{0}/filtered/{0}.filtered.{1}.meryl".format(config["final_kmer_datatype"],
-        #                                                                                config["final_kmer_length"],)).resolve(),
-        #primary_assembly=(out_dir_path / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.hap1.p_ctg.fasta" % config["genome_name"])).resolve(),
-        #alternative_assembly=(out_dir_path / ("{assembly_stage}/{assembler}/%s.{assembly_stage}.{assembler}.pacbio.hic.hap2.p_ctg.fasta" % config["genome_name"])).resolve()
+        primary_assembly=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.hap1.fasta",
+        alternative_assembly=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.hap2.fasta",
     output:
-        #out_dir=output_dict["assembly_qc"] /"{assembly_stage}/merqury/{assembler}/",
-        qv_file=output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.qv" % config["genome_name"]),
-        completeness_stats_file=output_dict["assembly_qc"] /("{assembly_stage}/merqury/{assembler}/%s.{assembly_stage}.{assembler}.completeness.stats" % config["genome_name"])
+        #dir=out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/merqury/",
+        qv_file=out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/merqury/{genome_prefix}.{assembly_stage}.qv",
+        completeness_stats_file=out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/merqury/{genome_prefix}.{assembly_stage}.completeness.stats",
     params:
-        dir=lambda wildcards: output_dict["assembly_qc"] /"{0}/merqury/{1}/".format(wildcards.assembly_stage,
-                                                                                    wildcards.assembler),
-        out_prefix=lambda wildcards: "{2}.{0}.{1}".format(wildcards.assembly_stage,
-                                                                        wildcards.assembler,
-                                                                        config["genome_name"],)
+        dir=lambda wildcards: out_dir_path / "{0}/{1}/assembly_qc/merqury/".format(wildcards.assembly_stage,
+                                                                                   wildcards.parameters),
+        out_prefix=lambda wildcards: "{0}.{1}".format(wildcards.genome_prefix,
+                                                      wildcards.assembly_stage)
     log:
-        std=output_dict["log"].resolve() / "merqury.{assembler}.{assembly_stage}.log",
-        mkdir_log=(output_dict["log"]).resolve() / "merqury.{assembler}.{assembly_stage}.mkdir.log",
-        cd_log=(output_dict["log"]).resolve() / "merqury.{assembler}.{assembly_stage}.cd.log",
-        cluster_log=(output_dict["cluster_log"]).resolve() / "merqury.{assembler}.{assembly_stage}.cluster.log",
-        cluster_err=(output_dict["cluster_error"]).resolve() / "merqury.{assembler}.{assembly_stage}.cluster.err"
+        std=output_dict["log"].resolve() / "merqury.{assembly_stage}.{parameters}.{genome_prefix}.log",
+        mkdir_log=(output_dict["log"]).resolve() / "merqury.{assembly_stage}.{parameters}.{genome_prefix}.mkdir.log",
+        cd_log=(output_dict["log"]).resolve() / "merqury.{assembly_stage}.{parameters}.{genome_prefix}.cd.log",
+        cluster_log=(output_dict["cluster_log"]).resolve() / "merqury.{assembly_stage}.{parameters}.{genome_prefix}.cluster.log",
+        cluster_err=(output_dict["cluster_error"]).resolve() / "merqury.{assembly_stage}.{parameters}.{genome_prefix}.cluster.err"
     benchmark:
-        output_dict["benchmark"] / "merqury.{assembler}.{assembly_stage}.benchmark.txt"
+        output_dict["benchmark"] / "merqury.{assembly_stage}.{parameters}.{genome_prefix}.benchmark.txt"
     conda:
         config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
