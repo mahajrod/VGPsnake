@@ -10,12 +10,13 @@ rule kraken2: #
         db=lambda wildcards: config["allowed_databases"]["kraken2"][wildcards.database]["path"]
     output:
         summary=out_dir_path / "contamination_scan/kraken2/{datatype}/kraken2.{database}.report",
-        out=out_dir_path / "contamination_scan/kraken2/{datatype}/kraken2.{database}.out",
+        out=out_dir_path / "contamination_scan/kraken2/{datatype}/kraken2.{database}.out.gz",
     params:
         memory_mapping=lambda wildcards: "" if config["allowed_databases"]["kraken2"][wildcards.database]["in_memory"] else  " --memory-mapping ",
         paired=lambda wildcards: " --paired " if wildcards.datatype in config["paired_fastq_based_data"] else ""
     log:
         std=output_dict["log"]  / "kraken2.{database}.{datatype}.log",
+        pigz=output_dict["log"]  / "kraken2.{database}.{datatype}.pigz.log",
         cluster_log=output_dict["cluster_log"] / "kraken2.{database}.{datatype}.cluster.log",
         cluster_err=output_dict["cluster_error"] / "kraken2.{database}.{datatype}.cluster.err"
     benchmark:
@@ -29,6 +30,8 @@ rule kraken2: #
     threads: lambda wildcards: config["allowed_databases"]["kraken2"][wildcards.database]["threads"] ,
 
     shell:
+        " OUT_FILE={output.out}; "
         " kraken2 --threads {threads} {params.memory_mapping} {params.paired}  --db {input.db} "
-        " --output {output.out} --report {output.summary} {input.se_fastq} > {log.std} 2>&1"
+        " --output ${{OUT_FILE%.gz}} --report {output.summary} {input.se_fastq} > {log.std} 2>&1;"
+        " pigz -p {threads} ${{OUT_FILE%.gz}} > {log.pigz} 2>&1"
 
