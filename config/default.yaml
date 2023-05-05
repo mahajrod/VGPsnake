@@ -815,10 +815,10 @@
 
 "database_set":
     "kraken2":
-        - "silva"                    # configure corresonding entry in "allowed_databases"
-        - "greengenes"               # configure corresonding entry in "allowed_databases"
-        - "rdp"                      # configure corresonding entry in "allowed_databases"
-
+        #- "silva"                    # configure corresonding entry in "allowed_databases"
+        #- "greengenes"               # configure corresonding entry in "allowed_databases"
+        #- "rdp"                      # configure corresonding entry in "allowed_databases"
+        - "nt"                      # configure corresonding entry in "allowed_databases"
 #Often used BUSCO lineages: mammalia_odb10, vertebrata_odb10, laurasiatheria_odb10, carnivora_odb10,
 #                           actinopterygii_odb10, saccharomycetes_odb10, sauropsida_odb10, aves_odb10
 
