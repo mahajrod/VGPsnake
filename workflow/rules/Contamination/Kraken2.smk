@@ -1,7 +1,7 @@
 
 rule kraken2: #
     input:
-        se_fastq=lambda wildcards: expand(output_dict["data"] / ("fastq/%S/filtered/{fileprefix}%s" % (wildcards.datatype,
+        se_fastq=lambda wildcards: expand(output_dict["data"] / ("fastq/%s/filtered/{fileprefix}%s" % (wildcards.datatype,
                                                                                                     config["fastq_extension"])),
                     fileprefix=input_file_prefix_dict[wildcards.datatype],
                     allow_missing=True) if wildcards.datatype not in config["paired_fastq_based_data"] else [],
