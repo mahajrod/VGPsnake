@@ -296,6 +296,12 @@ if "filter_reads" in config["stage_list"]:
                            kmer_length=parameters["tool_options"][kmer_tool][dat_type]["kmer_length"],
                            ) for kmer_tool in config["kmer_counter_list"] ]  for dat_type in genome_size_estimation_data_type_set],
                     ]
+    if config["database_set"]["kraken2"]:
+        results_list += [expand(out_dir_path / "contamination_scan/kraken2/{datatype}/kraken2.{database}.report",
+                               datatype=["hifi"],
+                               database=config["database_set"]["kraken2"],
+                               )
+                        ]
 
 if "smudgeplot" in config["stage_list"]:
     results_list += [*[[expand(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.{kmer_tool}.L{lower_boundary}.U{upper_boundary}_warnings.txt",
