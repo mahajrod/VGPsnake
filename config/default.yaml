@@ -128,7 +128,8 @@
             "salsa2": 10 #TODO: adjust
             "yahs": 5
             #"kraken2": 15 # set via allowed_databases variable
-            "smudgeplot": 1
+            "smudgeplot_hetkmers": 1
+            "smudgeplot_plot": 1
             "compress_kmer": 10
             #"fcs_gx": 50 # set via allowed_databases variable
             mosdepth: 3
@@ -174,7 +175,8 @@
             "salsa2": 50000 # TODO: adjust
             #"kraken2": 50000 # # set via allowed_databases variable
             "yahs": 10000
-            "smudgeplot": 1000
+            "smudgeplot_hetkmers": 500000 #TODO make genomesize dependent
+            "smudgeplot_plot": 10000 #TODO make genomesize dependent
             "compress_kmer": 3000
             "meryl_extract": 15000
             #"fcs_gx": 512000 # set via allowed_databases variable
@@ -222,7 +224,8 @@
             "salsa2": "12:00:00"
             "yahs": "12:00:00"
             #"kraken2": "12:00:00" # set via allowed_databases variable
-            "smudgeplot": "02:00:00" # TODO: lower time reasonably
+            "smudgeplot_hetkmers": "60:00:00" #TODO make genomesize dependent
+            "smudgeplot_plot": "24:00:00"" #TODO make genomesize dependent
             "compress_kmer": "03:00:00"
             #"fcs_gx": "03:00:00" # set via allowed_databases variable
 
