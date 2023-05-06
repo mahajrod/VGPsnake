@@ -84,4 +84,4 @@ rule fcs_adaptor: #
         " run_fcsadaptor.sh --image {input.image} --fasta-input {input.fasta} --output-dir `dirname {output.report}` --prok --container-engine singularity > {log.std} 2>&1; "
         " mv `dirname {output.report}`/fcs_adaptor_report.txt {output.report}; "
         " mv `dirname {output.report_jsonl}`/combined.calls.jsonl {output.report_jsonl}; "
-        " ${{TMPDIR}} ${{SINGULARITYENV_TMPDIR}} ${{SINGULARITYENV_SQLITE_TMPDIR}}; "
+        " rm -r ${{TMPDIR}} ${{SINGULARITYENV_TMPDIR}} ${{SINGULARITYENV_SQLITE_TMPDIR}}; "
