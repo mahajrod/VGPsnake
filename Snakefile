@@ -406,24 +406,26 @@ if "purge_dups" in config["stage_list"]:
                         haplotype=haplotype_list,
                         parameters=parameters_list)
                     ]
-
-    if config["adaptor_scan"]:
-        results_list += [
-                        expand(out_dir_path / "{assembly_stage}/{parameters}/contamination_scan/{haplotype}/fcs_adaptor/{database}/{genome_prefix}.{assembly_stage}.{haplotype}.{database}.report",
-                               genome_prefix=[config["genome_prefix"], ],
-                               assembly_stage=["purge_dups"],
-                               haplotype=haplotype_list,
-                               parameters=parameters_list,
-                               database=["adaptor_prok_test",])
-                        ]
-    if config["fcs_gx_scan"]:
-        results_list += [expand(out_dir_path / "{assembly_stage}/{parameters}/contamination_scan/{haplotype}/fcs/{database}/{genome_prefix}.{assembly_stage}.{haplotype}.{database}.taxonomy",
-                                genome_prefix=[config["genome_prefix"], ],
-                                assembly_stage=["purge_dups"],
-                                haplotype=haplotype_list,
-                                parameters=parameters_list,
-                                database=["fcs_gx",])
-                        ]
+    if (config["tax_id"] is None) or (not config["tax_id"]):
+        print("Tax id was not set, skipping contamination scan in FCS databases...")
+    else:
+        if config["database_set"]["fcs_adaptor"]:
+            results_list += [
+                            expand(out_dir_path / "{assembly_stage}/{parameters}/contamination_scan/{haplotype}/fcs_adaptor/{database}/{genome_prefix}.{assembly_stage}.{haplotype}.{database}.report",
+                                   genome_prefix=[config["genome_prefix"], ],
+                                   assembly_stage=["purge_dups"],
+                                   haplotype=haplotype_list,
+                                   parameters=parameters_list,
+                                   database=config["database_set"]["fcs_adaptor"])
+                            ]
+        if config["database_set"]["fcs"]:
+            results_list += [expand(out_dir_path / "{assembly_stage}/{parameters}/contamination_scan/{haplotype}/fcs/{database}/{genome_prefix}.{assembly_stage}.{haplotype}.{database}.taxonomy",
+                                    genome_prefix=[config["genome_prefix"], ],
+                                    assembly_stage=["purge_dups"],
+                                    haplotype=haplotype_list,
+                                    parameters=parameters_list,
+                                    database=config["database_set"]["fcs"])
+                            ]
 
 if "hic_scaffolding" in config["stage_list"]:
     prev_stage = stage_dict["hic_scaffolding"]["prev_stage"]

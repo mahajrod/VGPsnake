@@ -818,6 +818,10 @@
         #- "greengenes"               # configure corresonding entry in "allowed_databases"
         #- "rdp"                      # configure corresonding entry in "allowed_databases"
         - "nt"                      # configure corresonding entry in "allowed_databases"
+    "fcs_adaptor":
+        - "adaptor_prok_test"
+    "fcs":
+        - "fcs_gx"
 #Often used BUSCO lineages: mammalia_odb10, vertebrata_odb10, laurasiatheria_odb10, carnivora_odb10,
 #                           actinopterygii_odb10, saccharomycetes_odb10, sauropsida_odb10, aves_odb10
 
@@ -844,8 +848,8 @@
 "custom_preprocessing_stages": []
 "custom_qc_stages": []
 "custom_assembly_stages": []
-"adaptor_scan": True
-"fcs_gx_scan": True
+#"adaptor_scan": True
+#"fcs_gx_scan": True
 # Allowed modes:
 #       with starting_point "fastq":
 #           "check_input"              : check of the input data and generation of the final config
