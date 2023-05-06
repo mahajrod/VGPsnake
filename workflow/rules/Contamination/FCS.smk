@@ -28,6 +28,9 @@ rule fcs: #
     threads: lambda wildcards: config["allowed_databases"]["fcs"][wildcards.database]["threads"],
 
     shell:
+        " OUTDIR=`dirname {output.report}`; "
+        " export SINGULARITYENV_TMPDIR=${{OUTDIR}}; "
+        " export SINGULARITYENV_SQLITE_TMPDIR=${{OUTDIR}}; "
         " NUM_CORES={threads}; "
         " export FCS_DEFAULT_IMAGE={input.image}; "
         " fcs.py  screen genome --fasta {input.fasta} --out-dir `dirname {output.report}` --tax-id {params.tax_id} --gx-db {input.db} > {log.std} 2>&1; "
@@ -65,6 +68,9 @@ rule fcs_adaptor: #
     threads: lambda wildcards: config["allowed_databases"]["fcs_adaptor"][wildcards.database]["threads"],
 
     shell:
+        " OUTDIR=`dirname {output.report}`; "
+        " export SINGULARITYENV_TMPDIR=${{OUTDIR}}; "
+        " export SINGULARITYENV_SQLITE_TMPDIR=${{OUTDIR}}; "
         " run_fcsadaptor.sh --image {input.image} --fasta-input {input.fasta} --output-dir `dirname {output.report}` --prok --container-engine singularity > {log.std} 2>&1; "
         " mv `dirname {output.report}`/fcs_adaptor_report.txt {output.report}; "
         " mv `dirname {output.report_jsonl}`/combined.calls.jsonl {output.report_jsonl}; "
