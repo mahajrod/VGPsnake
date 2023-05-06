@@ -814,9 +814,6 @@
 
 "database_set":
     "kraken2":
-        #- "silva"                    # configure corresonding entry in "allowed_databases"
-        #- "greengenes"               # configure corresonding entry in "allowed_databases"
-        #- "rdp"                      # configure corresonding entry in "allowed_databases"
         - "nt"                      # configure corresonding entry in "allowed_databases"
     "fcs_adaptor":
         - "adaptor_prok_test"

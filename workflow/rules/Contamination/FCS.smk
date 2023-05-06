@@ -1,5 +1,6 @@
 
 rule fcs: #
+    priority: 1000
     input:
         fasta=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.fasta",
         db=lambda wildcards: config["allowed_databases"]["fcs"][wildcards.database]["path"],
@@ -36,6 +37,7 @@ rule fcs: #
         " mv ${{SUMMARY%.{wildcards.database}.summary}}.{params.tax_id}.taxonomy.rpt ${{SUMMARY}}; "
 
 rule fcs_adaptor: #
+    priority: 2000
     input:
         fasta=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.fasta",
         #db=lambda wildcards: config["allowed_databases"]["fcs"][wildcards.database]["path"],
