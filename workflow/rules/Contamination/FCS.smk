@@ -29,6 +29,7 @@ rule fcs: #
 
     shell:
         " OUTDIR=`dirname {output.report}`; "
+        " export TMPDIR=${{OUTDIR}}; "
         " export SINGULARITYENV_TMPDIR=${{OUTDIR}}; "
         " export SINGULARITYENV_SQLITE_TMPDIR=${{OUTDIR}}; "
         " NUM_CORES={threads}; "
@@ -69,6 +70,7 @@ rule fcs_adaptor: #
 
     shell:
         " OUTDIR=`dirname {output.report}`; "
+        " export TMPDIR=${{OUTDIR}}; "
         " export SINGULARITYENV_TMPDIR=${{OUTDIR}}; "
         " export SINGULARITYENV_SQLITE_TMPDIR=${{OUTDIR}}; "
         " run_fcsadaptor.sh --image {input.image} --fasta-input {input.fasta} --output-dir `dirname {output.report}` --prok --container-engine singularity > {log.std} 2>&1; "
