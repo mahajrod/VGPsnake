@@ -845,7 +845,7 @@
 "custom_preprocessing_stages": []
 "custom_qc_stages": []
 "custom_assembly_stages": []
-"skip_busco": True
+"skip_busco": False
 #"adaptor_scan": True
 #"fcs_gx_scan": True
 # Allowed modes:
