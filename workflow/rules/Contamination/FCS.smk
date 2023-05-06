@@ -70,6 +70,7 @@ rule fcs_adaptor: #
         cpus=lambda wildcards: config["allowed_databases"]["fcs_adaptor"][wildcards.database]["threads"],
         time=lambda wildcards: config["allowed_databases"]["fcs_adaptor"][wildcards.database]["time"],
         mem=lambda wildcards: config["allowed_databases"]["fcs_adaptor"][wildcards.database]["memory_mb"],
+        fcs_adaptor=1
     threads: lambda wildcards: config["allowed_databases"]["fcs_adaptor"][wildcards.database]["threads"],
 
     shell:
