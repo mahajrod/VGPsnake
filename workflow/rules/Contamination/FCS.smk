@@ -29,8 +29,9 @@ rule fcs: #
 
     shell:
         " OUTDIR=`dirname {output.report}`; "
+        " OUTDIR=`realpath ${{OUTDIR}}`; "
         " export TMPDIR=${{OUTDIR}}; "
-        " export SINGULARITYENV_TMPDIR=${{OUTDIR}}; "
+        " export SINGULARITYENV_TMPDIR=`${{OUTDIR}}`; "
         " export SINGULARITYENV_SQLITE_TMPDIR=${{OUTDIR}}; "
         " NUM_CORES={threads}; "
         " export FCS_DEFAULT_IMAGE={input.image}; "
@@ -71,6 +72,7 @@ rule fcs_adaptor: #
 
     shell:
         " OUTDIR=`dirname {output.report}`; "
+        " OUTDIR=`realpath ${{OUTDIR}}`; "
         " export TMPDIR=${{OUTDIR}}; "
         " export SINGULARITYENV_TMPDIR=${{OUTDIR}}; "
         " export SINGULARITYENV_SQLITE_TMPDIR=${{OUTDIR}}; "
