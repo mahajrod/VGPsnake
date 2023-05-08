@@ -66,7 +66,7 @@ rule merge_meryl:
                                                                                  wildcards.stage,
                                                                                  wildcards.kmer_length,)),
                    fileprefix=input_file_prefix_dict[wildcards.datatype],
-                   allow_missing=True,) if wildcards.datatype in config["paired_fastq_based_data"] else \
+                   allow_missing=True,) if wildcards.datatype not in config["paired_fastq_based_data"] else \
             expand(output_dict["kmer"] / ("%s/%s/%s.%s.%s.meryl.{pairprefix}" % (wildcards.datatype,
                                                                                      wildcards.stage,
                                                                                      wildcards.datatype,
