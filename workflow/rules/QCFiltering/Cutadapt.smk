@@ -35,9 +35,12 @@ rule cutadapt:
         parameters["threads"]["cutadapt"]
     shell:
          " cutadapt -j {threads} {params.min_read_length} {params.error_rate} {params.min_adapter_length} "
-         " {params.adapter_match_times} {params.forward_anywhere_adapters} -o {output.fastq} "
+         " {params.adapter_match_times} "
+         " {params.forward_anywhere_adapters} {params.reverse_anywhere_adapters} "
+         " {params.forward_five_prime_adapters} {params.reverse_five_prime_adapters} "
+         " {params.forward_three_prime_adapters} {params.reverse_three_prime_adapters} "
          " {params.check_read_rc} {params.discard_trimmed} "
-         " {input.fastq} > {output.stats} 2>{log.std}; "
+         "  -o {output.fastq} {input.fastq} > {output.stats} 2>{log.std}; "
 
 
 rule cutadapt_illumina:
@@ -80,7 +83,10 @@ rule cutadapt_illumina:
         parameters["threads"]["cutadapt"]
     shell:
          " cutadapt -j {threads} {params.min_read_length} {params.error_rate} {params.min_adapter_length} "
-         " {params.adapter_match_times} {params.forward_anywhere_adapters} "
+         " {params.adapter_match_times} "
+         " {params.forward_anywhere_adapters} {params.reverse_anywhere_adapters} "
+         " {params.forward_five_prime_adapters} {params.reverse_five_prime_adapters} "
+         " {params.forward_three_prime_adapters} {params.reverse_three_prime_adapters} "
          " {params.check_read_rc} {params.discard_trimmed} "
          " -o {output.forward_fastq} -p {output.reverse_fastq} "
          " {input.forward_fastq} {input.reverse_fastq} > {output.stats} 2>{log.std}; "
