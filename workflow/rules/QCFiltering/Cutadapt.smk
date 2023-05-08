@@ -89,8 +89,8 @@ rule cutadapt_paired:
     shell:
          " cutadapt --paired -j {threads} {params.min_read_length} {params.error_rate} {params.min_adapter_length} "
          " {params.adapter_match_times} {params.forward_anywhere_adapters} "
-         " -o {output.forward_fastq} -p {output.reverse_fastq} "
          " {params.check_read_rc} {params.discard_trimmed} "
+         " -o {output.forward_fastq} -p {output.reverse_fastq} "
          " {input.forward_fastq} {input.reverse_fastq} > {output.stats} 2>{log.std}; "
 
 

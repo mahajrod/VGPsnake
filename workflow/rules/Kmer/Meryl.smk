@@ -1,6 +1,17 @@
 rule meryl:
     input:
-        output_dict["data"] / ("fastq/{datatype}/{stage}/{fileprefix}%s" % config["fastq_extension"])
+        se_fastq=lambda wildcards: output_dict["data"] / ("fastq/{0/{1}/{2}{3}}".format(wildcards.datatype,
+                                                                                        wildcards.stage,
+                                                                                        wildcards.fileprefix,
+                                                                                        config["fastq_extension"]))  if wildcards.datatype not in config["paired_fastq_based_data"] else [],
+        forward_fastq=lambda wildcards: output_dict["data"] / ("fastq/{0}/{1}/{2}.paired_1{3}".format(wildcards.datatype,
+                                                                                                      wildcards.stage,
+                                                                                                      wildcards.fileprefix,
+                                                                                                      config["fastq_extension"]))  if wildcards.datatype in config["paired_fastq_based_data"] else [],
+        reverse_fastq=lambda wildcards: output_dict["data"] / ("fastq/{0}/{1}/{2}.paired_2{3}".format(wildcards.datatype,
+                                                                                                      wildcards.stage,
+                                                                                                      wildcards.fileprefix,
+                                                                                                      config["fastq_extension"]))  if wildcards.datatype in config["paired_fastq_based_data"] else [],
     output:
         db_dir=temp(directory(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.meryl.{fileprefix}"))
     #params:
