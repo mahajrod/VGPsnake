@@ -42,11 +42,11 @@ rule cutadapt:
 
 rule cutadapt_paired:
     input:
-        forward_fastq=lambda wildcards: output_dict["data"] / ("fastq/{0}/raw/{1}{2}__1{3}".format("illumina",
+        forward_fastq=lambda wildcards: output_dict["data"] / ("fastq/{0}/raw/{1}{2}{3}".format("illumina",
                                                                                                 wildcards.pairprefix,
                                                                                                 input_forward_suffix_dict["illumina"],
                                                                                                 config["fastq_extension"])),
-        reverse_fastq=lambda wildcards: output_dict["data"] / ("fastq/{0}/raw/{1}{2}__2{3}".format("illumina",
+        reverse_fastq=lambda wildcards: output_dict["data"] / ("fastq/{0}/raw/{1}{2}{3}".format("illumina",
                                                                                                 wildcards.pairprefix,
                                                                                                 input_reverse_suffix_dict["illumina"],
                                                                                                 config["fastq_extension"])),
@@ -56,8 +56,8 @@ rule cutadapt_paired:
     output:
         #fastq=output_dict["data"] / ("fastq/illumina/filtered/{fileprefix}%s" % config["fastq_extension"]),
         #forward_fastq=output_dict["data"] / ("fastq/illumina/filtered/{pairprefix}.paired_1%s" % config["fastq_extension"]),
-        forward_fastq=output_dict["data"] / ("fastq/illumina/filtered/{pairprefix}_1%s" % config["fastq_extension"]),
-        reverse_fastq=output_dict["data"] / ("fastq/illumina/filtered/{pairprefix}_2%s" % config["fastq_extension"]),
+        forward_fastq=output_dict["data"] / ("fastq/illumina/filtered/{pairprefix}__1%s" % config["fastq_extension"]),
+        reverse_fastq=output_dict["data"] / ("fastq/illumina/filtered/{pairprefix}__2%s" % config["fastq_extension"]),
         #reverse_fastq=output_dict["data"] / ("fastq/illumina/filtered/{pairprefix}.paired_2%s" % config["fastq_extension"]),
         stats=output_dict["data"] / "fastq/illumina/filtered/{pairprefix}.cutadapt.stats"
     params:
