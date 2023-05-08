@@ -55,13 +55,15 @@ rule merge_meryl:
                                                                                  wildcards.kmer_length,)),
                    fileprefix=input_file_prefix_dict[wildcards.datatype],
                    allow_missing=True,)  if wildcards.datatype not in config["paired_fastq_based_data"] else \
-            expand(output_dict["kmer"] / ("%s/%s/%s.%s.%s.meryl.{pairprefix}" % (wildcards.datatype,
-                                                                                    wildcards.stage,
-                                                                                     wildcards.datatype,
-                                                                                     wildcards.stage,
-                                                                                     wildcards.kmer_length,)),
-                       pairprefix=input_pairprefix_dict[wildcards.datatype],
-                       allow_missing=True,)
+            expand(rules.meryl_pe.output,
+                   pairprefix=input_pairprefix_dict[wildcards.datatype],
+                   allow_missing=True,)#peoutput_dict["kmer"] / ("%s/%s/%s.%s.%s.meryl.{pairprefix}" % (wildcards.datatype,
+                   #                                                                 wildcards.stage,
+                   #                                                                  wildcards.datatype,
+                   #                                                                  wildcards.stage,
+                   #                                                                  wildcards.kmer_length,)),
+                   #pairprefix=input_pairprefix_dict[wildcards.datatype],
+                   #    allow_missing=True,)
     output:
         db_dir=directory(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.meryl"),
         histo=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.meryl.histo"
