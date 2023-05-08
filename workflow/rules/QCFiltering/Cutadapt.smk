@@ -40,10 +40,6 @@ rule cutadapt:
          " {input.fastq} > {output.stats} 2>{log.std}; "
 
 
-
-#       forward_bam=out_dir_path / ("{assembly_stage}/{parameters}/{haplotype}/alignment/{genome_prefix}.{assembly_stage}.{haplotype}.bwa.filtered.{pairprefix}%s.bam" % input_forward_suffix_dict["hic"]),
-#       reverse_bam=out_dir_path / ("{assembly_stage}/{parameters}/{haplotype}/alignment/{genome_prefix}.{assembly_stage}.{haplotype}.bwa.filtered.{pairprefix}%s.bam" % input_reverse_suffix_dict["hic"]),
-
 rule cutadapt_paired:
     input:
         forward_fastq=lambda wildcards: output_dict["data"] / ("fastq/{0}/raw/{1}{2}{3}".format(wildcards.datatype,
@@ -59,8 +55,8 @@ rule cutadapt_paired:
         #fastq=output_dict["data"] / ("fastq/{datatype}/raw/{pairprefix}%s" % config["fastq_extension"])
     output:
         #fastq=output_dict["data"] / ("fastq/{datatype}/filtered/{fileprefix}%s" % config["fastq_extension"]),
-        forward_fastq=output_dict["data"] / ("fastq/{datatype}/filtered/{pairprefix}_1%s" % config["fastq_extension"]),
-        reverse_fastq=output_dict["data"] / ("fastq/{datatype}/filtered/{pairprefix}_2%s" % config["fastq_extension"]),
+        forward_fastq=output_dict["data"] / ("fastq/{datatype}/filtered/{pairprefix}1%s" % config["fastq_extension"]),
+        reverse_fastq=output_dict["data"] / ("fastq/{datatype}/filtered/{pairprefix}2%s" % config["fastq_extension"]),
         stats=output_dict["data"] / "fastq/{datatype}/filtered/{pairprefix}.cutadapt.stats"
     params:
         error_rate=lambda wildcards: "-e {0} ".format(parameters["tool_options"]["cutadapt"][wildcards.datatype]["error_rate"]) if "error_rate" in parameters["tool_options"]["cutadapt"][wildcards.datatype] else "",
