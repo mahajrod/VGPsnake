@@ -1,4 +1,5 @@
-checkpoint meryl:
+"""
+rule meryl:
     input:
         output_dict["data"] / ("fastq/{datatype}/{stage}/{fileprefix}%s" % config["fastq_extension"])
     output:
@@ -20,6 +21,7 @@ checkpoint meryl:
     shell:
          " meryl k={wildcards.kmer_length} threads={threads} memory={resources.mem}m count "
          " output {output.db_dir} {input} 1>{log.std} 2>&1;"
+"""
 
 rule meryl_pe:
     input:
