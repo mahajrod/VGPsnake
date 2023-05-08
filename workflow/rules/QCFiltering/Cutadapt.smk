@@ -42,7 +42,7 @@ rule cutadapt:
 
 rule cutadapt_paired:
     input:
-        forward_fastq=utput_dict["data"] / ("fastq/illumina/raw/{pairprefix}%s%s" % (input_forward_suffix_dict["illumina"],
+        forward_fastq=output_dict["data"] / ("fastq/illumina/raw/{pairprefix}%s%s" % (input_forward_suffix_dict["illumina"],
                                                                                      config["fastq_extension"])),
         reverse_fastq=output_dict["data"] / ("fastq/illumina/raw/{pairprefix}%s%s" % (input_reverse_suffix_dict["illumina"],
                                                                                       config["fastq_extension"])),
