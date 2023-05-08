@@ -40,7 +40,7 @@ rule cutadapt:
          " {input.fastq} > {output.stats} 2>{log.std}; "
 
 
-checkpoint cutadapt_illumina:
+rule cutadapt_illumina:
     input:
         forward_fastq=output_dict["data"] / ("fastq/illumina/raw/{pairprefix}%s%s" % (input_forward_suffix_dict["illumina"],
                                                                                      config["fastq_extension"])),
