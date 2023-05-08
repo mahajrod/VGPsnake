@@ -714,6 +714,10 @@
     - "hifi"
     - "illumina"
 
+"kraken_scan_data":
+    - "hifi"
+    - "illumina"
+
 "fastq_based_data":
     - "hifi"
     - "clr"
