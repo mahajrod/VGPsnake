@@ -55,8 +55,10 @@ rule cutadapt_paired:
         #fastq=output_dict["data"] / ("fastq/{datatype}/raw/{pairprefix}%s" % config["fastq_extension"])
     output:
         #fastq=output_dict["data"] / ("fastq/{datatype}/filtered/{fileprefix}%s" % config["fastq_extension"]),
-        forward_fastq=output_dict["data"] / ("fastq/{datatype}/filtered/{pairprefix}.paired_1%s" % config["fastq_extension"]),
-        reverse_fastq=output_dict["data"] / ("fastq/{datatype}/filtered/{pairprefix}.paired_2%s" % config["fastq_extension"]),
+        #forward_fastq=output_dict["data"] / ("fastq/{datatype}/filtered/{pairprefix}.paired_1%s" % config["fastq_extension"]),
+        forward_fastq=output_dict["data"] / ("fastq/{datatype}/filtered/{pairprefix}_1%s" % config["fastq_extension"]),
+        reverse_fastq=output_dict["data"] / ("fastq/{datatype}/filtered/{pairprefix}_2%s" % config["fastq_extension"]),
+        #reverse_fastq=output_dict["data"] / ("fastq/{datatype}/filtered/{pairprefix}.paired_2%s" % config["fastq_extension"]),
         stats=output_dict["data"] / "fastq/{datatype}/filtered/{pairprefix}.cutadapt.stats"
     params:
         error_rate=lambda wildcards: "-e {0} ".format(parameters["tool_options"]["cutadapt"][wildcards.datatype]["error_rate"]) if "error_rate" in parameters["tool_options"]["cutadapt"][wildcards.datatype] else "",
