@@ -42,11 +42,11 @@ rule cutadapt:
 
 rule cutadapt_paired:
     input:
-        forward_fastq=lambda wildcards: output_dict["data"] / ("fastq/{0}/raw/{1}{2}{3}".format("illumina",
+        forward_fastq=lambda wildcards: output_dict["data"] / ("fastq/{0}/raw/{1}{2}__1{3}".format("illumina",
                                                                                                 wildcards.pairprefix,
                                                                                                 input_forward_suffix_dict["illumina"],
                                                                                                 config["fastq_extension"])),
-        reverse_fastq=lambda wildcards: output_dict["data"] / ("fastq/{0}/raw/{1}{2}{3}".format("illumina",
+        reverse_fastq=lambda wildcards: output_dict["data"] / ("fastq/{0}/raw/{1}{2}__2{3}".format("illumina",
                                                                                                 wildcards.pairprefix,
                                                                                                 input_reverse_suffix_dict["illumina"],
                                                                                                 config["fastq_extension"])),
