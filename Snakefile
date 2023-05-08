@@ -1,4 +1,5 @@
 import os
+import yaml
 #import logging
 import shutil
 from copy import deepcopy
@@ -6,8 +7,6 @@ from collections import OrderedDict
 from collections.abc import Mapping
 from copy import deepcopy
 from pathlib import Path, PosixPath
-
-import yaml
 
 import pandas as pd
 
