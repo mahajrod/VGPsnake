@@ -26,7 +26,7 @@ checkpoint meryl:
     shell:
          " meryl k={wildcards.kmer_length} threads={threads} memory={resources.mem}m count "
          " output {output.db_dir} {input} 1>{log.std} 2>&1;"
-"""
+
 rule meryl_pe:
     input:
         forward_fastq=output_dict["data"] / ("fastq/illumina/filtered/{pairprefix}_1%s" % config["fastq_extension"]),
@@ -56,7 +56,7 @@ rule meryl_pe:
     shell:
          " meryl k={wildcards.kmer_length} threads={threads} memory={resources.mem}m count "
          " output {output.db_dir} {input} 1>{log.std} 2>&1;"
-"""
+
 rule merge_meryl:
     input:
         lambda wildcards:
@@ -66,14 +66,14 @@ rule merge_meryl:
                                                                                  wildcards.stage,
                                                                                  wildcards.kmer_length,)),
                    fileprefix=input_file_prefix_dict[wildcards.datatype],
-                   allow_missing=True,) # if wildcards.datatype not in config["paired_fastq_based_data"] else \
-            #expand(output_dict["kmer"] / ("%s/%s/%s.%s.%s.meryl.{pairprefix}" % (wildcards.datatype,
-            #                                                                         wildcards.stage,
-            #                                                                         wildcards.datatype,
-            #                                                                         wildcards.stage,
-            #                                                                         wildcards.kmer_length,)),
-            #           fileprefix=input_pairprefix_dict[wildcards.datatype],
-            #           allow_missing=True,)
+                   allow_missing=True,)  if wildcards.datatype not in config["paired_fastq_based_data"] else \
+            expand(output_dict["kmer"] / ("%s/%s/%s.%s.%s.meryl.{pairprefix}" % (wildcards.datatype,
+                                                                                    wildcards.stage,
+                                                                                     wildcards.datatype,
+                                                                                     wildcards.stage,
+                                                                                     wildcards.kmer_length,)),
+                       pairprefix=input_pairprefix_dict[wildcards.datatype],
+                       allow_missing=True,)
     output:
         db_dir=directory(output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.meryl"),
         histo=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.meryl.histo"
