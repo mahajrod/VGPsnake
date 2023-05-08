@@ -1,6 +1,6 @@
 rule meryl:
     input:
-        se_fastq=lambda wildcards: output_dict["data"] / ("fastq/{0/{1}/{2}{3}}".format(wildcards.datatype,
+        se_fastq=lambda wildcards: output_dict["data"] / ("fastq/{0/{1}/{2}{3}".format(wildcards.datatype,
                                                                                         wildcards.stage,
                                                                                         wildcards.fileprefix,
                                                                                         config["fastq_extension"]))  if wildcards.datatype not in config["paired_fastq_based_data"] else [],
