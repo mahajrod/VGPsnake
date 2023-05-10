@@ -717,6 +717,7 @@
 "kraken_scan_data":
     - "hifi"
     - "illumina"
+    - "hic"
 
 "fastq_based_data":
     - "hifi"
