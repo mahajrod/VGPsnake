@@ -721,8 +721,8 @@
 
 "read_phasing_data":
     - "hic"
-    - "pacbio" # optional, uncomment only when necessary
-
+    - "hifi" # optional, uncomment only when necessary
+    # - "clr"
 "filtered_data":
     - "hifi"
     - "illumina"
