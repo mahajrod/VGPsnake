@@ -110,7 +110,7 @@
             "quast": 4
             "merqury": 20
             "minimap2_index": 10
-            "minimap2": 50
+            "minimap2": 40
             "get_purge_dups_read_stat": 5 # ToDO: adjust, maybe even one is enough
             "purge_dups": 5 # TODO: adjust, maybe even one is enough
             "merge_pri_hapdups_with_alt": 1
