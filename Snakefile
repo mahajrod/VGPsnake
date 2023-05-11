@@ -157,6 +157,9 @@ for d_type in set(config["paired_fastq_based_data"]) & fastq_based_data_type_set
     input_forward_suffix_dict[d_type] = list(input_forward_suffix_dict[d_type])[0]
     input_reverse_suffix_dict[d_type] = list(input_reverse_suffix_dict[d_type])[0]
 
+#for d_type in fastq_based_data_type_set: # add prefixes of files for se data to simplify dealing with wildcards
+#    if d_type not in input_pairprefix_dict:
+#        input_pairprefix_dict[d_type] = input_file_prefix_dict[d_type]
 
 if "bionano" in data_types: # TODO: modify when input for bionano will be clear
     input_filedict["bionano"] = find_cmap(input_dict["bionano"]["dir"], cmap_extension=config["cmap_extension"])
@@ -448,15 +451,27 @@ if "hic_scaffolding" in config["stage_list"]:
     parameters_list = list(stage_dict["hic_scaffolding"]["parameters"].keys())
 
     #print(stage_dict["hic_scaffolding"]["prev_stage"])
-    results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{pairprefix}.{genome_prefix}.AK{assembly_kmer_length}.{haplotype}_1.fastq.gz",
-                            stage=[prev_stage,],
-                            parameters=stage_dict[prev_stage]["parameters"],
-                            pairprefix=input_pairprefix_dict["hic"],
-                            genome_prefix=[config["genome_prefix"], ],
-                            haplotype=haplotype_list,
-                            assembly_kmer_length=[config["assembly_kmer_length"]]
-                            ),
-                    ]
+    for datatype in set(data_types) & set("read_phasing_data"):
+        if datatype in config["paired_fastq_based_data"]:
+            results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{pairprefix}.{genome_prefix}.AK{assembly_kmer_length}.{haplotype}_1.fastq.gz",
+                                    stage=[prev_stage,],
+                                    parameters=stage_dict[prev_stage]["parameters"],
+                                    pairprefix=input_pairprefix_dict[datatype],
+                                    genome_prefix=[config["genome_prefix"], ],
+                                    haplotype=haplotype_list,
+                                    assembly_kmer_length=[config["assembly_kmer_length"]]
+                                    ),
+                            ]
+        else:
+            results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{fileprefix}.{genome_prefix}.AK{assembly_kmer_length}.{haplotype}.fastq.gz",
+                                    stage=[prev_stage,],
+                                    parameters=stage_dict[prev_stage]["parameters"],
+                                    pairprefix=input_pairprefix_dict[datatype],
+                                    genome_prefix=[config["genome_prefix"], ],
+                                    haplotype=haplotype_list,
+                                    assembly_kmer_length=[config["assembly_kmer_length"]]
+                                    ),
+                            ]
     """
     results_list += [
                      expand(out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/alignment/{genome_prefix}.{assembly_stage}.{haplotype}.{resolution}.map.{ext}",
@@ -525,7 +540,7 @@ if "purge_dups" in config["stage_list"]:
 include: "workflow/rules/Alignment/Index.smk"
 
 if "hic_scaffolding" in config["stage_list"]:
-    include: "workflow/rules/HiC/ReadSeparation.smk"
+    include: "workflow/rules/HiC/ReadPhasing.smk"
     include: "workflow/rules/Alignment/Alignment.smk"
     include: "workflow/rules/Alignment/Pretext.smk"
     include: "workflow/rules/HiC/Salsa2.smk"

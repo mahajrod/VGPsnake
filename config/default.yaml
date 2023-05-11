@@ -719,6 +719,14 @@
     - "illumina"
     - "hic"
 
+"read_phasing_data":
+    - "hic"
+    - "pacbio" # optional, uncomment only when necessary
+
+"filtered_data":
+    - "hifi"
+    - "illumina"
+
 "fastq_based_data":
     - "hifi"
     - "clr"
