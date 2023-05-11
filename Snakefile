@@ -467,7 +467,7 @@ if "hic_scaffolding" in config["stage_list"]:
             results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{fileprefix}.{genome_prefix}.AK{assembly_kmer_length}.{haplotype}.fastq.gz",
                                     stage=[prev_stage,],
                                     parameters=stage_dict[prev_stage]["parameters"],
-                                    pairprefix=input_pairprefix_dict[datatype],
+                                    fileprefix=input_fileprefix_dict[datatype],
                                     genome_prefix=[config["genome_prefix"], ],
                                     haplotype=haplotype_list,
                                     assembly_kmer_length=[config["assembly_kmer_length"]]
