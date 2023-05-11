@@ -454,7 +454,7 @@ if "hic_scaffolding" in config["stage_list"]:
     for datatype in set(data_types) & set(config["read_phasing_data"]):
 
         if datatype in config["paired_fastq_based_data"]:
-            results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{pairprefix}.{genome_prefix}.AK{assembly_kmer_length}.{haplotype}_1.fastq.gz",
+            results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{datatype}/{pairprefix}.{genome_prefix}.AK{assembly_kmer_length}.{haplotype}_1.fastq.gz",
                                     datatype=[datatype],
                                     stage=[prev_stage,],
                                     parameters=stage_dict[prev_stage]["parameters"],
