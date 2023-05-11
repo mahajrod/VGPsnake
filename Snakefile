@@ -455,6 +455,7 @@ if "hic_scaffolding" in config["stage_list"]:
 
         if datatype in config["paired_fastq_based_data"]:
             results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{pairprefix}.{genome_prefix}.AK{assembly_kmer_length}.{haplotype}_1.fastq.gz",
+                                    datatype=[datatype],
                                     stage=[prev_stage,],
                                     parameters=stage_dict[prev_stage]["parameters"],
                                     pairprefix=input_pairprefix_dict[datatype],
@@ -464,7 +465,8 @@ if "hic_scaffolding" in config["stage_list"]:
                                     ),
                             ]
         else:
-            results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{fileprefix}.{genome_prefix}.AK{assembly_kmer_length}.{haplotype}.fastq.gz",
+            results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{datatype}/{fileprefix}.{genome_prefix}.AK{assembly_kmer_length}.{haplotype}.fastq.gz",
+                                    datatype=[datatype],
                                     stage=[prev_stage,],
                                     parameters=stage_dict[prev_stage]["parameters"],
                                     fileprefix=input_file_prefix_dict[datatype],
