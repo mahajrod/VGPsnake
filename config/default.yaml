@@ -327,6 +327,20 @@
                     "purge level": 3 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
                     "cov_multiplicator": 4.5 # 4.5 *lambda
                     "primary": False
+                "repeat_enhanced_l1":
+                    "purge level": 1 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": False
+                    "D": 10
+                    "N": 200
+                    "ignore_bin": True
+                "repeat_enhanced_l2":
+                    "purge level": 2 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": False
+                    "D": 10
+                    "N": 200
+                    "ignore_bin": True
             "purge_dups":
                 "default":
                     "cov_multiplicator": 4.5 # 4.5 *lambda
@@ -817,14 +831,15 @@
 
 "coretool_option_sets":
     "hifiasm":
-         - "l0primary"
+         #- "l0primary"
          - "l1primary"
          - "l2primary"
-         - "l3primary"
-         - "l0"
+         #- "l3primary"
+         #- "l0"
          - "l1"
          - "l2"
-         - "l3"
+         #- "l3"
+         - "repeat_enhanced"
     "purge_dups":
         - "default"
     "salsa2":
