@@ -106,7 +106,6 @@ rule fcs_adaptor: #
         tax_id=config["tax_id"],
         taxonomy= lambda wildcards: " --euk " if config["allowed_databases"]["fcs_adaptor"][wildcards.database]["taxonomy"] == "eukaryota"  else " --prok "
     log:
-
         std=output_dict["log"]  / "fcs_adaptor.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.{database}.log",
         cluster_log=output_dict["cluster_log"] / "fcs_adaptor.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.{database}.cluster.log",
         cluster_err=output_dict["cluster_error"] / "fcs_adaptor.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.{database}.err"
