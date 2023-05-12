@@ -684,13 +684,14 @@
             "time":         "06:00:00"
             "in_memory":    True
     "fcs_adaptor":
-        "adaptor_prok_test":
+        "adaptor":
             "path":         null # database is embedded in singularity image
             "image_path":   "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/soft/fcsadaptor/fcs-adaptor.sif"
             "memory_mb":    20000 #
             "threads":      1
             "time":         "01:00:00"
             "in_memory":    True
+            "taxonomy":     "eukaryota"
 
 "kmer_counter_list":
     #- "jellyfish"
@@ -842,7 +843,7 @@
     "kraken2":
         - "nt"                      # configure corresonding entry in "allowed_databases"
     "fcs_adaptor":
-        - "adaptor_prok_test"
+        - "adaptor"
     "fcs":
         - "fcs_gx"
 #Often used BUSCO lineages: mammalia_odb10, vertebrata_odb10, laurasiatheria_odb10, carnivora_odb10,
