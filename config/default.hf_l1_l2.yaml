@@ -818,7 +818,6 @@
     "hifiasm":
          - "l1"
          - "l2"
-         - "l3"
     "purge_dups":
         - "default"
     "salsa2":
