@@ -32,6 +32,9 @@ rule hifiasm: # TODO: implement modes without hic data
         output_prefix=lambda wildcards: output_dict["contig"] / "hifiasm_{0}/{1}.contig.hifi".format(wildcards.contig_options,
                                                                                                      wildcards.genome_prefix),
         cov_multiplicator=lambda wildcards: parameters["tool_options"]["hifiasm"][wildcards.contig_options]["cov_multiplicator"],
+        D=" -D {0} ".format(parameters["tool_options"]["hifiasm"][wildcards.contig_options]["D"]) if "D" in parameters["tool_options"]["hifiasm"][wildcards.contig_options]["D"] else "",
+        N=" -D {0} ".format(parameters["tool_options"]["hifiasm"][wildcards.contig_options]["N"]) if "N" in parameters["tool_options"]["hifiasm"][wildcards.contig_options]["N"] else "",
+        ignore_bin=" -i " if parameters["tool_options"]["hifiasm"][wildcards.contig_options]["ignore_bin"] else "",
         hic_forward=" --h1 " + ",".join(map(str, input_filedict["hic"][::2]) if "hic" in input_filedict else []), #in case of multiple hic libraries files in the list MUST be COMMA-separated
         hic_reverse=" --h2 " + ",".join(map(str, input_filedict["hic"][1::2]) if "hic" in input_filedict else [])
     log:
@@ -63,7 +66,7 @@ rule hifiasm: # TODO: implement modes without hic data
          "      cp ${{EC_BIN[0]}} ${{OVLP_REVERSE_BIN[0]}} ${{OVLP_SOURCE_BIN[0]}} ${{HIC_LK_BIN[0]}} ${{HIC_TLB_BIN[0]}} {params.dir};  "
          " fi ; "
          " COV_UPPER_BOUNDARY=`awk 'NR==2 {{printf \"%.0f\", {params.cov_multiplicator} * $2}}' {input.genomescope_report}`; "
-         " hifiasm {params.primary} -t {threads} -l {params.purge_level}  -o {params.output_prefix} "
+         " hifiasm {params.D} {params.N} {params.ignore_bin} {params.primary} -t {threads} -l {params.purge_level}  -o {params.output_prefix} "
          " --n-hap {params.ploidy} --purge-max ${{COV_UPPER_BOUNDARY}} "
          " {params.hic_forward} {params.hic_reverse} "
          " {input.hifi}  1>{log.std} 2>&1;"
