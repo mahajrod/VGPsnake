@@ -36,8 +36,8 @@ rule busco5:
     threads:
         parameters["threads"]["busco5"]
     shell:
-         " BUSCO_DIR={output.tar_gz};"
-         " BUSCO_DIR=${{BUSCO_DIR%.tar.gz}}"
+         " BUSCO_DIR={output.tar_gz}; "
+         " BUSCO_DIR=${{BUSCO_DIR%.tar.gz}}; "
          " busco -m genome -l {wildcards.busco_lineage} -c {threads} -i {input.assembly} "
          " -o `basename ${{BUSCO_DIR}}` --out_path `dirname ${{BUSCO_DIR}}` > {log.std} 2>&1;"
          " cp ${{BUSCO_DIR}}/short_summary.specific.{wildcards.busco_lineage}.{wildcards.genome_prefix}.{wildcards.assembly_stage}.{wildcards.busco_lineage}.{wildcards.haplotype}.txt {output.summary} ; "
