@@ -11,6 +11,7 @@ from pathlib import Path, PosixPath
 
 #---- Temp code to allow usage of conda envs on pacbio server ----
 shell("conda config  --add envs_dirs /projects/codon_0000/apps/miniconda3/envs/")
+shell("which python")
 #---------
 import pandas as pd
 
