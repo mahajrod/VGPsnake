@@ -8,6 +8,10 @@ from collections.abc import Mapping
 from copy import deepcopy
 from pathlib import Path, PosixPath
 
+
+#---- Temp code to allow usage of conda envs on pacbio server ----
+shell("conda config  --add envs_dirs /projects/codon_0000/apps/miniconda3/envs/")
+#---------
 import pandas as pd
 
 #logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
