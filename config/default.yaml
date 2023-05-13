@@ -131,6 +131,7 @@
             "smudgeplot_hetkmers": 1
             "smudgeplot_plot": 1
             "compress_kmer": 10
+            "get_seq_len": 1
             #"fcs_gx": 50 # set via allowed_databases variable
             mosdepth: 3
             basecall: 30
@@ -179,6 +180,7 @@
             "smudgeplot_plot": 10000 #TODO make genomesize dependent
             "compress_kmer": 3000
             "meryl_extract": 15000
+            "get_seq_len": 5000
             #"fcs_gx": 512000 # set via allowed_databases variable
             mosdepth: 4000 #The amount of memory is approximately equal to 32-bits * longest chrom length, so for the 249MB chromosome 1, it will require 1GB of memory.
             basecall: 20000
@@ -227,6 +229,7 @@
             "smudgeplot_hetkmers": "60:00:00" #TODO make genomesize dependent
             "smudgeplot_plot": "24:00:00" #TODO make genomesize dependent
             "compress_kmer": "03:00:00"
+            "get_seq_len": "01:00:00"
             #"fcs_gx": "03:00:00" # set via allowed_databases variable
 
             mosdepth: "02:00:00"
@@ -708,7 +711,7 @@
             "taxonomy":     "eukaryota"
 
 "kmer_counter_list":
-    #- "jellyfish"
+    - "jellyfish"
     - "meryl"
 
 "allowed_data_types":
@@ -738,6 +741,7 @@
     - "hic"
     - "hifi" # optional, uncomment only when necessary
     # - "clr"
+
 "filtered_data":
     - "hifi"
     - "illumina"
@@ -771,6 +775,7 @@
             "fastq":
                 - "read_qc"
                 - "filter_reads"
+                - "gc"
                 #- "smudgeplot" # smudgeplot requires a lot of memory to operate on mammalian size genomes (>700 Gbp of memory). Turn this analysis on only if you are sure you have enough memory. TODO: replace smudgeplot by tools consuming less memory.
             "draft":
                 - "read_qc"
@@ -875,6 +880,10 @@
 
 "hic_enzyme_set": "Arima"
 "custom_enzyme_set": null # None
+
+#---- Custom tools ----
+"MAVR_path": "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/soft/MAVR/"  # TODO: submit to conda
+"MACE_path": "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/soft/MACE/" # TODO: submit to conda
 #---- Pipeline modes ----
 
 "starting_point": "fastq" # Allowed: "draft"

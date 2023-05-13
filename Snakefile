@@ -360,6 +360,11 @@ if "contig" in config["stage_list"]:
                            assembly_stage=["contig"],
                            haplotype=haplotype_list,
                            parameters=parameters_list),
+                    expand(out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.len",
+                           genome_prefix=[config["genome_prefix"], ],
+                           assembly_stage=["contig"],
+                           haplotype=haplotype_list,
+                           parameters=parameters_list),
                     expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/merqury/{genome_prefix}.{assembly_stage}.qv",
                            genome_prefix=[config["genome_prefix"], ],
                            assembly_stage=["contig"],
@@ -420,6 +425,11 @@ if "purge_dups" in config["stage_list"]:
                         assembly_stage=["purge_dups"],
                         haplotype=haplotype_list,
                         parameters=parameters_list),
+                    expand(out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.len",
+                           genome_prefix=[config["genome_prefix"], ],
+                           assembly_stage=["purge_dups"],
+                           haplotype=haplotype_list,
+                           parameters=parameters_list),
                     expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/merqury/{genome_prefix}.{assembly_stage}.qv",
                         genome_prefix=[config["genome_prefix"], ],
                         assembly_stage=["purge_dups"],
@@ -430,7 +440,7 @@ if "purge_dups" in config["stage_list"]:
         results_list += [expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype}.busco5.{busco_lineage}.tar.gz",
                                 busco_lineage=config["busco_lineage_list"],
                                 genome_prefix=[config["genome_prefix"], ],
-                                assembly_stage=["purge_dups"],
+                                assembly_stage=["purge_dups", ],
                                 haplotype=haplotype_list,
                                 parameters=parameters_list),]
 
@@ -456,7 +466,7 @@ if "hic_scaffolding" in config["stage_list"]:
         if datatype in config["paired_fastq_based_data"]:
             results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{datatype}/{pairprefix}.{genome_prefix}.AK{assembly_kmer_length}.{haplotype}_1.fastq.gz",
                                     datatype=[datatype],
-                                    stage=[prev_stage,],
+                                    stage=[prev_stage, ],
                                     parameters=stage_dict[prev_stage]["parameters"],
                                     pairprefix=input_pairprefix_dict[datatype],
                                     genome_prefix=[config["genome_prefix"], ],
@@ -467,7 +477,7 @@ if "hic_scaffolding" in config["stage_list"]:
         else:
             results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{datatype}/{fileprefix}.{genome_prefix}.AK{assembly_kmer_length}.{haplotype}.fastq.gz",
                                     datatype=[datatype],
-                                    stage=[prev_stage,],
+                                    stage=[prev_stage, ],
                                     parameters=stage_dict[prev_stage]["parameters"],
                                     fileprefix=input_file_prefix_dict[datatype],
                                     genome_prefix=[config["genome_prefix"], ],
@@ -492,6 +502,11 @@ if "hic_scaffolding" in config["stage_list"]:
                             resolution=parameters["tool_options"]["pretextsnapshot"]["resolution"],
                             ext=parameters["tool_options"]["pretextsnapshot"]["format"]),
                     expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/quast/{genome_prefix}.{assembly_stage}.{haplotype}",
+                           genome_prefix=[config["genome_prefix"], ],
+                           assembly_stage=["hic_scaffolding", ],
+                           haplotype=haplotype_list,
+                           parameters=parameters_list),
+                    expand(out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.len",
                            genome_prefix=[config["genome_prefix"], ],
                            assembly_stage=["hic_scaffolding", ],
                            haplotype=haplotype_list,
@@ -528,12 +543,15 @@ include: "workflow/rules/Kmer/Jellyfish.smk"
 include: "workflow/rules/Kmer/Meryl.smk"
 include: "workflow/rules/Kmer/Smudgeplot.smk"
 include: "workflow/rules/Kmer/Genomescope.smk"
+
 if "hifi" in data_types:
     include: "workflow/rules/Contigs/Hifiasm.smk"
+
 include: "workflow/rules/Contigs/Gfatools.smk"
 include: "workflow/rules/QCAssembly/BUSCO5.smk"
 include: "workflow/rules/QCAssembly/Merqury.smk"
 include: "workflow/rules/QCAssembly/QUAST.smk"
+include: "workflow/rules/QCAssembly/General.smk"
 include: "workflow/rules/Contamination/FCS.smk"
 include: "workflow/rules/Contamination/Kraken2.smk"
 
