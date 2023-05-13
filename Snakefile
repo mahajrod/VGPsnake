@@ -13,9 +13,9 @@ from pathlib import Path, PosixPath
 shell("conda config  --add envs_dirs /projects/codon_0000/apps/miniconda3/envs/")
 shell("which python")
 shell("echo 'PATH variable:'")
-shell("echo ${PATH}")
+shell("echo ${{PATH}}")
 shell("echo 'PYTHONPATH variable:'")
-shell("echo ${PYTHONPATH}")
+shell("echo ${{PYTHONPATH}}")
 #---------
 import pandas as pd
 
