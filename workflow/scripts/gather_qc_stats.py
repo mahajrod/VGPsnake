@@ -89,14 +89,15 @@ final_df = pd.DataFrame([[stage, parameters] for stage, parameters in zip([args.
 final_df = pd.concat([final_df,
                       pd.concat([df_dict[haplotype]["quast"][quast_columns] for haplotype in args.haplotype_list]),
                       merqury_qv_df.loc[args.haplotype_list],
-                      merqury_completeness_df.loc[args.haplotype_list],
+                      merqury_completeness_df.loc[args.haplotype_list]["assembly_solid_kmers", "read_solid_kmers",
+                                                                       "completeness"],
                       *[pd.concat([df_dict[haplotype]["busco5"][busco_db] for haplotype in args.haplotype_list]) for busco_db in args.busco_database_list]
                       ],
                      axis=1)
 
 for column in ["# contigs (>= 0 bp)", "# contigs (>= 10000 bp)",
                "# contigs (>= 10000 bp)", "Total length (>= 10000 bp)",
-               "Largest contig", "Largest contig"]:
+               "Largest contig", "Largest contig", "L50"]:
     final_df[column] = final_df[column].astype("Int64")
 
 final_df.index.name = "haplotype"
