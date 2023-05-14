@@ -76,7 +76,9 @@ final_df = pd.DataFrame([[stage, parameters] for stage, parameters in zip([args.
                         index=pd.Index([haplotype for haplotype in args.haplotype_list], name="haplotype"),
                         columns=["stage", "parameters"])
 
-final_df = pd.concat([final_df, pd.concat([df_dict[haplotype]["quast"][quast_columns] for haplotype in args.haplotype_list])],
+final_df = pd.concat([final_df,
+                      pd.concat([df_dict[haplotype]["quast"][quast_columns] for haplotype in args.haplotype_list]),
+                      merqury_qv_df.loc[args.haplotype_list]],
                      axis=1)
 
 print(final_df)
