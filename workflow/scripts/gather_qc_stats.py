@@ -55,12 +55,12 @@ for haplotype in args.haplotype_list:
                                haplotype,
                                busco_db))
 
-merqury_qv_df = pd.read_csv(qc_folder_path / "merqury/{0}.qv".format(args.input_prefix), sep="\t", index_col=0, header=0,
+merqury_qv_df = pd.read_csv(qc_folder_path / "merqury/{0}.qv".format(args.input_prefix),
+                            sep="\t", index_col=0, header=0,
                             names=["haplotype", "unique_kmers", "read_and_assembly_kmers", "qv", "error_rate"])
 merqury_qv_df.rename(index={"{0}.{1}".format(args.input_prefix,
                                              haplotype): haplotype for haplotype in args.haplotype_list},
                      inplace=True)
-
 
 merqury_completeness_df = pd.read_csv(qc_folder_path / "merqury/{0}.completeness.stats".format(args.input_prefix),
                                       sep="\t", index_col=0, header=0,
@@ -80,6 +80,7 @@ final_df = pd.concat([final_df, pd.concat([df_dict[haplotype]["quast"][quast_col
                      axis=1)
 
 print(final_df)
-
+print(merqury_qv_df)
+print(merqury_completeness_df)
 #for path in a.glob("busco5/*full_table.tsv"): print(path)
 
