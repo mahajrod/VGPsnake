@@ -42,7 +42,7 @@ quast_columns = ["# contigs (>= 0 bp)", "# contigs (>= 10000 bp)",
                  "# contigs (>= 10000 bp)", "Total length (>= 10000 bp)",
                  "Largest contig", "Largest contig", "GC (%)", "N50", "L50"]
 
-for haplotype in args.haplotype:
+for haplotype in args.haplotype_list:
     df_dict[haplotype] = {}
     df_dict[haplotype]["quast"] = pd.read_csv("quast/{0}.{1}/report.tsv".format(args.input_prefix, haplotype), sep="\t",
                                               header=0, index_col=0).transpose()
