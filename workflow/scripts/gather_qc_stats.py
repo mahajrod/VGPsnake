@@ -94,8 +94,9 @@ final_df = pd.concat([final_df,
                       ],
                      axis=1)
 
-for column in ["# contigs (>= 0 bp)",	"# contigs (>= 10000 bp)",	"# contigs (>= 10000 bp)",
-               "# Total length (>= 10000 bp)",	"Largest contig",	"Largest contig"]:
+for column in ["# contigs (>= 0 bp)", "# contigs (>= 10000 bp)",
+               "# contigs (>= 10000 bp)", "Total length (>= 10000 bp)",
+               "Largest contig", "Largest contig"]:
     final_df[column] = final_df[column].astype("Int64")
 
 final_df.index.name = "haplotype"
