@@ -11,11 +11,11 @@ from RouToolPa.Parsers.BUSCO import BUSCOtable
 def read_gene_string_from_busco_summary(in_file):
     with open(in_file, "r") as in_fd:
         for line in in_fd:
-            print(line)
             if "***** Results: *****" in line:
                 break
-            in_fd.readline()
-        return in_fd.readline().strip()
+        in_fd.readline()
+        busco_line = in_fd.readline().strip()
+        return busco_line
 
 
 parser = argparse.ArgumentParser()
