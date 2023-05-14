@@ -76,5 +76,6 @@ final_df = pd.DataFrame(["stage"] * len(args.haplotype_list),
 final_df[quast_columns] = pd.concat([df_dict[haplotype]["quast"][quast_columns] for haplotype in args.haplotype_list])
 
 print(final_df)
+
 #for path in a.glob("busco5/*full_table.tsv"): print(path)
 
