@@ -4,8 +4,8 @@ rule get_seq_len:
     output:
         #dir=out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/merqury/",
         len_file=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.len",
-    params:
-        MAVR_dir=config["MAVR_path"]
+    #params:
+    #    MAVR_dir=config["MAVR_path"]
     log:
         std=output_dict["log"].resolve() / "get_seq_len.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.log",
         cluster_log=(output_dict["cluster_log"]).resolve() / "get_seq_len.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.cluster.log",
