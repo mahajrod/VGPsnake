@@ -44,30 +44,30 @@ quast_columns = ["# contigs (>= 0 bp)", "# contigs (>= 10000 bp)",
 
 for haplotype in args.haplotype_list:
     df_dict[haplotype] = {}
-    df_dict[haplotype]["quast"] = pd.read_csv("quast/{0}.{1}/report.tsv".format(args.input_prefix, haplotype), sep="\t",
+    df_dict[haplotype]["quast"] = pd.read_csv(qc_folder_path / "quast/{0}.{1}/report.tsv".format(args.input_prefix, haplotype), sep="\t",
                                               header=0, index_col=0).transpose()
     df_dict[haplotype]["busco5"] = {}
     for busco_db in args.busco_database_list:
         df_dict[haplotype]["busco5"]["busco_db"][busco_db] = \
-                    BUSCOtable(in_file="busco5/{0}.[1].{2}.full_table.tsv".format(args.input_prefix,
+                    BUSCOtable(in_file=qc_folder_path / "busco5/{0}.[1].{2}.full_table.tsv".format(args.input_prefix,
                                haplotype,
                                busco_db))
 
-merqury_qv_df = pd.read_csv("merqury/{0}.qv".format(args.input_prefix), sep="\t", index_col=0, header=0,
+merqury_qv_df = pd.read_csv(qc_folder_path / "merqury/{0}.qv".format(args.input_prefix), sep="\t", index_col=0, header=0,
                             names=["haplotype", "unique_kmers", "read_and_assembly_kmers", "qv", "error_rate"])
 merqury_qv_df.rename(index={"{0}.{1}".format(args.input_prefix,
                                              haplotype): haplotype for haplotype in args.haplotype_list},
                      inplace=True)
 
 
-merqury_completeness_df = pd.read_csv("merqury/{0}.completeness.stats".format(args.input_prefix),
+merqury_completeness_df = pd.read_csv(qc_folder_path / "merqury/{0}.completeness.stats".format(args.input_prefix),
                                       sep="\t", index_col=0, header=0,
                                       names=["haplotype", "kmer_set", "assembly_solid_kmers",
                                              "read_solid_kmers", "completeness"])
 merqury_completeness_df.rename(index={"{0}.{1}".format(args.input_prefix,
                                                        haplotype): haplotype for haplotype in args.haplotype_list},
                                inplace=True)
-merqury_qv_path_list = list(qc_folder_path.glob("merqury/{0}.qv".format(args.input_prefix)))
+
 
 final_df = pd.DataFrame(["stage"] * len(args.haplotype_list),
                         index=pd.Index([haplotype for haplotype in args.haplotype_list], name="haplotype"),
