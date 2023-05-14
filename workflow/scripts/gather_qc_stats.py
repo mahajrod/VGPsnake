@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 __author__ = 'mahajrod'
-
+import sys
 import argparse
 import pandas as pd
 from pathlib import Path
@@ -36,7 +36,7 @@ parser.add_argument("-s", "--stage", action="store", dest="stage", required=True
 parser.add_argument("-p", "--parameters", action="store", dest="parameters", required=True,
                     help="Assembly parameters")
 parser.add_argument("-o", "--output", action="store", dest="output",
-                    default="stdout", help="output file - default: stdout")
+                    default=sys.stdout, help="output file - default: stdout")
 
 args = parser.parse_args()
 
@@ -94,8 +94,4 @@ final_df = pd.concat([final_df,
                       ],
                      axis=1)
 
-print(final_df)
-#print(merqury_qv_df)
-#print(merqury_completeness_df)
-#for path in a.glob("busco5/*full_table.tsv"): print(path)
-
+final_df.to_csv(args.output, sep="\t", header=True, index=True)
