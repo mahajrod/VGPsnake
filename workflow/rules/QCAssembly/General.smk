@@ -21,7 +21,7 @@ rule get_seq_len:
     threads:
         parameters["threads"]["get_seq_len"]
     shell:
-         " {params.MAVR_dir}/scripts/sequence/get_sequence_lengths.py -i {input.fasta} -o {output.len_file} 1>{log.std} 2>&1;"
+         " get_sequence_lengths.py -i {input.fasta} -o {output.len_file} 1>{log.std} 2>&1;" #{params.MAVR_dir}/scripts/sequence/
          #" OMP_NUM_THREADS={threads} merqury.sh {input.meryl_db_dir} "
          #" {input.primary_assembly} {input.alternative_assembly} {params.out_prefix}  1>{log.std} 2>&1 || true;"
 

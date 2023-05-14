@@ -16,7 +16,7 @@ rule kat_gcp:
     benchmark:
         output_dict["benchmark"] / "jellyfish.{datatype}.{stage}.{kmer_length}.benchmark.txt"
     conda:
-        config["conda"]["kat"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
+        config["conda"]["kat"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["kat"]["yaml"])
     resources:
         cpus=parameters["threads"]["kat_gcp"],
         time=parameters["time"]["kat_gcp"],
