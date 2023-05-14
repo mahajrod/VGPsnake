@@ -71,7 +71,8 @@ merqury_completeness_df.rename(index={"{0}.{1}".format(args.input_prefix,
                                inplace=True)
 
 
-final_df = pd.DataFrame([[args.stage] * len(args.haplotype_list), [args.parameters] * len(args.haplotype_list)],
+final_df = pd.DataFrame([[stage, parameters] for stage, parameters in zip([args.stage] * len(args.haplotype_list),
+                                                                          [args.parameters] * len(args.haplotype_list))],
                         index=pd.Index([haplotype for haplotype in args.haplotype_list], name="haplotype"),
                         columns=["stage", "parameters"])
 
