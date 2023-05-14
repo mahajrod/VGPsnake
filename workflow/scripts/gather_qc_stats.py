@@ -14,6 +14,7 @@ def read_gene_string_from_busco_summary(in_file):
             print(line)
             if "***** Results: *****" in line:
                 break
+            in_fd.readline()
         return in_fd.readline().strip()
 
 
