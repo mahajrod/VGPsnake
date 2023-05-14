@@ -41,7 +41,7 @@
   - "pairtools"
   - "parallel"
   - "routoolpa>=0.94"
-  - "routoolpa>=0.97"
+  - "mavr>=0.97"
 
 
 
