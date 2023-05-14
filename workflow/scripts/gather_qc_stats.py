@@ -93,5 +93,5 @@ final_df = pd.concat([final_df,
                       *[pd.concat([df_dict[haplotype]["busco5"][busco_db] for haplotype in args.haplotype_list]) for busco_db in args.busco_database_list]
                       ],
                      axis=1)
-
+final_df.index.name = "haplotype"
 final_df.to_csv(args.output, sep="\t", header=True, index=True)
