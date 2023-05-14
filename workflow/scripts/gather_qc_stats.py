@@ -84,7 +84,7 @@ merqury_completeness_df.rename(index={"{0}.{1}".format(args.input_prefix,
 final_df = pd.DataFrame([[stage, parameters] for stage, parameters in zip([args.stage] * len(args.haplotype_list),
                                                                           [args.parameters] * len(args.haplotype_list))],
                         index=pd.Index([haplotype for haplotype in args.haplotype_list], name="haplotype"),
-                        columns=["haplotype", "stage", "parameters"])
+                        columns=["stage", "parameters"])
 
 final_df = pd.concat([final_df,
                       pd.concat([df_dict[haplotype]["quast"][quast_columns] for haplotype in args.haplotype_list]),
@@ -94,5 +94,5 @@ final_df = pd.concat([final_df,
                       ],
                      axis=1)
 
-#final_df.index.name = "haplotype"
+final_df.index.name = "haplotype"
 final_df.to_csv(args.output, sep="\t", header=True, index=True)
