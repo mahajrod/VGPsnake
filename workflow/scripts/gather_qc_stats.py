@@ -62,7 +62,7 @@ for haplotype in args.haplotype_list:
     df_dict[haplotype]["busco5"] = {}
     for busco_db in args.busco_database_list:
         df_dict[haplotype]["busco5"][busco_db] = pd.DataFrame([read_gene_string_from_busco_summary(qc_folder_path / "busco5/{0}.{1}.busco5.{2}.full_table.tsv".format(args.input_prefix, haplotype, busco_db))],
-                                                              columns=[busco_db], index=pd.Index(haplotype))
+                                                              columns=[busco_db], index=pd.Index([haplotype, ]))
         #BUSCOtable(in_file=qc_folder_path / "busco5/{0}.{1}.busco5.{2}.full_table.tsv".format(args.input_prefix,
         #           haplotype,
         #           busco_db))
