@@ -73,7 +73,8 @@ final_df = pd.DataFrame(["stage"] * len(args.haplotype_list),
                         index=pd.Index([haplotype for haplotype in args.haplotype_list], name="haplotype"),
                         columns=["stage"])
 
-final_df[quast_columns] = pd.concat([df_dict[haplotype]["quast"][quast_columns] for haplotype in args.haplotype_list])
+final_df = pd.concat([final_df, pd.concat([df_dict[haplotype]["quast"][quast_columns] for haplotype in args.haplotype_list])],
+                     axis=1)
 
 print(final_df)
 
