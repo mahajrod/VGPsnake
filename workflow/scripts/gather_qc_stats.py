@@ -66,16 +66,16 @@ merqury_completeness_df = pd.read_csv(qc_folder_path / "merqury/{0}.completeness
                                       sep="\t", index_col=0, header=None,
                                       names=["haplotype", "kmer_set", "assembly_solid_kmers",
                                              "read_solid_kmers", "completeness"])
-merqury_qv_df.rename(index={"{0}.{1}".format(args.input_prefix,
+merqury_completeness_df.rename(index={"{0}.{1}".format(args.input_prefix,
                                                        haplotype): haplotype for haplotype in args.haplotype_list},
-                     inplace=True)
+                               inplace=True)
 
 
 final_df = pd.DataFrame([[stage, parameters] for stage, parameters in zip([args.stage] * len(args.haplotype_list),
                                                                           [args.parameters] * len(args.haplotype_list))],
                         index=pd.Index([haplotype for haplotype in args.haplotype_list], name="haplotype"),
                         columns=["stage", "parameters"])
-"""
+
 final_df = pd.concat([final_df,
                       pd.concat([df_dict[haplotype]["quast"][quast_columns] for haplotype in args.haplotype_list]),
                       merqury_qv_df.loc[args.haplotype_list],
@@ -85,8 +85,6 @@ final_df = pd.concat([final_df,
 
 print(final_df)
 print(merqury_qv_df)
-"""
 print(merqury_completeness_df)
-print(merqury_completeness_df.index)
 #for path in a.glob("busco5/*full_table.tsv"): print(path)
 
