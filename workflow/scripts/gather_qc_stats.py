@@ -49,7 +49,7 @@ for haplotype in args.haplotype_list:
     df_dict[haplotype]["busco5"] = {}
     for busco_db in args.busco_database_list:
         df_dict[haplotype]["busco5"]["busco_db"][busco_db] = \
-                    BUSCOtable(in_file=qc_folder_path / "busco5/{0}.[1].{2}.full_table.tsv".format(args.input_prefix,
+                    BUSCOtable(in_file=qc_folder_path / "busco5/{0}.{1}.{2}.full_table.tsv".format(args.input_prefix,
                                haplotype,
                                busco_db))
 
