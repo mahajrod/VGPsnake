@@ -2,6 +2,7 @@
 #TODO: check tools and versions
 "name": "yggbase"
 "channels":
+  - ""
   - "bioconda"
   - "conda-forge"
   - "anaconda"
@@ -39,6 +40,8 @@
   - "smudgeplot"
   - "pairtools"
   - "parallel"
+  - "routoolpa>=0.94"
+  - "routoolpa>=0.97"
 
 
 

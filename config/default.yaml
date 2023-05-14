@@ -15,6 +15,9 @@
     "singularity":
         "yaml": "workflow/envs/conda.singularity.yaml"
         "name": "singularity"
+    "kat":
+        "yaml": "workflow/envs/conda.kat.yaml"
+        "name": "kat"
 
 #----
 #---- Directory structure config ----
@@ -132,6 +135,7 @@
             "smudgeplot_plot": 1
             "compress_kmer": 10
             "get_seq_len": 1
+            "kat_gcp": 4
             #"fcs_gx": 50 # set via allowed_databases variable
             mosdepth: 3
             basecall: 30
@@ -192,6 +196,7 @@
             "multiqc": "00:10:00"
             "cutadapt": "04:00:00"
             "jellyfish": "08:00:00"
+            "kat_gcp": "02:00:00"
             "meryl": "08:00:00"
             "meryl_extract": "02:00:00"
             "meryl_assembly": "02:00:00"
@@ -432,6 +437,7 @@
             "salsa2": 10 #TODO: adjust
         "memory_mb":
             "jellyfish": 2000
+            "kat_gcp": 2000 # same memory as jellyfish
             "meryl": 2000
             "hifiasm": 20000 # needs adjustment, very approximate value
             "minimap2_index": 3000
@@ -467,6 +473,7 @@
             "bwa_map": 16
         "memory_mb":
             "jellyfish": 20000
+            "kat_gcp": 20000
             "meryl": 20000
             "hifiasm": 50000
             "minimap2_index": 10000
@@ -502,6 +509,7 @@
             "bwa_map": 32
         "memory_mb":
             "jellyfish": 60000
+            "kat_gcp": 60000
             "meryl": 60000
             "hifiasm": 80000
             "minimap2_index": 10000
@@ -536,10 +544,11 @@
     "normal": # < 1500 Mbp, most of the birds
         "memory_mb":
             "jellyfish": 200000
-            "hifiasm": 160000
-            "meryl": 80000
+            "kat_gcp":   200000
+            "hifiasm":   160000
+            "meryl":      80000
             "minimap2_index": 10000
-            "minimap2": 20000
+            "minimap2":       20000
         "time":
             "jellyfish": "08:00:00"
             "hifiasm": "12:00:00"
@@ -569,10 +578,11 @@
     "big": # < 2500 Mbp, most of the mammals
         "memory_mb":
             "jellyfish": 300000
-            "hifiasm": 300000
-            "meryl": 300000
+            "kat_gcp":   300000
+            "hifiasm":   300000
+            "meryl":     300000
             "minimap2_index": 20000
-            "minimap2": 30000
+            "minimap2":       30000
         "time":
             "jellyfish": "12:00:00"
             "hifiasm": "16:00:00"
@@ -602,10 +612,11 @@
     "large": # < 5000 Mbp, human
         "memory_mb":
             "jellyfish": 600000
-            "meryl": 300000
-            "hifiasm": 500000
+            "kat_gcp":   600000
+            "meryl":     300000
+            "hifiasm":   500000
             "minimap2_index": 20000
-            "minimap2": 40000
+            "minimap2":       40000
         "time":
             "jellyfish": "24:00:00"
             "hifiasm": "24:00:00"
@@ -635,10 +646,11 @@
     "giant": # < 15000 Mbp, big plant genomes
         "memory_mb":
             "jellyfish": 1100000
-            "meryl": 300000
-            "hifiasm": 1000000
+            "kat_gcp":   1100000
+            "meryl":      300000
+            "hifiasm":   1000000
             "minimap2_index": 30000
-            "minimap2": 70000
+            "minimap2":       70000
         "time":
             "jellyfish": "48:00:00"
             "hifiasm": "48:00:00"
