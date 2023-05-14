@@ -23,6 +23,8 @@ parser.add_argument("-a", "--haplotype_list", action="store", dest="haplotype_li
                          "If absent, busco report will be ignored.")
 parser.add_argument("-s", "--stage", action="store", dest="stage", required=True,
                     help="Assembly stage")
+parser.add_argument("-p", "--parameters", action="store", dest="parameters", required=True,
+                    help="Assembly parameters")
 parser.add_argument("-o", "--output", action="store", dest="output",
                     default="stdout", help="output file - default: stdout")
 
@@ -69,9 +71,9 @@ merqury_completeness_df.rename(index={"{0}.{1}".format(args.input_prefix,
                                inplace=True)
 
 
-final_df = pd.DataFrame(["stage"] * len(args.haplotype_list),
+final_df = pd.DataFrame([[args.stage] * len(args.haplotype_list), [args.parameters] * len(args.haplotype_list)],
                         index=pd.Index([haplotype for haplotype in args.haplotype_list], name="haplotype"),
-                        columns=["stage"])
+                        columns=["stage", "parameters"])
 
 final_df = pd.concat([final_df, pd.concat([df_dict[haplotype]["quast"][quast_columns] for haplotype in args.haplotype_list])],
                      axis=1)
