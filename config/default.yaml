@@ -858,8 +858,8 @@
          - "l1"
          - "l2"
          - "l3"
-         #- "repeat_enhanced_l1"
-         #- "repeat_enhanced_l2"
+         - "repeat_enhanced_l1"
+         - "repeat_enhanced_l2"
     "purge_dups":
         - "default"
     "salsa2":
