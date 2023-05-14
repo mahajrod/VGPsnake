@@ -75,7 +75,7 @@ final_df = pd.DataFrame([[stage, parameters] for stage, parameters in zip([args.
                                                                           [args.parameters] * len(args.haplotype_list))],
                         index=pd.Index([haplotype for haplotype in args.haplotype_list], name="haplotype"),
                         columns=["stage", "parameters"])
-
+"""
 final_df = pd.concat([final_df,
                       pd.concat([df_dict[haplotype]["quast"][quast_columns] for haplotype in args.haplotype_list]),
                       merqury_qv_df.loc[args.haplotype_list],
@@ -85,6 +85,8 @@ final_df = pd.concat([final_df,
 
 print(final_df)
 print(merqury_qv_df)
+"""
 print(merqury_completeness_df)
+print(merqury_completeness_df.index)
 #for path in a.glob("busco5/*full_table.tsv"): print(path)
 
