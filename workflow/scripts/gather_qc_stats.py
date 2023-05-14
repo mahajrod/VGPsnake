@@ -56,14 +56,14 @@ for haplotype in args.haplotype_list:
                                busco_db))
 
 merqury_qv_df = pd.read_csv(qc_folder_path / "merqury/{0}.qv".format(args.input_prefix),
-                            sep="\t", index_col=0, header=0,
+                            sep="\t", index_col=0, header=None,
                             names=["haplotype", "unique_kmers", "read_and_assembly_kmers", "qv", "error_rate"])
 merqury_qv_df.rename(index={"{0}.{1}".format(args.input_prefix,
                                              haplotype): haplotype for haplotype in args.haplotype_list},
                      inplace=True)
 
 merqury_completeness_df = pd.read_csv(qc_folder_path / "merqury/{0}.completeness.stats".format(args.input_prefix),
-                                      sep="\t", index_col=0, header=0,
+                                      sep="\t", index_col=0, header=None,
                                       names=["haplotype", "kmer_set", "assembly_solid_kmers",
                                              "read_solid_kmers", "completeness"])
 merqury_completeness_df.rename(index={"{0}.{1}".format(args.input_prefix,
