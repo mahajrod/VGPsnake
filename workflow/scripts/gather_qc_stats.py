@@ -7,6 +7,17 @@ from pathlib import Path
 
 from RouToolPa.Parsers.BUSCO import BUSCOtable
 
+
+def read_gene_string_from_busco_summary(in_file):
+    with open(in_file, "r") as in_fd:
+        for line in in_fd:
+            if "***** Results: *****" in line:
+                break
+        in_fd.readline()
+
+        return in_fd.readline().strip()
+
+
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-q", "--qc_folder", action="store", dest="qc_folder", required=True,
@@ -50,11 +61,11 @@ for haplotype in args.haplotype_list:
                                               header=0, index_col=0).transpose()
     df_dict[haplotype]["busco5"] = {}
     for busco_db in args.busco_database_list:
-        df_dict[haplotype]["busco5"][busco_db] = \
-                    BUSCOtable(in_file=qc_folder_path / "busco5/{0}.{1}.busco5.{2}.full_table.tsv".format(args.input_prefix,
-                               haplotype,
-                               busco_db))
-
+        df_dict[haplotype]["busco5"][busco_db] = pd.DataFrame([read_gene_string_from_busco_summary(qc_folder_path / "busco5/{0}.{1}.busco5.{2}.full_table.tsv".format(args.input_prefix, haplotype, busco_db))],
+                                                              columns=[busco_db], index=pd.Index(haplotype))
+        #BUSCOtable(in_file=qc_folder_path / "busco5/{0}.{1}.busco5.{2}.full_table.tsv".format(args.input_prefix,
+        #           haplotype,
+        #           busco_db))
 merqury_qv_df = pd.read_csv(qc_folder_path / "merqury/{0}.qv".format(args.input_prefix),
                             sep="\t", index_col=0, header=None,
                             names=["haplotype", "unique_kmers", "read_and_assembly_kmers", "qv", "error_rate"])
@@ -79,12 +90,13 @@ final_df = pd.DataFrame([[stage, parameters] for stage, parameters in zip([args.
 final_df = pd.concat([final_df,
                       pd.concat([df_dict[haplotype]["quast"][quast_columns] for haplotype in args.haplotype_list]),
                       merqury_qv_df.loc[args.haplotype_list],
-                      merqury_completeness_df.loc[args.haplotype_list]
+                      merqury_completeness_df.loc[args.haplotype_list],
+                      *[pd.concat([df_dict[haplotype]["busco5"][busco_db] for haplotype in args.haplotype_list]) for busco_db in args.busco_database_list]
                       ],
                      axis=1)
 
 print(final_df)
-print(merqury_qv_df)
-print(merqury_completeness_df)
+#print(merqury_qv_df)
+#print(merqury_completeness_df)
 #for path in a.glob("busco5/*full_table.tsv"): print(path)
 
