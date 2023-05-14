@@ -23,7 +23,7 @@ parser.add_argument("-q", "--qc_folder", action="store", dest="qc_folder", requi
                     help="Folder with qc data")
 parser.add_argument("-e", "--input_prefix", action="store", dest="input_prefix", required=True,
                     help="Prefix of input files.")
-parser.add_argument("-b", "--busco_database_list", action="store", dest="busco_database_list", default=None,
+parser.add_argument("-b", "--busco_database_list", action="store", dest="busco_database_list", default=[],
                     type=lambda s: s.split(","),
                     help="Comma-separated list of busco databases used for QC. "
                          "If absent, busco report will be ignored.")
