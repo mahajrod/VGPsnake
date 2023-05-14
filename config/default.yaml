@@ -896,8 +896,8 @@
 "custom_enzyme_set": null # None
 
 #---- Custom tools ----
-"MAVR_path": "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/soft/MAVR/"  # TODO: submit to conda
-"MACE_path": "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/soft/MACE/" # TODO: submit to conda
+#"MAVR_path": "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/soft/MAVR/"
+#"MACE_path": "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/soft/MACE/"
 #---- Pipeline modes ----
 
 "starting_point": "fastq" # Allowed: "draft"

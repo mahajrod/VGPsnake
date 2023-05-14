@@ -42,6 +42,7 @@
   - "parallel"
   - "routoolpa>=0.94"
   - "mavr>=0.97"
+  - "jellyfish>=2"
 
 
 
