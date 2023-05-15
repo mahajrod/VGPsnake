@@ -244,3 +244,28 @@ rule create_link_for_purged_fasta:
     shell:
         " ln {input.purged} {output.purged} > {log.std} 2>&1;"
 
+rule extract_coverage_from_purge_dups_files:
+    input:
+        pbbasecov=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/PB.base.cov"
+    output:
+        len=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/PB.base.cov.len",
+        stats=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/PB.base.cov.stats",
+        bed=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/PB.base.cov.bed"
+    log:
+        std=output_dict["log"]  / "extract_coverage_from_purge_dups_files.{prev_stage_parameters}.{purge_dups_parameters}.purge_dups.{haplotype}.log",
+        cluster_log=output_dict["cluster_log"] / "extract_coverage_from_purge_dups_files.{prev_stage_parameters}.{purge_dups_parameters}.purge_dups.{haplotype}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "extract_coverage_from_purge_dups_files.{prev_stage_parameters}.{purge_dups_parameters}.urge_dups.{haplotype}.cluster.err"
+    benchmark:
+        output_dict["benchmark"]  / "merge_pri_hapdups_with_alt.{prev_stage_parameters}.{purge_dups_parameters}.purge_dups.{haplotype}.benchmark.txt"
+    conda:
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
+    resources:
+        cpus=parameters["threads"]["extract_coverage_from_purge_dups_files"] ,
+        time=parameters["time"]["extract_coverage_from_purge_dups_files"],
+        mem=parameters["memory_mb"]["extract_coverage_from_purge_dups_files"]
+    threads: parameters["threads"]["extract_coverage_from_purge_dups_files"]
+
+    shell:
+        " LEN_FILE={output.len}; \n"
+        " convert_coverage_file_to_bed.py -i {input.pbbasecov}  -o ${{LEN_FILE%.len}} > {log.std} 2>&1;"
+
