@@ -29,14 +29,6 @@
 
 #---- Input ----
 "input_dir": "input/"
-
-#"hifi_subdir": "hifi/"
-#"clr_subdir": "clr/"
-#"nanopore_subdir": "nanopore/"
-#"bionano_subdir": "bionano/"
-#"hic_subdir": "hic/"
-#"lr_subdir": "lr/"
-
 #----
 
 #----
@@ -62,29 +54,6 @@
   - "bionano_scaffolding"
   - "hic_scaffolding"
   - "contamination_scan"
-
-#"config_subdir": "config"
-#"data_subdir": "data"
-#"qc_subdir": "qc"
-#"assembly_qc_subdir": "assembly_qc"
-#"kmer_subdir": "kmer"
-#"log_subdir": "logs"
-#"draft_subdir": "draft"
-
-#"benchmark_subdir": "benchmarks"
-#"cluster_log_subdir": "cluster_logs"
-#"cluster_error_subdir": "cluster_errors"
-#"preprocessing_subdir": "preprocessing"
-#"basecall_subdir": "basecall"
-#"contig_subdir": "contig"
-#"purge_dups_subdir": "purge_dups"
-#"lr_scaffolding_subdir": "lr_scaffolding"
-#"bionano_scaffolding_subdir": "bionano_scaffolding"
-#"hic_scaffolding_subdir": "hic_scaffolding"
-
-#"fastqc_subdir": "fastqc"
-#"multiqc_subdir": "multiqc"
-
 #--------
 
 #---- Tool parameters ----
@@ -137,6 +106,7 @@
             "get_seq_len": 1
             "kat_gcp": 4
             "gather_stage_stats": 1
+            "extract_coverage_from_purge_dups_files": 1
             #"fcs_gx": 50 # set via allowed_databases variable
             mosdepth: 3
             basecall: 30
@@ -187,6 +157,7 @@
             "meryl_extract": 15000
             "get_seq_len": 5000
             "gather_stage_stats": 100
+            "extract_coverage_from_purge_dups_files": 5000
             #"fcs_gx": 512000 # set via allowed_databases variable
             mosdepth: 4000 #The amount of memory is approximately equal to 32-bits * longest chrom length, so for the 249MB chromosome 1, it will require 1GB of memory.
             basecall: 20000
@@ -238,6 +209,7 @@
             "compress_kmer": "03:00:00"
             "get_seq_len": "01:00:00"
             "gather_stage_stats": "00:05:00"
+            "extract_coverage_from_purge_dups_files": "05:00:00"
             #"fcs_gx": "03:00:00" # set via allowed_databases variable
 
             mosdepth: "02:00:00"

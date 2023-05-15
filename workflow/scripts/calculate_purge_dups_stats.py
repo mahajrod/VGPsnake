@@ -13,7 +13,7 @@ parser.add_argument("-b", "--purge_dups_bed", action="store", dest="purge_dups_b
                     help="Bed file with purge_dups output")
 parser.add_argument("-s", "--stat_file", action="store", dest="stat_file", required=True,
                     help="File wit statistics extracted from coverage file.")
-parser.add_argument("-o", "--output_prefix", action="store", dest="output", required=True,
+parser.add_argument("-o", "--output_prefix", action="store", dest="output_prefix", required=True,
                     help="Prefix of output files")
 
 args = parser.parse_args()
