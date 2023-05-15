@@ -29,7 +29,7 @@ purge_dups_bed_df["overlap_len"] = purge_dups_bed_df["end"] - purge_dups_bed_df[
 purge_dups_bed_df["overlap_faction"] = purge_dups_bed_df["overlap_len"] / purge_dups_bed_df["length"]
 purge_dups_bed_df.to_csv("{}.extended.bed".format(args.output_prefix), sep="\t", index=True, header=True)
 
-stats_df = purge_dups_bed_df[["overlap_len", "type"]].groupby["type"].agg(["count", "sum"])
+stats_df = purge_dups_bed_df[["overlap_len", "type"]].groupby(by="type").agg(["count", "sum"])
 print(stats_df)
 
 stats_df.to_csv("{}.stats".format(args.output_prefix), sep="\t", index=True, header=True)
