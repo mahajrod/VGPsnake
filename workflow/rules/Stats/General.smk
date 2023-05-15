@@ -2,7 +2,7 @@ localrules: gather_stats_per_stage_parameter, gather_stage_stats
 
 rule gather_stats_per_stage_parameter:
     input:
-        summary=expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype,[^.]+}.busco5.{busco_lineage}.summary",
+        summary=expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype}.busco5.{busco_lineage}.summary",
                        busco_lineage=config["busco_lineage_list"],
                        haplotype=haplotype_list,
                        allow_missing=True) if not config["skip_busco"] else [],
