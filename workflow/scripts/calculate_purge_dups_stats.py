@@ -39,13 +39,13 @@ for artefact in stats_df.index.unique():
     purge_dups_bed_df.index[purge_dups_bed_df["type"] == artefact].to_series().to_csv("{0}.{1}.ids".format(args.output_prefix,
                                                                                                            str(artefact).lower()),
                                                                                       sep="\t",
-                                                                                      index=True,
-                                                                                      header=True)
+                                                                                      index=False,
+                                                                                      header=False)
     purge_dups_bed_df[purge_dups_bed_df["type"] == artefact].to_csv("{0}.{1}.extended.bed".format(args.output_prefix,
                                                                                                   str(artefact).lower()),
                                                                     sep="\t",
-                                                                    index=False,
-                                                                    header=False)
+                                                                    index=True,
+                                                                    header=True)
 
 for artefact in artefact_set - set(stats_df.index.unique()):
     with open("{0}.{1}.ids".format(args.output_prefix, str(artefact).lower()), "w") as out_fd:
