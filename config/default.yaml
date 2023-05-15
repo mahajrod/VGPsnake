@@ -106,7 +106,9 @@
             "get_seq_len": 1
             "kat_gcp": 4
             "gather_stage_stats": 1
-            "extract_coverage_from_purge_dups_files": 1
+            "extract_coverage_from_purge_dups_file": 1
+            "extract_stats_from_purge_dups_file": 1
+            "extract_artefact_sequences": 1
             #"fcs_gx": 50 # set via allowed_databases variable
             mosdepth: 3
             basecall: 30
@@ -157,7 +159,9 @@
             "meryl_extract": 15000
             "get_seq_len": 5000
             "gather_stage_stats": 100
-            "extract_coverage_from_purge_dups_files": 5000
+            "extract_coverage_from_purge_dups_file": 5000
+            "extract_stats_from_purge_dups_file": 1000
+            "extract_artefact_sequences": 5000
             #"fcs_gx": 512000 # set via allowed_databases variable
             mosdepth: 4000 #The amount of memory is approximately equal to 32-bits * longest chrom length, so for the 249MB chromosome 1, it will require 1GB of memory.
             basecall: 20000
@@ -209,7 +213,9 @@
             "compress_kmer": "03:00:00"
             "get_seq_len": "01:00:00"
             "gather_stage_stats": "00:05:00"
-            "extract_coverage_from_purge_dups_files": "05:00:00"
+            "extract_coverage_from_purge_dups_file": "05:00:00"
+            "extract_stats_from_purge_dups_file" : "01:00:00"
+            "extract_artefact_sequences": "01:00:00"
             #"fcs_gx": "03:00:00" # set via allowed_databases variable
 
             mosdepth: "02:00:00"

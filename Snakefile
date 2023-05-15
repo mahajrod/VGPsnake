@@ -464,6 +464,11 @@ if "purge_dups" in config["stage_list"]:
                     expand(out_dir_path / "{assembly_stage}/{genome_prefix}.{assembly_stage}.stage_stats",
                            genome_prefix=[config["genome_prefix"], ],
                            assembly_stage=["purge_dups"],),
+                    expand(out_dir_path  / "purge_dups/{parameters}/{haplotype}/{genome_prefix}.dups.{artefact}.fasta",
+                           genome_prefix=[config["genome_prefix"], ],
+                           artefact=["junk", "repeat", "haplotig", "ovlp"],
+                           haplotype=haplotype_list,
+                           parameters=parameters_list)
                     ]
     if not config["skip_busco"]:
         results_list += [expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/busco5/{genome_prefix}.{assembly_stage}.{haplotype}.busco5.{busco_lineage}.tar.gz",
