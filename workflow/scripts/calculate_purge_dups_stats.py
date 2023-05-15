@@ -34,4 +34,11 @@ print(stats_df)
 
 stats_df.to_csv("{}.stats".format(args.output_prefix), sep="\t", index=True, header=True)
 
+for artefact in stats_df.index.unique():
+    purge_dups_bed_df["#scaffold"][purge_dups_bed_df["#scaffold"] == artefact].to_csv("{0}.{1}.ids".format(args.output_prefix,
+                                                                                                           str(artefact).lower()),
+                                                                                      sep="\t",
+                                                                                      index=False,
+                                                                                      header=False)
+
 
