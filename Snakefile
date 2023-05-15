@@ -466,7 +466,7 @@ if "purge_dups" in config["stage_list"]:
                            assembly_stage=["purge_dups"],),
                     expand(out_dir_path  / "purge_dups/{parameters}/{haplotype}/{genome_prefix}.dups.{artefact}.fasta",
                            genome_prefix=[config["genome_prefix"], ],
-                           artefact=["junk", "repeat", "haplotig", "ovlp"],
+                           artefact=["junk", "repeat", "haplotig", "ovlp", "highcov"],
                            haplotype=haplotype_list,
                            parameters=parameters_list)
                     ]

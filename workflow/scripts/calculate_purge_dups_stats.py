@@ -18,7 +18,7 @@ parser.add_argument("-o", "--output_prefix", action="store", dest="output_prefix
 
 args = parser.parse_args()
 
-artefact_set = {"HAPLOTIG", "JUNK", "REPEAT", "OVLP"}
+artefact_set = {"HAPLOTIG", "JUNK", "REPEAT", "OVLP", "HIGHCOV"}
 stat_cov_df = pd.read_csv(args.stat_file, sep="\t", header=None, names=["#scaffold", "length", "mean_cov", "median_cov"],
                           index_col=0)
 
@@ -41,6 +41,11 @@ for artefact in stats_df.index.unique():
                                                                                       sep="\t",
                                                                                       index=False,
                                                                                       header=False)
+    purge_dups_bed_df[purge_dups_bed_df["type"] == artefact].to_csv("{0}.{1}.extended.bed".format(args.output_prefix,
+                                                                                                  str(artefact).lower()),
+                                                                    sep="\t",
+                                                                    index=False,
+                                                                    header=False)
 
 for artefact in artefact_set - set(stats_df.index.unique()):
     with open("{0}.{1}.ids".format(args.output_prefix, str(artefact).lower()), "w") as out_fd:
