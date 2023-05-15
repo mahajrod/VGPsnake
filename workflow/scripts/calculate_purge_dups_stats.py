@@ -33,7 +33,7 @@ purge_dups_bed_df.to_csv("{}.extended.bed".format(args.output_prefix), sep="\t",
 stats_df = purge_dups_bed_df[["overlap_len", "type"]].groupby(by="type").agg(["count", "sum"])
 print(stats_df)
 
-stats_df.to_csv("{}.stats".format(args.output_prefix), sep="\t", index=True, header=True)
+stats_df.to_csv("{}.stat".format(args.output_prefix), sep="\t", index=True, header=True)
 
 for artefact in stats_df.index.unique():
     purge_dups_bed_df.index[purge_dups_bed_df["type"] == artefact].to_series().to_csv("{0}.{1}.ids".format(args.output_prefix,
