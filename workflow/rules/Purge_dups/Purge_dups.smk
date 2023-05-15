@@ -249,7 +249,7 @@ rule extract_coverage_from_purge_dups_file:
         pbbasecov=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/PB.base.cov"
     output:
         len=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/PB.base.cov.len",
-        stats=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/PB.base.cov.stat",
+        stat=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/PB.base.cov.stat",
         bed=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/PB.base.cov.bed"
     log:
         std=output_dict["log"]  / "extract_coverage_from_purge_dups_file.{prev_stage_parameters}.{purge_dups_parameters}.purge_dups.{haplotype}.log",
@@ -271,11 +271,11 @@ rule extract_coverage_from_purge_dups_file:
 
 rule extract_stats_from_purge_dups_file:
     input:
-        stats=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/PB.base.cov.stat",
+        stat=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/PB.base.cov.stat",
         bed=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/{genome_prefix}.dups.bed"
     output:
         extended_bed=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/{genome_prefix}.dups.extended.bed",
-        stats=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/{genome_prefix}.dups.stat",
+        stat=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/{genome_prefix}.dups.stat",
         junk_ids=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/{genome_prefix}.dups.junk.ids",
         ovlp_ids=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/{genome_prefix}.dups.ovlp.ids",
         haplotig_ids=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/{genome_prefix}.dups.haplotig.ids",
@@ -296,7 +296,7 @@ rule extract_stats_from_purge_dups_file:
 
     shell:
         " STATS_FILE={output.stat}; "
-        " ./workflow/scripts/calculate_purge_dups_stats.py  -b {input.bed} -s {input.stats} -o ${{STATS_FILE%.stats}} > {log.std} 2>&1;"
+        " ./workflow/scripts/calculate_purge_dups_stats.py  -b {input.bed} -s {input.stat} -o ${{STATS_FILE%.stats}} > {log.std} 2>&1;"
 
 rule extract_artefact_sequences:
     input:
