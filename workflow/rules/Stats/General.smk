@@ -41,7 +41,7 @@ rule gather_stats_per_stage_parameter:
     shell:
         " ./workflow/scripts/gather_qc_stats.py -q results/{wildcards.assembly_stage}/{wildcards.parameters}/assembly_qc/ "
         " -p {wildcards.parameters} -e {wildcards.genome_prefix}.{wildcards.assembly_stage} -s {wildcards.assembly_stage} "
-        "-a {params.haplotype_list} {params.busco_lineage_list} -o {output.stats} > {log.std} 2>&1; "
+        " -a {params.haplotype_list} {params.busco_lineage_list} -o {output.stats} > {log.std} 2>&1; "
 
 
 rule gather_stage_stats:
