@@ -74,6 +74,6 @@ rule gather_stage_stats:
         #print(df_list)
         merged_df = pd.concat(df_list)
         columns = list(merged_df.columns)
-        merged_df = merged_df[columns[1:3] + [columns[0]] + columns[3:]].sort(by=["stage", "parameters", "haplotype"])
+        merged_df = merged_df[columns[1:3] + [columns[0]] + columns[3:]].sort_values(by=["stage", "parameters", "haplotype"])
 
         merged_df.to_csv(output.stats, sep="\t", header=True, index=False)
