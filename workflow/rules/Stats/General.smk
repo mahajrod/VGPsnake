@@ -70,8 +70,8 @@ rule gather_stage_stats:
     threads:
         parameters["threads"]["gather_stage_stats"]
     run:
-        df_list = [pd.read_csv(filename, sep="\t", header=0, index_col=0) for filename in input.stats]
+        df_list = [pd.read_csv(filename, sep="\t", header=0,) for filename in input.stats]
         print(df_list)
         merged_df = pd.concat(df_list)
 
-        merged_df.to_csv(output.stats, sep="\t", header=True, index=True)
+        merged_df.to_csv(output.stats, sep="\t", header=True,)
