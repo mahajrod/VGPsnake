@@ -389,7 +389,7 @@ if "contig" in config["stage_list"]:
                     #       genome_prefix=[config["genome_prefix"], ],
                     #       assembly_stage=["contig"],
                     #       parameters=parameters_list),
-                    expand(out_dir_path / "{assembly_stage}/{genome_prefix}.{assembly_stage}.stats",
+                    expand(out_dir_path / "{assembly_stage}/{genome_prefix}.{assembly_stage}.stage_stats",
                            genome_prefix=[config["genome_prefix"], ],
                            assembly_stage=["contig"],),
                     ] # Tested only on hifiasm
@@ -461,7 +461,7 @@ if "purge_dups" in config["stage_list"]:
                     #       genome_prefix=[config["genome_prefix"], ],
                     #       assembly_stage=["purge_dups"],
                     #       parameters=parameters_list),
-                    expand(out_dir_path / "{assembly_stage}/{genome_prefix}.{assembly_stage}.stats",
+                    expand(out_dir_path / "{assembly_stage}/{genome_prefix}.{assembly_stage}.stage_stats",
                            genome_prefix=[config["genome_prefix"], ],
                            assembly_stage=["purge_dups"],),
                     ]
@@ -549,7 +549,7 @@ if "hic_scaffolding" in config["stage_list"]:
                     #       genome_prefix=[config["genome_prefix"], ],
                     #       assembly_stage=["hic_scaffolding"],
                     #       parameters=parameters_list),
-                    expand(out_dir_path / "{assembly_stage}/{genome_prefix}.{assembly_stage}.stats",
+                    expand(out_dir_path / "{assembly_stage}/{genome_prefix}.{assembly_stage}.stage_stats",
                            genome_prefix=[config["genome_prefix"], ],
                            assembly_stage=["hic_scaffolding"],),
                     ]

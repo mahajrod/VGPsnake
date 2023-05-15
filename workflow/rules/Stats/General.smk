@@ -22,7 +22,7 @@ rule gather_stats_per_stage_parameter:
         haplotype_list=",".join(haplotype_list),
         busco_lineage_list=",".join(config["busco_lineage_list"])
     output:
-        stats=out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/{genome_prefix}.{assembly_stage}.stats"
+        stats=out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/{genome_prefix}.{assembly_stage}.parameter_stats"
     log:
         std=output_dict["log"]/ "gather_stats_per_stage_parameter.{genome_prefix}.{assembly_stage}.{parameters}.log",
         #stats=log_dir_path / "{library_id}/multiqc_merged_raw.stats.log",
@@ -46,14 +46,14 @@ rule gather_stats_per_stage_parameter:
 
 rule gather_stage_stats:
     input:
-        stats=lambda wildcards: expand(out_dir_path / ("%s/{parameters}/assembly_qc/%s.%s.stats" % (wildcards.assembly_stage,
+        stats=lambda wildcards: expand(out_dir_path / ("%s/{parameters}/assembly_qc/%s.%s.parameter_stats" % (wildcards.assembly_stage,
                                                                                                     wildcards.genome_prefix,
                                                                                                     wildcards.assembly_stage)),
                                        parameters=stage_dict[wildcards.assembly_stage]["parameters"].keys(),
                                        allow_missing=True)
 
     output:
-        stats=out_dir_path / "{assembly_stage}/{genome_prefix}.{assembly_stage}.stats"
+        stats=out_dir_path / "{assembly_stage}/{genome_prefix}.{assembly_stage}.stage_stats"
     log:
         std=output_dict["log"]/ "gather_stage_stats.{genome_prefix}.{assembly_stage}.log",
         #stats=log_dir_path / "{library_id}/multiqc_merged_raw.stats.log",
