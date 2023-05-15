@@ -266,7 +266,7 @@ rule extract_coverage_from_purge_dups_file:
     threads: parameters["threads"]["extract_coverage_from_purge_dups_file"]
 
     shell:
-        " LEN_FILE={output.len}; \n"
+        " LEN_FILE={output.len}; "
         " convert_coverage_file_to_bed.py -i {input.pbbasecov}  -o ${{LEN_FILE%.len}} > {log.std} 2>&1;"
 
 rule extract_stats_from_purge_dups_file:
@@ -295,7 +295,7 @@ rule extract_stats_from_purge_dups_file:
     threads: parameters["threads"]["extract_stats_from_purge_dups_file"]
 
     shell:
-        " STATS_FILE={output.stats}; \n"
+        " STATS_FILE={output.stats}; "
         " ./workflow/scripts/calculate_purge_dups_stats.py  -b {input.bed} -s {input.stats} -o ${{STATS_FILE%.stats}} > {log.std} 2>&1;"
 
 rule extract_artefact_sequences:
