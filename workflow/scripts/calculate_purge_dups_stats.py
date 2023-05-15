@@ -26,7 +26,7 @@ purge_dups_bed_df = pd.read_csv(args.purge_dups_bed, sep="\t", header=None, name
 
 purge_dups_bed_df = pd.concat([purge_dups_bed_df, stat_cov_df.loc[purge_dups_bed_df.index]], axis=1)
 purge_dups_bed_df["overlap_len"] = purge_dups_bed_df["end"] - purge_dups_bed_df["start"]
-purge_dups_bed_df["overlap_faction"] = purge_dups_bed_df["overlap_len"] / purge_dups_bed_df["scaffold_len"]
+purge_dups_bed_df["overlap_faction"] = purge_dups_bed_df["overlap_len"] / purge_dups_bed_df["length"]
 purge_dups_bed_df.to_csv("{}.extended.bed".format(args.output_prefix), sep="\t", index=True, header=True)
 
 stats_df = purge_dups_bed_df[["overlap_len", "type"]].groupby["type"].agg(["count", "sum"])
