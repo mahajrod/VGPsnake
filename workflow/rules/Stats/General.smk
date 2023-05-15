@@ -12,15 +12,15 @@ rule gather_stats_per_stage_parameter:
         qv_file=out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/merqury/{genome_prefix}.{assembly_stage}.qv",
         completeness_stats_file=out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/merqury/{genome_prefix}.{assembly_stage}.completeness.stats",
     params:
-        busco_list=lambda wildcards: (" -b " + ",".join(expand(out_dir_path / ("%s/%s/assembly_qc/busco5/%s.%s.{haplotype}.busco5.{busco_lineage}.summary" % (wildcards.assembly_stage,
-                                                                                                                                                              wildcards.parameters,
-                                                                                                                                                              wildcards.genome_prefix,
-                                                                                                                                                              wildcards.assembly_stage)),
-                       busco_lineage=config["busco_lineage_list"],
-                       haplotype=haplotype_list,
-                       allow_missing=True) )) if not config["skip_busco"] else "",
+        #busco_list=lambda wildcards: (" -b " + ",".join(expand(out_dir_path / ("%s/%s/assembly_qc/busco5/%s.%s.{haplotype}.busco5.{busco_lineage}.summary" % (wildcards.assembly_stage,
+        #                                                                                                                                                      wildcards.parameters,
+        #                                                                                                                                                      wildcards.genome_prefix,
+        #                                                                                                                                                      wildcards.assembly_stage)),
+        #               busco_lineage=config["busco_lineage_list"],
+        #               haplotype=haplotype_list,
+        #               allow_missing=True) )) if not config["skip_busco"] else "",
         haplotype_list=",".join(haplotype_list),
-        busco_lineage_list=",".join(config["busco_lineage_list"])
+        busco_lineage_list=(" -b " + ",".join(config["busco_lineage_list"])) if not config["skip_busco"] else ""
     output:
         stats=out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/{genome_prefix}.{assembly_stage}.parameter_stats"
     log:
