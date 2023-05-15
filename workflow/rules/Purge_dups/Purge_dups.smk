@@ -296,7 +296,7 @@ rule extract_stats_from_purge_dups_file:
 
     shell:
         " STATS_FILE={output.stat}; "
-        " ./workflow/scripts/calculate_purge_dups_stats.py  -b {input.bed} -s {input.stat} -o ${{STATS_FILE%.stats}} > {log.std} 2>&1;"
+        " ./workflow/scripts/calculate_purge_dups_stats.py  -b {input.bed} -s {input.stat} -o ${{STATS_FILE%.stat}} > {log.std} 2>&1;"
 
 rule extract_artefact_sequences:
     input:
