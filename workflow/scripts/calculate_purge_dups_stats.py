@@ -18,6 +18,7 @@ parser.add_argument("-o", "--output_prefix", action="store", dest="output_prefix
 
 args = parser.parse_args()
 
+artefact_set = {"HAPLOTIG", "JUNK", "REPEAT", "OVLP"}
 stat_cov_df = pd.read_csv(args.stat_file, sep="\t", header=None, names=["#scaffold", "length", "mean_cov", "median_cov"],
                           index_col=0)
 
@@ -41,4 +42,7 @@ for artefact in stats_df.index.unique():
                                                                                       index=False,
                                                                                       header=False)
 
+for artefact in artefact_set - set(stats_df.index.unique()):
+    with open("{0}.{1}.ids".format(args.output_prefix, str(artefact).lower()), "w") as out_fd:
+        pass
 
