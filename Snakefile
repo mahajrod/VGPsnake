@@ -342,11 +342,11 @@ if "smudgeplot" in config["stage_list"]:
                               ) for kmer_tool in config["kmer_counter_list"] ]  for dat_type in genome_size_estimation_data_type_set]
                     ]
 if "gcp" in config["stage_list"]:
-    results_list += [*[expand(output_dict["kmer"] / "{datatype}/{stage}/kat/{datatype}.{stage}.{kmer_length}.jellyfish.kat.gcp.mx.png",
+    results_list += [expand(output_dict["kmer"] / "{datatype}/{stage}/kat/{datatype}.{stage}.{kmer_length}.jellyfish.kat.gcp.mx.png",
                      datatype=[dat_type,],
                      stage=["filtered",],
                      kmer_length=parameters["tool_options"]["kat"][dat_type]["kmer_length"],
-                     )  for dat_type in parameters["tool_options"]["kat"]]
+                     )  for dat_type in parameters["tool_options"]["kat"]
                     ]
 
 
