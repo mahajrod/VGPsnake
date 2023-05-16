@@ -353,8 +353,9 @@
                     - 2048
                     - 4096
             "kat":
-                "kmer_length":
-                    - 31
+                "hifi":
+                    "kmer_length":
+                        - 31
             "yahs":
                 "restriction_seq":
                     "Arima": "GATC,GANTC"
