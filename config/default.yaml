@@ -352,6 +352,9 @@
                 "resolution":
                     - 2048
                     - 4096
+            "kat":
+                "kmer_length":
+                    - 31
             "yahs":
                 "restriction_seq":
                     "Arima": "GATC,GANTC"
@@ -706,7 +709,7 @@
             "taxonomy":     "eukaryota"
 
 "kmer_counter_list":
-    - "jellyfish"
+    #- "jellyfish"
     - "meryl"
 
 "allowed_data_types":
