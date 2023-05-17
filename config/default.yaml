@@ -68,6 +68,7 @@
             "jellyfish": 30
             "meryl": 30
             "meryl_extract": 10
+            "gc_count": 10
             "meryl_assembly": 5
             "meryl_extract_unique_hap_kmers": 10
             "extract_reads_by_unique_hap_kmers": 10
@@ -130,6 +131,7 @@
             "quast": 10000
             "merqury": 20000 # TODO: adjust
             "meryl": 80000
+            "gc_count": 80000 # TODO: adjust
             "meryl_assembly": 20000 # TODO: make it genomesize specific
             "meryl_extract_unique_hap_kmers": 20000
             "extract_reads_by_unique_hap_kmers": 20000
@@ -175,7 +177,8 @@
             "jellyfish": "08:00:00"
             "kat_gcp": "02:00:00"
             "meryl": "08:00:00"
-            "meryl_extract": "02:00:00"
+            "meryl_extract": "04:00:00"
+            "gc_count": "08:00:00"
             "meryl_assembly": "02:00:00"
             "meryl_extract_unique_hap_kmers": "05:00:00"
             "extract_reads_by_unique_hap_kmers": "24:00:00"
@@ -271,9 +274,13 @@
                 "hifi":
                     "kmer_length":
                         - 21
+                        - 31
+                        - 41
                 "illumina":
                     "kmer_length":
                         - 21
+                        - 31
+                        - 41
             "smudgeplot":
                 "lower_boundary":
                     - 10
@@ -352,6 +359,15 @@
                 "resolution":
                     - 2048
                     - 4096
+            "gcp":
+                "hifi":
+                    "kmer_length":
+                        - 21
+                        - 31
+                        - 41
+                    "min_coverage":
+                        - 0
+                        - 5
             "kat":
                 "hifi":
                     "kmer_length":
@@ -446,9 +462,13 @@
                 "hifi":
                     "kmer_length":
                         - 21
+                        - 31
+                        - 41
                 "illumina":
                     "kmer_length":
                         - 21
+                        - 31
+                        - 41
             "quast":
                 "large_genome": False
             "minimap2":
@@ -482,9 +502,13 @@
                 "hifi":
                     "kmer_length":
                         - 21
+                        - 31
+                        - 41
                 "illumina":
                     "kmer_length":
                         - 21
+                        - 31
+                        - 41
             "quast":
                 "large_genome": False
             "minimap2":
@@ -519,9 +543,13 @@
                 "hifi":
                     "kmer_length":
                         - 21
+                        - 31
+                        - 41
                 "illumina":
                     "kmer_length":
                         - 21
+                        - 31
+                        - 41
             "quast":
                 "large_genome": True
             "minimap2":
@@ -553,9 +581,13 @@
                 "hifi":
                     "kmer_length":
                         - 21
+                        - 31
+                        - 41
                 "illumina":
                     "kmer_length":
                         - 21
+                        - 31
+                        - 41
             "quast":
                 "large_genome": True
             "minimap2":
@@ -589,9 +621,13 @@
                 "hifi":
                     "kmer_length":
                         - 21
+                        - 31
+                        - 41
                 "illumina":
                     "kmer_length":
                         - 21
+                        - 31
+                        - 41
             "quast":
                 "large_genome": True
             "minimap2":
@@ -623,9 +659,13 @@
                 "hifi":
                     "kmer_length":
                         - 21
+                        - 31
+                        - 41
                 "illumina":
                     "kmer_length":
                         - 21
+                        - 31
+                        - 41
             "quast":
                 "large_genome": True
             "minimap2":
@@ -657,6 +697,8 @@
                 "hifi":
                     "kmer_length":
                         - 21
+                        #- 31
+                        #- 41
                 "illumina":
                     "kmer_length":
                         - 21
@@ -774,6 +816,7 @@
             "fastq":
                 - "read_qc"
                 - "filter_reads"
+                #- "kat" # obsolete, use gcp instead as KAT requires jellyfish database.
                 - "gcp"
                 #- "smudgeplot" # smudgeplot requires a lot of memory to operate on mammalian size genomes (>700 Gbp of memory). Turn this analysis on only if you are sure you have enough memory. TODO: replace smudgeplot by tools consuming less memory.
             "draft":
