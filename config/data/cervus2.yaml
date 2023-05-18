@@ -1,0 +1,985 @@
+#---- Conda config files and environments ----
+"conda":
+    "common":
+        "yaml": "workflow/envs/conda.common.yaml"
+        "name": "yggbase"
+    "salsa2":
+        "yaml": "workflow/envs/conda.salsa2.yaml"
+        "name": "salsa2"
+    "busco":
+        "yaml": "workflow/envs/conda.busco5.yaml"
+        "name": "busco5"
+    "mitohifi":
+        "yaml": "workflow/envs/conda.mitohifi.yaml"
+        "name": "mitohifi"
+    "singularity":
+        "yaml": "workflow/envs/conda.singularity.yaml"
+        "name": "singularity"
+    "kat":
+        "yaml": "workflow/envs/conda.kat.yaml"
+        "name": "kat"
+
+#----
+#---- Directory structure config ----
+
+#---- Resources ----
+#-------- References --------
+#-------- Variant filtration ---------
+#-------- Annotation --------
+
+#---- Input ----
+"input_dir": "input/"
+#----
+
+#----
+#---- Output directory and subdirectories ----
+"out_dir": "results"
+#--------- Subdirectories --------
+"first_level_subdir_list":
+  - "config"
+  - "data"
+  - "qc"
+  #- "assembly_qc"
+  - "log"
+  - "benchmark"
+  - "cluster_log"
+  - "cluster_error"
+  - "preprocessing"
+  #- "basecall"
+  - "kmer"
+  - "draft"
+  - "contig"
+  - "purge_dups"
+  - "lr_scaffolding"
+  - "bionano_scaffolding"
+  - "hic_scaffolding"
+  - "contamination_scan"
+#--------
+
+#---- Tool parameters ----
+"parameters":
+    "default":
+        "threads":
+            "create_fastq_links": 1
+            "create_links_for_draft": 1
+            "fastqc": 1
+            "multiqc": 1
+            "cutadapt": 10
+            "jellyfish": 30
+            "meryl": 30
+            "meryl_extract": 10
+            "gc_count": 10
+            "gc_plot": 1
+            "meryl_assembly": 5
+            "meryl_extract_unique_hap_kmers": 10
+            "extract_reads_by_unique_hap_kmers": 10
+            "subset_extracted_kmers": 1
+            "genomescope": 1
+            "parse_genomescope_output": 1
+            "hifiasm": 50
+            "gfa2fasta": 1
+            "busco5": 30
+            "compress_busco5": 1
+            "handle_busco5_output": 1
+            "quast": 4
+            "merqury": 20
+            "minimap2_index": 10
+            "minimap2": 40
+            "get_purge_dups_read_stat": 5 # ToDO: adjust, maybe even one is enough
+            "purge_dups": 5 # TODO: adjust, maybe even one is enough
+            "merge_pri_hapdups_with_alt": 1
+            "create_links": 1
+            "bwa_index": 1
+            "bwa_map": 50
+            "two_read_bam_combiner": 1
+            "samtools_sort": 4
+            "ref_faidx": 1
+            "ref_dict": 1
+            "rmdup": 4
+            "bam2bed": 4
+            "pretextmap": 3
+            "pretextsnapshot": 4
+            "salsa2": 10 #TODO: adjust
+            "yahs": 5
+            #"kraken2": 15 # set via allowed_databases variable
+            "smudgeplot_hetkmers": 1
+            "smudgeplot_plot": 1
+            "compress_kmer": 10
+            "get_seq_len": 1
+            "kat_gcp": 4
+            "gather_stage_stats": 1
+            "extract_coverage_from_purge_dups_file": 1
+            "extract_stats_from_purge_dups_file": 1
+            "extract_artefact_sequences": 1
+            #"fcs_gx": 50 # set via allowed_databases variable
+            mosdepth: 3
+            basecall: 30
+
+        "memory_mb":
+            "create_fastq_links": 100
+            "create_links_for_draft": 100
+            "fastqc": 5500
+            "multiqc": 1000
+            "cutadapt": 10000
+            "jellyfish": 200000
+            "genomescope": 300
+            "parse_genomescope_output": 100
+            "hifiasm": 50000
+            "gfa2fasta": 10000
+            "busco5": 20000
+            "compress_busco5": 1000
+            "handle_busco5_output": 100
+            "quast": 10000
+            "merqury": 20000 # TODO: adjust
+            "meryl": 80000
+            "gc_count": 80000 # TODO: adjust
+            "gc_plot": 1000
+            "meryl_assembly": 20000 # TODO: make it genomesize specific
+            "meryl_extract_unique_hap_kmers": 20000
+            "extract_reads_by_unique_hap_kmers": 20000
+            "subset_extracted_kmers": 5000
+            "minimap2_index": 10000 # TODO: adjust
+            "minimap2": 10000 # TODO: adjust
+            "get_purge_dups_read_stat": 10000 # ToDO: adjust, maybe even 1000 is enough
+            "purge_dups": 10000 # ToDO: adjust, maybe less is OK , or maybe it is dependent on the genome size
+            "merge_pri_hapdups_with_alt": 1000
+            "create_links": 100
+            "bwa_index": 10000
+            "bwa_map": 30000
+            "two_read_bam_combiner": 25000
+            "samtools_sort": 30000
+            "ref_faidx": 3000
+            "ref_dict": 3000
+            "rmdup": 15000
+            "bam2bed": 40000 # TODO: adjust depending on the genome size
+            "pretextmap": 10000
+            "pretextsnapshot": 5000
+            "salsa2": 50000 # TODO: adjust
+            #"kraken2": 50000 # # set via allowed_databases variable
+            "yahs": 10000
+            "smudgeplot_hetkmers": 500000 #TODO make genomesize dependent
+            "smudgeplot_plot": 10000 #TODO make genomesize dependent
+            "compress_kmer": 3000
+            "meryl_extract": 15000
+            "get_seq_len": 5000
+            "gather_stage_stats": 100
+            "extract_coverage_from_purge_dups_file": 5000
+            "extract_stats_from_purge_dups_file": 1000
+            "extract_artefact_sequences": 5000
+            #"fcs_gx": 512000 # set via allowed_databases variable
+            mosdepth: 4000 #The amount of memory is approximately equal to 32-bits * longest chrom length, so for the 249MB chromosome 1, it will require 1GB of memory.
+            basecall: 20000
+
+        "time": #TODO: adjust
+            "create_fastq_links": "00:05:00"
+            "create_links_for_draft": "00:05:00"
+            "fastqc": "04:00:00"
+            "multiqc": "00:10:00"
+            "cutadapt": "04:00:00"
+            "jellyfish": "08:00:00"
+            "kat_gcp": "02:00:00"
+            "meryl": "08:00:00"
+            "meryl_extract": "04:00:00"
+            "gc_count": "08:00:00"
+            "gc_plot": "01:00:00"
+            "meryl_assembly": "02:00:00"
+            "meryl_extract_unique_hap_kmers": "05:00:00"
+            "extract_reads_by_unique_hap_kmers": "24:00:00"
+            "subset_extracted_kmers": "01:00:00"
+            "genomescope": "01:00:00"
+            "parse_genomescope_output": "00:10:00"
+            "hifiasm": "08:00:00"
+            "gfa2fasta": "08:00:00"
+            "busco5": "24:00:00"
+            "compress_busco5": "05:00:00"
+            "handle_busco5_output": "00:05:00"
+            "quast": "02:00:00"
+            "merqury": "12:00:00"
+            "minimap2_index": "12:00:00"
+            "minimap2": "12:00:00"
+            "get_purge_dups_read_stat": "12:00:00" # TODO: adjust
+            "purge_dups": "10:00:00" # TODO adjust depending on genome size
+            "merge_pri_hapdups_with_alt": "01:00:00"
+            "create_links": "00:01:00"
+            "bwa_index": "5:00:00"
+            "bwa_map": "12:00:00"
+            "two_read_bam_combiner": "5:00:00"
+            "samtools_sort": "8:00:00"
+            "ref_faidx": "02:00:00"
+            "ref_dict": "02:00:00"
+            "rmdup": "24:00:00"
+            "bam2bed": "5:00:00"
+            "pretextmap": "8:00:00"
+            "pretextsnapshot": "04:00:00"
+            "salsa2": "12:00:00"
+            "yahs": "12:00:00"
+            #"kraken2": "12:00:00" # set via allowed_databases variable
+            "smudgeplot_hetkmers": "60:00:00" #TODO make genomesize dependent
+            "smudgeplot_plot": "24:00:00" #TODO make genomesize dependent
+            "compress_kmer": "03:00:00"
+            "get_seq_len": "01:00:00"
+            "gather_stage_stats": "00:05:00"
+            "extract_coverage_from_purge_dups_file": "05:00:00"
+            "extract_stats_from_purge_dups_file" : "01:00:00"
+            "extract_artefact_sequences": "01:00:00"
+            #"fcs_gx": "03:00:00" # set via allowed_databases variable
+
+            mosdepth: "02:00:00"
+            basecall: "10:00:00"
+
+            bowtie2_index: "12:00:00"
+
+            get_basecall_stats: "00:10:00"
+
+        "tool_options":
+            "cutadapt":
+                "hifi":
+                    "min_length": 1000
+                    "error_rate": 0.1 # --error-rate / -e
+                    "min_adapter_length": 35 # --overlap / -O
+                    "adapter_match_times": 3 # -n / --times
+                    "check_read_rc": True # --rc
+                    "discard_trimmed": True # --discard-trimmed / --discard
+                    "forward_anywhere_adapter_list": # -b, multiple times
+                        - "ATCTCTCTCAACAACAACAACGGAGGAGGAGGAAAAGAGAGAGAT" # SMRT bell adapter
+                        - "ATCTCTCTCTTTTCCTCCTCCTCCGTTGTTGTTGTTGAGAGAGAT" # SMRT bell adapter rev com
+                        - "AAAAAAAAAAAAAAAAAATTAACGGAGGAGGAGGA"           # C2 primer, required for MagBead loading, but is not necessary for diffusion loading
+                    "reverse_anywhere_adapter_list": []
+                "illumina":
+                    "min_read_length": 50
+                    "forward_three_prime_adapter_list":
+                        - "AGATCGGAAGAGC"
+                    "reverse_three_prime_adapter_list":
+                        - "AGATCGGAAGAGC"
+            "fastqc":
+                "kmer_length": 7
+            "mosdepth":
+                "min_mapping_quality": 10
+            "jellyfish":
+                "min_coverage": 1
+                "max_coverage": 100000000
+                "increment": 1
+                "hifi":
+                    "kmer_length":
+                        - 21
+                    "hash_size": "20G"
+                    "min_coverage": 1
+                    "max_coverage": 100000000
+                    "increment": 1
+                "illumina":
+                    "kmer_length":
+                        - 21
+                    "hash_size": "20G"
+                    "min_coverage": 1
+                    "max_coverage": 100000000
+                    "increment": 1
+            "meryl":
+                "hifi":
+                    "kmer_length":
+                        - 21
+                        - 31
+                        - 41
+                "illumina":
+                    "kmer_length":
+                        - 21
+                        - 31
+                        - 41
+            "smudgeplot":
+                "lower_boundary":
+                    - 10
+                "upper_boundary":
+                    - 1500
+            "hifiasm":
+                "default":
+                    "purge level": 0 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": True
+                "l0primary":
+                    "purge level": 0 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": True
+                "l1primary":
+                    "purge level": 1 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": True
+                "l2primary":
+                    "purge level": 2 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": True
+                "l3primary":
+                    "purge level": 3 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": True
+                "l0":
+                    "purge level": 0 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": False
+                "l1":
+                    "purge level": 1 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": False
+                "l2":
+                    "purge level": 2 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": False
+                "l3":
+                    "purge level": 3 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": False
+                "repeat_enhanced_l1":
+                    "purge level": 1 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": False
+                    "D": 10
+                    "N": 200
+                    "ignore_bin": True
+                "repeat_enhanced_l2":
+                    "purge level": 2 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "primary": False
+                    "D": 10
+                    "N": 200
+                    "ignore_bin": True
+            "purge_dups":
+                "default":
+                    "cov_multiplicator": 4.5 # 4.5 *lambda
+            "quast":
+                "large_genome": True
+            "minimap2":
+                "index_size": "4G"
+                "self_alignment_scheme": " -xasm5 -DP " #TODO: check if it OK, and what scheme is used in the ERGA pipeline
+                "hifi_alignment_scheme": " -x map-hifi "
+            "two_read_bam_combiner":
+                "mapq": 10
+            "pretextmap":
+                "mapq": 10
+                "sortby": "length"
+                "sortorder": "descend"
+            "pretextsnapshot":
+                "sequences": "=full"
+                "format":
+                    - "png"
+                "resolution":
+                    - 2048
+                    - 4096
+            "gcp":
+                "hifi":
+                    "kmer_length":
+                        - 21
+                        - 31
+                        - 41
+                        - 51
+                    "min_coverage":
+                        - 3
+                        - 5
+            "kat":
+                "hifi":
+                    "kmer_length":
+                        - 31
+            "yahs":
+                "restriction_seq":
+                    "Arima": "GATC,GANTC"
+                    "Arima4": "GATC,GANTC,CTNAG,TTAA"
+                    "OmniC": "DNASE"
+                    "MboI": "GATC"
+                "ligation_motif":
+                    "Arima": "GAATAATC,GAATACTC,GAATAGTC,GAATATTC,GAATGATC,GACTAATC,GACTACTC,GACTAGTC,GACTATTC,GACTGATC,GAGTAATC,GAGTACTC,GAGTAGTC,GAGTATTC,GAGTGATC,GATCAATC,GATCACTC,GATCAGTC,GATCATTC,GATCGATC,GATTAATC,GATTACTC,GATTAGTC,GATTATTC,GATTGATC"
+                    "HindIII": "AAGCTAGCTT"
+                    "DpnII": "GATCGATC"
+                    "MboI": "GATCGATC"
+                    "NcoI": "CCATGCATGG"
+                    "Csp6I_MseI": "TTATAA,GTATAC,GTATAA,TTATAC"
+                "default":
+                     "min_contig_len": 1000
+                     "min_mapping_quality": 10
+            "salsa2":
+                "restriction_seq":
+                    "Arima": "GATC,GANTC"
+                    "Arima4": "GATC,GANTC,CTNAG,TTAA"
+                    "OmniC": "DNASE"
+                    "MboI": "GATC"
+                "ligation_motif":
+                    "Arima": "GAATAATC,GAATACTC,GAATAGTC,GAATATTC,GAATGATC,GACTAATC,GACTACTC,GACTAGTC,GACTATTC,GACTGATC,GAGTAATC,GAGTACTC,GAGTAGTC,GAGTATTC,GAGTGATC,GATCAATC,GATCACTC,GATCAGTC,GATCATTC,GATCGATC,GATTAATC,GATTACTC,GATTAGTC,GATTATTC,GATTGATC"
+                    "HindIII": "AAGCTAGCTT"
+                    "DpnII": "GATCGATC"
+                    "MboI": "GATCGATC"
+                    "NcoI": "CCATGCATGG"
+                    "Csp6I_MseI": "TTATAA,GTATAC,GTATAA,TTATAC"
+                "default":
+                     "min_contig_len": 1000
+    "micro": # < 15 Mbp, yeasts and bacteria
+        "threads":
+            "create_fastq_links": 1
+            "create_links_for_draft": 1
+            "fastqc": 1
+            "multiqc": 1
+            "cutadapt": 5
+            "jellyfish": 10
+            "meryl": 10
+            "genomescope": 1
+            "parse_genomescope_output": 1
+            "hifiasm": 20
+            "gfa2fasta": 1
+            "busco5": 10
+            "quast": 4
+            "merqury": 20
+            "minimap2_index": 2
+            "minimap2": 10
+            "get_purge_dups_read_stat": 5 # ToDO: adjust, maybe even one is enough
+            "purge_dups": 5 # TODO: adjust, maybe even one is enough
+            "merge_pri_hapdups_with_alt": 1
+            "create_links": 1
+            "bwa_index": 1
+            "bwa_map": 8
+            "two_read_bam_combiner": 1
+            "samtools_sort": 4
+            "ref_faidx": 1
+            "ref_dict": 1
+            "rmdup": 4
+            "bam2bed": 4
+            "pretextmap": 3
+            "pretextsnapshot": 4
+            "salsa2": 10 #TODO: adjust
+        "memory_mb":
+            "jellyfish": 2000
+            "kat_gcp": 2000 # same memory as jellyfish
+            "meryl": 2000
+            "hifiasm": 20000 # needs adjustment, very approximate value
+            "minimap2_index": 3000
+            "minimap2": 3000
+        "time":
+            "jellyfish": "01:00:00"
+            "hifiasm": "02:00:00"
+            "minimap2_index": "00:10:00"
+            "minimap2": "01:00:00"
+        "tool_options":
+            "jellyfish":
+                "hifi":
+                    "kmer_length":
+                        - 21
+                    "hash_size": "200M"
+                "illumina":
+                    "kmer_length":
+                        - 21
+                    "hash_size": "200M"
+            "meryl":
+                "hifi":
+                    "kmer_length":
+                        - 21
+                        - 31
+                        - 41
+                "illumina":
+                    "kmer_length":
+                        - 21
+                        - 31
+                        - 41
+            "quast":
+                "large_genome": False
+            "minimap2":
+                "index_size": "4G"
+    "mini": # < 150 Mbp, fungi, Arabidopsis thaliana and Caenorabditis elegans
+        "threads":
+            "bwa_map": 16
+        "memory_mb":
+            "jellyfish": 20000
+            "kat_gcp": 20000
+            "meryl": 20000
+            "hifiasm": 50000
+            "minimap2_index": 10000
+            "minimap2": 10000
+        "time":
+            "jellyfish": "02:00:00"
+            "hifiasm": "04:00:00"
+            "minimap2_index": "00:20:00"
+            "minimap2": "04:00:00"
+        "tool_options":
+            "jellyfish":
+                "hifi":
+                    "kmer_length":
+                        - 21
+                    "hash_size": "2G"
+                "illumina":
+                    "kmer_length":
+                        - 21
+                    "hash_size": "2G"
+            "meryl":
+                "hifi":
+                    "kmer_length":
+                        - 21
+                        - 31
+                        - 41
+                "illumina":
+                    "kmer_length":
+                        - 21
+                        - 31
+                        - 41
+            "quast":
+                "large_genome": False
+            "minimap2":
+                "index_size": "4G"
+    "small": # < 500 Mbp, drosophilla, tetraodon
+        "threads":
+            "bwa_map": 32
+        "memory_mb":
+            "jellyfish": 60000
+            "kat_gcp": 60000
+            "meryl": 60000
+            "hifiasm": 80000
+            "minimap2_index": 10000
+            "minimap2": 10000
+            "smudgeplot_hetkmers": 250000
+        "time":
+            "jellyfish": "04:00:00"
+            "hifiasm": "08:00:00"
+            "minimap2_index": "00:30:00"
+            "minimap2": "10:00:00"
+        "tool_options":
+            "jellyfish":
+                "hifi":
+                    "kmer_length":
+                        - 21
+                    "hash_size": "7G"
+                "illumina":
+                    "kmer_length":
+                        - 21
+                    "hash_size": "7G"
+            "meryl":
+                "hifi":
+                    "kmer_length":
+                        - 21
+                        - 31
+                        - 41
+                "illumina":
+                    "kmer_length":
+                        - 21
+                        - 31
+                        - 41
+            "quast":
+                "large_genome": True
+            "minimap2":
+                "index_size": "4G"
+    "normal": # < 1500 Mbp, most of the birds
+        "memory_mb":
+            "jellyfish": 200000
+            "kat_gcp":   200000
+            "hifiasm":   160000
+            "meryl":      80000
+            "minimap2_index": 10000
+            "minimap2":       20000
+        "time":
+            "jellyfish": "08:00:00"
+            "hifiasm": "12:00:00"
+            "minimap2_index": "01:00:00"
+            "minimap2": "10:00:00"
+        "tool_options":
+            "jellyfish":
+                "hifi":
+                    "kmer_length":
+                        - 21
+                    "hash_size": "20G"
+                "illumina":
+                    "kmer_length":
+                        - 21
+                    "hash_size": "20G"
+            "meryl":
+                "hifi":
+                    "kmer_length":
+                        - 21
+                        - 31
+                        - 41
+                "illumina":
+                    "kmer_length":
+                        - 21
+                        - 31
+                        - 41
+            "quast":
+                "large_genome": True
+            "minimap2":
+                "index_size": "4G"
+    "big": # < 2500 Mbp, most of the mammals
+        "memory_mb":
+            "jellyfish": 300000
+            "kat_gcp":   300000
+            "hifiasm":   300000
+            "meryl":     300000
+            "minimap2_index": 20000
+            "minimap2":       30000
+        "threads":
+            "hifiasm": 100
+        "time":
+            "jellyfish": "12:00:00"
+            "hifiasm": "16:00:00"
+            "minimap2_index": "02:00:00"
+            "minimap2": "20:00:00"
+        "tool_options":
+            "jellyfish":
+                "hifi":
+                    "kmer_length":
+                        - 21
+                    "hash_size": "32G"
+                "illumina":
+                    "kmer_length":
+                        - 21
+                    "hash_size": "32G"
+            "meryl":
+                "hifi":
+                    "kmer_length":
+                        - 21
+                        - 31
+                        - 41
+                "illumina":
+                    "kmer_length":
+                        - 21
+                        - 31
+                        - 41
+            "quast":
+                "large_genome": True
+            "minimap2":
+                "index_size": "10G"
+    "large": # < 5000 Mbp, human
+        "memory_mb":
+            "jellyfish": 600000
+            "kat_gcp":   600000
+            "meryl":     300000
+            "hifiasm":   500000
+            "minimap2_index": 20000
+            "minimap2":       40000
+        "time":
+            "jellyfish": "24:00:00"
+            "hifiasm": "24:00:00"
+            "minimap2_index": "04:00:00"
+            "minimap2": "40:00:00"
+        "tool_options":
+            "jellyfish":
+                "hifi":
+                    "kmer_length":
+                        - 21
+                    "hash_size": "64G"
+                "illumina":
+                    "kmer_length":
+                        - 21
+                    "hash_size": "64G"
+            "meryl":
+                "hifi":
+                    "kmer_length":
+                        - 21
+                        - 31
+                        - 41
+                "illumina":
+                    "kmer_length":
+                        - 21
+                        - 31
+                        - 41
+            "quast":
+                "large_genome": True
+            "minimap2":
+                "index_size": "10G"
+    "giant": # < 15000 Mbp, big plant genomes
+        "memory_mb":
+            "jellyfish": 1100000
+            "kat_gcp":   1100000
+            "meryl":      300000
+            "hifiasm":   1000000
+            "minimap2_index": 30000
+            "minimap2":       70000
+        "time":
+            "jellyfish": "48:00:00"
+            "hifiasm": "48:00:00"
+            "minimap2_index": "08:00:00"
+            "minimap2": "100:00:00"
+        "tool_options":
+            "jellyfish":
+                "hifi":
+                    "kmer_length":
+                        - 21
+                    "hash_size": "128G"
+                "illumina":
+                    "kmer_length":
+                        - 21
+                    "hash_size": "128G"
+            "meryl":
+                "hifi":
+                    "kmer_length":
+                        - 21
+                        #- 31
+                        #- 41
+                "illumina":
+                    "kmer_length":
+                        - 21
+            "quast":
+                "large_genome": True
+            "minimap2":
+                "index_size": "30G"
+
+"allowed_databases":
+    "kraken2":
+        "silva":
+            "path":         "" # add path to silva database
+            "memory_mb":    10000
+            "threads":      15
+            "time":         "06:00:00"
+            "in_memory":    True
+        "rdp":
+            "path":         "" # add path to rdp database
+            "memory_mb":    10000
+            "threads":      15
+            "time":         "06:00:00"
+            "in_memory":    True
+        "greengenes":
+            "path":         "" # add path to greengenes database
+            "memory_mb":    10000
+            "threads":      15
+            "time":         "06:00:00"
+            "in_memory":    True
+        "nt":
+            "path":         "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/db/kraken2/nt/20220915/" # add path to nt database
+            "memory_mb":    500000
+            "threads":      30
+            "time":         "03:00:00"
+            "in_memory":    True
+    "fcs":
+        "fcs_gx":
+            "path":         "/scratch/yggdrasil/db/fcs/gxdb/" # add path to fcs_gx database
+            "image_path":   "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/soft/FCS-GX/fcs-gx.sif"
+            "memory_mb":    512000 # Entire database must be in memory, it requires at least 490 Gbp
+            "threads":      30
+            "time":         "06:00:00"
+            "in_memory":    True
+    "fcs_adaptor":
+        "adaptor":
+            "path":         null # database is embedded in singularity image
+            "image_path":   "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/soft/fcsadaptor/fcs-adaptor.sif"
+            "memory_mb":    20000 #
+            "threads":      1
+            "time":         "01:00:00"
+            "in_memory":    True
+            "taxonomy":     "eukaryota"
+
+"kmer_counter_list":
+    #- "jellyfish"
+    - "meryl"
+
+"allowed_data_types":
+    - "hifi"
+    #- "clr"
+    #- "nanopore"
+    #- "bionano"
+    - "hic"
+    - "illumina"
+    #- "lr"
+
+"long_read_data":
+    - "hifi"
+    - "clr"
+    - "nanopore"
+
+"genome_size_estimation_data":
+    - "hifi"
+    - "illumina"
+
+"kraken_scan_data":
+    - "hifi"
+    - "illumina"
+    - "hic"
+
+"read_phasing_data":
+    - "hic"
+    - "hifi" # optional, uncomment only when necessary
+    # - "clr"
+
+"filtered_data":
+    - "hifi"
+    - "illumina"
+
+"fastq_based_data":
+    - "hifi"
+    - "clr"
+    - "nanopore"
+    - "hic"
+    - "lr"
+    - "illumina"
+
+"paired_fastq_based_data":
+    - "hic"
+    - "lr"
+    - "illumina"
+
+"fastq_extension": ".fastq.gz"
+"cmap_extension": ".cmap"
+
+"allowed_stage_list": # Dictionary containing description of stage variants
+    "preprocessing":                 # mega_stage
+        "default":                   # stage_set_name
+            "fastq":                 # starting point
+                - "check_reads"      # stage
+            "draft":                 # starting point
+                - "check_reads"      # stage
+                - "check_draft"      # stage
+    "qc":
+        "default":
+            "fastq":
+                - "read_qc"
+                - "filter_reads"
+                #- "kat" # obsolete, use gcp instead as KAT requires jellyfish database.
+                - "gcp"
+                #- "smudgeplot" # smudgeplot requires a lot of memory to operate on mammalian size genomes (>700 Gbp of memory). Turn this analysis on only if you are sure you have enough memory. TODO: replace smudgeplot by tools consuming less memory.
+            "draft":
+                - "read_qc"
+                - "filter_reads"
+                #- "filter_draft"
+                - "draft_qc"
+    "assembly": #TODO: add bionano
+        "default": # same as "full"
+            "fastq":
+                - "contig"
+                - "purge_dups"
+                - "hic_scaffolding"
+            "draft": #TODO: implement
+                - "purge_dups"
+                - "hic_scaffolding"
+        "full":
+            "fastq":
+                - "contig"
+                - "purge_dups"
+                - "hic_scaffolding"
+            "draft": #TODO: implement
+                - "purge_dups"
+                - "hic_scaffolding"
+        "hic_scaffolding":
+            "fastq":
+                - "contig"
+                - "purge_dups"
+                - "hic_scaffolding"
+            "draft": #TODO: implement
+                - "purge_dups"
+                - "hic_scaffolding"
+        "purge_dups":
+            "fastq":
+                - "contig"
+                - "purge_dups"
+            "draft": #TODO: implement
+                - "purge_dups"
+        "contig":
+            "fastq":
+                - "contig"
+            "draft": []
+
+"stage_coretools":     #TODO: add bionano
+    "filtering":
+        "hifi": "cutadapt"
+        "illumina": "cutadapt"
+    "contig":
+        "hifi":
+            - "hifiasm" # Allowed: "hifiasm". TODO: "hicanu", "ipa", "flye", "nextdenovo"
+        #"clr":
+        #"nanopore":
+    "purge_dups":
+        "default":
+            - "purge_dups"
+    "hic_scaffolding":
+        "default":
+            - "salsa2" # Allowed: "salsa2", "yahs" TODO:  "3d-dna"
+
+"tool_specific_features":
+    "hifiasm":
+        "options_affecting_error_correction":
+            - "D"                               # -D
+            - "N"                               # -N
+            - "kmer_len"                        # -k
+            - "window_size"                     # -w
+            - "bloom_filter_bits"               # -f
+            - "rounds_of_error_correction"      # -r
+            - "length_of_adapters"              # -z
+            - "max-kocc"                        # --max-kocc
+            - "hg-size"                         # --hg-size
+        "options_affecting_hic_phasing":
+            - "seed"            # --seed
+            - "s-base"          # --s-base
+            - "n-weight"        # --n-weight
+            - "n-perturb"       # --n-perturb
+            - "f-perturb"       # --f-perturb
+            - "l-misjoin"       # --l-msjoin
+"coretool_option_sets":
+    "hifiasm":
+         #- "l0primary"
+         - "l1primary"
+         - "l2primary"
+         #- "l3primary"
+         #- "l0"
+         #- "l1"
+         #- "l2"
+         #- "l3"
+         #- "repeat_enhanced_l1"
+         #- "repeat_enhanced_l2"
+    "purge_dups":
+        - "default"
+    "salsa2":
+        - "default"
+    "yahs":
+        - "default"
+
+"ploidy": 2
+"genome_prefix": "genome"
+"busco_lineage_list":
+    - "mammalia_odb10" #
+"species_name": "species species"
+"tax_id": null # necessary for contamination scan via FCS
+
+"database_set":
+    "kraken2":
+        - "nt"                      # configure corresonding entry in "allowed_databases"
+    "fcs_adaptor":
+        - "adaptor"
+    "fcs":
+        - "fcs_gx"
+#Often used BUSCO lineages: mammalia_odb10, vertebrata_odb10, laurasiatheria_odb10, carnivora_odb10,
+#                           actinopterygii_odb10, saccharomycetes_odb10, sauropsida_odb10, aves_odb10
+
+
+"final_kmer_counter": "meryl" # pipeline allows usage of different kmer counter tools, but only one genomesize assessment could be used
+"final_kmer_length": 21 # pipeline allows usage of different kmer length, but only one genomesize assessment could be used
+"final_kmer_datatype": "hifi"
+"assembly_kmer_length": 31 # kmer length to be used for phasing hic reads using assembled and purge_dupsed contigs
+
+"contig_datatype": "hifi"
+
+"hic_enzyme_set": "Arima"
+"custom_enzyme_set": null # None
+
+#---- Custom tools ----
+#"MAVR_path": "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/soft/MAVR/"
+#"MACE_path": "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/soft/MACE/"
+#---- Pipeline modes ----
+
+"starting_point": "fastq" # Allowed: "draft"
+"data_types": "hifi,hic" # TODO: add  "hifi,lr,bionano,hic", "hifi,lr,hic"  and "hifi" and others
+
+"mode": "assembly"                # Allowed: "preprocessing", "qc", "assembly"
+"preprocessing_mode": "default"   # Allowed: "default"
+"qc_mode": "default"              # Allowed: "default"
+"assembly_mode": "full"           # Allowed: "default", "full", "purge_dups", "contig"; custom modes could be set in config file
+
+"custom_preprocessing_stages": []
+"custom_qc_stages": []
+"custom_assembly_stages": []
+"skip_busco": False
+#"adaptor_scan": True
+#"fcs_gx_scan": True
+# Allowed modes:
+#       with starting_point "fastq":
+#           "check_input"              : check of the input data and generation of the final config
+#           "qc"                       : "check_input" + QC
+#           "filtering"                : "qc" + filtering of the input data
+#           "contig"                   : "filtering" + contig assembly
+#           "purge_dups"               : "contig" + purging of haplotype duplicates
+#           "hic_scaffolding"          : "purge_dups" + HiC-scaffolding
+#           "full"                     : same as "hic_scaffolding"
+#       with starting_point "draft":
+#           "purge_dups"               : purging of haplotype duplicates from draft assembly
+#           "hic_scaffolding"          : "purge_dups" + HiC-scaffolding
+
+
+# TODO:  add modes:  "create_map_bionano", "bionano_scaffolding"
+
+"parameter_set": "default" # Choice of genome-size based set of parameters
+"use_existing_envs": False # works only if --use-conda flag was set in snakemake command
