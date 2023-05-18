@@ -2,7 +2,7 @@
 #TODO: check tools and versions
 "name": "yggbase"
 "channels":
-  - ""
+  - "mahajrod"
   - "bioconda"
   - "conda-forge"
   - "anaconda"
@@ -23,7 +23,7 @@
   - "samtools>=1.10"
   - "mosdepth>=0.3.1"
   - "numpy<1.24" # NumPy v 1.24 and higher is incompatible with pairtools
-  - "scipy!=1.10"
+  - "scipy"
   - "pandas>=1.2"
   - "matplotlib"
   - "bedtools>=2.26"
@@ -45,9 +45,6 @@
   - "mavr>=0.97"
   - "jellyfish>=2"
   - "krater"
-
-
-
 
 #Installation via pip - fastqcparser
 #Manual Installation - pisces=5.3
