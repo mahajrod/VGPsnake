@@ -349,7 +349,7 @@ if "kat" in config["stage_list"]:
                      )  for dat_type in parameters["tool_options"]["kat"]
                     ]
 if "gcp" in config["stage_list"]:
-    results_list += [expand(output_dict["kmer"] / "{datatype}/{stage}/gcp/{datatype}.{stage}.{kmer_length}.L{min_coverage}.counts",
+    results_list += [expand(output_dict["kmer"] / "{datatype}/{stage}/gcp/{datatype}.{stage}.{kmer_length}.L{min_coverage}.heatmap.png",
                      datatype=[dat_type,],
                      stage=["filtered",],
                      kmer_length=parameters["tool_options"]["gcp"][dat_type]["kmer_length"],
