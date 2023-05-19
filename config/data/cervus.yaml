@@ -3,6 +3,7 @@
     "common":
         "yaml": "workflow/envs/conda.common.yaml"
         "name": "yggbase"
+        "pip": "workflow/envs/pip.common.requirements"
     "salsa2":
         "yaml": "workflow/envs/conda.salsa2.yaml"
         "name": "salsa2"
