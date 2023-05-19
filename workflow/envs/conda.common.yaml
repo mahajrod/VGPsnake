@@ -44,4 +44,4 @@
   - "routoolpa>=0.95"
   - "mavr>=0.97"
   - "jellyfish>=2"
-  - "krater>=2.7.5"
+  - "krater>=2.7.7"
