@@ -5,7 +5,7 @@ rule install_from_pip:
     input:
         requirements="workflow/envs/pip.{conda_env}.requirements"
     output:
-        requirements="results/config/pip.{conda_env}.requirements"
+        requirements=temp("results/config/pip.{conda_env}.requirements") # temp to force rule execution every... hm, nearly every... run of the pipeline
     log:
         pip=output_dict["log"]  / "install_from_pip.{conda_env}.pip.log",
         cp=output_dict["log"]  / "install_from_pip.{conda_env}.cp.log",

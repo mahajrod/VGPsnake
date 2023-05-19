@@ -46,14 +46,14 @@ rule gc_plot:
     params:
         ploidy=config["ploidy"],
     log:
-        gc_count=output_dict["log"] / "gc_plot.{datatype}/{stage}/gcp/{datatype}.{stage}.{kmer_length}.L{min_coverage}..log",
+        gc_count=output_dict["log"] / "gc_plot.{datatype}/{stage}/gcp/{datatype}.{stage}.{kmer_length}.L{min_coverage}.log",
         meryl=output_dict["log"] / "gc_plot.{datatype}/{stage}/gcp/{datatype}.{stage}.{kmer_length}.L{min_coverage}.log",
         cluster_log=output_dict["cluster_log"] / "gc_plot.{datatype}/{stage}/gcp/{datatype}.{stage}.{kmer_length}.L{min_coverage}.cluster.log",
         cluster_err=output_dict["cluster_error"] / "gc_plot.{datatype}/{stage}/gcp/{datatype}.{stage}.{kmer_length}.L{min_coverage}.cluster.err"
     benchmark:
         output_dict["benchmark"] / "gc_plot.{datatype}/{stage}/gcp/{datatype}.{stage}.{kmer_length}.L{min_coverage}.benchmark.txt"
     conda:
-        config["conda"]["kat"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["kat"]["yaml"])
+        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
         cpus=parameters["threads"]["gc_plot"],
         time=parameters["time"]["gc_plot"],
@@ -63,6 +63,6 @@ rule gc_plot:
     shell:
          " LAMBDA=`awk 'NR==2 {{printf \"%.0f\", $2}}' {input.genomescope_report}`; "
          " HEATMAP_PNG_NAME={output.heatmap_png}; "
-         " HEATMAP_PNG_NAME=${{HEATMAP_PNG_NAME%.heatmap.png}}; "
+         " HEATMAP_PNG_PREFIX=${{HEATMAP_PNG_NAME%.heatmap.png}}; "
          " draw_gc_plot.py -i {input.counts}  -k {wildcards.kmer_length} -l ${{LAMBDA}} "
-         " -p {params.ploidy} -m 4 -o test > {log.gc_count}" # -g 8 TODO: implement GC fraction calculation
+         " -p {params.ploidy} -m 4 -o ${{HEATMAP_PNG_PREFIX}} > {log.gc_count}" # -g 8 TODO: implement GC fraction calculation
