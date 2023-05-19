@@ -65,4 +65,4 @@ rule gc_plot:
          " HEATMAP_PNG_NAME={output.heatmap_png}; "
          " HEATMAP_PNG_PREFIX=${{HEATMAP_PNG_NAME%.heatmap.png}}; "
          " draw_gc_plot.py -i {input.counts}  -k {wildcards.kmer_length} -l ${{LAMBDA}} "
-         " -p {params.ploidy} -m 4 -o ${{HEATMAP_PNG_PREFIX}} > {log.gc_count}" # -g 8 TODO: implement GC fraction calculation
+         " -p {params.ploidy} -m 4 -o ${{HEATMAP_PNG_PREFIX}} > {log.gc_count} 2>&1; " # -g 8 TODO: implement GC fraction calculation
