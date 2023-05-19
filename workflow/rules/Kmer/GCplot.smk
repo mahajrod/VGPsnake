@@ -3,7 +3,8 @@ rule gc_count:
         db=output_dict["kmer"] / "{datatype}/{stage}/{datatype}.{stage}.{kmer_length}.meryl"
     output:
         counts=output_dict["kmer"] / "{datatype}/{stage}/gcp/{datatype}.{stage}.{kmer_length}.L{min_coverage}.counts",
-    #params:
+    params:
+        tmp_dir=config["tmp_dir"]
         #kmer_length=lambda wildcards: parameters["tool_options"]["jellyfish"][wildcards.datatype]["kmer_length"],
         #min_coverage=lambda wildcards: "greater-than {0}".format(parameters["tool_options"]["gcp"][wildcards.datatype]["min_coverage"]) if "min_coverage" in parameters["tool_options"]["gcp"][wildcards.datatype] else "",
         #max_coverage=lambda wildcards: "less-than {0}".format(parameters["tool_options"]["gcp"][wildcards.datatype]["max_coverage"]) if "max_coverage" in parameters["tool_options"]["gcp"][wildcards.datatype] else "",
@@ -28,7 +29,8 @@ rule gc_count:
         parameters["threads"]["gc_count"]
     shell: # output: coverage\tgc\tcount\n
          " meryl threads={threads} memory={resources.mem}m greater-than {wildcards.min_coverage} "
-         " print {input.db} 2>{log.meryl} | count_kmer_gc.py 2>{log.gc_count} | sort -k2,2n -k1,1n 2>{log.sort} | "
+         " print {input.db} 2>{log.meryl} | count_kmer_gc.py 2>{log.gc_count} | "
+         " sort -T {params.tmp_dir} -k2,2n -k1,1n 2>{log.sort} | "
          " uniq -c 2>{log.uniq} |  sed 's/^\s\+//;s/ /\\t/' 2>{log.sed} | "
          " awk '{{printf \"%i\\t%i\\t%i\\n\", $3,$2,$1 }}' > {output.counts} 2>{log.awk} "
 
