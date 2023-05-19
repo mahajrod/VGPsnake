@@ -40,7 +40,7 @@ rule gc_plot:
                                                                                                                           config["final_kmer_datatype"],
                                                                                                                           config["final_kmer_length"],
                                                                                                                           config["final_kmer_counter"])),
-
+        pip="results/config/pip.common.requirements" # added to ensure that distinctipy package was installed
     output:
         heatmap_png=output_dict["kmer"] / "{datatype}/{stage}/gcp/{datatype}.{stage}.{kmer_length}.L{min_coverage}.heatmap.png",
     params:

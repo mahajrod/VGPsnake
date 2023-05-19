@@ -264,6 +264,11 @@ primary_haplotype = "hap1"
 
 results_list = []
 
+for conda_env in config["conda"]:
+    if "pip" in config["conda"][conda_env]:
+        results_list += [expand("results/config/pip.{conda_env}.requirements",
+                                conda_env=[conda_env])]
+
 #---- Create output filelist ----
 if "check_reads" in config["stage_list"]:
     results_list += [
@@ -364,12 +369,48 @@ if "contig" in config["stage_list"]:
     assembler_list = config["stage_coretools"]["contig"][config["contig_datatype"]]
     stage_dict["contig"]["parameters"] = {}
 
+    option_cluster_dict = {}
+    option_cluster_reverse_dict = {}
+    # Cluster assembler option sets by options affecting read correction:
+    for assembler in assembler_list:
+        option_cluster_dict[assembler] = {}
+        for option_set in config["coretool_option_sets"][assembler]:
+            for option_supergroup in ["options_affecting_error_correction"]:
+                option_cluster_dict[assembler][option_supergroup] = {}
+                option_set_list = []
+                for option in config["tool_specific_features"][assembler][option_cl]:
+                    if option in parameters["tool_options"][assembler][option_set]:
+                        option_set_list.append("{0}_{1}".format(option, parameters["tool_options"][assembler][option_set]))
+                    else:
+                        option_set_list.append("{0}_default".format(option))
+                option_set_cluster_name = ".".join(option_set_list)
+
+                if option_set_cluster_name in option_cluster_dict[assembler]:
+                    option_cluster_dict[assembler][option_supergroup][option_set_cluster_name].append(option_set)
+                else:
+                    option_cluster_dict[assembler][option_supergroup][option_set_cluster_name] = [option_set]
+
+    for assembler in assembler_list:
+        option_cluster_reverse_dict[assembler] = {}
+        for option_supergroup in ["options_affecting_error_correction"]:
+            option_cluster_reverse_dict[assembler][option_supergroup] = {}
+            cluster_index = 1
+
+            for option_set_cluster in option_cluster_dict[assembler][option_supergroup]:
+                cluster_code = "ec_opt_cl_{0}".format(cluster_index)
+                for option_set in option_cluster_dict[assembler][option_supergroup][option_set_cluster]:
+                    option_cluster_reverse_dict[assembler][option_supergroup][option_set] = cluster_code
+
+
     for assembler in assembler_list:
         for option_set in config["coretool_option_sets"][assembler]:
             parameters_label="{0}_{1}".format(assembler, option_set)
             stage_dict["contig"]["parameters"][parameters_label] = {}
             stage_dict["contig"]["parameters"][parameters_label]["assembler"] = assembler
             stage_dict["contig"]["parameters"][parameters_label]["option_set"] = parameters["tool_options"][assembler][option_set]
+            for option_supergroup in ["options_affecting_error_correction"]:
+                stage_dict["contig"]["parameters"][parameters_label][option_supergroup] = option_cluster_reverse_dict[assembler][option_supergroup][option_set]
+
 
     parameters_list = list(stage_dict["contig"]["parameters"].keys())
     results_list += [
@@ -584,6 +625,7 @@ rule all:
 #----
 
 #---- Include section ----
+include: "workflow/rules/Install/Pip.smk"
 include: "workflow/rules/Preprocessing/Files.smk"
 include: "workflow/rules/QCFiltering/FastQC.smk"
 include: "workflow/rules/QCFiltering/MultiQC.smk"

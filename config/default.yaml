@@ -3,6 +3,7 @@
     "common":
         "yaml": "workflow/envs/conda.common.yaml"
         "name": "yggbase"
+        "pip": "workflow/envs/pip.common.requirements"
     "salsa2":
         "yaml": "workflow/envs/conda.salsa2.yaml"
         "name": "salsa2"
@@ -60,6 +61,7 @@
 "parameters":
     "default":
         "threads":
+            "install_from_pip": 1
             "create_fastq_links": 1
             "create_links_for_draft": 1
             "fastqc": 1
@@ -116,6 +118,7 @@
             basecall: 30
 
         "memory_mb":
+            "install_from_pip": 1000
             "create_fastq_links": 100
             "create_links_for_draft": 100
             "fastqc": 5500
@@ -171,6 +174,7 @@
             basecall: 20000
 
         "time": #TODO: adjust
+            "install_from_pip": "01:00:00"
             "create_fastq_links": "00:05:00"
             "create_links_for_draft": "00:05:00"
             "fastqc": "04:00:00"
