@@ -376,7 +376,6 @@
                         - 51
                     "min_coverage":
                         - 3
-                        - 5
             "kat":
                 "hifi":
                     "kmer_length":
