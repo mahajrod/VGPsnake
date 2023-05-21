@@ -17,6 +17,7 @@
   - "quast"
   - "gfatools"
   - "cutadapt=3.4"
+  - "libopenblas"
   - "bwa=0.7.17"
   - "picard>=2.5"
   - "pretext-suite"
