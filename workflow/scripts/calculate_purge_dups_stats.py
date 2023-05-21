@@ -46,6 +46,7 @@ purge_dups_bed_df["overlap_faction"] = purge_dups_bed_df["overlap_len"] / purge_
 purge_dups_bed_df.to_csv("{}.extended.bed".format(args.output_prefix), sep="\t", index=True, header=True)
 
 stats_df = purge_dups_bed_df[["overlap_len", "type"]].groupby(by="type").agg(["count", "sum"])
+stats_df["sum"] = stats_df["sum"].astype("Int64")
 print(stats_df)
 
 stats_df.to_csv("{}.stat".format(args.output_prefix), sep="\t", index=True, header=True)
