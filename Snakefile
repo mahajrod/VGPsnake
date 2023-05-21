@@ -418,7 +418,7 @@ if "contig" in config["stage_list"]:
                      expand(output_dict["contig"] / "{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.fasta",
                             genome_prefix=[config["genome_prefix"],],
                             assembly_stage=["contig",],
-                            haplotype=haplotype_list,
+                            haplotype=haplotype_list + ["alt"], # TODO: modify "alt" when assemblers other than hifiasm will be added
                             parameters=parameters_list ),
                      expand(output_dict["contig"] / "{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.gfa.cov",
                             genome_prefix=[config["genome_prefix"],],
@@ -476,7 +476,7 @@ if "contig" in config["stage_list"]:
             results_list += [expand(out_dir_path / "{assembly_stage}/{parameters}/contamination_scan/{haplotype}/fcs/{database}/{genome_prefix}.{assembly_stage}.{haplotype}.{database}.taxonomy",
                                     genome_prefix=[config["genome_prefix"], ],
                                     assembly_stage=["contig"],
-                                    haplotype=haplotype_list,
+                                    haplotype=haplotype_list + ["alt"], # TODO: modify "alt" when assemblers other than hifiasm will be added
                                     parameters=parameters_list,
                                     database=config["database_set"]["fcs"])
                             ]
