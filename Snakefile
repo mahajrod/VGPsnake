@@ -419,6 +419,11 @@ if "contig" in config["stage_list"]:
                             assembly_stage=["contig",],
                             haplotype=haplotype_list,
                             parameters=parameters_list ),
+                     expand(output_dict["contig"] / "{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.gfa.cov",
+                            genome_prefix=[config["genome_prefix"],],
+                            assembly_stage=["contig",],
+                            haplotype=haplotype_list,
+                            parameters=parameters_list ),
                     #expand(out_dir_path / "{assembly_stage}/{parameters}/assembly_qc/quast/{genome_prefix}.{assembly_stage}.{haplotype}",
                     #       genome_prefix=[config["genome_prefix"], ],
                     #       assembly_stage=["contig"],
@@ -640,7 +645,7 @@ include: "workflow/rules/Kmer/Genomescope.smk"
 if "hifi" in data_types:
     include: "workflow/rules/Contigs/Hifiasm.smk"
 
-include: "workflow/rules/Contigs/Gfatools.smk"
+include: "workflow/rules/Contigs/Graph.smk"
 include: "workflow/rules/QCAssembly/BUSCO5.smk"
 include: "workflow/rules/QCAssembly/Merqury.smk"
 include: "workflow/rules/QCAssembly/QUAST.smk"
