@@ -378,7 +378,7 @@ if "contig" in config["stage_list"]:
             for option_supergroup in ["options_affecting_error_correction"]:
                 option_cluster_dict[assembler][option_supergroup] = {}
                 option_set_list = []
-                for option in config["tool_specific_features"][assembler][option_cl]:
+                for option in config["tool_specific_features"][assembler][option_supergroup]:
                     if option in parameters["tool_options"][assembler][option_set]:
                         option_set_list.append("{0}_{1}".format(option, parameters["tool_options"][assembler][option_set]))
                     else:
