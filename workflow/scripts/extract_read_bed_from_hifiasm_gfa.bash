@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-grep -P "^S" $1 | cuf -f 2,5 | sed 's/rd:i://'
+grep -P "^A" $1 | cut -f 2-7 | awk '{printf "%s\t%i\t%i\t%s\t%s\t%i\t%i\n", $1,$2,$2+$6,$3,$4,$5,$6}'
