@@ -369,6 +369,7 @@ if "contig" in config["stage_list"]:
     assembler_list = config["stage_coretools"]["contig"][config["contig_datatype"]]
     stage_dict["contig"]["parameters"] = {}
 
+    """
     option_cluster_dict = {}
     option_cluster_reverse_dict = {}
     # Cluster assembler option sets by options affecting read correction:
@@ -401,15 +402,15 @@ if "contig" in config["stage_list"]:
                 for option_set in option_cluster_dict[assembler][option_supergroup][option_set_cluster]:
                     option_cluster_reverse_dict[assembler][option_supergroup][option_set] = cluster_code
 
-
+    """
     for assembler in assembler_list:
         for option_set in config["coretool_option_sets"][assembler]:
             parameters_label="{0}_{1}".format(assembler, option_set)
             stage_dict["contig"]["parameters"][parameters_label] = {}
             stage_dict["contig"]["parameters"][parameters_label]["assembler"] = assembler
             stage_dict["contig"]["parameters"][parameters_label]["option_set"] = parameters["tool_options"][assembler][option_set]
-            for option_supergroup in ["options_affecting_error_correction"]:
-                stage_dict["contig"]["parameters"][parameters_label][option_supergroup] = option_cluster_reverse_dict[assembler][option_supergroup][option_set]
+            #for option_supergroup in ["options_affecting_error_correction"]:
+            #    stage_dict["contig"]["parameters"][parameters_label][option_supergroup] = option_cluster_reverse_dict[assembler][option_supergroup][option_set]
 
 
     parameters_list = list(stage_dict["contig"]["parameters"].keys())
