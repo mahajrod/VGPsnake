@@ -82,6 +82,7 @@
             "hifiasm": 50
             "gfa2fasta": 1
             "get_coverage_from_hifiasm_graph": 1
+            "get_read_bed_from_hifiasm_graph": 1
             "busco5": 30
             "compress_busco5": 1
             "handle_busco5_output": 1
@@ -131,7 +132,8 @@
             "parse_genomescope_output": 100
             "hifiasm": 50000
             "gfa2fasta": 10000
-            "get_coverage_from_hifiasm_graph": 5000
+            "get_coverage_from_hifiasm_graph": 2000
+            "get_read_bed_from_hifiasm_graph": 2000
             "busco5": 20000
             "compress_busco5": 1000
             "handle_busco5_output": 100
@@ -198,6 +200,7 @@
             "hifiasm": "08:00:00"
             "gfa2fasta": "08:00:00"
             "get_coverage_from_hifiasm_graph": "02:00:00"
+            "get_read_bed_from_hifiasm_graph": "02:00:00"
             "busco5": "24:00:00"
             "compress_busco5": "05:00:00"
             "handle_busco5_output": "00:05:00"
