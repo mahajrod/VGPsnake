@@ -37,9 +37,9 @@ print(purge_dups_bed_df)
 #purge_dups_bed_df = pd.concat([purge_dups_bed_df, stat_cov_df.loc[present_contigs]], axis=1)
 purge_dups_bed_df = purge_dups_bed_df.merge(stat_cov_df, how="left", left_on="#scaffold",
                                             right_on="#scaffold")
-print(purge_dups_bed_df )
+print(purge_dups_bed_df)
 absent_contigs = purge_dups_bed_df.index[purge_dups_bed_df["length"].isna()]
-purge_dups_bed_df.loc[absent_contigs] = len_df.loc[absent_contigs]
+purge_dups_bed_df.loc[absent_contigs] = len_df["length"].loc[absent_contigs]
 for column in "mean_cov", "median_cov":
     purge_dups_bed_df[column].fillna(0, inplace=True)
 
