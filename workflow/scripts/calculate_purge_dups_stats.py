@@ -31,6 +31,7 @@ stat_cov_df = pd.read_csv(args.stat_file, sep="\t", header=None, names=["#scaffo
 
 purge_dups_bed_df = pd.read_csv(args.purge_dups_bed, sep="\t", header=None, names=["#scaffold", "start", "end", "type",
                                                                                    "overlapping_scaffold"], index_col=0)
+print(purge_dups_bed_df)
 #present_contigs = purge_dups_bed_df[purge_dups_bed_df.index.isin(stat_cov_df.index)]
 #absent_contigs = purge_dups_bed_df[~purge_dups_bed_df.index.isin(stat_cov_df.index)]
 #purge_dups_bed_df = pd.concat([purge_dups_bed_df, stat_cov_df.loc[present_contigs]], axis=1)
@@ -39,7 +40,7 @@ purge_dups_bed_df = purge_dups_bed_df.merge(stat_cov_df, how="left", left_on="#s
 absent_contigs = purge_dups_bed_df.index[purge_dups_bed_df["length"].isna()]
 purge_dups_bed_df.loc[absent_contigs] = len_df.loc[absent_contigs]
 for column in "mean_cov", "median_cov":
-    purge_dups_bed_df[column].fillna(0)
+    purge_dups_bed_df[column].fillna(0, inplace=True)
 
 purge_dups_bed_df["overlap_len"] = purge_dups_bed_df["end"] - purge_dups_bed_df["start"]
 purge_dups_bed_df["overlap_faction"] = purge_dups_bed_df["overlap_len"] / purge_dups_bed_df["length"]
