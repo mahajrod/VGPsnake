@@ -44,7 +44,7 @@ for column in "mean_cov", "median_cov":
 purge_dups_bed_df["overlap_len"] = purge_dups_bed_df["end"] - purge_dups_bed_df["start"]
 purge_dups_bed_df["overlap_faction"] = purge_dups_bed_df["overlap_len"] / purge_dups_bed_df["length"]
 purge_dups_bed_df.to_csv("{}.extended.bed".format(args.output_prefix), sep="\t", index=True, header=True)
-
+print(purge_dups_bed_df[["overlap_len", "type"]])
 stats_df = purge_dups_bed_df[["overlap_len", "type"]].groupby(by="type").agg(["count", "sum"])
 stats_df["sum"] = stats_df["sum"].astype("Int64")
 print(stats_df)
