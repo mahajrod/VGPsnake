@@ -37,6 +37,7 @@ print(purge_dups_bed_df)
 #purge_dups_bed_df = pd.concat([purge_dups_bed_df, stat_cov_df.loc[present_contigs]], axis=1)
 purge_dups_bed_df = purge_dups_bed_df.merge(stat_cov_df, how="left", left_on="#scaffold",
                                             right_on="#scaffold")
+print(purge_dups_bed_df )
 absent_contigs = purge_dups_bed_df.index[purge_dups_bed_df["length"].isna()]
 purge_dups_bed_df.loc[absent_contigs] = len_df.loc[absent_contigs]
 for column in "mean_cov", "median_cov":
@@ -48,7 +49,7 @@ purge_dups_bed_df.to_csv("{}.extended.bed".format(args.output_prefix), sep="\t",
 print(purge_dups_bed_df)
 stats_df = purge_dups_bed_df[["overlap_len", "type"]].groupby(by="type").agg(["count", "sum"])
 stats_df.columns = stats_df.columns.droplevel(level=0)
-#stats_df["sum"] = stats_df["sum"].astype("Int64")
+stats_df["sum"] = stats_df["sum"].astype("Int64")
 print(stats_df)
 
 stats_df.to_csv("{}.stat".format(args.output_prefix), sep="\t", index=True, header=True)
