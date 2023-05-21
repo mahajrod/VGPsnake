@@ -425,7 +425,7 @@ if "contig" in config["stage_list"]:
                             assembly_stage=["contig",],
                             haplotype=haplotype_list,
                             parameters=parameters_list ),
-                     expand(output_dict["contig"] / "{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.read.bed",
+                     expand(output_dict["contig"] / "{parameters}/{genome_prefix}.{assembly_stage}.{haplotype}.gfa.lencov",
                             genome_prefix=[config["genome_prefix"],],
                             assembly_stage=["contig",],
                             haplotype=haplotype_list,
