@@ -22,9 +22,9 @@ parser.add_argument("-o", "--output_prefix", action="store", dest="output_prefix
 
 args = parser.parse_args()
 
-len_df = pd.read_csv(args.stat_file, sep="\t", header=None, names=["#scaffold", "length",],
-                          index_col=0)
-
+len_df = pd.read_csv(args.stat_file, sep="\t", header=None, names=["length"],
+                     index_col=0)
+len_df.index.name = "#scaffold"
 artefact_set = {"HAPLOTIG", "JUNK", "REPEAT", "OVLP", "HIGHCOV"}
 stat_cov_df = pd.read_csv(args.stat_file, sep="\t", header=None, names=["#scaffold", "length", "mean_cov", "median_cov"],
                           index_col=0)
