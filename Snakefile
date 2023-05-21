@@ -558,25 +558,25 @@ if "hic_scaffolding" in config["stage_list"]:
     for datatype in set(data_types) & set(config["read_phasing_data"]):
 
         if datatype in config["paired_fastq_based_data"]:
-            results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{datatype}/{pairprefix}.{genome_prefix}.AK{assembly_kmer_length}.{haplotype}_1.fastq.gz",
+            results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{assembly_kmer_length}/{datatype}/{pairprefix}_1.fastq.gz",
                                     datatype=[datatype],
                                     stage=[prev_stage, ],
                                     parameters=stage_dict[prev_stage]["parameters"],
                                     pairprefix=input_pairprefix_dict[datatype],
                                     genome_prefix=[config["genome_prefix"], ],
                                     haplotype=haplotype_list,
-                                    assembly_kmer_length=[config["assembly_kmer_length"]]
+                                    assembly_kmer_length=config["assembly_kmer_length"]
                                     ),
                             ]
         else:
-            results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{datatype}/{fileprefix}.{genome_prefix}.AK{assembly_kmer_length}.{haplotype}.fastq.gz",
+            results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{assembly_kmer_length}/{datatype}/{fileprefix}.fastq.gz",
                                     datatype=[datatype],
                                     stage=[prev_stage, ],
                                     parameters=stage_dict[prev_stage]["parameters"],
                                     fileprefix=input_file_prefix_dict[datatype],
                                     genome_prefix=[config["genome_prefix"], ],
                                     haplotype=haplotype_list,
-                                    assembly_kmer_length=[config["assembly_kmer_length"]]
+                                    assembly_kmer_length=config["assembly_kmer_length"]
                                     ),
                             ]
     """
