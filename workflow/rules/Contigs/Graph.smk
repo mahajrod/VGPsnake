@@ -40,5 +40,5 @@ rule get_coverage_from_hifiasm_graph:
     threads:
         parameters["threads"]["get_coverage_from_hifiasm_graph"]
     shell:
-         " workflow/scripts/busco/extract_coverage_from_hifiasm_gfa.bash {input.gfa} > {output.cov} 2>{log.std};"
+         " workflow/scripts/extract_coverage_from_hifiasm_gfa.bash {input.gfa} > {output.cov} 2>{log.std};"
 
