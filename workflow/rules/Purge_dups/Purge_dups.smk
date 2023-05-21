@@ -220,7 +220,7 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
         " get_seqs -p {params.get_seq_prefix} ${{PURGE_DUPS_BED}} ${{REFERENCE}} > ${{GET_SEQ_LOG}} 2>&1;"
         " for FILE in *.fa; do mv ${{FILE}} ${{FILE%fa}}fasta; done"
         #" cp dups.bed {params.bed_local_path} "
-
+"""
 rule get_len_for_hapdups_fasta:
     input:
         fasta=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/{genome_prefix}.purge_dups.{haplotype}.hap.fasta"
@@ -242,7 +242,7 @@ rule get_len_for_hapdups_fasta:
 
     shell:
         " get_sequence_lengths.py -i {input.fasta} -o {output.len_file} 1>{log.std} 2>&1 "
-
+"""
 rule merge_pri_hapdups_with_alt: # TODO: add handling of polyploid cases
     input:
         alt_contig=out_dir_path / ("%s/{prev_stage_parameters}/{genome_prefix}.%s.hap2.fasta" % (stage_dict["purge_dups"]["prev_stage"],
