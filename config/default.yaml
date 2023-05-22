@@ -436,7 +436,7 @@
                 "unphased_reads":
                      "min_contig_len": 1000
                      "use_phased_reads": False
-                     "phasing_kmer_length": None
+                     "phasing_kmer_length": "NA"
     "micro": # < 15 Mbp, yeasts and bacteria
         "threads":
             "create_fastq_links": 1
