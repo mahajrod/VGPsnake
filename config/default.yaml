@@ -407,10 +407,12 @@
                 "phased_reads":
                      "min_contig_len": 1000
                      "min_mapping_quality": 10
+                     "phasing_kmer_length": 31
                      "use_phased_reads": True
                 "unphased_reads":
                      "min_contig_len": 1000
                      "min_mapping_quality": 10
+                     "phasing_kmer_length": "NA"
                      "use_phased_reads": False
             "salsa2":
                 "restriction_seq":
@@ -430,9 +432,11 @@
                 "phased_reads":
                      "min_contig_len": 1000
                      "use_phased_reads": True
+                     "phasing_kmer_length": 31
                 "unphased_reads":
                      "min_contig_len": 1000
                      "use_phased_reads": False
+                     "phasing_kmer_length": None
     "micro": # < 15 Mbp, yeasts and bacteria
         "threads":
             "create_fastq_links": 1
@@ -945,7 +949,6 @@
     "yahs":
         - "phased_reads"
         - "unphased_reads"
-
 "ploidy": 2
 "genome_prefix": "genome"
 "busco_lineage_list":
@@ -974,11 +977,6 @@
 
 "hic_enzyme_set": "Arima"
 "custom_enzyme_set": null # None
-
-#---- Custom tools ----
-#"MAVR_path": "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/soft/MAVR/"
-#"MACE_path": "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/soft/MACE/"
-#---- Pipeline modes ----
 
 "starting_point": "fastq" # Allowed: "draft"
 "data_types": "hifi,hic" # TODO: add  "hifi,lr,bionano,hic", "hifi,lr,hic"  and "hifi" and others
