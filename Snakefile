@@ -579,7 +579,7 @@ if "hic_scaffolding" in config["stage_list"]:
                                     assembly_kmer_length=config["assembly_kmer_length"]
                                     ),
                             ]
-    """
+
     results_list += [
                      expand(out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/alignment/{genome_prefix}.{assembly_stage}.{haplotype}.{resolution}.map.{ext}",
                             genome_prefix=[config["genome_prefix"], ],
@@ -625,7 +625,7 @@ if "hic_scaffolding" in config["stage_list"]:
                                 assembly_stage=["hic_scaffolding", ],
                                 haplotype=haplotype_list,
                                 parameters=parameters_list),]
-    """
+
 #----
 
 #---- Final rule ----

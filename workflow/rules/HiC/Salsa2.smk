@@ -3,14 +3,14 @@ rule bam2bed:
         bam=rules.rmdup.output.bam
     output:
         #bed=out_dir_path  / ("{assembly_stage}/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.rmdup.bed"  % config["genome_name"]),
-        bed=out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/alignment/{genome_prefix}.{assembly_stage}.{haplotype}.bwa.filtered.rmdup.bed"
+        bed=out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/alignment/{phasing_kmer_length}/{genome_prefix}.{assembly_stage}.{phasing_kmer_length}.{haplotype}.bwa.filtered.rmdup.bed"
     log:
-        convert=output_dict["log"] / "bam2bed.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.convert.log",
-        sort=output_dict["log"] / "bam2bed.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.sort.log",
-        cluster_log=output_dict["cluster_log"] / "bam2bed.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.cluster.log",
-        cluster_err=output_dict["cluster_error"] / "bam2bed.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.cluster.err"
+        convert=output_dict["log"] / "bam2bed.{assembly_stage}.{parameters}.{genome_prefix}.{phasing_kmer_length}.{haplotype}.convert.log",
+        sort=output_dict["log"] / "bam2bed.{assembly_stage}.{parameters}.{genome_prefix}.{phasing_kmer_length}.{haplotype}.sort.log",
+        cluster_log=output_dict["cluster_log"] / "bam2bed.{assembly_stage}.{parameters}.{genome_prefix}.{phasing_kmer_length}.{haplotype}.cluster.log",
+        cluster_err=output_dict["cluster_error"] / "bam2bed.{assembly_stage}.{parameters}.{genome_prefix}.{phasing_kmer_length}.{haplotype}.cluster.err"
     benchmark:
-        output_dict["benchmark"]  / "bam2bed.{assembly_stage}.{parameters}.{genome_prefix}.{haplotype}.benchmark.txt"
+        output_dict["benchmark"]  / "bam2bed.{assembly_stage}.{parameters}.{genome_prefix}.{phasing_kmer_length}.{haplotype}.benchmark.txt"
     conda:
         config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
@@ -22,12 +22,13 @@ rule bam2bed:
     shell:
         " bamToBed -i {input.bam} 2>{log.convert} | sort -k 4 > {output.bed} 2>{log.sort}"
 
-
-
 rule salsa2: #
     input:
-        bed=out_dir_path / ("%s/{prev_stage_parameters}/{haplotype}/alignment/{genome_prefix}.%s.{haplotype}.bwa.filtered.rmdup.bed" % (stage_dict["hic_scaffolding"]["prev_stage"],
-                                                                                                                                        stage_dict["hic_scaffolding"]["prev_stage"])),
+        bed=lambda wildcards: out_dir_path / "{0}/{1}/{2}/alignment/{3}/{4}.{5}.{3}.{2}.bwa.filtered.rmdup.bed".format(stage_dict["hic_scaffolding"]["prev_stage"],
+                                                                                    wildcards.prev_stage_parameters, wildcards.haplotype,
+                                                                                    stage_dict["hic_scaffolding"]["parameters"][wildcards.prev_stage_parameters + "..salsa2_" + wildcards.hic_scaffolding_parameters]["option_set"]["phasing_kmer_length"],
+                                                                                    wildcards.genome_prefix,
+                                                                                    stage_dict["hic_scaffolding"]["prev_stage"]),
         reference=out_dir_path / ("%s/{prev_stage_parameters}/{genome_prefix}.%s.{haplotype}.fasta" % (stage_dict["hic_scaffolding"]["prev_stage"],
                                                                                                        stage_dict["hic_scaffolding"]["prev_stage"])) ,
         reference_fai=out_dir_path / ("%s/{prev_stage_parameters}/{genome_prefix}.%s.{haplotype}.fasta.fai" % (stage_dict["hic_scaffolding"]["prev_stage"],
