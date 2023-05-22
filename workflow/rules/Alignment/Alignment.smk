@@ -36,8 +36,20 @@ rule bwa_map: #
 
 rule bam_merge_pairs:
     input:
-        forward_bam=out_dir_path / ("{assembly_stage}/{parameters}/{haplotype}/alignment/{phasing_kmer_length}/{genome_prefix}.{assembly_stage}.{phasing_kmer_length}.{haplotype}.bwa.filtered.{pairprefix}%s.bam" % input_forward_suffix_dict["hic"]),
-        reverse_bam=out_dir_path / ("{assembly_stage}/{parameters}/{haplotype}/alignment/{phasing_kmer_length}/{genome_prefix}.{assembly_stage}.{phasing_kmer_length}.{haplotype}.bwa.filtered.{pairprefix}%s.bam" % input_reverse_suffix_dict["hic"]),
+        forward_bam=lambda wildcards: out_dir_path / ("{0}/{1}/{2}/alignment/{3}/{4}.{0}.{3}.{2}.bwa.filtered.{5}{6}.bam".format(wildcards.assembly_stage,
+                                                                                                                                  wildcards.parameters,
+                                                                                                                                  wildcards.haplotype,
+                                                                                                                                  wildcards.phasing_kmer_length,
+                                                                                                                                  wildcards.genome_prefix,
+                                                                                                                                  wildcards.pairprefix,
+                                                                                                                                  input_forward_suffix_dict["hic"] if wildcards.phasing_kmer_length == "NA" else "_1")),
+        reverse_bam=lambda wildcards: out_dir_path / ("{0}/{1}/{2}/alignment/{3}/{4}.{0}.{3}.{2}.bwa.filtered.{5}{6}.bam".format(wildcards.assembly_stage,
+                                                                                                                                  wildcards.parameters,
+                                                                                                                                  wildcards.haplotype,
+                                                                                                                                  wildcards.phasing_kmer_length,
+                                                                                                                                  wildcards.genome_prefix,
+                                                                                                                                  wildcards.pairprefix,
+                                                                                                                                  input_reverse_suffix_dict["hic"] if wildcards.phasing_kmer_length == "NA" else "_2")),
         reference_fai=rules.ref_faidx.output.fai
     output:
         bam=out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/alignment/{phasing_kmer_length}/{genome_prefix}.{assembly_stage}.{phasing_kmer_length}.{haplotype}.bwa.filtered.{pairprefix}.bam", # TODO: make_tem
@@ -74,7 +86,7 @@ rule bam_merge_files:
     input:
         bams=expand(out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/alignment/{phasing_kmer_length}/{genome_prefix}.{assembly_stage}.{phasing_kmer_length}.{haplotype}.bwa.filtered.{pairprefix}.bam",
                     allow_missing=True,
-                    pairprefix=input_pairprefix_dict["hic"]),
+                    pairprefix=input_pairprefix_dict["hic"]), #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         reference_fai=rules.ref_faidx.output.fai,
         reference=out_dir_path / "{assembly_stage}/{parameters}/{genome_prefix}.{assembly_stage}.{phasing_kmer_length}.{haplotype}.fasta"
     output:
