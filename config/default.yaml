@@ -909,6 +909,7 @@
     "hic_scaffolding":
         "default":
             - "salsa2" # Allowed: "salsa2", "yahs" TODO:  "3d-dna"
+            - "yahs"
 
 "tool_specific_features":
     "hifiasm":
