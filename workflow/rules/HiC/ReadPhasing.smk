@@ -58,7 +58,7 @@ rule meryl_extract_unique_hap_kmers:
 
 rule extract_pe_reads_by_unique_hap_kmers:
     input:
-        rest_hap_db_dirs=lambda wildcards: expand(out_dir_path / ("%s/%s/kmer/%s.%s.{haplotype}.%s.unique" % (wildcards.stage,
+        rest_hap_db_dirs=lambda wildcards: expand(out_dir_path / ("%s/%s/kmer/%s.%s.{haplotype, [^.]+}.%s.unique" % (wildcards.stage,
                                                                                                               wildcards.parameters,
                                                                                                               config["genome_prefix"],
                                                                                                               wildcards.stage,
@@ -77,8 +77,8 @@ rule extract_pe_reads_by_unique_hap_kmers:
                                                                                                 input_reverse_suffix_dict[wildcards.datatype],
                                                                                                 config["fastq_extension"])),
     output:
-        forward_hap_read=out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{assembly_kmer_length}/{datatype}/{pairprefix}_1.fastq.gz",
-        reverse_hap_read=out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{assembly_kmer_length}/{datatype}/{pairprefix}_2.fastq.gz",
+        forward_hap_read=out_dir_path / "{stage}/{parameters}/fastq/{haplotype, [^.]+}/{assembly_kmer_length}/{datatype}/{pairprefix}_1.fastq.gz",
+        reverse_hap_read=out_dir_path / "{stage}/{parameters}/fastq/{haplotype, [^.]+}/{assembly_kmer_length}/{datatype}/{pairprefix}_2.fastq.gz",
         #forward_hap2_read=out_dir_path / "{stage}/{parameters}/kmer/{pairprefix}.{genome_prefix}.AK{assembly_kmer_length}.hap2_1.fastq.gz",
         #reverse_hap2_read=out_dir_path / "{stage}/{parameters}/kmer/{pairprefix}.{genome_prefix}.AK{assembly_kmer_length}.hap2_2.fastq.gz",
     log:
@@ -103,7 +103,7 @@ rule extract_pe_reads_by_unique_hap_kmers:
 
 rule extract_se_reads_by_unique_hap_kmers:
     input:
-        rest_hap_db_dirs=lambda wildcards: expand(out_dir_path / ("%s/%s/kmer/%s.%s.{haplotype}.%s.unique" % (wildcards.stage,
+        rest_hap_db_dirs=lambda wildcards: expand(out_dir_path / ("%s/%s/kmer/%s.%s.{haplotype, [^.]+}.%s.unique" % (wildcards.stage,
                                                                                                               wildcards.parameters,
                                                                                                               config["genome_prefix"],
                                                                                                               wildcards.stage,
@@ -115,7 +115,7 @@ rule extract_se_reads_by_unique_hap_kmers:
                                                                                         wildcards.fileprefix,
                                                                                         config["fastq_extension"])),
     output:
-        hap_se_read=out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{assembly_kmer_length}/{datatype}/{fileprefix}.fastq.gz",
+        hap_se_read=out_dir_path / "{stage}/{parameters}/fastq/{haplotype, [^.]+}/{assembly_kmer_length}/{datatype}/{fileprefix}.fastq.gz",
         #forward_hap2_read=out_dir_path / "{stage}/{parameters}/kmer/{pairprefix}.{genome_prefix}.AK{assembly_kmer_length}.hap2_1.fastq.gz",
         #reverse_hap2_read=out_dir_path / "{stage}/{parameters}/kmer/{pairprefix}.{genome_prefix}.AK{assembly_kmer_length}.hap2_2.fastq.gz",
     log:
