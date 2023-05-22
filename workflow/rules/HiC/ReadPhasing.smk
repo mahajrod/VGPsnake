@@ -58,7 +58,7 @@ rule meryl_extract_unique_hap_kmers:
 
 rule extract_pe_reads_by_unique_hap_kmers:
     input:
-        rest_hap_db_dirs=lambda wildcards: expand(out_dir_path / ("%s/%s/kmer/%s.%s.{haplotype, [^.]+}.%s.unique" % (wildcards.stage,
+        rest_hap_db_dirs=lambda wildcards: expand(out_dir_path / ("%s/%s/kmer/%s.%s.{haplotype}.%s.unique" % (wildcards.stage,
                                                                                                               wildcards.parameters,
                                                                                                               config["genome_prefix"],
                                                                                                               wildcards.stage,
@@ -103,7 +103,7 @@ rule extract_pe_reads_by_unique_hap_kmers:
 
 rule extract_se_reads_by_unique_hap_kmers:
     input:
-        rest_hap_db_dirs=lambda wildcards: expand(out_dir_path / ("%s/%s/kmer/%s.%s.{haplotype, [^.]+}.%s.unique" % (wildcards.stage,
+        rest_hap_db_dirs=lambda wildcards: expand(out_dir_path / ("%s/%s/kmer/%s.%s.{haplotype}.%s.unique" % (wildcards.stage,
                                                                                                               wildcards.parameters,
                                                                                                               config["genome_prefix"],
                                                                                                               wildcards.stage,
