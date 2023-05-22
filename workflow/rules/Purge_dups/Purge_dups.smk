@@ -154,8 +154,8 @@ rule minimap2_purge_dups_assembly:
         reference = out_dir_path / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/input/{genome_prefix}.purge_dups_input.{haplotype}.fasta"
         #reference=out_dir_path  / ("purge_dups/{assembler}/input/%s.contig.{assembler}.{haplotype}.fasta" % config["genome_name"])
     output:
-        split_reference=out_dir_path / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/{genome_prefix}.purge_dups_input.{haplotype}.split.fasta",
-        paf=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/{genome_prefix}.purge_dups_input.{haplotype}.split.minimap2.self.paf.gz"
+        split_reference=out_dir_path / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype, [^.]+}/{genome_prefix}.purge_dups_input.{haplotype}.split.fasta",
+        paf=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype, [^.]+}/{genome_prefix}.purge_dups_input.{haplotype}.split.minimap2.self.paf.gz"
         #paf=output_dict["purge_dups"] / ("{assembler}/%s.purge_dups.{assembler}.hifi.hic.{haplotype}_ctg.minimap2.{fileprefix}.paf.gz" % config["genome_name"])
     params:
         index_size=parameters["tool_options"]["minimap2"]["index_size"],
