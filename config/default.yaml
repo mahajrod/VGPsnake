@@ -117,6 +117,8 @@
             "extract_coverage_from_purge_dups_file": 1
             "extract_stats_from_purge_dups_file": 1
             "extract_artefact_sequences": 1
+            "telo_finder" : 1
+            "rapid_split": 1
             #"fcs_gx": 50 # set via allowed_databases variable
             mosdepth: 3
             basecall: 30
@@ -176,6 +178,8 @@
             "extract_coverage_from_purge_dups_file": 5000
             "extract_stats_from_purge_dups_file": 1000
             "extract_artefact_sequences": 5000
+            "telo_finder": 1000
+            "rapid_split": 1000
             #"fcs_gx": 512000 # set via allowed_databases variable
             mosdepth: 4000 #The amount of memory is approximately equal to 32-bits * longest chrom length, so for the 249MB chromosome 1, it will require 1GB of memory.
             basecall: 20000
@@ -236,6 +240,8 @@
             "extract_coverage_from_purge_dups_file": "05:00:00"
             "extract_stats_from_purge_dups_file" : "01:00:00"
             "extract_artefact_sequences": "01:00:00"
+            "telo_finder": "00:30:00"
+            "rapid_split": "00:30:00"
             #"fcs_gx": "03:00:00" # set via allowed_databases variable
 
             mosdepth: "02:00:00"
@@ -299,22 +305,27 @@
                     "kmer_length":
                         - 21
                         - 31
-                        #- 41
+                        #- 41 #very RAM hungry option
                 "illumina":
                     "kmer_length":
                         - 21
                         - 31
-                        #- 41
+                        #- 41 #very RAM hungry option
                 "hic":
                     "kmer_length":
                         - 21
-                        - 31
-                        #- 41
+                        #- 31
+                        #- 41 #very RAM hungry option
             "smudgeplot":
                 "lower_boundary":
                     - 10
                 "upper_boundary":
                     - 1500
+            "telo_finder":
+                "size": 200
+                "min_kmer": 4
+                "max_kmer": 15
+                "ends": 1000
             "hifiasm":
                 "default":
                     "purge level": 0 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
@@ -393,10 +404,10 @@
                     "kmer_length":
                         - 21
                         - 31
-                        #- 41
-                        #- 51
-                        #- 61
-                        #- 71
+                        #- 41  #very RAM hungry option
+                        #- 51  #very RAM hungry option
+                        #- 61  #very RAM hungry option
+                        #- 71  #very RAM hungry option
                     "min_coverage":
                         - 3
             "kat":
@@ -512,12 +523,12 @@
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
                 "illumina":
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
             "quast":
                 "large_genome": False
             "minimap2":
@@ -552,12 +563,12 @@
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
                 "illumina":
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
             "quast":
                 "large_genome": False
             "minimap2":
@@ -593,12 +604,12 @@
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
                 "illumina":
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
             "quast":
                 "large_genome": True
             "minimap2":
@@ -631,12 +642,12 @@
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
                 "illumina":
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
             "quast":
                 "large_genome": True
             "minimap2":
@@ -671,12 +682,12 @@
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
                 "illumina":
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
             "quast":
                 "large_genome": True
             "minimap2":
@@ -709,12 +720,12 @@
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
                 "illumina":
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
             "quast":
                 "large_genome": True
             "minimap2":
@@ -746,11 +757,12 @@
                 "hifi":
                     "kmer_length":
                         - 21
-                        #- 31
-                        #- 41
+                        #- 31  #very RAM hungry option
+                        #- 41  #very RAM hungry option
                 "illumina":
                     "kmer_length":
                         - 21
+                        #- 31  #very RAM hungry option
             "quast":
                 "large_genome": True
             "minimap2":
@@ -891,6 +903,16 @@
             "draft": #TODO: implement
                 - "purge_dups"
                 - "hic_scaffolding"
+        "curation":
+            "fastq":
+                - "contig"
+                - "purge_dups"
+                - "hic_scaffolding"
+                - "curation"
+            "draft": #TODO: implement
+                - "purge_dups"
+                - "hic_scaffolding"
+                - "curation"
         "hic_scaffolding":
             "fastq":
                 - "contig"
@@ -966,6 +988,9 @@
     "yahs":
         - "phased_reads"
         - "unphased_reads"
+
+
+
 "ploidy": 2
 "genome_prefix": "genome"
 "busco_lineage_list":

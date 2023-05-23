@@ -16,6 +16,7 @@ rule meryl:
         cpus=parameters["threads"]["meryl"],
         time=parameters["time"]["meryl"],
         mem=parameters["memory_mb"]["meryl"],
+        kmer_counter=1
     threads:
         parameters["threads"]["meryl"]
     shell:
@@ -41,6 +42,7 @@ rule meryl_pe:
         cpus=parameters["threads"]["meryl"],
         time=parameters["time"]["meryl"],
         mem=parameters["memory_mb"]["meryl"],
+        kmer_counter=1
     threads:
         parameters["threads"]["meryl"]
     shell:
