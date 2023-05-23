@@ -287,6 +287,13 @@
                     "min_coverage": 1
                     "max_coverage": 100000000
                     "increment": 1
+                "hic":
+                    "kmer_length":
+                        - 21
+                    "hash_size": "20G"
+                    "min_coverage": 1
+                    "max_coverage": 100000000
+                    "increment": 1
             "meryl":
                 "hifi":
                     "kmer_length":
@@ -294,6 +301,11 @@
                         - 31
                         - 41
                 "illumina":
+                    "kmer_length":
+                        - 21
+                        - 31
+                        - 41
+                "hic":
                     "kmer_length":
                         - 21
                         - 31
