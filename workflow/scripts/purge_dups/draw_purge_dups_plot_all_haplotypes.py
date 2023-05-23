@@ -85,7 +85,7 @@ for haplotype, cuttoff_df, color in zip(pb_stat_df_dict.keys(), cutoff_df_dict, 
 ax.set_ylabel(args.y_label)
 ax.set_xlabel(args.x_label)
 ax.legend()
-ax.grid(visible=True)
+ax.grid(visible=True, linestyle=".")
 ax.set_xlim(xmin=args.xmin, xmax=args.xmax if args.xmax is not None else 1.1 * max_high_cov)
 plt.suptitle(args.suptitle)
 plt.subplots_adjust(left=args.subplots_adjust_left, right=args.subplots_adjust_right,
