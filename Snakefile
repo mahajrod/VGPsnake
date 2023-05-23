@@ -512,7 +512,7 @@ if "purge_dups" in config["stage_list"]:
                            assembly_stage=["purge_dups"],
                            haplotype=haplotype_list,
                            parameters=parameters_list),
-                    expand(before_coverage_plot=out_dir_path /  "{assembly_stage}/{parameters}/assembly_qc/purge_dups/before.comparison.coverage.png",
+                    expand(out_dir_path /  "{assembly_stage}/{parameters}/assembly_qc/purge_dups/before.comparison.coverage.png",
                            assembly_stage=["purge_dups"],
                            parameters=parameters_list
                            ),
