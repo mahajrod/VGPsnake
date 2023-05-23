@@ -26,8 +26,8 @@ rule minimap2_index:
 localrules: create_primary_contig_link, create_link_for_purged_fasta, merge_pri_hapdups_with_alt, extract_stats_from_purge_dups_file
 localrules: create_primary_contig_len_file_link, merge_pri_hapdups_with_alt_for_len_files
 ruleorder: create_primary_contig_link > merge_pri_hapdups_with_alt
-ruleorder: minimap2_purge_dups_reads > minimap2_purge_dups_qc
-ruleorder: get_purge_dups_read_stat > get_purge_dups_read_stat_qc
+ruleorder:  minimap2_purge_dups_qc > minimap2_purge_dups_reads
+ruleorder: get_purge_dups_read_stat_qc > get_purge_dups_read_stat
 
 rule create_primary_contig_link:
     input:
