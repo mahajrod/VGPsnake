@@ -41,9 +41,9 @@ parser.add_argument("--subplots_adjust_left", action="store", dest="subplots_adj
                     help="Adjust left border of subplots on the figure. Default: 0.05")
 parser.add_argument("--subplots_adjust_top", action="store", dest="subplots_adjust_top", type=float, default=0.9,
                     help="Adjust top border of subplots on the figure. Default: 0.05")
-parser.add_argument("--subplots_adjust_right", action="store", dest="subplots_adjust_right", type=float, default=0.1,
+parser.add_argument("--subplots_adjust_right", action="store", dest="subplots_adjust_right", type=float, default=0.9,
                     help="Adjust right border of subplots on the figure. Default: 0.95")
-parser.add_argument("--subplots_adjust_bottom", action="store", dest="subplots_adjust_bottom", type=float, default=0.9,
+parser.add_argument("--subplots_adjust_bottom", action="store", dest="subplots_adjust_bottom", type=float, default=0.1,
                     help="Adjust bottom border of subplots on the figure. Default: 0.95")
 parser.add_argument("--subplots_adjust_hspace", action="store", dest="subplots_adjust_hspace", type=float, default=0.1,
                     help="Adjust height space between subplots on the figure. Default: 0.1")
