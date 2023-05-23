@@ -504,7 +504,7 @@ rule get_purge_stat_haplotype_comparison: #TODO: adjust -d -m -u options for cal
         cluster_log=output_dict["cluster_log"] / "get_purge_stat_haplotype_comparison.{prev_stage_parameters}.{purge_dups_parameters}.purge_dups.cluster.log",
         cluster_err=output_dict["cluster_error"] / "get_purge_stat_haplotype_comparison.{prev_stage_parameters}.{purge_dups_parameters}.purge_dups.cluster.err"
     benchmark:
-        output_dict["benchmark"]  / "get_purge_stat_haplotype_comparison:.{prev_stage_parameters}.{purge_dups_parameters}.purge_dups.benchmark.txt"
+        output_dict["benchmark"]  / "get_purge_stat_haplotype_comparison.{prev_stage_parameters}.{purge_dups_parameters}.purge_dups.benchmark.txt"
     conda:
         config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
     resources:
