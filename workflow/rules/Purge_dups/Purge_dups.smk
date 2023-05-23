@@ -488,12 +488,12 @@ rule get_purge_stat_haplotype_comparison: #TODO: adjust -d -m -u options for cal
         after_pbstat=expand(out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/assembly_qc/purge_dups/{haplotype}/PB.stat",
                              haplotype=haplotype_list,
                              allow_missing=True,),
-        after_cutoffs=expand(expandout_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/assembly_qc/purge_dups/{haplotype}/cutoffs",
+        after_cutoffs=expand(out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/assembly_qc/purge_dups/{haplotype}/cutoffs",
                              haplotype=haplotype_list,
                              allow_missing=True,),
     output:
-        before_coverage_plot=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/assembly_qc/purge_dups/before.comparison.coverage.png",
-        after_coverage_plot=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/assembly_qc/purge_dups/after.comparison.coverage.png"
+        before_coverage_plot=out_dir_path / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/assembly_qc/purge_dups/before.comparison.coverage.png",
+        after_coverage_plot=out_dir_path / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/assembly_qc/purge_dups/after.comparison.coverage.png"
     params:
         label_list=haplotype_list,
         label_string=",".join(haplotype_list)
