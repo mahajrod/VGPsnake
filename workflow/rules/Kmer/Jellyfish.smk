@@ -29,6 +29,7 @@ rule jellyfish:
         cpus=parameters["threads"]["jellyfish"],
         time=parameters["time"]["jellyfish"],
         mem=parameters["memory_mb"]["jellyfish"],
+        kmer_counter=1
     threads:
         parameters["threads"]["jellyfish"]
     shell:
