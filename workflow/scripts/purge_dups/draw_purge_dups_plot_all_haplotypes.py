@@ -8,14 +8,14 @@ import matplotlib.pyplot as plt
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-b", "--pb_stat_file_list", action="store", dest="pb_stat_file_list", required=True,
-                    type=lambda s: s.split("",),
+                    type=lambda s: s.split(","),
                     help="Comma-separated list of per base stats (usually PB.stat) "
                          "produced by purge dups for all haplotypes.")
 parser.add_argument("-c", "--cutoff_file_list", action="store", dest="cutoff_file_list", required=True,
-                    type=lambda s: s.split("",),
+                    type=lambda s: s.split(","),
                     help="Comma-separated list of cutoffs (usually cutoffs) produced by purge dups for all haplotypes.")
 parser.add_argument("-l", "--label_list", action="store", dest="label_list", required=True,
-                    type=lambda s: s.split("",),
+                    type=lambda s: s.split(","),
                     help="Comma-separated list labels for all haplotypes.")
 parser.add_argument("-o", "--output_prefix", action="store", dest="output_prefix", required=True,
                     help="Prefix of output files")
