@@ -87,7 +87,7 @@ ax.set_xlabel(args.x_label)
 ax.legend()
 ax.grid(visible=True)
 ax.set_xlim(xmin=args.xmin, xmax=args.xmax if args.xmax is not None else 1.1 * max_high_cov)
-ax.set_suptitle(args.suptitle)
+plt.suptitle(args.suptitle)
 plt.subplots_adjust(left=args.subplots_adjust_left, right=args.subplots_adjust_right,
                     top=args.subplots_adjust_top, bottom=args.subplots_adjust_bottom,
                     hspace=args.subplots_adjust_hspace, wspace=args.subplots_adjust_wspace)
