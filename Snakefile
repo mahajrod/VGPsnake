@@ -8,6 +8,9 @@ from collections.abc import Mapping
 from copy import deepcopy
 from pathlib import Path, PosixPath
 
+#---- Include sctions for functions ----
+include: "workflow/functions/option_parsing.py"
+include: "workflow/functions/general_parsing.py"
 
 #---- Temp code to allow usage of conda envs on pacbio server ----
 #shell("conda config  --add envs_dirs /projects/codon_0000/apps/miniconda3/envs/")
@@ -22,61 +25,7 @@ import pandas as pd
 #logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
 
 #---- Functions ----
-def p_distance(seq_a, seq_b, seq_len):
-    dist = 0
-    for i in range(0, seq_len):
-        if seq_a[i] != seq_b[i]:
-            dist += 1
-    return dist
-
-def get_common_prefix_ans_suffixes(seq_a, seq_b):
-    seq_a_len = len(seq_a)
-    seq_b_len = len(seq_b)
-
-    prefix = ""
-    for i in range(0, min(seq_a_len, seq_b_len)):
-        if seq_a[i] != seq_b[i]:
-           return prefix, seq_a[i:], seq_b[i:]
-        prefix += seq_a[i]
-    return prefix, "", ""
-
-def convert_posixpath2str_in_dict(dictionary):
-    output_dictionary = deepcopy(dictionary)
-    for entry in output_dictionary:
-        if isinstance(output_dictionary[entry], PosixPath):
-            output_dictionary[entry] = str(output_dictionary[entry])
-        else:
-            if not isinstance(output_dictionary[entry], Mapping): # check if existing entry is not dictionary or dictionary like
-                continue # exit from recursion
-            output_dictionary[entry] = convert_posixpath2str_in_dict(output_dictionary[entry])
-
-    return output_dictionary
-
-def find_cmap(bionano_dir, cmap_extension=".cmap"): # TODO: modify when input for bionano will be clear
-    bionano_dir_path = bionano_dir if isinstance(bionano_dir, PosixPath) else Path(bionano_dir)
-    cmap_list = list(bionano_dir_path.glob("*{0}".format(cmap_extension)))
-    if len(cmap_list) > 1:
-        raise ValueError(
-                         "ERROR!!! More than one cmap file was found: {0}".format(
-                                                                                  ", ".join(list(map(str, cmap_list)))
-                                                                                  )
-                         )
-    return cmap_list[0]
-
-def find_fastqs(fastq_dir, fastq_extension=".fastq.gz"):
-    fastq_dir_path = fastq_dir if isinstance(fastq_dir, PosixPath) else Path(fastq_dir)
-    return  sorted(list(fastq_dir_path.glob("*{0}".format(fastq_extension))))
-
-
-def copy_absent_entries(input_dictionary, output_dictionary):
-    for entry in input_dictionary:
-        if entry not in output_dictionary:
-            output_dictionary[entry] = deepcopy(input_dictionary[entry])
-        else:
-            if not isinstance(output_dictionary[entry], Mapping): # check if existing entry is not dictionary or dictionary like
-                continue # exit from recursion
-            copy_absent_entries(input_dictionary[entry], output_dictionary[entry])
-
+#Moved to workflow/functions/general_parsing.py
 #----
 
 
@@ -238,8 +187,6 @@ for stage, stage_index in zip(config["stage_list"], range(0, len(config["stage_l
     stage_dict[stage]["prev_stage"] = None if stage_index == 0 else config["stage_list"][stage_index-1]
 
 #----
-
-
 #---- Save configuration and input files ----
 final_config_yaml = output_dict["config"] / "config.final.yaml"
 final_input_yaml = output_dict["config"] / "input.final.yaml"
@@ -249,7 +196,6 @@ os.makedirs(output_dict["config"], exist_ok=True)
 with open(final_config_yaml, 'w') as final_config_fd, open(final_input_yaml, 'w') as final_input_fd:
     yaml.dump(convert_posixpath2str_in_dict(config), final_config_fd, default_flow_style=False, sort_keys=False)
     yaml.dump(convert_posixpath2str_in_dict(input_dict), final_input_fd, default_flow_style=False, sort_keys=False)
-
 
 #-------------------------------------------
 localrules: all
@@ -669,5 +615,6 @@ if "hic_scaffolding" in config["stage_list"]:
     include: "workflow/rules/HiC/Salsa2.smk"
     include: "workflow/rules/HiC/YAHS.smk"
 
-
+if "curation" in config["stage_list"]:
+    include: "workflow/rules/Curation/RapidCuration.smk"
 #----
