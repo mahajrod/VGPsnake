@@ -407,7 +407,7 @@ rule extract_artefact_sequences:
 rule minimap2_purge_dups_qc: # TODO: add nanopore support
     input:
         fastq=output_dict["data"] / ("fastq/hifi/filtered/{fileprefix}%s" % config["fastq_extension"]),
-        reference=out_dir_path / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{genome_prefix}.purge_dups.{haplotype, [^.]+}.fasta"
+        reference=out_dir_path / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{genome_prefix}.purge_dups.{haplotype}.fasta"
     output:
         paf=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/assembly_qc/purge_dups/{haplotype, [^.]+}/{genome_prefix}.{haplotype}.{fileprefix}.paf.gz"
         #paf=out_dir_path  / ("purge_dups/{assembler}/{haplotype}/%s.purge_dups.{assembler}.{haplotype}.minimap2.{fileprefix}.paf.gz" % config["genome_name"])
@@ -444,9 +444,9 @@ rule get_purge_dups_read_stat_qc: #TODO: adjust -d -m -u options for calcuts
                                                                                                                                    config["genome_prefix"],
                                                                                                                                    config["final_kmer_length"],
                                                                                                                                    config["final_kmer_counter"]),
-        before_pbstat=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype, [^.]+}/PB.stat",
-        before_pbbasecov=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype, [^.]+}/PB.base.cov",
-        before_cutoffs=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype, [^.]+}/cutoffs"
+        before_pbstat=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/PB.stat",
+        before_pbbasecov=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/PB.base.cov",
+        before_cutoffs=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/cutoffs"
     output:
         pbstat=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/assembly_qc/purge_dups/{haplotype, [^.]+}/PB.stat",
         pbbasecov=out_dir_path /  "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/assembly_qc/purge_dups/{haplotype, [^.]+}/PB.base.cov",
