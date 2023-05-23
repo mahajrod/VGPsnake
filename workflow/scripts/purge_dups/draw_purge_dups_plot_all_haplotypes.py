@@ -86,7 +86,7 @@ for haplotype, cuttoff_df, color, linestyle in zip(pb_stat_df_dict.keys(), cutof
 
 ax.set_ylabel(args.y_label)
 ax.set_xlabel(args.x_label)
-ax.legend(loca)
+ax.legend()
 ax.grid(visible=True, linestyle="--")
 ax.set_xlim(xmin=args.xmin, xmax=args.xmax if args.xmax is not None else 1.1 * max_high_cov)
 plt.suptitle(args.suptitle)
