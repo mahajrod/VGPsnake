@@ -299,17 +299,17 @@
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41
                 "illumina":
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41
                 "hic":
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41
             "smudgeplot":
                 "lower_boundary":
                     - 10
