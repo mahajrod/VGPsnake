@@ -435,7 +435,7 @@ rule get_purge_dups_read_stat_qc: #TODO: adjust -d -m -u options for calcuts
         #paf=expand(out_dir_path / ("purge_dups/{assembler}/{haplotype}/%s.purge_dups.{assembler}.{haplotype}.minimap2.{fileprefix}.paf.gz" % config["genome_name"]),
         #                   fileprefix=input_file_prefix_dict["hifi"],
         #                   allow_missing=True),
-        paf=expand(out_dir_path / (out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/assembly_qc/purge_dups/{haplotype, [^.]+}/%s.{haplotype}.{fileprefix}.paf.gz" % config["genome_prefix"]),
+        paf=expand(out_dir_path / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/assembly_qc/purge_dups/{haplotype}/%s.{haplotype}.{fileprefix}.paf.gz" % config["genome_prefix"],
                            fileprefix=input_file_prefix_dict["hifi"],
                            allow_missing=True),
         genomescope_report=output_dict["kmer"] / "{0}/filtered/genomescope/{1}.{0}.filtered.{2}.{3}.genomescope.parameters".format(config["final_kmer_datatype"],
