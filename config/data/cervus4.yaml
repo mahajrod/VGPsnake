@@ -651,6 +651,7 @@
             "minimap2":       30000
         "threads":
             "hifiasm": 100
+            "meryl": 70
         "time":
             "jellyfish": "12:00:00"
             "hifiasm": "16:00:00"
