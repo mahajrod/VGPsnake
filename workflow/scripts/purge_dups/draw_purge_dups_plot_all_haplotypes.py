@@ -78,7 +78,8 @@ max_high_cov = 0
 
 for haplotype, cuttoff_df, color, linestyle in zip(pb_stat_df_dict.keys(), cutoff_df_dict,
                                                    haplotype_color_list, haplotype_style_list):
-    ax.plot(pb_stat_df_dict[haplotype]["coverage"], pb_stat_df_dict[haplotype]["counts"], color=color, label=haplotype)
+    ax.plot(pb_stat_df_dict[haplotype]["coverage"], pb_stat_df_dict[haplotype]["counts"],
+            color=color, label=haplotype, linestyle=linestyle)
     max_high_cov = max(max_high_cov, cutoff_df_dict[haplotype]["high_cov"][0])
     for line_name, line_color in zip(["junk_cov", "param2", "high_cov"], ["red", "magenta", "darkgrey"]):
         ax.axvline(cutoff_df_dict[haplotype][line_name][0], color=line_color, zorder=1, linestyle=linestyle)
