@@ -29,8 +29,8 @@ parser.add_argument("--y_label", action="store", dest="y_label", default="counts
                     help="Label for y axis. Default: 'counts")
 parser.add_argument("-d", "--dpi", action="store", dest="dpi", type=int, default=300,
                     help="Dpi of figure")
-parser.add_argument("-l", "--title", action="store", dest="title", default="Variant density",
-                    help="Suptitle of figure. Default: 'Variant density'")
+parser.add_argument("-s", "--suptitle", action="store", dest="suptitle", default=None,
+                    help="Suptitle of figure. Default: not set")
 
 parser.add_argument("--xmin", action="store", dest="xmin", type=float, default=1,
                     help="Minimum limit for Y axis . Default: 1")
@@ -87,7 +87,7 @@ ax.set_xlabel(args.x_label)
 ax.legend()
 ax.grid(visible=True)
 ax.set_xlim(xmin=args.xmin, xmax=args.xmax if args.xmax is not None else 1.1 * max_high_cov)
-
+ax.set_suptitle(args.suptitle)
 plt.subplots_adjust(left=args.subplots_adjust_left, right=args.subplots_adjust_right,
                     top=args.subplots_adjust_top, bottom=args.subplots_adjust_bottom,
                     hspace=args.subplots_adjust_hspace, wspace=args.subplots_adjust_wspace)
