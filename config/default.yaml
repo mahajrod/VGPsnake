@@ -93,6 +93,7 @@
             "get_purge_dups_read_stat": 5 # ToDO: adjust, maybe even one is enough
             "purge_dups": 5 # TODO: adjust, maybe even one is enough
             "merge_pri_hapdups_with_alt": 1
+            "get_purge_stat_haplotype_comparison": 1
             "create_links": 1
             "bwa_index": 1
             "bwa_map": 50
@@ -151,6 +152,7 @@
             "get_purge_dups_read_stat": 10000 # ToDO: adjust, maybe even 1000 is enough
             "purge_dups": 10000 # ToDO: adjust, maybe less is OK , or maybe it is dependent on the genome size
             "merge_pri_hapdups_with_alt": 1000
+            "get_purge_stat_haplotype_comparison": 1000
             "create_links": 100
             "bwa_index": 10000
             "bwa_map": 30000
@@ -211,6 +213,7 @@
             "get_purge_dups_read_stat": "12:00:00" # TODO: adjust
             "purge_dups": "10:00:00" # TODO adjust depending on genome size
             "merge_pri_hapdups_with_alt": "01:00:00"
+            "get_purge_stat_haplotype_comparison": "01:00:00"
             "create_links": "00:01:00"
             "bwa_index": "5:00:00"
             "bwa_map": "12:00:00"
