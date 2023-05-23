@@ -27,6 +27,8 @@ localrules: create_primary_contig_link, create_link_for_purged_fasta, merge_pri_
 localrules: create_primary_contig_len_file_link, merge_pri_hapdups_with_alt_for_len_files
 ruleorder: create_primary_contig_link > merge_pri_hapdups_with_alt
 ruleorder: minimap2_purge_dups_reads > minimap2_purge_dups_qc
+ruleorder: get_purge_dups_read_stat > get_purge_dups_read_stat_qc
+
 rule create_primary_contig_link:
     input:
         #fasta=out_dir_path / ("contig/{assembler}/%s.contig.{assembler}.hap1.fasta" % config["genome_name"]),
