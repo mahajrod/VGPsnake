@@ -137,7 +137,7 @@
             "install_from_pip": 1000
             "create_fastq_links": 100
             "create_links_for_draft": 100
-            "fastqc": 15000
+            "fastqc": 9999
             "multiqc": 1000
             "nanoqc": 10000
             "nanoplot": 10000
