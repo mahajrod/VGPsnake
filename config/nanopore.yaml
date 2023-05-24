@@ -949,7 +949,7 @@
 "genome_size_estimation_data":
     - "hifi"
     - "illumina"
-    - "hic"
+    #- "hic"
     - "nanopore"
 
 "kraken_scan_data":
