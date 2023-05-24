@@ -925,7 +925,16 @@
     - "hic"
     - "illumina"
     #- "lr"
-
+    -
+"fastqc_data_types":
+    - "hifi"
+    #- "clr"
+    #- "nanopore"
+    #- "bionano"
+    - "hic"
+    - "illumina"
+    #- "lr"
+    -
 "long_read_data":
     - "hifi"
     - "clr"
