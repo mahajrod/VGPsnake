@@ -66,6 +66,7 @@ for first_level_sub_dir in config["first_level_subdir_list"]:
 #-------- Verification of input datatypes --------
 
 fastq_based_data_type_set = set(data_types) & set(config["fastq_based_data"])
+fastqc_data_type_set = fastq_based_data_type_set & set(config["fastqc_data_types"])
 long_read_data_type_set = set(data_types) & set(config["long_read_data"])
 genome_size_estimation_data_type_set = set(config["genome_size_estimation_data"]) & fastq_based_data_type_set
 
@@ -230,9 +231,9 @@ if "read_qc" in config["stage_list"]:
     results_list += [*[expand(output_dict["qc"] / "fastqc/{datatype}/{stage}/{fileprefix}_fastqc.zip",
                                datatype=[dat_type, ],
                                stage=["raw", ],
-                               fileprefix=input_file_prefix_dict[dat_type],) for dat_type in fastq_based_data_type_set],
+                               fileprefix=input_file_prefix_dict[dat_type],) for dat_type in fastqc_data_type_set ],
                       expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
-                             datatype=fastq_based_data_type_set,
+                             datatype=fastqc_data_type_set ,
                              stage=["raw",]),
                       *[expand(output_dict["qc"] / "nanoplot/{datatype}/{stage}/{fileprefix}.Yield_By_Length.png",
                                datatype=[dat_type, ],
@@ -251,14 +252,13 @@ if "draft_qc" in config["stage_list"]:
 if "filter_reads" in config["stage_list"]:
     results_list += [expand(output_dict["data"] / ("fastq/hifi/filtered/{fileprefix}%s" % config["fastq_extension"]),
                             fileprefix=input_file_prefix_dict["hifi"]) if "hifi" in fastq_based_data_type_set else [],
-                    expand(output_dict["qc"] / "fastqc/{datatype}/{stage}/{fileprefix}_fastqc.zip",
-                           datatype=["hifi", ],
-                           stage=["filtered", ],
-                           fileprefix=input_file_prefix_dict["hifi"],
-                           ) if "hifi" in fastq_based_data_type_set else [],
-                    expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
-                           datatype=["hifi"],
-                           stage=["filtered",]) if "hifi" in fastq_based_data_type_set else [],
+                    *[expand(output_dict["qc"] / "fastqc/{datatype}/{stage}/{fileprefix}_fastqc.zip",
+                               datatype=[dat_type, ],
+                               stage=["filtered", ],
+                               fileprefix=input_file_prefix_dict[dat_type],) for dat_type in fastqc_data_type_set ],
+                      expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
+                             datatype=fastqc_data_type_set ,
+                             stage=["filtered",]),
                     *[[expand(output_dict["kmer"] / "{datatype}/{stage}/genomescope/{genome_prefix}.{datatype}.{stage}.{kmer_length}.{kmer_tool}.genomescope.parameters",
                            datatype=[dat_type,],
                            genome_prefix=[config["genome_prefix"], ],
