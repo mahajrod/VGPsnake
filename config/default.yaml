@@ -434,7 +434,27 @@
                 "hifi":
                     "kmer_length":
                         - 21
-                        - 31
+                        #- 31
+                        #- 41  #very RAM hungry option
+                        #- 51  #very RAM hungry option
+                        #- 61  #very RAM hungry option
+                        #- 71  #very RAM hungry option
+                    "min_coverage":
+                        - 3
+                "illumina":
+                    "kmer_length":
+                        - 21
+                        #- 31
+                        #- 41  #very RAM hungry option
+                        #- 51  #very RAM hungry option
+                        #- 61  #very RAM hungry option
+                        #- 71  #very RAM hungry option
+                    "min_coverage":
+                        - 3
+                "nanopore":
+                    "kmer_length":
+                        - 21
+                        #- 31
                         #- 41  #very RAM hungry option
                         #- 51  #very RAM hungry option
                         #- 61  #very RAM hungry option
