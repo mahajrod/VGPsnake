@@ -66,6 +66,7 @@ for first_level_sub_dir in config["first_level_subdir_list"]:
 #-------- Verification of input datatypes --------
 
 fastq_based_data_type_set = set(data_types) & set(config["fastq_based_data"])
+long_read_data_type_set = set(data_types) & set(config["long_read_data"])
 genome_size_estimation_data_type_set = set(config["genome_size_estimation_data"]) & fastq_based_data_type_set
 
 #logging.info("Verifying datatypes...")
@@ -229,15 +230,20 @@ if "read_qc" in config["stage_list"]:
     results_list += [*[expand(output_dict["qc"] / "fastqc/{datatype}/{stage}/{fileprefix}_fastqc.zip",
                                datatype=[dat_type, ],
                                stage=["raw", ],
-                               fileprefix=input_file_prefix_dict[dat_type], #list(
-                                 #    map(
-                                 #        lambda s: str(s.name)[:-len(config["fastq_extension"])],
-                                 #        input_filedict[dat_type])
-                                 #        )
-                               ) for dat_type in fastq_based_data_type_set],
+                               fileprefix=input_file_prefix_dict[dat_type],) for dat_type in fastq_based_data_type_set],
                       expand(output_dict["qc"] / "multiqc/{datatype}/{stage}/multiqc.{datatype}.{stage}.report.html",
                              datatype=fastq_based_data_type_set,
-                             stage=["raw",]), ]
+                             stage=["raw",]),
+                      *[expand(output_dict["qc"] / "nanoplot/{datatype}/{stage}/{fileprefix}.Yield_By_Length.png",
+                               datatype=[dat_type, ],
+                               stage=["raw", ],
+                               fileprefix=input_file_prefix_dict[dat_type],) for dat_type in long_read_data_type_set],
+                    *[expand(output_dict["qc"] / "nanoqc/{datatype}/{stage}/{fileprefix}",
+                               datatype=[dat_type, ],
+                               stage=["raw", ],
+                               fileprefix=input_file_prefix_dict[dat_type],) for dat_type in long_read_data_type_set],
+                     ]
+
 
 if "draft_qc" in config["stage_list"]:
     results_list += [ ] # TODO: implement
@@ -260,6 +266,22 @@ if "filter_reads" in config["stage_list"]:
                            kmer_tool=[kmer_tool,],
                            kmer_length=parameters["tool_options"][kmer_tool][dat_type]["kmer_length"],
                            ) for kmer_tool in config["kmer_counter_list"] ]  for dat_type in genome_size_estimation_data_type_set],
+                    *[expand(output_dict["qc"] / "nanoplot/{datatype}/{stage}/{fileprefix}.Yield_By_Length.png",
+                               datatype=[dat_type, ],
+                               stage=["filtered", ],
+                               fileprefix=input_file_prefix_dict[dat_type],) for dat_type in long_read_data_type_set],
+                    expand(output_dict["qc"] / "nanoplot/{datatype}/{stage}/{fileprefix}.Yield_By_Length.png",
+                               datatype=["nanopore", ],
+                               stage=["trimmed", ],
+                               fileprefix=input_file_prefix_dict["nanopore"],) if "nanopore" in long_read_data_type_set else [],
+                    *[expand(output_dict["qc"] / "nanoqc/{datatype}/{stage}/{fileprefix}",
+                               datatype=[dat_type, ],
+                               stage=["filtered", ],
+                               fileprefix=input_file_prefix_dict[dat_type],) for dat_type in long_read_data_type_set],
+                    expand(output_dict["qc"] / "nanoqc/{datatype}/{stage}/{fileprefix}",
+                               datatype=["nanopore", ],
+                               stage=["trimmed", ],
+                               fileprefix=input_file_prefix_dict["nanopore"],) if "nanopore" in long_read_data_type_set else [],
                     ]
     if config["database_set"]["kraken2"] and kraken_scan_data_type_set:
         results_list += [expand(out_dir_path / "contamination_scan/kraken2/{datatype}/kraken2.{database}.report",
@@ -584,6 +606,12 @@ include: "workflow/rules/Preprocessing/Files.smk"
 include: "workflow/rules/QCFiltering/FastQC.smk"
 include: "workflow/rules/QCFiltering/MultiQC.smk"
 include: "workflow/rules/QCFiltering/Cutadapt.smk"
+
+if "nanopore" in data_types:
+    include: "workflow/rules/QCFiltering/Nanopore.smk"
+    include: "workflow/rules/QCFiltering/NanoQC.smk"
+    include: "workflow/rules/QCFiltering/NanoPlot.smk"
+
 include: "workflow/rules/Kmer/Jellyfish.smk"
 include: "workflow/rules/Kmer/Meryl.smk"
 include: "workflow/rules/Kmer/Smudgeplot.smk"
@@ -617,4 +645,6 @@ if "hic_scaffolding" in config["stage_list"]:
 
 if "curation" in config["stage_list"]:
     include: "workflow/rules/Curation/RapidCuration.smk"
+
+
 #----

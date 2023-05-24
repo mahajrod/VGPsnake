@@ -19,6 +19,9 @@
     "kat":
         "yaml": "workflow/envs/conda.kat.yaml"
         "name": "kat"
+    "nanopore":
+        "yaml": "workflow/envs/conda.nanopore.yaml"
+        "name": "nanopore"
 
 #----
 #---- Directory structure config ----
@@ -67,7 +70,10 @@
             "create_links_for_draft": 1
             "fastqc": 1
             "multiqc": 1
+            "nanoqc": 1
             "cutadapt": 10
+            "porechop_abi": 16
+            "chopper": 8
             "jellyfish": 30
             "meryl": 30
             "meryl_extract": 10
@@ -129,7 +135,10 @@
             "create_links_for_draft": 100
             "fastqc": 5500
             "multiqc": 1000
+            "nanoqc": 10000
             "cutadapt": 10000
+            "porechop_abi": 20000
+            "chopper": 10000
             "jellyfish": 200000
             "genomescope": 300
             "parse_genomescope_output": 100
@@ -190,7 +199,9 @@
             "create_links_for_draft": "00:05:00"
             "fastqc": "04:00:00"
             "multiqc": "00:10:00"
+            "nanoqc": "04:00:00"
             "cutadapt": "04:00:00"
+            "filter_nanopore": "08:00:00"
             "jellyfish": "08:00:00"
             "kat_gcp": "02:00:00"
             "meryl": "08:00:00"
@@ -271,6 +282,18 @@
                         - "AGATCGGAAGAGC"
                     "reverse_three_prime_adapter_list":
                         - "AGATCGGAAGAGC"
+            "porechop":
+                "nanopore":
+                    "ab_initio": True # --ab_initio
+                    "guess_adaptor_ony": False # --guess_adapter_only
+                    "verbosity": 2 # -v
+            "chopper":
+                "nanopore":
+                    "headcrop" : 0         # --headcrop      Trim N nucleotides from the start of a read [default: 0]
+                    "maxlength": None      # --maxlength     Sets a maximum read length [default: 2147483647]
+                    "minlength": 500       # --minlength     Sets a minimum read length [default: 1]
+                    "quality"  : 10        # --quality       Sets a minimum Phred average quality score [default: 0]
+                    "tailcrop" : 0         # --tailcrop      Trim N nucleotides from the end of a read [default: 0]
             "fastqc":
                 "kmer_length": 7
             "mosdepth":
@@ -837,11 +860,13 @@
     - "hifi"
     - "illumina"
     - "hic"
+    - "nanopore"
 
 "kraken_scan_data":
     - "hifi"
     - "illumina"
     - "hic"
+    - "nanopore"
 
 "read_phasing_data":
     - "hic"
@@ -851,6 +876,7 @@
 "filtered_data":
     - "hifi"
     - "illumina"
+    - "nanopore"
 
 "fastq_based_data":
     - "hifi"
