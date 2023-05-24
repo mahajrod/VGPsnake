@@ -19,6 +19,9 @@
     "kat":
         "yaml": "workflow/envs/conda.kat.yaml"
         "name": "kat"
+    "nanopore":
+        "yaml": "workflow/envs/conda.nanopore.yaml"
+        "name": "nanopore"
 
 #----
 #---- Directory structure config ----
@@ -67,7 +70,11 @@
             "create_links_for_draft": 1
             "fastqc": 1
             "multiqc": 1
+            "nanoqc": 1
+            "nanoplot": 4
             "cutadapt": 10
+            "porechop_abi": 16
+            "chopper": 8
             "jellyfish": 30
             "meryl": 30
             "meryl_extract": 10
@@ -93,6 +100,7 @@
             "get_purge_dups_read_stat": 5 # ToDO: adjust, maybe even one is enough
             "purge_dups": 5 # TODO: adjust, maybe even one is enough
             "merge_pri_hapdups_with_alt": 1
+            "get_purge_stat_haplotype_comparison": 1
             "create_links": 1
             "bwa_index": 1
             "bwa_map": 50
@@ -116,6 +124,8 @@
             "extract_coverage_from_purge_dups_file": 1
             "extract_stats_from_purge_dups_file": 1
             "extract_artefact_sequences": 1
+            "telo_finder" : 1
+            "rapid_split": 1
             #"fcs_gx": 50 # set via allowed_databases variable
             mosdepth: 3
             basecall: 30
@@ -126,7 +136,11 @@
             "create_links_for_draft": 100
             "fastqc": 5500
             "multiqc": 1000
+            "nanoqc": 10000
+            "nanoplot": 10000
             "cutadapt": 10000
+            "porechop_abi": 20000
+            "chopper": 10000
             "jellyfish": 200000
             "genomescope": 300
             "parse_genomescope_output": 100
@@ -151,6 +165,7 @@
             "get_purge_dups_read_stat": 10000 # ToDO: adjust, maybe even 1000 is enough
             "purge_dups": 10000 # ToDO: adjust, maybe less is OK , or maybe it is dependent on the genome size
             "merge_pri_hapdups_with_alt": 1000
+            "get_purge_stat_haplotype_comparison": 1000
             "create_links": 100
             "bwa_index": 10000
             "bwa_map": 30000
@@ -174,6 +189,8 @@
             "extract_coverage_from_purge_dups_file": 5000
             "extract_stats_from_purge_dups_file": 1000
             "extract_artefact_sequences": 5000
+            "telo_finder": 1000
+            "rapid_split": 1000
             #"fcs_gx": 512000 # set via allowed_databases variable
             mosdepth: 4000 #The amount of memory is approximately equal to 32-bits * longest chrom length, so for the 249MB chromosome 1, it will require 1GB of memory.
             basecall: 20000
@@ -184,7 +201,10 @@
             "create_links_for_draft": "00:05:00"
             "fastqc": "04:00:00"
             "multiqc": "00:10:00"
+            "nanoqc": "04:00:00"
+            "nanoplot": "04:00:00"
             "cutadapt": "04:00:00"
+            "filter_nanopore": "08:00:00"
             "jellyfish": "08:00:00"
             "kat_gcp": "02:00:00"
             "meryl": "08:00:00"
@@ -211,6 +231,7 @@
             "get_purge_dups_read_stat": "12:00:00" # TODO: adjust
             "purge_dups": "10:00:00" # TODO adjust depending on genome size
             "merge_pri_hapdups_with_alt": "01:00:00"
+            "get_purge_stat_haplotype_comparison": "01:00:00"
             "create_links": "00:01:00"
             "bwa_index": "5:00:00"
             "bwa_map": "12:00:00"
@@ -233,6 +254,8 @@
             "extract_coverage_from_purge_dups_file": "05:00:00"
             "extract_stats_from_purge_dups_file" : "01:00:00"
             "extract_artefact_sequences": "01:00:00"
+            "telo_finder": "00:30:00"
+            "rapid_split": "00:30:00"
             #"fcs_gx": "03:00:00" # set via allowed_databases variable
 
             mosdepth: "02:00:00"
@@ -262,6 +285,18 @@
                         - "AGATCGGAAGAGC"
                     "reverse_three_prime_adapter_list":
                         - "AGATCGGAAGAGC"
+            "porechop":
+                "nanopore":
+                    "ab_initio": True # --ab_initio
+                    "guess_adaptor_ony": False # --guess_adapter_only
+                    "verbosity": 2 # -v
+            "chopper":
+                "nanopore":
+                    "headcrop" : 0         # --headcrop      Trim N nucleotides from the start of a read [default: 0]
+                    "maxlength": None      # --maxlength     Sets a maximum read length [default: 2147483647]
+                    "minlength": 500       # --minlength     Sets a minimum read length [default: 1]
+                    "quality"  : 10        # --quality       Sets a minimum Phred average quality score [default: 0]
+                    "tailcrop" : 0         # --tailcrop      Trim N nucleotides from the end of a read [default: 0]
             "fastqc":
                 "kmer_length": 7
             "mosdepth":
@@ -284,22 +319,44 @@
                     "min_coverage": 1
                     "max_coverage": 100000000
                     "increment": 1
+                "hic":
+                    "kmer_length":
+                        - 21
+                    "hash_size": "20G"
+                    "min_coverage": 1
+                    "max_coverage": 100000000
+                    "increment": 1
             "meryl":
                 "hifi":
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41 #very RAM hungry option
                 "illumina":
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41 #very RAM hungry option
+                "hic":
+                    "kmer_length":
+                        - 21
+                "nanopore":
+                    "kmer_length":
+                        - 21
+                        - 31
+                        #- 41 #very RAM hungry option
             "smudgeplot":
                 "lower_boundary":
                     - 10
                 "upper_boundary":
                     - 1500
+            "telo_finder":
+                "size": 200
+                "min_kmer": 4
+                "max_kmer": 15
+                "ends": 1000
+            "rapid_split":
+                "print_split_fasta": False
             "hifiasm":
                 "default":
                     "purge level": 0 # -l purge level. 0: no purging; 1: light; 2/3: aggressive [0 for trio; 3 for unzip]
@@ -377,11 +434,31 @@
                 "hifi":
                     "kmer_length":
                         - 21
-                        - 31
-                        - 41
-                        - 51
-                        #- 61
-                        #- 71
+                        #- 31
+                        #- 41  #very RAM hungry option
+                        #- 51  #very RAM hungry option
+                        #- 61  #very RAM hungry option
+                        #- 71  #very RAM hungry option
+                    "min_coverage":
+                        - 3
+                "illumina":
+                    "kmer_length":
+                        - 21
+                        #- 31
+                        #- 41  #very RAM hungry option
+                        #- 51  #very RAM hungry option
+                        #- 61  #very RAM hungry option
+                        #- 71  #very RAM hungry option
+                    "min_coverage":
+                        - 3
+                "nanopore":
+                    "kmer_length":
+                        - 21
+                        #- 31
+                        #- 41  #very RAM hungry option
+                        #- 51  #very RAM hungry option
+                        #- 61  #very RAM hungry option
+                        #- 71  #very RAM hungry option
                     "min_coverage":
                         - 3
             "kat":
@@ -404,6 +481,16 @@
                 "default":
                      "min_contig_len": 1000
                      "min_mapping_quality": 10
+                "phased_reads":
+                     "min_contig_len": 1000
+                     "min_mapping_quality": 10
+                     "phasing_kmer_length": 31
+                     "use_phased_reads": True
+                "unphased_reads":
+                     "min_contig_len": 1000
+                     "min_mapping_quality": 10
+                     "phasing_kmer_length": "NA"
+                     "use_phased_reads": False
             "salsa2":
                 "restriction_seq":
                     "Arima": "GATC,GANTC"
@@ -419,6 +506,14 @@
                     "Csp6I_MseI": "TTATAA,GTATAC,GTATAA,TTATAC"
                 "default":
                      "min_contig_len": 1000
+                "phased_reads":
+                     "min_contig_len": 1000
+                     "use_phased_reads": True
+                     "phasing_kmer_length": 31
+                "unphased_reads":
+                     "min_contig_len": 1000
+                     "use_phased_reads": False
+                     "phasing_kmer_length": "NA"
     "micro": # < 15 Mbp, yeasts and bacteria
         "threads":
             "create_fastq_links": 1
@@ -479,12 +574,19 @@
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
                 "illumina":
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
+                "hic":
+                    "kmer_length":
+                        - 21
+                "nanopore":
+                    "kmer_length":
+                        - 21
+                        - 31
             "quast":
                 "large_genome": False
             "minimap2":
@@ -519,12 +621,19 @@
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
                 "illumina":
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                "nanopore":
+                    "kmer_length":
+                        - 21
+                        - 31
+                "hic":
+                    "kmer_length":
+                        - 21
+                        #- 41  #very RAM hungry option
             "quast":
                 "large_genome": False
             "minimap2":
@@ -560,12 +669,19 @@
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
                 "illumina":
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
+                "hic":
+                    "kmer_length":
+                        - 21
+                "nanopore":
+                    "kmer_length":
+                        - 21
+                        - 31
             "quast":
                 "large_genome": True
             "minimap2":
@@ -598,12 +714,19 @@
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
                 "illumina":
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
+                "hic":
+                    "kmer_length":
+                        - 21
+                "nanopore":
+                    "kmer_length":
+                        - 21
+                        - 31
             "quast":
                 "large_genome": True
             "minimap2":
@@ -618,6 +741,7 @@
             "minimap2":       30000
         "threads":
             "hifiasm": 100
+            "meryl": 70
         "time":
             "jellyfish": "12:00:00"
             "hifiasm": "16:00:00"
@@ -638,12 +762,19 @@
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
                 "illumina":
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
+                "hic":
+                    "kmer_length":
+                        - 21
+                "nanopore":
+                    "kmer_length":
+                        - 21
+                        - 31
             "quast":
                 "large_genome": True
             "minimap2":
@@ -676,12 +807,19 @@
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
                 "illumina":
                     "kmer_length":
                         - 21
                         - 31
-                        - 41
+                        #- 41  #very RAM hungry option
+                "hic":
+                    "kmer_length":
+                        - 21
+                "nanopore":
+                    "kmer_length":
+                        - 21
+                        - 31
             "quast":
                 "large_genome": True
             "minimap2":
@@ -713,9 +851,16 @@
                 "hifi":
                     "kmer_length":
                         - 21
-                        #- 31
-                        #- 41
+                        #- 31  #very RAM hungry option
+                        #- 41  #very RAM hungry option
                 "illumina":
+                    "kmer_length":
+                        - 21
+                        #- 31  #very RAM hungry option
+                "hic":
+                    "kmer_length":
+                        - 21
+                "nanopore":
                     "kmer_length":
                         - 21
             "quast":
@@ -774,7 +919,7 @@
 "allowed_data_types":
     - "hifi"
     #- "clr"
-    #- "nanopore"
+    - "nanopore"
     #- "bionano"
     - "hic"
     - "illumina"
@@ -788,11 +933,14 @@
 "genome_size_estimation_data":
     - "hifi"
     - "illumina"
+    - "hic"
+    - "nanopore"
 
 "kraken_scan_data":
     - "hifi"
     - "illumina"
     - "hic"
+    - "nanopore"
 
 "read_phasing_data":
     - "hic"
@@ -802,6 +950,7 @@
 "filtered_data":
     - "hifi"
     - "illumina"
+    - "nanopore"
 
 "fastq_based_data":
     - "hifi"
@@ -857,6 +1006,16 @@
             "draft": #TODO: implement
                 - "purge_dups"
                 - "hic_scaffolding"
+        "curation":
+            "fastq":
+                - "contig"
+                - "purge_dups"
+                - "hic_scaffolding"
+                - "curation"
+            "draft": #TODO: implement
+                - "purge_dups"
+                - "hic_scaffolding"
+                - "curation"
         "hic_scaffolding":
             "fastq":
                 - "contig"
@@ -890,7 +1049,8 @@
             - "purge_dups"
     "hic_scaffolding":
         "default":
-            - "salsa2" # Allowed: "salsa2", "yahs" TODO:  "3d-dna"
+            #- "salsa2" # Allowed: "salsa2", "yahs" TODO:  "3d-dna"
+            - "yahs"
 
 "tool_specific_features":
     "hifiasm":
@@ -926,9 +1086,13 @@
     "purge_dups":
         - "default"
     "salsa2":
-        - "default"
+        - "phased_reads"
+        - "unphased_reads"
     "yahs":
-        - "default"
+        - "phased_reads"
+        - "unphased_reads"
+
+
 
 "ploidy": 2
 "genome_prefix": "genome"
@@ -950,18 +1114,14 @@
 
 "final_kmer_counter": "meryl" # pipeline allows usage of different kmer counter tools, but only one genomesize assessment could be used
 "final_kmer_length": 21 # pipeline allows usage of different kmer length, but only one genomesize assessment could be used
-"final_kmer_datatype": "hifi"
-"assembly_kmer_length": 31 # kmer length to be used for phasing hic reads using assembled and purge_dupsed contigs
+"final_kmer_datatype": "illumina"
+"assembly_kmer_length":
+    - 31 # kmer length to be used for phasing hic reads using assembled and purge_dupsed contigs
 
 "contig_datatype": "hifi"
 
 "hic_enzyme_set": "Arima"
 "custom_enzyme_set": null # None
-
-#---- Custom tools ----
-#"MAVR_path": "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/soft/MAVR/"
-#"MACE_path": "/maps/projects/codon_0000/people/svc-rapunzl-smrtanl/yggdrasil/soft/MACE/"
-#---- Pipeline modes ----
 
 "starting_point": "fastq" # Allowed: "draft"
 "data_types": "hifi,hic" # TODO: add  "hifi,lr,bionano,hic", "hifi,lr,hic"  and "hifi" and others
