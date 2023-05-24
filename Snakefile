@@ -327,7 +327,7 @@ if "gcp" in config["stage_list"]:
                      stage=["filtered",],
                      kmer_length=parameters["tool_options"]["gcp"][dat_type]["kmer_length"],
                      min_coverage=parameters["tool_options"]["gcp"][dat_type]["min_coverage"],
-                     )  for dat_type in set(parameters["tool_options"]["gcp"]) & data_types
+                     )  for dat_type in set(parameters["tool_options"]["gcp"]) & set(data_types)
                     ]
 
 if "filter_draft" in config["stage_list"]:
