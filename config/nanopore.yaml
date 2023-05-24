@@ -286,6 +286,12 @@
                         - "AGATCGGAAGAGC"
                     "reverse_three_prime_adapter_list":
                         - "AGATCGGAAGAGC"
+                "hic":
+                    "min_read_length": 50
+                    "forward_three_prime_adapter_list":
+                        - "AGATCGGAAGAGC"
+                    "reverse_three_prime_adapter_list":
+                        - "AGATCGGAAGAGC"
             "porechop_abi":
                 "nanopore":
                     "ab_initio": True # --ab_initio
