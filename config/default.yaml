@@ -337,7 +337,10 @@
                 "hic":
                     "kmer_length":
                         - 21
-                        #- 31
+                "nanopore":
+                    "kmer_length":
+                        - 21
+                        - 31
                         #- 41 #very RAM hungry option
             "smudgeplot":
                 "lower_boundary":
@@ -554,6 +557,13 @@
                         - 21
                         - 31
                         #- 41  #very RAM hungry option
+                "hic":
+                    "kmer_length":
+                        - 21
+                "nanopore":
+                    "kmer_length":
+                        - 21
+                        - 31
             "quast":
                 "large_genome": False
             "minimap2":
@@ -593,6 +603,13 @@
                     "kmer_length":
                         - 21
                         - 31
+                "nanopore":
+                    "kmer_length":
+                        - 21
+                        - 31
+                "hic":
+                    "kmer_length":
+                        - 21
                         #- 41  #very RAM hungry option
             "quast":
                 "large_genome": False
@@ -635,6 +652,13 @@
                         - 21
                         - 31
                         #- 41  #very RAM hungry option
+                "hic":
+                    "kmer_length":
+                        - 21
+                "nanopore":
+                    "kmer_length":
+                        - 21
+                        - 31
             "quast":
                 "large_genome": True
             "minimap2":
@@ -673,6 +697,13 @@
                         - 21
                         - 31
                         #- 41  #very RAM hungry option
+                "hic":
+                    "kmer_length":
+                        - 21
+                "nanopore":
+                    "kmer_length":
+                        - 21
+                        - 31
             "quast":
                 "large_genome": True
             "minimap2":
@@ -714,6 +745,13 @@
                         - 21
                         - 31
                         #- 41  #very RAM hungry option
+                "hic":
+                    "kmer_length":
+                        - 21
+                "nanopore":
+                    "kmer_length":
+                        - 21
+                        - 31
             "quast":
                 "large_genome": True
             "minimap2":
@@ -752,6 +790,13 @@
                         - 21
                         - 31
                         #- 41  #very RAM hungry option
+                "hic":
+                    "kmer_length":
+                        - 21
+                "nanopore":
+                    "kmer_length":
+                        - 21
+                        - 31
             "quast":
                 "large_genome": True
             "minimap2":
@@ -789,6 +834,12 @@
                     "kmer_length":
                         - 21
                         #- 31  #very RAM hungry option
+                "hic":
+                    "kmer_length":
+                        - 21
+                "nanopore":
+                    "kmer_length":
+                        - 21
             "quast":
                 "large_genome": True
             "minimap2":
