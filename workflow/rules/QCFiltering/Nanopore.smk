@@ -7,15 +7,15 @@ rule filter_nanopore:
         filtered_fastq=output_dict["data"] / ("fastq/{datatype}/filtered/{fileprefix}%s" % config["fastq_extension"]),
         #stats=output_dict["data"] / "fastq/{datatype}/{stage}/{fileprefix}.cutadapt.stats"
     params:
-         ab_initio=lambda wildcards: parse_option_flag("ab_initio", parameters["tool_options"]["porechop_abi"][wildcards.datatype]["ab_initio"], "--ab_initio"),
-         verbosity=lambda wildcards: parse_option("verbosity", parameters["tool_options"]["porechop_abi"][wildcards.datatype]["verbosity"], "-v"),
+         ab_initio=lambda wildcards: parse_option_flag("ab_initio", parameters["tool_options"]["porechop_abi"][wildcards.datatype], "--ab_initio"),
+         verbosity=lambda wildcards: parse_option("verbosity", parameters["tool_options"]["porechop_abi"][wildcards.datatype], "-v"),
          porechop_abi_threads=parameters["threads"]["porechop_abi"],
          chopper_threads     =parameters["threads"]["chopper"],
-         headcrop  =lambda wildcards:parse_option("headcrop",  parameters["tool_options"]["chopper"][wildcards.datatype]["headcrop"],  "--headcrop"),
-         maxlength =lambda wildcards:parse_option("maxlength", parameters["tool_options"]["chopper"][wildcards.datatype]["maxlength"], "--maxlength"),
-         minlength =lambda wildcards:parse_option("minlength", parameters["tool_options"]["chopper"][wildcards.datatype]["minlength"], "--minlength"),
-         quality   =lambda wildcards:parse_option("quality",   parameters["tool_options"]["chopper"][wildcards.datatype]["quality"],   "--quality"),
-         tailcrop  =lambda wildcards:parse_option("tailcrop",  parameters["tool_options"]["chopper"][wildcards.datatype]["tailcrop"],  "--tailcrop"),
+         headcrop  =lambda wildcards:parse_option("headcrop",  parameters["tool_options"]["chopper"][wildcards.datatype], "--headcrop"),
+         maxlength =lambda wildcards:parse_option("maxlength", parameters["tool_options"]["chopper"][wildcards.datatype], "--maxlength"),
+         minlength =lambda wildcards:parse_option("minlength", parameters["tool_options"]["chopper"][wildcards.datatype], "--minlength"),
+         quality   =lambda wildcards:parse_option("quality",   parameters["tool_options"]["chopper"][wildcards.datatype], "--quality"),
+         tailcrop  =lambda wildcards:parse_option("tailcrop",  parameters["tool_options"]["chopper"][wildcards.datatype], "--tailcrop"),
     log:
         porechop_abi=output_dict["log"]/ "filter_nanopore.{datatype}.trimmed.{fileprefix}.porechop_abi.log",
         tee=output_dict["log"]/ "filter_nanopore.{datatype}.trimmed.{fileprefix}.tee.log",
