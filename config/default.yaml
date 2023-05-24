@@ -845,7 +845,7 @@
 "allowed_data_types":
     - "hifi"
     #- "clr"
-    #- "nanopore"
+    - "nanopore"
     #- "bionano"
     - "hic"
     - "illumina"
