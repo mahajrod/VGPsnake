@@ -71,6 +71,7 @@
             "fastqc": 1
             "multiqc": 1
             "nanoqc": 1
+            "nanoplot": 4
             "cutadapt": 10
             "porechop_abi": 16
             "chopper": 8
@@ -136,6 +137,7 @@
             "fastqc": 5500
             "multiqc": 1000
             "nanoqc": 10000
+            "nanoplot": 10000
             "cutadapt": 10000
             "porechop_abi": 20000
             "chopper": 10000
@@ -200,6 +202,7 @@
             "fastqc": "04:00:00"
             "multiqc": "00:10:00"
             "nanoqc": "04:00:00"
+            "nanoplot": "04:00:00"
             "cutadapt": "04:00:00"
             "filter_nanopore": "08:00:00"
             "jellyfish": "08:00:00"
