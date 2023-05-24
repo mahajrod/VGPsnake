@@ -22,6 +22,9 @@
     "nanopore":
         "yaml": "workflow/envs/conda.nanopore.yaml"
         "name": "nanopore"
+    "masurca":
+        "yaml": "workflow/envs/conda.masurca.yaml"
+        "name": "masurca"
 
 #----
 #---- Directory structure config ----
