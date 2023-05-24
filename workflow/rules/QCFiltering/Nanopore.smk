@@ -30,7 +30,7 @@ rule chopper:
     input:
         rules.porechop_abi.output#trimmed_fastq=output_dict["data"] / ("fastq/{datatype}/trimmed/{fileprefix}%s" % config["fastq_extension"]),
     output:
-        filtered_fastq=output_dict["data"] / ("fastq/{datatype, clr|hifi|nanopore}/filtered/{fileprefix}%s" % config["fastq_extension"]),
+        filtered_fastq=output_dict["data"] / ("fastq/{datatype}/filtered/{fileprefix}%s" % config["fastq_extension"]),
     params:
          headcrop  =lambda wildcards:parse_option("headcrop",  parameters["tool_options"]["chopper"][wildcards.datatype], "--headcrop"),
          maxlength =lambda wildcards:parse_option("maxlength", parameters["tool_options"]["chopper"][wildcards.datatype], "--maxlength"),
