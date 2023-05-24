@@ -4,8 +4,7 @@ rule nanoplot:
         fastq=output_dict["data"] / ("fastq/{datatype}/{stage}/{fileprefix}%s" % config["fastq_extension"])
     output:
         yield_png=output_dict["qc"] / "nanoplot/{datatype}/{stage}/{fileprefix}.Yield_By_Length.png"
-    params:
-        kmer=config["fastqc"]["kmer_length"]
+
     log:
         std=output_dict["log"]/ "nanoplot.{datatype}.{stage}.{fileprefix}.log",
         #stats=log_dir_path / "{library_id}/fastqc_merged_raw.stats.log",
