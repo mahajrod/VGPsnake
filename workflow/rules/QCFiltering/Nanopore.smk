@@ -20,6 +20,8 @@ rule filter_nanopore:
         porechop_abi=output_dict["log"]/ "filter_nanopore.{datatype}.trimmed.{fileprefix}.porechop_abi.log",
         tee=output_dict["log"]/ "filter_nanopore.{datatype}.trimmed.{fileprefix}.tee.log",
         chopper=output_dict["log"]/ "filter_nanopore.{datatype}.trimmed.{fileprefix}.chopper.log",
+        pigz_trimmed=output_dict["log"]/ "filter_nanopore.{datatype}.trimmed.{fileprefix}.pigz_trimmed.log",
+        pigz_filtered=output_dict["log"]/ "filter_nanopore.{datatype}.trimmed.{fileprefix}.pigz_filtered.log",
         #stats=log_dir_path / "{library_id}/fastqc_merged_raw.stats.log",
         cluster_log=output_dict["cluster_log"] / "filter_nanopore.{datatype}.trimmed.{fileprefix}.cluster.log",
         cluster_err=output_dict["cluster_error"] / "filter_nanopore.{datatype}.trimmed.{fileprefix}.cluster.err"
@@ -34,9 +36,12 @@ rule filter_nanopore:
     threads:
         parameters["threads"]["porechop_abi"] + parameters["threads"]["chopper"]
     shell:
+        " TRIMMED_FASTQ={output.trimmed_fastq}; "
+        " FILTERED_FASTQ={output.filtered_fastq}; "
         " porechop_abi {params.ab_initio} {params.verbosity} -t {params.porechop_abi_threads} "
-        " -i {input.fastq} 2>{log.porechop_abi} | "
-        " tee {output.trimmed_fastq} 2>{log.tee} | "
+        " -i <(zcat {input.fastq}) 2>{log.porechop_abi} | "
+        " tee ${{TRIMMED_FASTQ%.gz}} 2>{log.tee} | "
         " chopper {params.headcrop} {params.maxlength} {params.minlength} {params.quality} {params.tailcrop} "
-        " -t {params.chopper_threads} > {output.filtered_fastq} 2>{log.chopper} ; "
+        " -t {params.chopper_threads} 2>{log.chopper} | pigz -p 5 > {output.filtered_fastq} 2>{log.pigz_filtered} ; "
+        " pigz -p {threads} ${{TRIMMED_FASTQ%.gz}} >{log.pigz_trimmed} 2>&1; "
 

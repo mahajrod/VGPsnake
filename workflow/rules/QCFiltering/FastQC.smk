@@ -28,8 +28,8 @@ rule fastqc:
     threads:
         parameters["threads"]["fastqc"]
     shell:
-        #" mkdir -p {output.dir}; "
-        " fastqc {params.nogroup} -k {params.kmer} -t {threads} -o {params.out_dir} {input} 1>{log.std} 2>&1; "
+        " fastqc {params.nogroup} --memory {resources.mem} -k {params.kmer} -t {threads} "
+        " -o {params.out_dir} {input} 1>{log.std} 2>&1; "
         #" workflow/scripts/convert_fastqc_output.py -f {output.forward_fastqc} -r {output.reverse_fastqc} "
         #" -s {wildcards.library_id} -o {output.stats} 1>{log.stats} 2>&1 "
 
