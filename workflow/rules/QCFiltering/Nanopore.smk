@@ -34,14 +34,17 @@ rule filter_nanopore:
         time=parameters["time"]["filter_nanopore"],
         mem=parameters["memory_mb"]["porechop_abi"] + parameters["memory_mb"]["chopper"],
     threads:
-        parameters["threads"]["porechop_abi"] + parameters["threads"]["chopper"]
+        parameters["threads"]["porechop_abi"] + parameters["threads"]["chopper"] + 4
     shell:
+        #" INPUT_FASTQ={input.fastq}; "
+        #" INPUT_UNCOMPRESSED_FASTQ=${{INPUT_FASTQ%.gz}};"
+        #" gunzip -c ${{INPUT_FASTQ}} > ${{}}"
         " TRIMMED_FASTQ={output.trimmed_fastq}; "
         " FILTERED_FASTQ={output.filtered_fastq}; "
         " porechop_abi {params.ab_initio} {params.verbosity} -t {params.porechop_abi_threads} "
-        " -i <(zcat {input.fastq}) 2>{log.porechop_abi} | "
+        " -i {input.fastq} 2>{log.porechop_abi} | "
         " tee ${{TRIMMED_FASTQ%.gz}} 2>{log.tee} | "
         " chopper {params.headcrop} {params.maxlength} {params.minlength} {params.quality} {params.tailcrop} "
-        " -t {params.chopper_threads} 2>{log.chopper} | pigz -p 5 > {output.filtered_fastq} 2>{log.pigz_filtered} ; "
+        " -t {params.chopper_threads} 2>{log.chopper} | pigz -p 4 > {output.filtered_fastq} 2>{log.pigz_filtered} ; "
         " pigz -p {threads} ${{TRIMMED_FASTQ%.gz}} >{log.pigz_trimmed} 2>&1; "
 
