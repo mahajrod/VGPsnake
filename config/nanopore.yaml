@@ -285,7 +285,7 @@
                         - "AGATCGGAAGAGC"
                     "reverse_three_prime_adapter_list":
                         - "AGATCGGAAGAGC"
-            "porechop":
+            "porechop_abi":
                 "nanopore":
                     "ab_initio": True # --ab_initio
                     "guess_adaptor_ony": False # --guess_adapter_only
