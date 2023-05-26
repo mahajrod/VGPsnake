@@ -212,6 +212,8 @@
             "nanoplot": "04:00:00"
             "cutadapt": "04:00:00"
             "filter_nanopore": "08:00:00"
+            "porechop_abi": "08:00:00"
+            "chopper": "08:00:00"
             "jellyfish": "08:00:00"
             "kat_gcp": "02:00:00"
             "meryl": "08:00:00"
