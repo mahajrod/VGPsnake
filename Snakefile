@@ -609,10 +609,10 @@ include: "workflow/rules/QCFiltering/FastQC.smk"
 include: "workflow/rules/QCFiltering/MultiQC.smk"
 include: "workflow/rules/QCFiltering/Cutadapt.smk"
 
-if "nanopore" in data_types:
-    include: "workflow/rules/QCFiltering/Nanopore.smk"
-    include: "workflow/rules/QCFiltering/NanoQC.smk"
-    include: "workflow/rules/QCFiltering/NanoPlot.smk"
+#if "nanopore" in data_types:
+include: "workflow/rules/QCFiltering/Nanopore.smk"
+include: "workflow/rules/QCFiltering/NanoQC.smk"
+include: "workflow/rules/QCFiltering/NanoPlot.smk"
 
 include: "workflow/rules/Kmer/Jellyfish.smk"
 include: "workflow/rules/Kmer/Meryl.smk"
