@@ -69,3 +69,17 @@ def copy_absent_entries(input_dictionary, output_dictionary):
             if not isinstance(output_dictionary[entry], Mapping): # check if existing entry is not dictionary or dictionary like
                 continue # exit from recursion
             copy_absent_entries(input_dictionary[entry], output_dictionary[entry])
+
+
+def detect_pahasing_parameters(current_stage_parameters, phasing_stage, stage_separator=".."):
+    parameter_list = current_stage_parameters.split(stage_separator)
+    phasing_stage_coretools = []
+    for settings in config["stage_coretools"][phasing_stage]:
+        phasing_stage_coretools += config["stage_coretools"][phasing_stage][settings]
+    for entry in parameter_list:
+        for tool in phasing_stage_coretools:
+            if entry[:len(tool)] == tool:
+                return entry
+    else:
+        raise ValueError("Impossible to detect phasing stage parameters for {0} and phasing stage {1}".format(current_stage_parameters,
+                                                                                                              phasing_stage))

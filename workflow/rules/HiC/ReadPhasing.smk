@@ -21,12 +21,10 @@ rule meryl_assembly:
          " meryl k={wildcards.assembly_kmer_length} threads={threads} memory={resources.mem}m count "
          " output {output.db_dir} {input} 1>{log.std} 2>&1;"
 
-#def get_rest_haplotype_list()
 
 rule meryl_extract_unique_hap_kmers:
     input:
         target_hap_db_dir=out_dir_path / "{stage}/{parameters}/kmer/{genome_prefix}.{stage}.{haplotype}.{assembly_kmer_length}",
-        #hap1_db_dir=out_dir_path / "{stage}/{parameters}/kmer/{genome_prefix}.{stage}.hap1.{assembly_kmer_length}",
         rest_hap_db_dirs=lambda wildcards: expand(out_dir_path / ("%s/%s/kmer/%s.%s.{haplotype}.%s" % (wildcards.stage,
                                                                                                        wildcards.parameters,
                                                                                                        wildcards.genome_prefix,
@@ -39,7 +37,6 @@ rule meryl_extract_unique_hap_kmers:
         #unique_hap2_db_dir=out_dir_path / "{stage}/{parameters}/kmer/{genome_prefix}.{stage}.hap2.{assembly_kmer_length}.unique"
     log:
         std=output_dict["log"] / "meryl_extract_unique_hap_kmers.{genome_prefix}.{stage}.{parameters}.{assembly_kmer_length}.{haplotype}.log",
-        #hap2=output_dict["log"] / "meryl_extract_unique_hap_kmers.{genome_prefix}.{stage}.{parameters}.{assembly_kmer_length}.hap2.log",
         cluster_log=output_dict["cluster_log"] / "meryl_extract_unique_hap_kmers.{genome_prefix}.{stage}.{parameters}.{assembly_kmer_length}.{haplotype}.cluster.log",
         cluster_err=output_dict["cluster_error"] / "meryl_extract_unique_hap_kmers.{genome_prefix}.{stage}.{parameters}.{assembly_kmer_length}.{haplotype}.cluster.err"
     benchmark:
@@ -54,7 +51,6 @@ rule meryl_extract_unique_hap_kmers:
         parameters["threads"]["meryl_extract_unique_hap_kmers"]
     shell:
          " meryl threads={threads} memory={resources.mem}m difference {input.target_hap_db_dir} {input.rest_hap_db_dirs} output {output.unique_hap_db_dir} > {log.std} 2>&1; "
-         #" meryl threads={threads} memory={resources.mem}m difference {input.hap2_db_dir} {input.hap1_db_dir} output {output.unique_hap2_db_dir} > {log.hap2} 2>&1; "
 
 rule extract_pe_reads_by_unique_hap_kmers:
     input:
@@ -79,8 +75,6 @@ rule extract_pe_reads_by_unique_hap_kmers:
     output:
         forward_hap_read=out_dir_path / "{stage}/{parameters}/fastq/{haplotype, [^.]+}/{assembly_kmer_length}/{datatype}/{pairprefix}_1.fastq.gz",
         reverse_hap_read=out_dir_path / "{stage}/{parameters}/fastq/{haplotype, [^.]+}/{assembly_kmer_length}/{datatype}/{pairprefix}_2.fastq.gz",
-        #forward_hap2_read=out_dir_path / "{stage}/{parameters}/kmer/{pairprefix}.{genome_prefix}.AK{assembly_kmer_length}.hap2_1.fastq.gz",
-        #reverse_hap2_read=out_dir_path / "{stage}/{parameters}/kmer/{pairprefix}.{genome_prefix}.AK{assembly_kmer_length}.hap2_2.fastq.gz",
     log:
         std=output_dict["log"] / "extract_reads_by_unique_hap_kmers.{datatype}.{stage}.{parameters}.{pairprefix}.{assembly_kmer_length}.{haplotype}.log",
         cluster_log=output_dict["cluster_log"] / "extract_reads_by_unique_hap_kmers.{datatype}.{stage}.{parameters}.{pairprefix}.{assembly_kmer_length}.{haplotype}.cluster.log",
@@ -98,8 +92,6 @@ rule extract_pe_reads_by_unique_hap_kmers:
     shell:
          " meryl-lookup -exclude -sequence {input.forward_read} {input.reverse_read} "
          " -mers {input.rest_hap_db_dirs} -output {output.forward_hap_read} {output.reverse_hap_read} > {log.std} 2>&1;"
-         # " meryl-lookup -exclude -sequence {input.forward_read} {input.reverse_read} "
-         #" -mers {input.unique_hap2_db_dir} -output {output.forward_hap1_read} {output.reverse_hap1_read} > {log.hap1} 2>&1;"
 
 rule extract_se_reads_by_unique_hap_kmers:
     input:
@@ -116,8 +108,6 @@ rule extract_se_reads_by_unique_hap_kmers:
                                                                                         config["fastq_extension"])),
     output:
         hap_se_read=out_dir_path / "{stage}/{parameters}/fastq/{haplotype, [^.]+}/{assembly_kmer_length}/{datatype}/{fileprefix}.fastq.gz",
-        #forward_hap2_read=out_dir_path / "{stage}/{parameters}/kmer/{pairprefix}.{genome_prefix}.AK{assembly_kmer_length}.hap2_1.fastq.gz",
-        #reverse_hap2_read=out_dir_path / "{stage}/{parameters}/kmer/{pairprefix}.{genome_prefix}.AK{assembly_kmer_length}.hap2_2.fastq.gz",
     log:
         std=output_dict["log"] / "extract_reads_by_unique_hap_kmers.{datatype}.{stage}.{parameters}.{fileprefix}.{assembly_kmer_length}.{haplotype}.log",
         #hap2=output_dict["log"] / "extract_reads_by_unique_hap_kmers.{stage}.{parameters}.{fileprefix}.{genome_prefix}.AK{assembly_kmer_length}.hap2.log",
