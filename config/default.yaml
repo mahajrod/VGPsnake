@@ -25,6 +25,9 @@
     "masurca":
         "yaml": "workflow/envs/conda.masurca.yaml"
         "name": "masurca"
+    "ucsc":
+        "yaml": "workflow/envs/conda.ucsc.yaml"
+        "name": "ucsc"
 
 #----
 #---- Directory structure config ----
