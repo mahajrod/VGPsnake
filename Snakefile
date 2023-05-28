@@ -502,30 +502,30 @@ if "purge_dups" in config["stage_list"]:
                                 assembly_stage=["purge_dups", ],
                                 haplotype=haplotype_list,
                                 parameters=parameters_list),]
-
-for datatype in set(data_types) & set(config["read_phasing_data"]):
-    if datatype in config["paired_fastq_based_data"]:
-        results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{assembly_kmer_length}/{datatype}/{pairprefix}_1.fastq.gz",
-                                datatype=[datatype],
-                                stage=[config["phasing_stage"], ],
-                                parameters=stage_dict[config["phasing_stage"]]["parameters"],
-                                pairprefix=input_pairprefix_dict[datatype],
-                                genome_prefix=[config["genome_prefix"], ],
-                                haplotype=haplotype_list,
-                                assembly_kmer_length=config["assembly_kmer_length"]
-                                ),
-                        ]
-    else:
-        results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{assembly_kmer_length}/{datatype}/{fileprefix}.fastq.gz",
-                                datatype=[datatype],
-                                stage=[config["phasing_stage"], ],
-                                parameters=stage_dict[config["phasing_stage"]]["parameters"],
-                                fileprefix=input_file_prefix_dict[datatype],
-                                genome_prefix=[config["genome_prefix"], ],
-                                haplotype=haplotype_list,
-                                assembly_kmer_length=config["assembly_kmer_length"]
-                                ),
-                        ]
+if config["read_phasing_data"] in config["stage_list"]:
+    for datatype in set(data_types) & set(config["read_phasing_data"]):
+        if datatype in config["paired_fastq_based_data"]:
+            results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{assembly_kmer_length}/{datatype}/{pairprefix}_1.fastq.gz",
+                                    datatype=[datatype],
+                                    stage=[config["phasing_stage"], ],
+                                    parameters=stage_dict[config["phasing_stage"]]["parameters"],
+                                    pairprefix=input_pairprefix_dict[datatype],
+                                    genome_prefix=[config["genome_prefix"], ],
+                                    haplotype=haplotype_list,
+                                    assembly_kmer_length=config["assembly_kmer_length"]
+                                    ),
+                            ]
+        else:
+            results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{assembly_kmer_length}/{datatype}/{fileprefix}.fastq.gz",
+                                    datatype=[datatype],
+                                    stage=[config["phasing_stage"], ],
+                                    parameters=stage_dict[config["phasing_stage"]]["parameters"],
+                                    fileprefix=input_file_prefix_dict[datatype],
+                                    genome_prefix=[config["genome_prefix"], ],
+                                    haplotype=haplotype_list,
+                                    assembly_kmer_length=config["assembly_kmer_length"]
+                                    ),
+                            ]
 
 if "hic_scaffolding" in config["stage_list"]:
     prev_stage = stage_dict["hic_scaffolding"]["prev_stage"]
