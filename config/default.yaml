@@ -734,12 +734,12 @@
                 "hifi":
                     "kmer_length":
                         - 21
-                        - 31
+                        #- 31
                         #- 41  #very RAM hungry option
                 "illumina":
                     "kmer_length":
                         - 21
-                        - 31
+                        #- 31
                         #- 41  #very RAM hungry option
                 "hic":
                     "kmer_length":
@@ -747,7 +747,7 @@
                 "nanopore":
                     "kmer_length":
                         - 21
-                        - 31
+                        #- 31
             "quast":
                 "large_genome": True
             "minimap2":
@@ -782,12 +782,12 @@
                 "hifi":
                     "kmer_length":
                         - 21
-                        - 31
+                        #- 31
                         #- 41  #very RAM hungry option
                 "illumina":
                     "kmer_length":
                         - 21
-                        - 31
+                        #- 31
                         #- 41  #very RAM hungry option
                 "hic":
                     "kmer_length":
@@ -795,7 +795,7 @@
                 "nanopore":
                     "kmer_length":
                         - 21
-                        - 31
+                        #- 31
             "quast":
                 "large_genome": True
             "minimap2":
@@ -827,12 +827,12 @@
                 "hifi":
                     "kmer_length":
                         - 21
-                        - 31
+                        #- 31
                         #- 41  #very RAM hungry option
                 "illumina":
                     "kmer_length":
                         - 21
-                        - 31
+                        #- 31
                         #- 41  #very RAM hungry option
                 "hic":
                     "kmer_length":
@@ -840,7 +840,7 @@
                 "nanopore":
                     "kmer_length":
                         - 21
-                        - 31
+                        #- 31
             "quast":
                 "large_genome": True
             "minimap2":
