@@ -463,7 +463,7 @@ if "purge_dups" in config["stage_list"]:
                 stage_dict["purge_dups"]["parameters"][parameters_label] = {}
                 stage_dict["purge_dups"]["parameters"][parameters_label]["purge_dupser"] = purge_dupser
                 stage_dict["purge_dups"]["parameters"][parameters_label]["option_set"] = parameters["tool_options"][purge_dupser][option_set]
-    print(stage_dict["purge_dups"]["parameters"])
+    #print(stage_dict["purge_dups"]["parameters"])
     parameters_list = list(stage_dict["purge_dups"]["parameters"].keys())
     results_list += [
                      expand(out_dir_path / "purge_dups/{parameters}/{genome_prefix}.purge_dups.{haplotype}.fasta",
@@ -607,6 +607,11 @@ if "curation" in config["stage_list"]:
                             haplotype=haplotype_list,
                             parameters=parameters_list,
                             datatype=coverage_track_data_type_set),
+                     expand(out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/input/{genome_prefix}.canonical.txt",
+                            genome_prefix=[config["genome_prefix"], ],
+                            assembly_stage=["curation", ],
+                            haplotype=haplotype_list,
+                            parameters=parameters_list),
                      ]
 
 #----
@@ -666,5 +671,6 @@ if "curation" in config["stage_list"]:
     include: "workflow/rules/Curation/GapTrack.smk"
     include: "workflow/rules/Curation/RepeatTrack.smk"
     include: "workflow/rules/Curation/CoverageTrack.smk"
+    include: "workflow/rules/Curation/TelomereTrack.smk"
 
 #----
