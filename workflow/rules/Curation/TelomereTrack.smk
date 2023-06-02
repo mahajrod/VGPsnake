@@ -25,8 +25,10 @@ rule telo_finder: #
     threads: parameters["threads"]["telo_finder"]
 
     shell:
+        " STD_LOG=`absolute {log.std}`; "
+        " CP_LOG=`absolute {log.cp}`; "
         " WORKDIR=`dirname {output.res}`; "
         " cd ${{WORKDIR}}; "
         " workflow/script/rapid_curation/telo_finder.py {params.size} {params.max_kmer} {params.max_kmer} "
-        " {params.ends} {input.fasta} > {log.std} 2>&1; "
-        " cp canonical.txt `basename {output.res}` > {log.cp} 2>&1; "
+        " {params.ends} {input.fasta} > ${{STD_LOG}} 2>&1; "
+        " cp canonical.txt `basename {output.res}` > ${{CP_LOG}} 2>&1; "
