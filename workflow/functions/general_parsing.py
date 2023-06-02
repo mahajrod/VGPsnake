@@ -71,7 +71,7 @@ def copy_absent_entries(input_dictionary, output_dictionary):
             copy_absent_entries(input_dictionary[entry], output_dictionary[entry])
 
 
-def detect_pahasing_parameters(current_stage_parameters, phasing_stage, stage_separator=".."):
+def detect_phasing_parameters(current_stage_parameters, phasing_stage, stage_separator=".."):
     parameter_list = current_stage_parameters.split(stage_separator)
     phasing_stage_coretools = []
     for settings in config["stage_coretools"][phasing_stage]:

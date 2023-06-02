@@ -89,8 +89,8 @@ rule minimap2_purge_dups_reads:
         paf=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype, [^.]+}/{genome_prefix}.{haplotype}.{fileprefix}.paf.gz"
         #paf=out_dir_path  / ("purge_dups/{assembler}/{haplotype}/%s.purge_dups.{assembler}.{haplotype}.minimap2.{fileprefix}.paf.gz" % config["genome_name"])
     params:
-        index_size=lambda wildcards: parse_option("index_size", parameters["tool_options"]["minimap2"][parameters["tool_options"]["purge_dups"][wildcards.purge_dups_parameters]["datatype"]], " -I "),
-        alignment_scheme=lambda wildcards: parse_option("alignment_scheme", parameters["tool_options"]["minimap2"][parameters["tool_options"]["purge_dups"][wildcards.purge_dups_parameters]["datatype"]], " -x "),
+        index_size=lambda wildcards: parse_option("index_size", parameters["tool_options"]["minimap2"][stage_dict["purge_dups"]["parameters"][wildcards.purge_dups_parameters]["option_set"]["datatype"]], " -I "),
+        alignment_scheme=lambda wildcards: parse_option("alignment_scheme", parameters["tool_options"][stage_dict["purge_dups"]["parameters"][wildcards.purge_dups_parameters]["option_set"]["datatype"]], " -x "),
         #index_size=parameters["tool_options"]["minimap2"]["index_size"],
         #mapping_scheme=parameters["tool_options"]["minimap2"]["hifi_alignment_scheme"], # TODO: make this adjustable depending on read type
     log:
@@ -394,8 +394,8 @@ rule minimap2_purge_dups_qc:
         paf=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/assembly_qc/purge_dups/{haplotype, [^.]+}/{genome_prefix}.{haplotype}.{fileprefix}.paf.gz"
         #paf=out_dir_path  / ("purge_dups/{assembler}/{haplotype}/%s.purge_dups.{assembler}.{haplotype}.minimap2.{fileprefix}.paf.gz" % config["genome_name"])
     params:
-        index_size=lambda wildcards: parse_option("index_size", parameters["tool_options"]["minimap2"][parameters["tool_options"]["purge_dups"][wildcards.purge_dups_parameters]["datatype"]], " -I "),
-        alignment_scheme=lambda wildcards: parse_option("alignment_scheme", parameters["tool_options"]["minimap2"][parameters["tool_options"]["purge_dups"][wildcards.purge_dups_parameters]["datatype"]], " -x "),
+        index_size=lambda wildcards: parse_option("index_size", parameters["tool_options"]["minimap2"][stage_dict["purge_dups"]["parameters"][wildcards.purge_dups_parameters]["option_set"]["datatype"]], " -I "),
+        alignment_scheme=lambda wildcards: parse_option("alignment_scheme", parameters["tool_options"][stage_dict["purge_dups"]["parameters"][wildcards.purge_dups_parameters]["option_set"]["datatype"]], " -x "),
         #
         #index_size=parameters["tool_options"]["minimap2"]["index_size"],
         #mapping_scheme=parameters["tool_options"]["minimap2"]["hifi_alignment_scheme"], # TODO: make this adjustable depending on read type
