@@ -576,6 +576,32 @@ if "hic_scaffolding" in config["stage_list"]:
                                 assembly_stage=["hic_scaffolding", ],
                                 haplotype=haplotype_list,
                                 parameters=parameters_list),]
+if "curation" in config["stage_list"]:
+    prev_stage = stage_dict["curation"]["prev_stage"]
+    curation_tool_list = config["stage_coretools"]["curation"]["default"]
+    stage_dict["curation"]["parameters"] = {}
+
+    for curation_tool in curation_tool_list:
+        for option_set in config["coretool_option_sets"][curation_tool]:
+            for prev_parameters in stage_dict[prev_stage]["parameters"]:
+                parameters_label = "{0}..{1}_{2}".format(prev_parameters, curation_tool, option_set)
+                stage_dict["curation"]["parameters"][parameters_label] = {}
+                stage_dict["curation"]["parameters"][parameters_label]["curationeer"] = curation_tool
+                stage_dict["curation"]["parameters"][parameters_label]["option_set"] = parameters["tool_options"][curation_tool][option_set]
+
+    parameters_list = list(stage_dict["curation"]["parameters"].keys())
+
+    results_list += [expand(out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/input/{genome_prefix}.input.{haplotype}.repeat.binned.bedgraph",
+                            genome_prefix=[config["genome_prefix"], ],
+                            assembly_stage=["curation", ],
+                            haplotype=haplotype_list,
+                            parameters=parameters_list),
+                     expand("{assembly_stage}/{parameters}/{haplotype}/input/{genome_prefix}.input.{haplotype}.gap.bedgraph",
+                            genome_prefix=[config["genome_prefix"], ],
+                            assembly_stage=["curation", ],
+                            haplotype=haplotype_list,
+                            parameters=parameters_list)
+                     ]
 
 #----
 
@@ -631,6 +657,7 @@ if "hic_scaffolding" in config["stage_list"]:
 
 if "curation" in config["stage_list"]:
     include: "workflow/rules/Curation/RapidCuration.smk"
-
+    include: "workflow/rules/Curation/GapTrack.smk"
+    include: "workflow/rules/Curation/RepeatTrack.smk"
 
 #----

@@ -1081,6 +1081,9 @@
         "default":
             #- "salsa2" # Allowed: "salsa2", "yahs" TODO:  "3d-dna"
             - "yahs"
+    "curation":
+        "default":
+            - "manual"
 
 "tool_specific_features":
     "hifiasm":
@@ -1101,6 +1104,7 @@
             - "n-perturb"       # --n-perturb
             - "f-perturb"       # --f-perturb
             - "l-misjoin"       # --l-msjoin
+
 "coretool_option_sets":
     "hifiasm":
          #- "l0primary"
@@ -1121,9 +1125,9 @@
     "yahs":
         - "phased_reads"
         - "unphased_reads"
-
-
-
+    "manual":
+        - "default"
+        -
 "ploidy": 2
 "genome_prefix": "genome"
 "busco_lineage_list":
