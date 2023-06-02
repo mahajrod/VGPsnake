@@ -587,7 +587,7 @@ if "curation" in config["stage_list"]:
                 parameters_label = "{0}..{1}_{2}".format(prev_parameters, curation_tool, option_set)
                 stage_dict["curation"]["parameters"][parameters_label] = {}
                 stage_dict["curation"]["parameters"][parameters_label]["curationeer"] = curation_tool
-                stage_dict["curation"]["parameters"][parameters_label]["option_set"] = parameters["tool_options"][curation_tool][option_set]
+                stage_dict["curation"]["parameters"][parameters_label]["option_set"] = parameters["tool_options"][curation_tool][option_set] if curation_tool in parameters["tool_options"] else None
 
     parameters_list = list(stage_dict["curation"]["parameters"].keys())
 
