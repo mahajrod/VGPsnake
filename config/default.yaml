@@ -1133,7 +1133,7 @@
         - "unphased_reads"
     "manual":
         - "default"
-        -
+
 "ploidy": 2
 "genome_prefix": "genome"
 "busco_lineage_list":
