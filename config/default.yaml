@@ -136,9 +136,8 @@
             "rapid_split": 1
             "windowmasker": 1
             "create_repeat_bins": 1
+            "mosdepth": 4
             #"fcs_gx": 50 # set via allowed_databases variable
-            mosdepth: 3
-            basecall: 30
 
         "memory_mb":
             "install_from_pip": 1000
@@ -205,9 +204,8 @@
             "create_gap_track": 1000
             "windowmasker": 10000
             "create_repeat_bins": 3000
+            "mosdepth": 10000 #The amount of memory is approximately equal to 32-bits * longest chrom length, so for the 249MB chromosome 1, it will require 1GB of memory.
             #"fcs_gx": 512000 # set via allowed_databases variable
-            mosdepth: 4000 #The amount of memory is approximately equal to 32-bits * longest chrom length, so for the 249MB chromosome 1, it will require 1GB of memory.
-            basecall: 20000
 
         "time": #TODO: adjust
             "install_from_pip": "01:00:00"
@@ -276,15 +274,8 @@
             "rapid_split": "00:30:00"
             "windowmasker": "10:00:00"
             "create_repeat_bins": "02:00:00"
-
+            "mosdepth": "08:00:00"
             #"fcs_gx": "03:00:00" # set via allowed_databases variable
-
-            mosdepth: "02:00:00"
-            basecall: "10:00:00"
-
-            bowtie2_index: "12:00:00"
-
-            get_basecall_stats: "00:10:00"
 
         "tool_options":
             "cutadapt":
@@ -438,12 +429,26 @@
             "purge_dups":
                 "default":
                     "cov_multiplicator": 4.5 # 4.5 *lambda
+                    "datatype": "hifi"
             "quast":
                 "large_genome": True
             "minimap2":
-                "index_size": "4G"
-                "self_alignment_scheme": " -xasm5 -DP " #TODO: check if it OK, and what scheme is used in the ERGA pipeline
-                "hifi_alignment_scheme": " -x map-hifi "
+                "hifi":
+                    "index_size": "4G"
+                    "alignment_scheme": "map-hifi" # -x
+                "clr":
+                    "index_size": "4G"
+                    "alignment_scheme": "map-pb"   # -x
+                "nanopore":
+                    "index_size": "4G"
+                    "alignment_scheme": "map-ont"  # -x
+                "self":
+                    "index_size": "4G"
+                    "alignment_scheme": "asm5"     # -x
+            "curation":
+                "default":
+                    "bin_size": 10000
+                    "bin_step": 10000
             "two_read_bam_combiner":
                 "mapq": 10
             "pretextmap":
@@ -617,7 +622,18 @@
             "quast":
                 "large_genome": False
             "minimap2":
-                "index_size": "4G"
+                "hifi":
+                    "index_size": "4G"
+                    "alignment_scheme": "map-hifi" # -x
+                "clr":
+                    "index_size": "4G"
+                    "alignment_scheme": "map-pb"   # -x
+                "nanopore":
+                    "index_size": "4G"
+                    "alignment_scheme": "map-ont"  # -x
+                "self":
+                    "index_size": "4G"
+                    "alignment_scheme": "asm5"     # -x
     "mini": # < 150 Mbp, fungi, Arabidopsis thaliana and Caenorabditis elegans
         "threads":
             "bwa_map": 16
@@ -664,7 +680,18 @@
             "quast":
                 "large_genome": False
             "minimap2":
-                "index_size": "4G"
+                "hifi":
+                    "index_size": "4G"
+                    "alignment_scheme": "map-hifi" # -x
+                "clr":
+                    "index_size": "4G"
+                    "alignment_scheme": "map-pb"   # -x
+                "nanopore":
+                    "index_size": "4G"
+                    "alignment_scheme": "map-ont"  # -x
+                "self":
+                    "index_size": "4G"
+                    "alignment_scheme": "asm5"     # -x
     "small": # < 500 Mbp, drosophilla, tetraodon
         "threads":
             "bwa_map": 32
@@ -712,7 +739,18 @@
             "quast":
                 "large_genome": True
             "minimap2":
-                "index_size": "4G"
+                "hifi":
+                    "index_size": "4G"
+                    "alignment_scheme": "map-hifi" # -x
+                "clr":
+                    "index_size": "4G"
+                    "alignment_scheme": "map-pb"   # -x
+                "nanopore":
+                    "index_size": "4G"
+                    "alignment_scheme": "map-ont"  # -x
+                "self":
+                    "index_size": "4G"
+                    "alignment_scheme": "asm5"     # -x
     "normal": # < 1500 Mbp, most of the birds
         "memory_mb":
             "jellyfish": 200000
@@ -757,7 +795,18 @@
             "quast":
                 "large_genome": True
             "minimap2":
-                "index_size": "4G"
+                "hifi":
+                    "index_size": "4G"
+                    "alignment_scheme": "map-hifi" # -x
+                "clr":
+                    "index_size": "4G"
+                    "alignment_scheme": "map-pb"   # -x
+                "nanopore":
+                    "index_size": "4G"
+                    "alignment_scheme": "map-ont"  # -x
+                "self":
+                    "index_size": "4G"
+                    "alignment_scheme": "asm5"     # -x
     "big": # < 2500 Mbp, most of the mammals
         "memory_mb":
             "jellyfish": 300000
@@ -805,7 +854,18 @@
             "quast":
                 "large_genome": True
             "minimap2":
-                "index_size": "10G"
+                "hifi":
+                    "index_size": "10G"
+                    "alignment_scheme": "map-hifi" # -x
+                "clr":
+                    "index_size": "10G"
+                    "alignment_scheme": "map-pb"   # -x
+                "nanopore":
+                    "index_size": "10G"
+                    "alignment_scheme": "map-ont"  # -x
+                "self":
+                    "index_size": "10G"
+                    "alignment_scheme": "asm5"     # -x
     "large": # < 5000 Mbp, human
         "memory_mb":
             "jellyfish": 600000
@@ -850,7 +910,18 @@
             "quast":
                 "large_genome": True
             "minimap2":
-                "index_size": "10G"
+                "hifi":
+                    "index_size": "15G"
+                    "alignment_scheme": "map-hifi" # -x
+                "clr":
+                    "index_size": "15G"
+                    "alignment_scheme": "map-pb"   # -x
+                "nanopore":
+                    "index_size": "15G"
+                    "alignment_scheme": "map-ont"  # -x
+                "self":
+                    "index_size": "15G"
+                    "alignment_scheme": "asm5"     # -x
     "giant": # < 15000 Mbp, big plant genomes
         "memory_mb":
             "jellyfish": 1100000
@@ -1000,6 +1071,17 @@
     - "hic"
     - "lr"
     - "illumina"
+
+"coverage_track_data": # Data for which a coverage track will be generated during preparations for manual curation
+    - "illumina"
+    - "hifi"
+    - "clr"
+    - "nanopore"
+
+"purge_dups_data": # Data which might be used for purging haplotypic duplications
+    - "hifi"
+    - "clr"
+    - "nanopore"
 
 "fastq_extension": ".fastq.gz"
 "cmap_extension": ".cmap"

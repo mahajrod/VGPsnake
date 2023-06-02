@@ -69,7 +69,7 @@ fastq_based_data_type_set = set(data_types) & set(config["fastq_based_data"])
 fastqc_data_type_set = fastq_based_data_type_set & set(config["fastqc_data_types"])
 long_read_data_type_set = set(data_types) & set(config["long_read_data"])
 genome_size_estimation_data_type_set = set(config["genome_size_estimation_data"]) & fastq_based_data_type_set
-
+coverage_track_data_type_set = set(data_types) & set(config["coverage_track_data"])
 #logging.info("Verifying datatypes...")
 for d_type in data_types:
     if d_type not in config["allowed_data_types"]:

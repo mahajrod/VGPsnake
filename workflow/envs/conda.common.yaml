@@ -49,3 +49,4 @@
   - "biopython"
   - "pyfastaq"
   - "seqtk"
+  - "blast"
