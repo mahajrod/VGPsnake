@@ -1171,7 +1171,7 @@
             - "yahs"
     "curation":
         "default":
-            - "manual"
+            - "curation"
 
 "tool_specific_features":
     "hifiasm":
@@ -1213,7 +1213,7 @@
     "yahs":
         - "phased_reads"
         - "unphased_reads"
-    "manual":
+    "curation":
         - "default"
 
 "ploidy": 2
