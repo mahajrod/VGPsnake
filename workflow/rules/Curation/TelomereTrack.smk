@@ -1,5 +1,3 @@
-localrules: create_curation_input_links
-
 rule telo_finder: #
     input:
         fasta=out_dir_path / "curation/{prev_stage_parameters}..{curation_parameters}/{haplotype}/input/{genome_prefix}.input.{haplotype}.fasta",
