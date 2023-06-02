@@ -2,8 +2,9 @@ ruleorder: minimap2_cov > minimap2_purge_dups_reads
 
 rule minimap2_cov: # TODO: add nanopore support
     input:
-        fastq=lambda wildcards: expand(output_dict["data"] / ("fastq/%s/filtered/{fileprefix}%s" % wildcards.datatype, config["fastq_extension"]),
-                     fileprefix=input_file_prefix_dict[wildcards.datatype]),
+        fastq=lambda wildcards: expand(output_dict["data"] / ("fastq/%s/filtered/{fileprefix}%s" % (wildcards.datatype, config["fastq_extension"])),
+                     fileprefix=input_file_prefix_dict[wildcards.datatype],
+                     allow_missing=True),
         reference=out_dir_path  / "curation/{prev_stage_parameters}..{curation_parameters}/{haplotype}/input/{genome_prefix}.input.{haplotype}.fasta"
     output:
         bam=out_dir_path  / "curation/{prev_stage_parameters}..{curation_parameters}/{haplotype}/input/{genome_prefix}.input.{haplotype}.{datatype}.bam"
