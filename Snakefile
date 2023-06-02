@@ -605,7 +605,8 @@ if "curation" in config["stage_list"]:
                             genome_prefix=[config["genome_prefix"], ],
                             assembly_stage=["curation", ],
                             haplotype=haplotype_list,
-                            parameters=parameters_list),
+                            parameters=parameters_list,
+                            datatype=coverage_track_data_type_set),
                      ]
 
 #----
