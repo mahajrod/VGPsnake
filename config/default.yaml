@@ -134,6 +134,7 @@
             "create_gap_track": 1
             "telo_finder" : 1
             "rapid_split": 1
+            "windowmasker": 1
             #"fcs_gx": 50 # set via allowed_databases variable
             mosdepth: 3
             basecall: 30
@@ -201,6 +202,7 @@
             "telo_finder": 1000
             "rapid_split": 1000
             "create_gap_track": 1000
+            "windowmasker": 10000
             #"fcs_gx": 512000 # set via allowed_databases variable
             mosdepth: 4000 #The amount of memory is approximately equal to 32-bits * longest chrom length, so for the 249MB chromosome 1, it will require 1GB of memory.
             basecall: 20000
@@ -270,6 +272,7 @@
             "create_gap_track": "00:30:00"
             "telo_finder": "00:30:00"
             "rapid_split": "00:30:00"
+            "windowmasker": "10:00:00"
 
             #"fcs_gx": "03:00:00" # set via allowed_databases variable
 
