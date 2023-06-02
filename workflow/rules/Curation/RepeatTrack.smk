@@ -39,7 +39,8 @@ rule create_repeat_bins: #
         repeat_binned_bdgraph=out_dir_path / "curation/{prev_stage_parameters}..{curation_parameters}/{haplotype, [^.]+}/input/{genome_prefix}.input.{haplotype}.repeat.binned.bedgraph",
         repeat_binned_no_dot_bedgraph=out_dir_path / "curation/{prev_stage_parameters}..{curation_parameters}/{haplotype, [^.]+}/input/{genome_prefix}.input.{haplotype}.repeat.binned.no_dot.bedgraph"
     params:
-        bin_size=lambda wildcards: parameters["tool_options"]["curation"][wildcards.curation_parameters]["bin_size"],
+        bin_size=lambda wildcards: stage_dict["curation"]["parameters"][wildcards.prev_stage_parameters + ".." + wildcards.curation_parameters]["option_set"]["bin_size"]
+        #parameters["tool_options"]["curation"][wildcards.curation_parameters]["bin_size"],
     log:
         cut=output_dict["log"]  / "create_repeat_bins.{prev_stage_parameters}..{curation_parameters}.{genome_prefix}.{haplotype}.cut.log",
         sort1=output_dict["log"]  / "create_repeat_bins.{prev_stage_parameters}..{curation_parameters}.{genome_prefix}.{haplotype}.sort1.log",
