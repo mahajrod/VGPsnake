@@ -10,7 +10,6 @@ rule telo_finder: #
         ends=parse_option("ends", parameters["tool_options"]["telo_finder"], "--ends", default_value="default")
     log:
         std=output_dict["log"]  / "telo_finder.{prev_stage_parameters}..{curation_parameters}.{genome_prefix}.{haplotype}.log",
-        ln=output_dict["log"]  / "telo_finder.{prev_stage_parameters}..{curation_parameters}.{genome_prefix}.{haplotype}.ln.log",
         cp=output_dict["log"]  / "telo_finder.{prev_stage_parameters}..{curation_parameters}.{genome_prefix}.{haplotype}.cp.log",
         cluster_log=output_dict["cluster_log"] / "telo_finder.{prev_stage_parameters}..{curation_parameters}.{genome_prefix}.{haplotype}.cluster.log",
         cluster_err=output_dict["cluster_error"] / "telo_finder.{prev_stage_parameters}..{curation_parameters}.{genome_prefix}.{haplotype}.cluster.err"
