@@ -225,29 +225,8 @@ rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
         " get_seqs -p {params.get_seq_prefix} ${{PURGE_DUPS_BED}} ${{REFERENCE}} > ${{GET_SEQ_LOG}} 2>&1;"
         " for FILE in *.fa; do mv ${{FILE}} ${{FILE%fa}}fasta; done"
         #" cp dups.bed {params.bed_local_path} "
-"""
-rule get_len_for_hapdups_fasta:
-    input:
-        fasta=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/{genome_prefix}.purge_dups.{haplotype}.hap.fasta"
-    output:
-        len_file=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype}/{genome_prefix}.purge_dups.{haplotype}.hap.len",
-    log:
-        std=output_dict["log"]  / "get_len_for_hapdups_fasta.{prev_stage_parameters}.{purge_dups_parameters}.{genome_prefix}.purge_dups.{haplotype}.log",
-        cluster_log=output_dict["cluster_log"] / "get_len_for_hapdups_fasta.{prev_stage_parameters}.{purge_dups_parameters}.{genome_prefix}.purge_dups.{haplotype}.cluster.log",
-        cluster_err=output_dict["cluster_error"] / "get_len_for_hapdups_fasta.{prev_stage_parameters}.{purge_dups_parameters}.{genome_prefix}.purge_dups.{haplotype}.cluster.err"
-    benchmark:
-        output_dict["benchmark"]  / "get_len_for_hapdups_fasta.{prev_stage_parameters}.{purge_dups_parameters}.{genome_prefix}.purge_dups.{haplotype}.benchmark.txt"
-    conda:
-        config["conda"]["common"]["name"] if config["use_existing_envs"] else ("../../../%s" % config["conda"]["common"]["yaml"])
-    resources:
-        cpus=parameters["threads"]["get_seq_len"] ,
-        time=parameters["time"]["get_seq_len"],
-        mem=parameters["memory_mb"]["get_seq_len"]
-    threads: parameters["threads"]["get_seq_len"]
 
-    shell:
-        " get_sequence_lengths.py -i {input.fasta} -o {output.len_file} 1>{log.std} 2>&1 "
-"""
+
 rule merge_pri_hapdups_with_alt: # TODO: add handling of polyploid cases
     input:
         alt_contig=out_dir_path / ("%s/{prev_stage_parameters}/{genome_prefix}.%s.hap2.fasta" % (stage_dict["purge_dups"]["prev_stage"],
@@ -407,7 +386,7 @@ rule extract_artefact_sequences:
         " -o {output.artefact_fasta} > {log.std} 2>&1 ;"
 
 
-rule minimap2_purge_dups_qc: # TODO: add nanopore support
+rule minimap2_purge_dups_qc:
     input:
         fastq=output_dict["data"] / ("fastq/hifi/filtered/{fileprefix}%s" % config["fastq_extension"]),
         reference=out_dir_path / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{genome_prefix}.purge_dups.{haplotype}.fasta"
@@ -415,8 +394,11 @@ rule minimap2_purge_dups_qc: # TODO: add nanopore support
         paf=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/assembly_qc/purge_dups/{haplotype, [^.]+}/{genome_prefix}.{haplotype}.{fileprefix}.paf.gz"
         #paf=out_dir_path  / ("purge_dups/{assembler}/{haplotype}/%s.purge_dups.{assembler}.{haplotype}.minimap2.{fileprefix}.paf.gz" % config["genome_name"])
     params:
-        index_size=parameters["tool_options"]["minimap2"]["index_size"],
-        mapping_scheme=parameters["tool_options"]["minimap2"]["hifi_alignment_scheme"], # TODO: make this adjustable depending on read type
+        index_size=lambda wildcards: parse_option("index_size", parameters["tool_options"]["minimap2"][parameters["tool_options"]["purge_dups"][wildcards.purge_dups_parameters]["datatype"]], " -I "),
+        alignment_scheme=lambda wildcards: parse_option("alignment_scheme", parameters["tool_options"]["minimap2"][parameters["tool_options"]["purge_dups"][wildcards.purge_dups_parameters]["datatype"]], " -x "),
+        #
+        #index_size=parameters["tool_options"]["minimap2"]["index_size"],
+        #mapping_scheme=parameters["tool_options"]["minimap2"]["hifi_alignment_scheme"], # TODO: make this adjustable depending on read type
     log:
         std=output_dict["log"]  / "minimap2_purge_dups_qc.{prev_stage_parameters}.{purge_dups_parameters}.{haplotype}.{genome_prefix}.{fileprefix}.log",
         cluster_log=output_dict["cluster_log"] / "minimap2_purge_dups_qc.{prev_stage_parameters}.{purge_dups_parameters}.{haplotype}.{genome_prefix}.{fileprefix}..cluster.log",
@@ -432,7 +414,7 @@ rule minimap2_purge_dups_qc: # TODO: add nanopore support
     threads: parameters["threads"]["minimap2"]
 
     shell:
-        " minimap2 {params.mapping_scheme} -I {params.index_size} -t {threads}  {input.reference} "
+        " minimap2 {params.alignment_scheme} -I {params.index_size} -t {threads}  {input.reference} "
         " {input.fastq} 2>{log.std} |  gzip -c - > {output.paf} "
 
 rule get_purge_dups_read_stat_qc: #TODO: adjust -d -m -u options for calcuts
