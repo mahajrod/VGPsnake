@@ -596,7 +596,7 @@ if "curation" in config["stage_list"]:
                             assembly_stage=["curation", ],
                             haplotype=haplotype_list,
                             parameters=parameters_list),
-                     expand("{assembly_stage}/{parameters}/{haplotype}/input/{genome_prefix}.input.{haplotype}.gap.bedgraph",
+                     expand(out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/input/{genome_prefix}.input.{haplotype}.gap.bedgraph",
                             genome_prefix=[config["genome_prefix"], ],
                             assembly_stage=["curation", ],
                             haplotype=haplotype_list,
