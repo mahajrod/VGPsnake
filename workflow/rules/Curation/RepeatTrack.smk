@@ -69,7 +69,7 @@ rule create_repeat_bins: #
     threads: parameters["threads"]["create_repeat_bins"]
     shell:
         " cut -f1,2 {input.fai} 2>{log.cut} | sort -k1 -V > {output.genome} 2>{log.sort1}; "
-        " bedtools makewindows -g {output.genome} -w {params.bin_size} > {output.bins} 2>&{log.make_windows}; "
+        " bedtools makewindows -g {output.genome} -w {params.bin_size} > {output.bins} 2>{log.make_windows}; "
         " bedtools intersect -a {output.bins} -b {input.repeat_bed} 2>{log.bedtools} | "
         " awk '{{print $0\"\\t\"$3-$2}}' 2>{log.awk} | "
         " sed 's/\./0/g' 2>{log.sed1} | sort -k1 -V >  {output.repeat_bedgraph} 2>{log.sort2}; "
