@@ -35,7 +35,7 @@ rule minimap2_cov: # TODO: add nanopore support
         " TMPDIR=`dirname {output.bam}`; "
         " minimap2 {params.alignment_scheme} {params.index_size} -a -t {params.minimap_threads}  {input.reference}  "
         " {input.fastq} 2>{log.minimap2} |  samtools sort -T ${{TMPDIR}} -@ {params.sort_threads} "
-        " -m {params.per_thread_sort_mem} -o {output.bam} 2>{log.sort};"
+        " -m {params.per_thread_sort_mem}M -o {output.bam} 2>{log.sort};"
         " samtools index -@ {threads} {output.bam} > {log.index} 2>&1 "
 
 rule calculate_coverage:
