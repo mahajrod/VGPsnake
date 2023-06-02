@@ -80,16 +80,19 @@ rule create_primary_contig_len_file_link:
         " ln {input.fasta} {output.fasta} 1>{log.std} 2>&1"
 
 
-rule minimap2_purge_dups_reads: # TODO: add nanopore support
+rule minimap2_purge_dups_reads:
     input:
-        fastq=output_dict["data"] / ("fastq/hifi/filtered/{fileprefix}%s" % config["fastq_extension"]),
+        fastq=lambda wildcards: output_dict["data"] / "fastq/{0}/filtered/{1}{2}".format(parameters["tool_options"]["minimap2"][parameters["tool_options"]["purge_dups"][wildcards.purge_dups_parameters]["datatype"]],
+                                                                                         wildcards.fileprefix, config["fastq_extension"]),
         reference=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/input/{genome_prefix}.purge_dups_input.{haplotype}.fasta"
     output:
         paf=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype, [^.]+}/{genome_prefix}.{haplotype}.{fileprefix}.paf.gz"
         #paf=out_dir_path  / ("purge_dups/{assembler}/{haplotype}/%s.purge_dups.{assembler}.{haplotype}.minimap2.{fileprefix}.paf.gz" % config["genome_name"])
     params:
-        index_size=parameters["tool_options"]["minimap2"]["index_size"],
-        mapping_scheme=parameters["tool_options"]["minimap2"]["hifi_alignment_scheme"], # TODO: make this adjustable depending on read type
+        index_size=lambda wildcards: parse_option("index_size", parameters["tool_options"]["minimap2"][parameters["tool_options"]["purge_dups"][wildcards.purge_dups_parameters]["datatype"]], " -I "),
+        alignment_scheme=lambda wildcards: parse_option("alignment_scheme", parameters["tool_options"]["minimap2"][parameters["tool_options"]["purge_dups"][wildcards.purge_dups_parameters]["datatype"]], " -x "),
+        #index_size=parameters["tool_options"]["minimap2"]["index_size"],
+        #mapping_scheme=parameters["tool_options"]["minimap2"]["hifi_alignment_scheme"], # TODO: make this adjustable depending on read type
     log:
         std=output_dict["log"]  / "minimap2_purge_dups_reads.{prev_stage_parameters}.{purge_dups_parameters}.{haplotype}.{genome_prefix}.{fileprefix}.log",
         cluster_log=output_dict["cluster_log"] / "minimap2_purge_dups_reads.{prev_stage_parameters}.{purge_dups_parameters}.{haplotype}.{genome_prefix}.{fileprefix}..cluster.log",
@@ -105,7 +108,7 @@ rule minimap2_purge_dups_reads: # TODO: add nanopore support
     threads: parameters["threads"]["minimap2"]
 
     shell:
-        " minimap2 {params.mapping_scheme} -I {params.index_size} -t {threads}  {input.reference} "
+        " minimap2 {params.alignment_scheme} {params.index_size} -t {threads}  {input.reference} "
         " {input.fastq} 2>{log.std} |  gzip -c - > {output.paf} "
 
 rule get_purge_dups_read_stat: #TODO: adjust -d -m -u options for calcuts
@@ -160,8 +163,8 @@ rule minimap2_purge_dups_assembly:
         paf=out_dir_path  / "purge_dups/{prev_stage_parameters}..{purge_dups_parameters}/{haplotype, [^.]+}/{genome_prefix}.purge_dups_input.{haplotype}.split.minimap2.self.paf.gz"
         #paf=output_dict["purge_dups"] / ("{assembler}/%s.purge_dups.{assembler}.hifi.hic.{haplotype}_ctg.minimap2.{fileprefix}.paf.gz" % config["genome_name"])
     params:
-        index_size=parameters["tool_options"]["minimap2"]["index_size"],
-        mapping_scheme=parameters["tool_options"]["minimap2"]["self_alignment_scheme"]
+        index_size=parse_option("index_size", parameters["tool_options"]["minimap2"]["self"], " -I "),
+        alignment_scheme=parse_option("alignment_scheme", parameters["tool_options"]["minimap2"]["self"], " -x "),
     log:
         split_fa=output_dict["log"]  / "minimap2_purge_dups_assembly.{prev_stage_parameters}.{purge_dups_parameters}.{genome_prefix}.purge_dups.{haplotype}.split_fa.log",
         minimap2=output_dict["log"]  / "minimap2_purge_dups_assembly.{prev_stage_parameters}.{purge_dups_parameters}.{genome_prefix}.purge_dups.{haplotype}.minimap2.log",
@@ -179,7 +182,7 @@ rule minimap2_purge_dups_assembly:
 
     shell:
         " split_fa {input.reference} > {output.split_reference} 2>{log.split_fa};"
-        " minimap2 {params.mapping_scheme} -I {params.index_size} -t {threads}  {output.split_reference} "
+        " minimap2 -DP {params.alignment_scheme} {params.index_size} -t {threads}  {output.split_reference} "
         " {output.split_reference} 2>{log.minimap2} |  gzip -c - > {output.paf} "
 
 rule purge_dups: # TODO: find what options are used in ERGA for get_seqs
