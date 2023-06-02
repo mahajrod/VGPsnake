@@ -137,6 +137,7 @@
             "windowmasker": 1
             "create_repeat_bins": 1
             "mosdepth": 4
+            "create_coverage_track": 1
             #"fcs_gx": 50 # set via allowed_databases variable
 
         "memory_mb":
@@ -205,6 +206,7 @@
             "windowmasker": 10000
             "create_repeat_bins": 3000
             "mosdepth": 10000 #The amount of memory is approximately equal to 32-bits * longest chrom length, so for the 249MB chromosome 1, it will require 1GB of memory.
+            "create_coverage_track": 4000
             #"fcs_gx": 512000 # set via allowed_databases variable
 
         "time": #TODO: adjust
@@ -275,6 +277,7 @@
             "windowmasker": "10:00:00"
             "create_repeat_bins": "02:00:00"
             "mosdepth": "08:00:00"
+            "create_coverage_track": "04:00:00"
             #"fcs_gx": "03:00:00" # set via allowed_databases variable
 
         "tool_options":
