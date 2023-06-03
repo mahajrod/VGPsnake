@@ -1,4 +1,4 @@
-ruleorder: meryl_pe > create_fastq_links
+#ruleorder: meryl_pe > create_fastq_links
 rule meryl:
     input:
         output_dict["data"] / ("fastq/{datatype}/{stage}/{fileprefix}%s" % config["fastq_extension"])
