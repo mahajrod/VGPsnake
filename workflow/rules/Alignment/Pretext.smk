@@ -1,4 +1,4 @@
-
+ruleorder: pretextmap > pretextsnapshot
 rule pretextmap: # #Pretext-map probably doesn't support long file names!!!!!!!!!!!
     input:
         #bam=out_dir_path  / ("{assembly_stage}/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.rmdup.bam"  % config["genome_name"]),
