@@ -607,11 +607,11 @@ if "curation" in config["stage_list"]:
                             haplotype=haplotype_list,
                             parameters=parameters_list,
                             datatype=coverage_track_data_type_set),
-                     #expand(out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/input/{genome_prefix}.canonical.txt",
-                     #       genome_prefix=[config["genome_prefix"], ],
-                     #       assembly_stage=["curation", ],
-                     #       haplotype=haplotype_list,
-                     #       parameters=parameters_list),
+                     expand(out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/input/{genome_prefix}.canonical.txt",
+                            genome_prefix=[config["genome_prefix"], ],
+                            assembly_stage=["curation", ],
+                            haplotype=haplotype_list,
+                            parameters=parameters_list),
                      ]
 
 #----
