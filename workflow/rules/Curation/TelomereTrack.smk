@@ -24,8 +24,8 @@ rule telo_finder: #
     threads: parameters["threads"]["telo_finder"]
 
     shell:
-        " STD_LOG=`absolute {log.std}`; "
-        " CP_LOG=`absolute {log.cp}`; "
+        " STD_LOG=`realpath {log.std}`; "
+        " CP_LOG=`realpath {log.cp}`; "
         " WORKDIR=`dirname {output.res}`; "
         " cd ${{WORKDIR}}; "
         " workflow/script/rapid_curation/telo_finder.py {params.size} {params.max_kmer} {params.max_kmer} "
