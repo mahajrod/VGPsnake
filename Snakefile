@@ -666,10 +666,11 @@ if "hic_scaffolding" in config["stage_list"]:
     include: "workflow/rules/HiC/Salsa2.smk"
     include: "workflow/rules/HiC/YAHS.smk"
 
-include: "workflow/rules/Curation/RapidCuration.smk"
-include: "workflow/rules/Curation/GapTrack.smk"
-include: "workflow/rules/Curation/RepeatTrack.smk"
-include: "workflow/rules/Curation/CoverageTrack.smk"
-include: "workflow/rules/Curation/TelomereTrack.smk"
+if "curation" in config["stage_list"]:
+    include: "workflow/rules/Curation/RapidCuration.smk"
+    include: "workflow/rules/Curation/GapTrack.smk"
+    include: "workflow/rules/Curation/RepeatTrack.smk"
+    include: "workflow/rules/Curation/CoverageTrack.smk"
+    include: "workflow/rules/Curation/TelomereTrack.smk"
 
 #----
