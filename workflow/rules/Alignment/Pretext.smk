@@ -35,7 +35,8 @@ rule pretextmap: # #Pretext-map probably doesn't support long file names!!!!!!!!
 
 rule pretextsnapshot: #Pretext-snapshot doesn't support long file names!!!!!!!!!!!
     input:
-        map=rules.pretextmap.output.map
+        #map=rules.pretextmap.output.map
+         map=out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/alignment/{phasing_kmer_length}/{genome_prefix}.{assembly_stage}.{phasing_kmer_length}.{haplotype}.bwa.filtered.rmdup.map.pretext"
     output:
         dir=directory(out_dir_path / "{assembly_stage}/{parameters}/{haplotype, [^.]+}/alignment/{phasing_kmer_length}/{genome_prefix}.{assembly_stage}.{phasing_kmer_length}.{haplotype}.{resolution}.map.{ext}"),
     params:
