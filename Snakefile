@@ -76,6 +76,10 @@ for d_type in data_types:
         #logging.error("Unknown data type: {0}".format(d_type))
         raise ValueError("ERROR!!! Unknown data type: {0}".format(d_type))
 
+if config["final_kmer_datatype"] not in fastq_based_data_type_set:
+    raise ValueError("ERROR!!! final_kmer_datatype ({0}) is absent among input fastq-based datatypes({1})".format(config["final_kmer_datatype"],
+                                                                                                                  ",".join(fastq_based_data_type_set)))
+
 #--------
 
 #----
@@ -322,7 +326,7 @@ if "kat" in config["stage_list"]:
                      datatype=[dat_type,],
                      stage=["filtered",],
                      kmer_length=parameters["tool_options"]["kat"][dat_type]["kmer_length"],
-                     )  for dat_type in parameters["tool_options"]["kat"]
+                     )  for dat_type in set(parameters["tool_options"]["kat"]) & set(data_types)
                     ]
 if ("gcp" in config["stage_list"]) and (not config["skip_gcp"]):
     results_list += [expand(output_dict["kmer"] / "{datatype}/{stage}/gcp/{datatype}.{stage}.{kmer_length}.L{min_coverage}.heatmap.png",
