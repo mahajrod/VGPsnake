@@ -1,4 +1,4 @@
-ruleorder: pretextmap > pretextsnapshot
+#ruleorder: pretextmap > pretextsnapshot
 rule pretextmap: # #Pretext-map probably doesn't support long file names!!!!!!!!!!!
     input:
         #bam=out_dir_path  / ("{assembly_stage}/{assembler}/{haplotype}/alignment/%s.{assembly_stage}.{assembler}.{haplotype}.bwa.filtered.rmdup.bam"  % config["genome_name"]),
@@ -38,7 +38,7 @@ rule pretextsnapshot: #Pretext-snapshot doesn't support long file names!!!!!!!!!
         #map=rules.pretextmap.output.map
          map=out_dir_path / "{assembly_stage}/{parameters}/{haplotype}/alignment/{phasing_kmer_length}/{genome_prefix}.{assembly_stage}.{phasing_kmer_length}.{haplotype}.bwa.filtered.rmdup.map.pretext"
     output:
-        dir=directory(out_dir_path / "{assembly_stage}/{parameters}/{haplotype, [^.]+}/alignment/{phasing_kmer_length, [^.]+}/{genome_prefix}.{assembly_stage}.{phasing_kmer_length}.{haplotype}.{resolution}.map.{ext}"),
+        dir=directory(out_dir_path / "{assembly_stage}/{parameters}/{haplotype, [^.]+}/alignment/{phasing_kmer_length, [^.]+}/{genome_prefix}.{assembly_stage}.{phasing_kmer_length}.{haplotype}.{resolution, [0-9]+}.map.{ext}"),
     params:
         sequences=parameters["tool_options"]["pretextsnapshot"]["sequences"],
     log:
