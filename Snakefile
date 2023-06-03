@@ -507,7 +507,9 @@ if "purge_dups" in config["stage_list"]:
                                 assembly_stage=["purge_dups", ],
                                 haplotype=haplotype_list,
                                 parameters=parameters_list),]
-if config["read_phasing_data"] in config["stage_list"]:
+
+if config["phasing_stage"] in config["stage_list"]:
+    print("AAAAA")
     for datatype in set(data_types) & set(config["read_phasing_data"]):
         if datatype in config["paired_fastq_based_data"]:
             results_list += [expand(out_dir_path / "{stage}/{parameters}/fastq/{haplotype}/{assembly_kmer_length}/{datatype}/{pairprefix}_1.fastq.gz",
@@ -663,9 +665,9 @@ if "purge_dups" in config["stage_list"]:
     include: "workflow/rules/Purge_dups/Purge_dups.smk"
 
 include: "workflow/rules/Alignment/Index.smk"
+include: "workflow/rules/HiC/ReadPhasing.smk"
 
 if "hic_scaffolding" in config["stage_list"]:
-    include: "workflow/rules/HiC/ReadPhasing.smk"
     include: "workflow/rules/Alignment/Alignment.smk"
     include: "workflow/rules/Alignment/Pretext.smk"
     include: "workflow/rules/HiC/Salsa2.smk"
