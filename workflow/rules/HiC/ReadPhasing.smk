@@ -2,7 +2,7 @@ rule meryl_assembly:
     input:
         fasta=out_dir_path / "{stage}/{parameters}/{genome_prefix}.{stage}.{haplotype}.fasta"
     output:
-        db_dir=directory(out_dir_path / "{stage}/{parameters}/kmer/{genome_prefix}.{stage}.{haplotype}.{assembly_kmer_length}")
+        db_dir=directory(out_dir_path / "{stage}/{parameters}/kmer/{genome_prefix}.{stage}.{haplotype, [^.]+}.{assembly_kmer_length}")
     log:
         std=output_dict["log"] / "meryl_assembly.{genome_prefix}.{stage}.{parameters}.{haplotype}.{assembly_kmer_length}.log",
         cluster_log=output_dict["cluster_log"] / "meryl_assembly.{genome_prefix}.{stage}.{parameters}.{haplotype}.{assembly_kmer_length}.cluster.log",
@@ -33,7 +33,7 @@ rule meryl_extract_unique_hap_kmers:
                                                  haplotype=set(haplotype_list) - {wildcards.haplotype},
                                                  allow_missing=True)
     output:
-        unique_hap_db_dir=directory(out_dir_path / "{stage}/{parameters}/kmer/{genome_prefix}.{stage}.{haplotype}.{assembly_kmer_length}.unique"),
+        unique_hap_db_dir=directory(out_dir_path / "{stage}/{parameters}/kmer/{genome_prefix}.{stage}.{haplotype, [^.]+}.{assembly_kmer_length}.unique"),
         #unique_hap2_db_dir=out_dir_path / "{stage}/{parameters}/kmer/{genome_prefix}.{stage}.hap2.{assembly_kmer_length}.unique"
     log:
         std=output_dict["log"] / "meryl_extract_unique_hap_kmers.{genome_prefix}.{stage}.{parameters}.{assembly_kmer_length}.{haplotype}.log",
